@@ -1,0 +1,12 @@
+C:\Users\User\Documents\visual studio 2015\Projects\AhoraCore\AhoraCore\bin\Debug\AhoraCore.exe.config
+C:\Users\User\Documents\visual studio 2015\Projects\AhoraCore\AhoraCore\bin\Debug\AhoraCore.exe
+C:\Users\User\Documents\visual studio 2015\Projects\AhoraCore\AhoraCore\bin\Debug\AhoraCore.pdb
+C:\Users\User\Documents\visual studio 2015\Projects\AhoraCore\AhoraCore\obj\Debug\AhoraCore.exe
+C:\Users\User\Documents\visual studio 2015\Projects\AhoraCore\AhoraCore\obj\Debug\AhoraCore.pdb
+C:\Users\User\documents\visual studio 2015\Projects\AhoraCore\AhoraCore\bin\Debug\OpenTK.dll
+C:\Users\User\documents\visual studio 2015\Projects\AhoraCore\AhoraCore\bin\Debug\OpenTK.pdb
+C:\Users\User\documents\visual studio 2015\Projects\AhoraCore\AhoraCore\bin\Debug\OpenTK.xml
+C:\Users\User\documents\visual studio 2015\Projects\AhoraCore\AhoraCore\obj\Debug\AhoraCore.csprojResolveAssemblyReference.cache
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\AhoraCore.exe.config
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.exe
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.pdb
