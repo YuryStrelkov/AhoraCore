@@ -50,7 +50,9 @@
   <ItemGroup>
     <Compile Include="Core\Buffers\DebugBuffers.cs" />
     <Compile Include="Core\Buffers\IBuffers\ABindableObject.cs" />
-    <Compile Include="Core\Buffers\UniformsBuffer\UniformBuffer.cs" />
+    <Compile Include="Core\Buffers\IBuffers\EditableBuffer.cs" />
+    <Compile Include="Core\Buffers\SpecificBuffers\InstanceBuffer.cs" />
+    <Compile Include="Core\Buffers\SpecificBuffers\UniformsBuffer.cs" />
     <Compile Include="Core\DataManaging\GeometryStorrageManager.cs" />
     <Compile Include="Core\Buffers\IBuffers\IAttribyteable.cs" />
     <Compile Include="Core\Buffers\IBuffers\IGeometryStorrage.cs" />
@@ -75,7 +77,6 @@
   <ItemGroup>
     <Compile Include="Core\Buffers\IBuffers\ABuffer.cs" />
     <Compile Include="Core\Buffers\IBuffers\IBuffer.cs" />
-    <Compile Include="Core\Buffers\IBuffers\IBufferFunctionality.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\ArrayBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\IndecesBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\VerticesBuffer.cs" />
