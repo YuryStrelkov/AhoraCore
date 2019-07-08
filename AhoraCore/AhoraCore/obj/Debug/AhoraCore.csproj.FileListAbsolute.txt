@@ -10,3 +10,9 @@ C:\Users\User\documents\visual studio 2015\Projects\AhoraCore\AhoraCore\obj\Debu
 D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\AhoraCore.exe.config
 D:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.exe
 D:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.pdb
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\AhoraCore.exe
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\AhoraCore.pdb
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\OpenTK.dll
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\OpenTK.pdb
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\OpenTK.xml
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.csprojResolveAssemblyReference.cache
