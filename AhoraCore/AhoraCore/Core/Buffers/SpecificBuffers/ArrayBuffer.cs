@@ -27,7 +27,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
         public IndecesBuffer IBO { get; private set; }
 
-        public ABuffer InstanceBO { get; private set; }
+        public InstanceBuffer InstanceBO { get; private set; }
         
         public override void BindBuffer()
         {
@@ -191,8 +191,8 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             IBO = new IndecesBuffer();
             IBO.CreateBuffer(targetCapacity);
             IBO.UnbindBuffer();
-            InstanceBO = new VerticesBuffer();
-            InstanceBO.CreateBuffer();
+            InstanceBO = new InstanceBuffer();
+            InstanceBO.CreateBuffer(16 * 10);
             UnbindBuffer();
         }
 
@@ -207,8 +207,8 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             IBO = new IndecesBuffer();
             IBO.CreateBuffer(100000);
             IBO.UnbindBuffer();
-            InstanceBO = new VerticesBuffer();
-            InstanceBO.CreateBuffer();
+            InstanceBO = new InstanceBuffer();
+            InstanceBO.CreateBuffer(16*10);
             UnbindBuffer();
         }
 
