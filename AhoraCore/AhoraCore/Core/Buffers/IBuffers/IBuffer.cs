@@ -1,5 +1,4 @@
 ﻿namespace AhoraCore.Core.Buffers.IBuffres
-
 {
     public interface IBuffer
     {

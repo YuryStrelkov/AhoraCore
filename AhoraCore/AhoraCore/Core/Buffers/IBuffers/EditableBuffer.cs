@@ -7,19 +7,8 @@ namespace AhoraCore.Core.Buffers.IBuffres
    
    public class EditableBuffer<T,D> : ABuffer where D: EditableBuffer<T, D> where T : struct
     {
-        public int IteamByteSize = Marshal.SizeOf<T>();
-        /// <summary>
-        /// Создаёт буфер обозначенной ёмкости
-        /// </summary>
-        /// <param name="capacity">ёмкость</param>
-        public void CreateBuffer(int capacity)
-        {
-            CreateBuffer();
-            BindBuffer();
-            Capacity = capacity;
-            GL.BufferData(BufferType, capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
-            Console.WriteLine(" Buffer ID = " + ID + " creation status " + GL.GetError().ToString());
-        }
+        public int IteamByteSize = Marshal.SizeOf(typeof(T));
+
         /// <summary>
         /// Очищает буфер
         /// </summary>
@@ -150,6 +139,19 @@ namespace AhoraCore.Core.Buffers.IBuffres
         public override void CreateBuffer()
         {
             ID = ID == -1 ? GL.GenBuffer() : ID;
+        }
+
+        /// <summary>
+        /// Создаёт буфер обозначенной ёмкости
+        /// </summary>
+        /// <param name="capacity">ёмкость</param>
+        public override void CreateBuffer(int capacity)
+        {
+            CreateBuffer();
+            BindBuffer();
+            Capacity = capacity;
+            GL.BufferData(BufferType, capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
+            Console.WriteLine(" Buffer ID = " + ID + " creation status " + GL.GetError().ToString());
         }
 
         public override void DeleteBuffer()

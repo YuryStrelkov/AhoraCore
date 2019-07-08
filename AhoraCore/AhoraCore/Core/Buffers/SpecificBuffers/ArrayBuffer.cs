@@ -15,7 +15,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         InstanceBuffer = 2,
     }
 
-    public class ArrayBuffer: ABuffer, IAttribyteable
+    public class ArrayBuffer: ABuffer, IAttribyteable, IEditMarkedAttribyte
     {
         protected bool isBinded = false;
 
@@ -26,9 +26,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public VerticesBuffer VBO { get; private set; }
 
         public IndecesBuffer IBO { get; private set; }
-
-        public InstanceBuffer InstanceBO { get; private set; }
-        
+       
         public override void BindBuffer()
         {
             if (isBinded)
@@ -60,6 +58,18 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public override void CreateBuffer()
         {
             ID = ID == -1 ? GL.GenVertexArray():ID ;
+        }
+
+        public override void CreateBuffer(int capacity)
+        {
+            CreateBuffer();
+            GL.BindVertexArray(ID);
+            VBO = new VerticesBuffer();
+            VBO.CreateBuffer(capacity);
+            IBO = new IndecesBuffer();
+            IBO.CreateBuffer(capacity);
+            IBO.UnbindBuffer();
+            UnbindBuffer();
         }
 
         public override void DeleteBuffer()
@@ -184,22 +194,15 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public ArrayBuffer(  int targetCapacity) : base()
         {
             Attribytes = new Dictionary<int, int>();
-            CreateBuffer();
-            GL.BindVertexArray(ID);
-            VBO = new VerticesBuffer();
-            VBO.CreateBuffer(targetCapacity);
-            IBO = new IndecesBuffer();
-            IBO.CreateBuffer(targetCapacity);
-            IBO.UnbindBuffer();
-            InstanceBO = new InstanceBuffer();
-            InstanceBO.CreateBuffer(16 * 10);
-            UnbindBuffer();
+            CreateBuffer(targetCapacity);
         }
 
         public ArrayBuffer() : base()
         {
             AtribbytesMask = 0x00;
             Attribytes = new Dictionary<int, int>();
+            CreateBuffer(100000);
+
             CreateBuffer();
             GL.BindVertexArray(ID);
             VBO = new VerticesBuffer();
@@ -207,8 +210,6 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             IBO = new IndecesBuffer();
             IBO.CreateBuffer(100000);
             IBO.UnbindBuffer();
-            InstanceBO = new InstanceBuffer();
-            InstanceBO.CreateBuffer(16*10);
             UnbindBuffer();
         }
 

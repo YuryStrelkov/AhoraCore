@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AhoraCore.Core.Buffers.IBuffers
+﻿namespace AhoraCore.Core.Buffers.IBuffers
 {
-     
         public static class VericesAttribytes
         {
         public static int V_POSITION = 0;
@@ -22,11 +15,8 @@ namespace AhoraCore.Core.Buffers.IBuffers
 
         public interface IAttribyteable
         {
-            void MarkBufferAttributePointer(int attrType, int attribID, int sampleSize, int from);
-            void MarkBufferAttributePointers(int VericesAttribytesMap);
-            void EnableAttribytes();
+             void EnableAttribytes();
             void DisableAttribytes();
 
         }
-   
 }

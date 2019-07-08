@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AhoraCore.Core.Buffers.SpecificBuffers
 {
-    public  class VerticesBuffer : EditableBuffer<float, VerticesBuffer> ///ABuffer, IBufferFunctionality<float, VerticesBuffer>
+    public  class VerticesBuffer : EditableBuffer<float, VerticesBuffer>
     {
         /// <summary>
         /// Список атрибутов вершин буфера

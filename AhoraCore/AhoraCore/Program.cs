@@ -1,6 +1,4 @@
-﻿using AhoraCore.Core.Buffers;
-using AhoraCore.Core.Buffers.IBuffers;
-using AhoraCore.Core.DataManaging;
+﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraProject.Ahora.Core.Display;
 using System;
 
@@ -50,30 +48,12 @@ namespace AhoraCore
 				11,9,10 //bottom right triangle (v3, v1, v2)
 		};
 
-            ///dd.Scene.AddGeometry("1",vertices, indices);
             dd.Scene.AddGeometry("1", VericesAttribytes.V_POSITION , vertices, indices);
-            //  dd.Scene.AddGeometry("2", vertices1, indices1);
+
             dd.Scene.AddGeometry("2", VericesAttribytes.V_POSITION, vertices1, indices1);
-            // dd.Scene.AddGeometry("3", vertices2, indices2);
+
             dd.Scene.AddGeometry("3", VericesAttribytes.V_POSITION, vertices2, indices2);
-            //DebugBuffers.displayBufferDataIBO(dd.Scene);
-            ////Console.WriteLine("-------------------------");
-            //DebugBuffers.displayBufferDataVBO(dd.Scene);
-            //Console.WriteLine("-------------------------");
-            //RemoveGeometry("2");
-             dd.Scene.RemoveData("2");//AddGeometry("2", VericesAttribytes.V_POSITION, vertices1, indices1);
-            //DebugBuffers.displayBufferDataIBO(dd.Scene);
-            ////Console.WriteLine("-----------After deleting IBO--------------");
-            //DebugBuffers.displayBufferDataVBO(dd.Scene);
-            //Console.WriteLine("-----------After deleting VBO--------------");
-            // DebugBuffers.displayBufferDataIBO(dd.Scene);
-            ///       DebugBuffers.displayBufferDataVBO(dd.Scene)
-            /// 
-            Console.WriteLine("-----------After deleting VBO--------------");;
-          ///  DebugBuffers.displayBufferDataVBO(dd.Scene);
-          //  dd.Scene.BindBuffer();
-          ///  dd.Scene.MarkBufferAttributePointers(VericesAttribytes.V_POSITION);
-          ///  dd.Scene.UnbindBuffer();
+
             dd.Run();
         }
     }

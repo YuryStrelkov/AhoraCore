@@ -1,10 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.SpecificBuffers;
 using System;
 using OpenTK.Graphics.OpenGL;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AhoraCore.Core.Buffers
 {

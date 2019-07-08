@@ -7,10 +7,6 @@ namespace AhoraCore.Core.DataManaging
 {
     public class GeometryStorrageManager:AManager<GeometryStorrage, int, string>, IRedreable<string>
     {
-
-        ///public static GeometryStorrageManager GeometryStorrageInstance = new GeometryStorrageManager();
-
-
         public GeometryStorrageManager():base()
         {
         }
@@ -18,7 +14,7 @@ namespace AhoraCore.Core.DataManaging
         public void AddGeometry(string geoID, int attibutesFormat, float [] vData, int [] iData)
         {
             AppendData(geoID, attibutesFormat);
-            managingData[attibutesFormat].AddGeometry(geoID, vData, iData);
+            managingData[attibutesFormat].AddItem(geoID, vData, iData);
             managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
         }
 
@@ -62,7 +58,7 @@ namespace AhoraCore.Core.DataManaging
         {
             if (uniqueKeysList.ContainsKey(dataKey))
             {
-                managingData[uniqueKeysList[dataKey]].RemoveGeometry(dataKey);
+                managingData[uniqueKeysList[dataKey]].RemoveItem(dataKey);
                 uniqueKeysList.Remove(dataKey);
             }
         }
@@ -71,7 +67,7 @@ namespace AhoraCore.Core.DataManaging
         {
             foreach (KeyValuePair<int, GeometryStorrage> kvp in managingData)
             {
-                kvp.Value.ClearGeomeryStorrage();
+                kvp.Value.ClearStorrage();
             }
         }
 

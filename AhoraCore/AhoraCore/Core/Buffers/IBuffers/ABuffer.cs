@@ -1,5 +1,4 @@
-﻿
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 
 namespace AhoraCore.Core.Buffers.IBuffres
 {
@@ -52,6 +51,8 @@ namespace AhoraCore.Core.Buffers.IBuffres
         public abstract void BindBuffer();
 
         public abstract void CreateBuffer();
+
+        public abstract void CreateBuffer(int cap);
 
         public abstract void DeleteBuffer();
 

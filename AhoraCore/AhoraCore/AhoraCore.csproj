@@ -48,14 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Buffers\DataStorraging\UniformsStorrage.cs" />
     <Compile Include="Core\Buffers\DebugBuffers.cs" />
     <Compile Include="Core\Buffers\IBuffers\ABindableObject.cs" />
     <Compile Include="Core\Buffers\IBuffers\EditableBuffer.cs" />
+    <Compile Include="Core\Buffers\IBuffers\IMarkAttribyte.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\InstanceBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\UniformsBuffer.cs" />
+    <Compile Include="Core\Cameras\Camera.cs" />
     <Compile Include="Core\DataManaging\GeometryStorrageManager.cs" />
     <Compile Include="Core\Buffers\IBuffers\IAttribyteable.cs" />
-    <Compile Include="Core\Buffers\IBuffers\IGeometryStorrage.cs" />
+    <Compile Include="Core\Buffers\IBuffers\IDataStorrage.cs" />
     <Compile Include="Core\DataManaging\AManager.cs" />
     <Compile Include="Core\Materials\Texture.cs" />
     <Compile Include="Core\Materials\TextureLoader.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="Core\Shaders\AShader.cs" />
     <Compile Include="Core\Shaders\ShaderBuilder.cs" />
     <Compile Include="Core\Shaders\StaticShader.cs" />
+    <Compile Include="Core\Transformations\Transform.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,7 +84,7 @@
     <Compile Include="Core\Buffers\SpecificBuffers\ArrayBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\IndecesBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\VerticesBuffer.cs" />
-    <Compile Include="Core\Buffers\GeometryStorrage.cs" />
+    <Compile Include="Core\Buffers\DataStorraging\GeometryStorrage.cs" />
     <Compile Include="Core\Display\DisplayDevice.cs" />
     <Compile Include="Core\IRender\IRedreable.cs" />
   </ItemGroup>

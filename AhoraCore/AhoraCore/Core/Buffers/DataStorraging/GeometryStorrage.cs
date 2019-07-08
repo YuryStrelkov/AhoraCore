@@ -47,13 +47,15 @@ namespace AhoraCore.Core.Buffers
         }
     }
 
-    public class GeometryStorrage : ArrayBuffer, IGeometryStorrage<string>, IAttribyteable, IRedreable<string>
+    public class GeometryStorrage : ArrayBuffer, IDataStorrage<string>, IRedreable<string>
     {
         private Dictionary<string, GeometryStorrageIteam<string>> GeometryItemsList;
 
-        private string LaysKey = "",RootKey;
+        private Dictionary<string, InstanceBuffer> GeometryItemsInstansesList;
 
-        public void AddGeometry(string key,float[] vData,int[] iData)
+        private string LaysKey = "", RootKey;
+
+        public void AddItem(string key, float[] vData, int[] iData)
         {
             try
             {
@@ -107,40 +109,40 @@ namespace AhoraCore.Core.Buffers
             }
         }
 
-        public void ClearGeomeryStorrage()
+        public void ClearStorrage()
         {
             VBO.ClearBuffer();
             IBO.ClearBuffer();
         }
 
-        public void DeleteGeomeryStorrage()
+        public void DeleteStorrage()
         {
             DeleteBuffer();
         }
 
-        public void MergeGeometryItems(string[] geometryIDs)
+        public void MergeItems(string[] geometryIDs)
         {
         }
 
-        public void RemoveGeometry(string geometryID)
+        public void RemoveItem(string geometryID)
         {
             ///
             ///Проверить что происходит , когда вообще всё удалим 
             /// 
             try
-            {   string key = geometryID;
+            { string key = geometryID;
 
                 BindBuffer();
-                
+
                 VerticesBuffer Vtmp = new VerticesBuffer();
 
-                Vtmp.CreateBuffer( VBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i);
+                Vtmp.CreateBuffer(VBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i);
 
-                VBO.CopyBufferData (Vtmp, GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i,
-                                  
+                VBO.CopyBufferData(Vtmp, GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i,
+
                                     VBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i, 0);
 
-        
+
                 Vtmp.CopyBufferData(VBO, 0, Vtmp.Fillnes, GeometryItemsList[geometryID].V_start_i);
 
                 IndecesBuffer Itmp = new IndecesBuffer();
@@ -150,9 +152,9 @@ namespace AhoraCore.Core.Buffers
                 IBO.CopyBufferData(Itmp, GeometryItemsList[GeometryItemsList[geometryID].ChildID].I_start_i,
 
                                     IBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].I_start_i, 0);
-                
+
                 Itmp.CopyBufferData(IBO, 0, Itmp.Fillnes, GeometryItemsList[geometryID].I_start_i);
-                
+
                 UnbindBuffer();
 
                 Vtmp.DeleteBuffer();
@@ -193,8 +195,19 @@ namespace AhoraCore.Core.Buffers
 
         public void RenderIteam(string iteamID)
         {
-           GL.DrawElements(PrimitiveType.Triangles, GeometryItemsList[iteamID].I_length,
+            if (GeometryItemsInstansesList.ContainsKey(iteamID))
+            {
+                GeometryItemsInstansesList[iteamID].EnableAttribytes();
+                GL.DrawElementsInstanced(BeginMode.Triangles, GeometryItemsList[iteamID].I_length,
+                                         DrawElementsType.UnsignedInt, (IntPtr)(GeometryItemsList[iteamID].I_start_i * sizeof(int)),
+                                         GeometryItemsInstansesList[iteamID].Fillnes / 16);
+                GeometryItemsInstansesList[iteamID].DisableAttribytes();
+            }
+            else
+            {
+                GL.DrawElements(PrimitiveType.Triangles, GeometryItemsList[iteamID].I_length,
                             DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
+            }
         }
 
         public void PostRender()
@@ -202,14 +215,80 @@ namespace AhoraCore.Core.Buffers
             UnbindBuffer();
         }
 
+        public void AssignInstToGeo(string geoID, float[] data)
+        {
+            if (GeometryItemsList.ContainsKey(geoID))
+            {
+                GeometryItemsInstansesList.Add(geoID, new InstanceBuffer(Attribytes.Count));
+                GeometryItemsInstansesList[geoID].CreateBuffer(data.Length);
+                GeometryItemsInstansesList[geoID].LoadBufferData(data);
+            }
+            else
+            {
+                Console.Out.WriteLine("Unable to assign instancing to object " + geoID + " -  no geometry for this key");
+            }
+        }
+
+        public void UpdateConcreteInst(string geoID, int[] instID, float[] data)
+        {
+            if (GeometryItemsList.ContainsKey(geoID))
+            {
+                float[] tmp = new float[16];
+
+                GeometryItemsInstansesList[geoID].BindBuffer();
+
+                for (int i = 0; i < instID.Length; i++)
+                {
+                    tmp[i] = data[i * 16];
+                    tmp[i+1] = data[i * 16+1];
+                    tmp[i+2] = data[i * 16+2];
+                    tmp[i+3] = data[i * 16+3];
+                    tmp[i+4] = data[i * 16+4];
+                    tmp[i+5] = data[i * 16+5];
+                    tmp[i+6] = data[i * 16+6];
+                    tmp[i+7] = data[i * 16+7];
+                    tmp[i+8] = data[i * 16+8];
+                    tmp[i+9] = data[i * 16+9];
+                    tmp[i+10] = data[i * 16+10];
+                    tmp[i+11] = data[i * 16+11];
+                    tmp[i+12] = data[i * 16+12];
+                    tmp[i+13] = data[i * 16+13];
+                    tmp[i+14] = data[i * 16+14];
+                    tmp[i + 15] = data[i * 16+15];
+
+                    GeometryItemsInstansesList[geoID].LoadBufferSubdata(tmp, instID[i] * 16);
+                }
+            }
+            else
+            {
+                Console.Out.WriteLine("Unable to assign instancing to object " + geoID + " -  no geometry for this key");
+            }
+        }
+
+        public void UpdateWholeInst(string geoID, float[] data)
+        {
+            if (GeometryItemsList.ContainsKey(geoID))
+            {
+                GeometryItemsInstansesList[geoID].BindBuffer();
+                 GeometryItemsInstansesList[geoID].LoadBufferSubdata(data, 0);
+            }
+            else
+            {
+                Console.Out.WriteLine("Unable to assign instancing to object " + geoID + " -  no geometry for this key");
+            }
+        }
+
         public GeometryStorrage() : base()
         {
             GeometryItemsList = new Dictionary<string, GeometryStorrageIteam<string>>();
+
+            GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
         }
 
         public GeometryStorrage(int cap) : base(cap)
         {
             GeometryItemsList = new Dictionary<string, GeometryStorrageIteam<string>>();
+            GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
         }
 
     }
