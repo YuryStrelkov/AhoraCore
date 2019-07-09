@@ -53,6 +53,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
 
         public void LinkBufferToShder(AShader shader, string block_name, int bindingPoint)
         {
+            Buff_binding_Point = bindingPoint;
             GL.BindBuffer(BufferTarget.UniformBuffer, ID);
             Uniform_block_index = GL.GetUniformBlockIndex(shader.ShaderID, block_name);
             GL.UniformBlockBinding(shader.ShaderID, Uniform_block_index, bindingPoint);

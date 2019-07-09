@@ -6,16 +6,7 @@ using System;
 
 namespace AhoraCore.Core.Buffers.SpecificBuffers
 {
-    public enum VerticesBufferTypes
-    {
-        VerticesBuffer = 0,
-
-        IndecesBuffer = 1,
-
-        InstanceBuffer = 2,
-    }
-
-    public class ArrayBuffer: ABuffer, IAttribyteable, IEditMarkedAttribyte
+     public class ArrayBuffer: ABuffer, IAttribyteable, IEditMarkedAttribyte
     {
         protected bool isBinded = false;
 
@@ -191,7 +182,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             };
         }
         
-        public ArrayBuffer(  int targetCapacity) : base()
+        public ArrayBuffer(int targetCapacity) : base()
         {
             Attribytes = new Dictionary<int, int>();
             CreateBuffer(targetCapacity);

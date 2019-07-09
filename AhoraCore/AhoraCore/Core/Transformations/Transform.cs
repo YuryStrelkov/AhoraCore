@@ -1,220 +1,247 @@
 ﻿using OpenTK;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AhoraCore.Core.Transformations
 {
     public class Transform
     {
-        /// <summary>
-        /// Матрица поворота
-        /// </summary>
-        public Matrix4 RotationM { get; private set; }
-        /// <summary>
-        /// матрица перемещения
-        /// </summary>
-        public Matrix4 TranslationM { get; private set; }
-        /// <summary>
-        /// Матрица масштаба
-        /// </summary>
-        public Matrix4 ScaleM { get; private set; }
-        /// <summary>
-        /// Произведение поворота и смещения ( а она вообще нужна ? )
-        /// </summary>
-        public Matrix4 RotAndShift { get; private set; }
-        /// <summary>
-        /// Матрица модели
-        /// </summary>
-        public Matrix4 ModelM { get; private set; }
-        /// <summary>
-        /// Вектор положения
-        /// </summary>
-        public Vector3 Position { get; private set; }
-        /// <summary>
-        /// Вектор маштаба
-        /// </summary>
-        public Vector3 Scale { get; private set; }
-        /// <summary>
-        /// Кватернион 
-        /// </summary>
-        public Quaternion RotationQ { get; private set; }
-        /// <summary>
-        /// Углы Эйлера
-        /// </summary>
-        public Vector3 EulerRotation { get; private set; }
+        bool ischangedWorld = false;
+
+        bool ischangedLocal = false;
         
-        private void initRotM()
-        {
-            Matrix4 M = new Matrix4();
-            //x
-            float xx = RotationQ.X * RotationQ.X;
+        /// <summary>
+        /// Локальный вектор положения
+        /// </summary>
+        private Vector3 PositionLocal;
+        /// <summary>
+        ///Локальный вектор маштаба
+        /// </summary>
+        private Vector3 ScaleLocal;
+        /// <summary>
+        ///Локальный кватернион 
+        /// </summary>
+        private Quaternion RotationQLoacal;
+        /// <summary>
+        ///Локальные углы Эйлера
+        /// </summary>
+        private Vector3 EulerRotationLoacal;
+        /// <summary>
+        /// Мировой вектор положения
+        /// </summary>
+        private Vector3 PositionWorld;
+        /// <summary>
+        /// Мировой вектор маштаба
+        /// </summary>
+        private Vector3 ScaleWorld;
+        /// <summary>
+        /// Мировой rватернион 
+        /// </summary>
+        private Quaternion RotationQWorld;
+        /// <summary>
+        /// Мировые углы Эйлера
+        /// </summary>
+        private Vector3 EulerRotationWorld;
 
-            float xy = RotationQ.X * RotationQ.Y;
-            float xz = RotationQ.X * RotationQ.Z;
-            float xw = RotationQ.X * RotationQ.W;
-            //y
-            float yy = RotationQ.Y * RotationQ.Y;
+        private Matrix4 localTranformM;
 
-            float yz = RotationQ.Y * RotationQ.Z;
-            float yw = RotationQ.Y * RotationQ.W;
-            //z
-            float zz = RotationQ.Z * RotationQ.Z;
+        private Matrix4 worldTranformM;
 
-            float zw = RotationQ.Z * RotationQ.W;
-
-
-            M.M11 = 1 - 2 * (yy + zz);
-            M.M12 = 2 * (xy - zw);
-            M.M13 = 2 * (xz + yw);
-            M.M14 = 0;
-
-            M.M21 = 2 * (xy + zw);
-            M.M22 = 1 - 2 * (xx + zz);
-            M.M23 = 2 * (yz - xw);
-            M.M24 = 0;
-
-            M.M31 = 2 * (xz - yw);
-            M.M32 = 2 * (yz + xw);
-            M.M33 = 1 - 2 * (xx + yy);
-            M.M34 = 0;
-
-            M.M41 = 0;
-            M.M42 = 0;
-            M.M43 = 0;
-            M.M44 = 1;
-
-            RotationM = M;
-        }
-
-      
         public Transform(Vector3 position)
         {
-            Position = position;
-            Scale = Vector3.One;
-            EulerRotation = Vector3.Zero;
-            RotationQ = Quaternion.FromEulerAngles(EulerRotation.X, EulerRotation.Y, EulerRotation.Z);
-
-            initRotM();
-            TranslationM = Matrix4.CreateTranslation(0, 0, 0);
-            RotAndShift = TranslationM;
-            ScaleM = Matrix4.CreateScale(Vector3.One);
-            refresh();
+            PositionWorld = position;
         }
 
-        public Transform(float x, float y, float z)
+        public Transform(float x, float y, float z)  
         {
-            Position = new Vector3(x, y, z);
-            Scale = Vector3.One;
-            EulerRotation = Vector3.Zero;
-            //rotationM = Matrix4.CreateRotationX(0) * Matrix4.CreateRotationY(0) * Matrix4.CreateRotationZ(0);
-            RotationQ = Quaternion.FromEulerAngles(EulerRotation.X, EulerRotation.Y, EulerRotation.Z);
-            initRotM();
-            TranslationM = Matrix4.CreateTranslation(0, 0, 0);
-            RotAndShift = TranslationM;
-            ScaleM = Matrix4.CreateScale(Vector3.One);
-            refresh();
-
+            PositionWorld = new Vector3(x, y, z);
         }
 
-        public void setEulrerAngles(float x, float y, float z)
+        public Vector3 GetWorldTranslation()
         {
-            EulerRotation = new Vector3(x, y, z);
-            RotationQ = Quaternion.FromEulerAngles(EulerRotation.X, EulerRotation.Y, EulerRotation.Z);
-            initRotM();
-            refresh();
-
-
+            return PositionWorld;
         }
 
-        public void addEulrerAngles(float x, float y, float z)
+        public void SetWorldTranslation(Vector3 translation)
         {
-            EulerRotation=new Vector3(EulerRotation.X + x,
-                                      EulerRotation.Y + y,
-                                      EulerRotation.Z + z);
-            RotationQ = Quaternion.FromEulerAngles(EulerRotation.X, EulerRotation.Y, EulerRotation.Z);
-            initRotM();
-            refresh();
-
-
+            ischangedWorld = true;
+            ischangedLocal = true;
+            PositionWorld = translation;
+            PositionLocal = new Vector3();
+            ScaleLocal = new Vector3();
+            EulerRotationLoacal = new Vector3();
+            PositionWorld = new Vector3();
+            ScaleWorld = new Vector3();
+            EulerRotationWorld = new Vector3();
+            localTranformM = new Matrix4();
+            worldTranformM = new Matrix4();
         }
 
-        public void addPosition(float x, float y, float z)
+        public void SetWorldTranslation(float x, float y, float z)
         {
-            Position = new Vector3(Position.X + x,
-                                   Position.Y + y,
-                                   Position.Z + z);
-            TranslationM = Matrix4.CreateTranslation( Position);
-            refresh();
+            ischangedWorld = true;
+            ischangedLocal = true;
+            PositionWorld = new Vector3(x, y, z);
+            PositionLocal = new Vector3();
+            ScaleLocal = new Vector3();
+            EulerRotationLoacal = new Vector3();
+            PositionWorld = new Vector3();
+            ScaleWorld = new Vector3();
+            EulerRotationWorld = new Vector3();
+            localTranformM=new Matrix4();
+            worldTranformM=new Matrix4();
         }
 
-        public void setPosition(float x, float y, float z)
+        public Vector3 GetWorldRotation()
         {
-            Position = new Vector3(x, y, z);
-            TranslationM = Matrix4.CreateTranslation(Position);
-            refresh();
-
+            return EulerRotationWorld;
         }
 
-        public void setScale(float x, float y, float z)
+        public void SetWorldRotation(Vector3 rotation)
         {
-            Scale = new Vector3(x, y, z);
-            ScaleM = Matrix4.CreateScale(x, y, z);
-            refresh();
-
-
-        }
-        
-        public void setEulrerAngles(Vector3 angles)
-        {
-            EulerRotation = angles;
-            RotationQ = Quaternion.FromEulerAngles(EulerRotation.X, EulerRotation.Y, EulerRotation.Z);
-            initRotM();
-            ///rotationM = Matrix4.CreateRotationX(angles.X) * Matrix4.CreateRotationY(angles.Y) * Matrix4.CreateRotationZ(angles.Z);
-            refresh();
-
-
+            ischangedWorld = true;
+            EulerRotationWorld = rotation;
         }
 
-        public void setRotationByMatrix(Matrix4 rotation)
+        public void SetWorldRotation(float x, float y, float z)
         {
-            RotationM = rotation;/// Matrix4.CreateRotationX(angles.X) * Matrix4.CreateRotationY(angles.Y) * Matrix4.CreateRotationZ(angles.Z);
-            refresh();
+            ischangedWorld = true;
+            EulerRotationWorld = new Vector3(x, y, z);
         }
 
-        public void setPosition(Vector3 pos)
+        public Vector3 GetWorldScaling()
         {
-            Position = pos;
-
-            TranslationM = Matrix4.CreateTranslation(Position);
-            refresh();
-
-
+            return ScaleWorld;
         }
 
-        public void addPosition(Vector3 pos)
+        public void SetWorldScaling(Vector3 scaling)
         {
-            Position += pos;
-
-            TranslationM = Matrix4.CreateTranslation(Position);
-            refresh();
-
-
+            ischangedWorld = true;
+            ScaleWorld = scaling;
         }
 
-        public void setScale(Vector3 scl)
+        public void SetWorldScaling(float x, float y, float z)
         {
-            Scale = scl;
-            ScaleM = Matrix4.CreateScale(scl.X, scl.Y, scl.Z);
-            refresh();
+            ischangedWorld = true;
+            ScaleWorld = new Vector3(x, y, z);
         }
-    
-        private void refresh()
+
+        public void SetWorldScaling(float s)
         {
-            ModelM= RotationM * ScaleM * TranslationM;
-            RotAndShift = RotationM * TranslationM;
+            ischangedWorld = true;
+            ScaleWorld = new Vector3(s, s, s);
+        }
+
+        public Vector3 GetLocalTranslation()
+        {
+            return PositionLocal;
+        }
+
+        public void SetLocalTranslation(Vector3 localTranslation)
+        {
+            ischangedLocal = true;
+            PositionLocal = localTranslation;
+        }
+
+        public void SetLocalTranslation(float x, float y, float z)
+        {
+            ischangedLocal = true;
+            PositionLocal = new Vector3(x, y, z);
+        }
+
+        public Vector3 GetLocalRotation()
+        {
+            return EulerRotationLoacal;
+        }
+
+        public void SetLocalRotation(Vector3 localRotation)
+        {
+            ischangedLocal = true;
+            EulerRotationLoacal = localRotation;
+        }
+
+        public void SetLocalRotation(float x, float y, float z)
+        {
+            ischangedLocal = true;
+            EulerRotationLoacal = new Vector3(x, y, z);
+        }
+
+        public Vector3 GetLocalScaling()
+        {
+            return ScaleLocal;
+        }
+
+        public void SetLocalScaling(Vector3 localScaling)
+        {
+            ischangedLocal = true;
+            ScaleLocal = localScaling;
+        }
+
+        public void SetLocalScaling(float x, float y, float z)
+        {
+            ischangedLocal = true;
+            ScaleLocal = new Vector3(x, y, z);
+        }
+
+        public Matrix4 GetWorldTransformMat()
+        {
+            return ischangedWorld? MakeTransformM(ref worldTranformM, ref ischangedWorld) : worldTranformM;
+        }
+
+        public Matrix4 GetLocalTransformMat()
+        {
+            return ischangedLocal ? MakeTransformM(ref localTranformM, ref ischangedLocal) : localTranformM;
+        }
+
+        private Matrix4 MakeTransformM(ref Matrix4 matrix, ref bool key)
+        {
+            key = false;
+            float cr = (float)Math.Cos(EulerRotationWorld.X * 0.5);
+            float sr = (float)Math.Sin(EulerRotationWorld.X * 0.5);
+            float cp = (float)Math.Cos(EulerRotationWorld.Y * 0.5);
+            float sp = (float)Math.Sin(EulerRotationWorld.Y * 0.5);
+            float cy = (float)Math.Cos(EulerRotationWorld.Z * 0.5);
+            float sy = (float)Math.Sin(EulerRotationWorld.Z * 0.5);
+
+            float w = cy * cr * cp + sy * sr * sp;
+            float x = cy * sr * cp - sy * cr * sp;
+            float y = cy * cr * sp + sy * sr * cp;
+            float z = sy * cr * cp - cy * sr * sp;
+
+            // Cache some data for further computations
+            float x2 = x + x;
+            float y2 = y + y;
+            float z2 = z + z;
+
+            float xx = x * x2, xy = x * y2, xz = x * z2;
+            float yy = y * y2, yz = y * z2, zz = z * z2;
+            float wx = w * x2, wy = w * y2, wz = w * z2;
+
+            float scalingX = ScaleWorld.X;
+            float scalingY = ScaleWorld.Y;
+            float scalingZ = ScaleWorld.Z;
+
+            // Apply rotation and scale simultaneously, simply adding the translation.
+            matrix.M11 = (1f - (yy + zz)) * scalingX;
+            matrix.M12 = (xy + wz) * scalingX;
+            matrix.M13 = (xz - wy) * scalingX;
+            matrix.M14 = PositionWorld.X;
+
+            matrix.M21 = (xy - wz) * scalingY;
+            matrix.M22 = (1f - (xx + zz)) * scalingY;
+            matrix.M23 = (yz + wx) * scalingY;
+            matrix.M24 = PositionWorld.Y;
+
+            matrix.M31 = (xz + wy) * scalingZ;
+            matrix.M32 = (yz - wx) * scalingZ;
+            matrix.M33 = (1f - (xx + yy)) * scalingZ;
+            matrix.M34 = PositionWorld.Z;
+
+            matrix.M41 = 0f;
+            matrix.M42 = 0f;
+            matrix.M43 = 0f;
+            matrix.M44 = 1f;
+
+            return matrix;
         }
     }
 }

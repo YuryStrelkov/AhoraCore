@@ -46,7 +46,11 @@ namespace AhoraCore.Core.Buffers
             I_length  = i_length;
         }
     }
-
+    /// <summary>
+    /// Основной класс предназначенный для взаимодействия с буферами VAO,VBO,IBO их инстансирования в случае необходимости.
+    /// В одном экземпляре класса  GeometryStorrage могут храниться любые модели с одним и тем же набором вершинных атрибутов 
+    /// Доступ к объёкту геометрии осуществляется по его ID
+    /// </summary>
     public class GeometryStorrage : ArrayBuffer, IDataStorrage<string>, IRedreable<string>
     {
         private Dictionary<string, GeometryStorrageIteam<string>> GeometryItemsList;
@@ -113,11 +117,19 @@ namespace AhoraCore.Core.Buffers
         {
             VBO.ClearBuffer();
             IBO.ClearBuffer();
+            foreach (KeyValuePair<string, InstanceBuffer> kvp in GeometryItemsInstansesList)
+            {
+                kvp.Value.ClearBuffer();
+            }
         }
 
         public void DeleteStorrage()
         {
             DeleteBuffer();
+            foreach (KeyValuePair<string, InstanceBuffer> kvp in GeometryItemsInstansesList)
+            {
+                kvp.Value.DeleteBuffer();
+            }
         }
 
         public void MergeItems(string[] geometryIDs)
