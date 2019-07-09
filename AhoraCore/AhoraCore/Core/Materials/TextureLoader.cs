@@ -8,17 +8,17 @@ using System.IO;
 namespace AhoraCore.Core.Materials
 {
 
-     static class TextureLoader
+     public static class TextureLoader
     {
-        static int nearest = (int)All.Nearest;
+        public static int NEAREST = (int)All.Nearest;
 
-        static int repeat = (int)All.Repeat;
+        public static int REPEAT = (int)All.Repeat;
 
-        static int linear = (int)All.Linear;
+        public static int LINEAR = (int)All.Linear;
 
-        static int linearMipMap = (int)All.LinearMipmapLinear;
+        public static int LINEAR_MIP_MAP = (int)All.LinearMipmapLinear;
 
-        static int clamp2Edge = (int)All.ClampToEdge;
+        public static int CLAMP_TO_EDGE = (int)All.ClampToEdge;
 
         public static int loadTextureFromImage(Bitmap image)
         {
@@ -37,7 +37,7 @@ namespace AhoraCore.Core.Materials
 
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-            GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ref linearMipMap);
+            GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ref LINEAR_MIP_MAP);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureLodBias, 0);
 
@@ -50,8 +50,8 @@ namespace AhoraCore.Core.Materials
         {
             if (t_target == TextureTarget.Texture2D)
             {
-                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, ref clamp2Edge);
-                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ref clamp2Edge);
+                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, ref CLAMP_TO_EDGE);
+                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ref CLAMP_TO_EDGE);
             }
             if (t_target == TextureTarget.TextureCubeMap)
             {
@@ -65,8 +65,8 @@ namespace AhoraCore.Core.Materials
         {
             if (t_target == TextureTarget.Texture2D)
             {
-                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, ref repeat);
-                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ref repeat);
+                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, ref REPEAT);
+                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ref REPEAT);
             }
             if (t_target == TextureTarget.TextureCubeMap)
             {
@@ -80,8 +80,8 @@ namespace AhoraCore.Core.Materials
         {
             if (TextureTarget.Texture2D == t_target)
             {
-                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, ref linear);
-                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ref linearMipMap);
+                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, ref LINEAR);
+                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ref LINEAR_MIP_MAP);
                 GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             }
 
@@ -97,8 +97,8 @@ namespace AhoraCore.Core.Materials
         {
             if (TextureTarget.Texture2D == t_target)
             {
-                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, ref nearest);
-                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ref nearest);
+                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, ref NEAREST);
+                GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ref NEAREST);
             }
 
             if (TextureTarget.TextureCubeMap == t_target)
@@ -112,7 +112,7 @@ namespace AhoraCore.Core.Materials
         public static Texture loadEmptyCubeMap(int dim)
         {
             Texture cube = new Texture();
-            cube.TextureType = TextureTarget.TextureCubeMap;
+            cube.BindingTarget = TextureTarget.TextureCubeMap;
 
             GL.BindTexture(TextureTarget.TextureCubeMap, cube.ID);
 
@@ -132,7 +132,7 @@ namespace AhoraCore.Core.Materials
         public static Texture loadCubeMap(string[] cubeMapSides)
         {
             Texture cube = new Texture();
-            cube.TextureType = TextureTarget.TextureCubeMap;
+            cube.BindingTarget = TextureTarget.TextureCubeMap;
 
             GL.BindTexture(TextureTarget.TextureCubeMap, cube.ID);
             if (cubeMapSides.Length == 6)

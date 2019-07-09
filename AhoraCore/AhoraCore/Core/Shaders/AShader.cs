@@ -1,5 +1,7 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 
@@ -8,22 +10,113 @@ namespace AhoraCore.Core.Shaders
 
     public abstract class AShader
     {
-        public int ShaderID { get; private set; }
+        private Dictionary<ShaderType, int> shaderPrograms;
 
-        public int VertexShaderID  { get; private set; }
+        private Dictionary<string, int> uniforms;
 
-        public int FragmentShaderID { get; private set; }
+        public int ShaderID   { get;private set; }
 
-        public int GeometryShaderID { get; private set; }
+        public int VertexShaderID
+        {
+            get {
+                return shaderPrograms.ContainsKey(ShaderType.VertexShader) ? shaderPrograms[ShaderType.VertexShader] : -1;
+                }
+            private set
+                {
+                shaderPrograms[ShaderType.VertexShader] = value;
+            }
+        }
 
-        public int TesselationShaderID { get; private set; }
+        public int FragmentShaderID
+        {
+            get
+            {
+                return shaderPrograms.ContainsKey(ShaderType.FragmentShader) ? shaderPrograms[ShaderType.FragmentShader] : -1;
+            }
+            private set
+            {
+                shaderPrograms[ShaderType.VertexShader] = value;
+            }
+        }
+
+        public int GeometryShaderID
+        {
+            get
+            {
+                return shaderPrograms.ContainsKey(ShaderType.GeometryShader) ? shaderPrograms[ShaderType.GeometryShader] : -1;
+            }
+            private set
+            {
+                shaderPrograms[ShaderType.VertexShader] = value;
+            }
+        }
+
+        public int TessControlShaderID
+        {
+            get
+            {
+                return shaderPrograms.ContainsKey(ShaderType.TessControlShader) ? shaderPrograms[ShaderType.TessControlShader] : -1;
+            }
+            private set
+            {
+                shaderPrograms[ShaderType.VertexShader] = value;
+            }
+        }
+
+        public int TessEvaluationShaderID
+        {
+            get
+            {
+                return shaderPrograms.ContainsKey(ShaderType.TessEvaluationShader) ? shaderPrograms[ShaderType.TessEvaluationShader] : -1;
+            }
+            private set
+            {
+                shaderPrograms[ShaderType.VertexShader] = value;
+            }
+        }
+
+        public int ComputeShaderID
+        {
+            get
+            {
+                return shaderPrograms.ContainsKey(ShaderType.ComputeShader) ? shaderPrograms[ShaderType.ComputeShader] : -1;
+            }
+            private set
+            {
+                shaderPrograms[ShaderType.VertexShader] = value;
+            }
+        }
+
+        public void AddUniform(string uniform)
+        {
+            int uniformLocation = GL.GetUniformLocation(ShaderID, uniform);
+
+            if (uniformLocation == 0xFFFFFFFF)
+            {
+                Console.WriteLine("ShderID "+ ShaderID + " Error: Could not find uniform: " + uniform);
+            }
+
+            uniforms.Add(uniform, uniformLocation);
+        }
+
+        public void AddUniformBlock(string uniform)
+        {
+            int uniformLocation = GL.GetUniformBlockIndex(ShaderID, uniform);
+            if (uniformLocation == 0xFFFFFFFF)
+            {
+                Console.WriteLine("ShderID " + ShaderID + " Error: Could not find uniform: " + uniform);
+            }
+
+            uniforms.Add(uniform, uniformLocation);
+        }
 
         public void Bind()
         {
             GL.UseProgram(ShaderID);
+            UpdateUniforms();
         }
 
-        public void Disable()
+        public void Unbind()
         {
             GL.UseProgram(0);
         }
@@ -42,25 +135,19 @@ namespace AhoraCore.Core.Shaders
 
         public void DeleteShader()
         {
-            Disable();
-            GL.DetachShader(ShaderID, VertexShaderID);
-            GL.DetachShader(ShaderID, FragmentShaderID);
-            GL.DeleteShader(VertexShaderID);
-            GL.DeleteShader(FragmentShaderID);
-            if (GeometryShaderID!=-1)
+            Unbind();
+
+            foreach (ShaderType k in shaderPrograms.Keys)
             {
-                GL.DetachShader(ShaderID, GeometryShaderID);
-                GL.DeleteShader(GeometryShaderID);
-            }
-            if (TesselationShaderID != -1)
-            {
-                GL.DetachShader(ShaderID, TesselationShaderID);
-                GL.DeleteShader(TesselationShaderID);
+                GL.DetachShader(ShaderID, shaderPrograms[k]);
+                GL.DeleteShader(shaderPrograms[k]);
             }
             GL.DeleteProgram(ShaderID);
         }
 
         public abstract void BindAttribytes();
+
+        public abstract void UpdateUniforms();
 
         public void BindAttributeLocation(int attrIndex,string attrName)
         {
@@ -72,23 +159,8 @@ namespace AhoraCore.Core.Shaders
             try
             {
                 StreamReader sr = new StreamReader(Path.GetFullPath(path2shaderCode));
-                if (type == ShaderType.VertexShader)
-                {
-                    VertexShaderID = loadShader(sr.ReadToEnd(), type);
-                }
-                else if (type == ShaderType.FragmentShader)
-                {
-                    FragmentShaderID =  loadShader(sr.ReadToEnd(), type);
-                }
-                else if (type == ShaderType.GeometryShader)
-                {
-                    GeometryShaderID = loadShader(sr.ReadToEnd(), type);
-                }
-                else if (type == ShaderType.TessControlShader)
-                {
-                    TesselationShaderID = loadShader(sr.ReadToEnd(), type);
-                }
 
+                shaderPrograms.Add(type, LoadShader(sr.ReadToEnd(), type));
             }
             catch (Exception ex)
             {
@@ -96,27 +168,12 @@ namespace AhoraCore.Core.Shaders
             }
         }
 
-        public void LoadShaderFromString(String code, ShaderType type)
+        public void LoadShaderFromstring(string code, ShaderType type)
         {
-            if (type == ShaderType.VertexShader)
-            {
-                VertexShaderID = loadShader(code, type);
-            }
-            if (type == ShaderType.FragmentShader)
-            {
-                FragmentShaderID = loadShader(code, type);
-            }
-            else if (type == ShaderType.GeometryShader)
-            {
-                GeometryShaderID = loadShader(code, type);
-            }
-            else if (type == ShaderType.TessControlShader)
-            {
-                TesselationShaderID = loadShader(code, type);
-            }
+            shaderPrograms.Add(type, LoadShader(code, type));
         }
 
-        private int loadShader(String code, ShaderType type)
+        private int LoadShader(string code, ShaderType type)
         {
             int status_code;
             string info;
@@ -140,25 +197,48 @@ namespace AhoraCore.Core.Shaders
 
             return programID;
         }
-
-        private void InitDefault()
+        
+        public void SetUniformi(string uniformName, int value)
         {
-            VertexShaderID = -1;
+            GL.Uniform1(uniforms[uniformName], value);
+        }
 
-            FragmentShaderID = -1;
+        public void SetUniformf(string uniformName, float value)
+        {
+            GL.Uniform1(uniforms[uniformName], value);
+        }
 
-            GeometryShaderID = -1;
+        public void SetUniform(string uniformName, Vector2 value)
+        {
+            GL.Uniform2(uniforms[uniformName], value.X, value.Y);
+        }
 
-            TesselationShaderID = -1;
+        public void SetUniform(string uniformName, Vector3 value)
+        {
+            GL.Uniform3(uniforms[uniformName], value.X, value.Y, value.Z);
+        }
 
-            ShaderID = -1;
+        public void SetUniform(string uniformName, Vector4 value)
+        {
+            GL.Uniform4(uniforms[uniformName], value.X, value.Y, value.Z, value.W);
+        }
+
+        public void SetUniform(string uniformName, Matrix4 value)
+        {
+           GL.UniformMatrix4(uniforms[uniformName], true, ref value);
+        }
+
+        public void BndUniformBlock(string uniformBlockName, int uniformBlockBinding)
+        {
+            GL.UniformBlockBinding(ShaderID, uniforms[uniformBlockName], uniformBlockBinding);
         }
 
         public AShader( string vshader, string fshader, bool fromFile=true)
         {
-            InitDefault();
 
             ShaderID = GL.CreateProgram();
+
+            shaderPrograms = new Dictionary<ShaderType, int>();
 
             if (fromFile)
             {
@@ -167,9 +247,11 @@ namespace AhoraCore.Core.Shaders
             }
             else
             {
-                LoadShaderFromString(vshader, ShaderType.VertexShader);
-                LoadShaderFromString(fshader, ShaderType.FragmentShader);
+                LoadShaderFromstring(vshader, ShaderType.VertexShader);
+                LoadShaderFromstring(fshader, ShaderType.FragmentShader);
             }
+
+           
             Link();
             Validate();
             BindAttribytes();

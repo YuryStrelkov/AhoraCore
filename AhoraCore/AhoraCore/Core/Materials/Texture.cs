@@ -8,7 +8,7 @@ using System.IO;
 
 namespace AhoraCore.Core.Materials
 {
-   public class Texture: ABindableObject
+   public class Texture: ABindableObject<TextureTarget>
     {
         public static Texture defaultDiffuse = new Texture(0.5f, 0.5f, 0.5f);
 
@@ -20,8 +20,6 @@ namespace AhoraCore.Core.Materials
 
         public int Height { get; protected set; }
 
-        public TextureTarget TextureType { get;  set; }
-
         public Texture(Vector3 c)
         {
             ID = LoadColor(c);
@@ -32,27 +30,30 @@ namespace AhoraCore.Core.Materials
             int width,  height;
             ID = TextureFromImage(pathToTexture, out width, out height);
             Width = width;  Height = height;
+            BindingTarget = TextureTarget.Texture2D;
         }
 
         public Texture()
         {
             Create();
-            TextureType = TextureTarget.Texture2D;
+            BindingTarget = TextureTarget.Texture2D;
         }
 
         public Texture(float r, float g, float b)
         {
             ID = LoadColor(r, g, b);
+            BindingTarget = TextureTarget.Texture2D;
         }
 
         public override void Bind()
         {
-            GL.BindTexture(TextureType, ID);
+            GL.BindTexture(BindingTarget, ID);
         }
 
         public override void Create()
         {
-            int id; GL.GenTextures(1, out id);
+            int id;
+            GL.GenTextures(1, out id);
             ID = id;
         }
 
@@ -63,12 +64,17 @@ namespace AhoraCore.Core.Materials
 
         public override void Unbind()
         {
-            GL.BindTexture(TextureType, 0);
+            GL.BindTexture(BindingTarget, 0);
+        }
+        public override void Bind(TextureTarget bindTarget)
+        {
+            BindingTarget = bindTarget;
+            GL.BindTexture(bindTarget, ID);
         }
 
         public void BiuldEmptyCubeMap(int size)
         {
-            GL.BindTexture(TextureType, ID);
+            Bind(TextureTarget.TextureCubeMap);
 
             TextureLoader.setClamp2Edge(TextureTarget.TextureCubeMap);
             TextureLoader.setMagMinFilter(TextureTarget.TextureCubeMap);
@@ -77,7 +83,7 @@ namespace AhoraCore.Core.Materials
                 GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba8, size, size, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             }
-            GL.BindTexture(TextureTarget.TextureCubeMap, 0);
+            Unbind();
         }
 
         int LoadColor(Vector3 color)
@@ -92,15 +98,15 @@ namespace AhoraCore.Core.Materials
             Height = 2;
             GL.GenTextures(1, out texID);
 
-            GL.BindTexture(TextureType, texID);
+            Bind();
             float[] TexColor = new float[16] { r, g, b, 1f, r, g, b, 1f,
                                                r, g, b, 1f, r, g, b, 1f};
-            GL.TexImage2D(TextureType, 0, PixelInternalFormat.Rgba32f, 2, 2, 0,
+            GL.TexImage2D(BindingTarget, 0, PixelInternalFormat.Rgba32f, 2, 2, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.Float, TexColor);
 
-            TextureLoader.setMagMinFilter(TextureType);
-            TextureLoader.setClamp2Edge(TextureType);
-            GL.BindTexture(TextureType, 0);
+            TextureLoader.setMagMinFilter(BindingTarget);
+            TextureLoader.setClamp2Edge(BindingTarget);
+            Unbind();
             return texID;
         }
 
@@ -109,25 +115,22 @@ namespace AhoraCore.Core.Materials
             Width = image.Width;
             Height = image.Height;
 
-            GL.BindTexture(TextureType, ID);
+            Bind();
 
             BitmapData data = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            GL.TexImage2D(TextureType, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+            GL.TexImage2D(BindingTarget, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
 
-            int linear = (int)All.Linear;
-            int linearMipMap = (int)All.LinearMipmapLinear;
-            int clamp2Edge = (int)All.ClampToEdge;
-            GL.TexParameterI(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, ref linear);
-            GL.TexParameterI(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, ref linearMipMap);
-            GL.TexParameterI(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, ref clamp2Edge);
-            GL.TexParameterI(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, ref clamp2Edge);
+            GL.TexParameterI(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, ref TextureLoader.LINEAR);
+            GL.TexParameterI(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, ref TextureLoader.LINEAR_MIP_MAP);
+            GL.TexParameterI(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, ref TextureLoader.CLAMP_TO_EDGE);
+            GL.TexParameterI(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, ref TextureLoader.CLAMP_TO_EDGE);
 
             image.UnlockBits(data);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            GL.BindTexture(TextureType, 0);
+            Unbind();
             //   return 0;
 
         }
@@ -162,5 +165,6 @@ namespace AhoraCore.Core.Materials
                 return -1;
             }
         }
+        
     }
 }

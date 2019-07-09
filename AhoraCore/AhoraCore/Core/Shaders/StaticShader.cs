@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System;
 
 namespace AhoraCore.Core.Shaders
 {
-
-
 
     public class StaticShader : AShader
     {
@@ -22,6 +17,11 @@ namespace AhoraCore.Core.Shaders
         public override void BindAttribytes()
         {
             BindAttributeLocation(0,"position");
+        }
+
+        public override void UpdateUniforms()
+        {
+
         }
     }
 }

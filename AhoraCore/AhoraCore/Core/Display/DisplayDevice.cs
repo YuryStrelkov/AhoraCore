@@ -1,5 +1,5 @@
-﻿using AhoraCore.Core.Buffers;
-using AhoraCore.Core.DataManaging;
+﻿using AhoraCore.Core.DataManaging;
+using AhoraCore.Core.Input;
 using AhoraCore.Core.Shaders;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -15,8 +15,6 @@ namespace AhoraProject.Ahora.Core.Display
 
         public StaticShader staticShader{ get; private set; }
 
-
-
         public DisplayDevice(int w, int h):base(w,h)
         {
             Scene = new GeometryStorrageManager();
@@ -31,6 +29,9 @@ namespace AhoraProject.Ahora.Core.Display
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
+            KeysInput.UpdateKeysStatment();
+            MouseInput.UpdateMouseStatment();
+           // CameraInstance.Get().UpdateCamera();
         }
 
         private void cleanUpFrame()

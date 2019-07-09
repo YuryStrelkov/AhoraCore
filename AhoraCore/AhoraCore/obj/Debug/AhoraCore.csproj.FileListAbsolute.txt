@@ -7,3 +7,5 @@ D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\OpenTK.xml
 D:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.exe
 D:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.pdb
 D:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.csprojResolveAssemblyReference.cache
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\AssimpNet.dll
+D:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\AssimpNet.xml
