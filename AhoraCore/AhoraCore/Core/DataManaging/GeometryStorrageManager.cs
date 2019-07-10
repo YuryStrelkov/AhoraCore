@@ -1,4 +1,5 @@
 ﻿using AhoraCore.Core.Buffers;
+using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraProject.Ahora.Core.IRender;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,13 @@ namespace AhoraCore.Core.DataManaging
         {
             AppendData(geoID, attibutesFormat);
             managingData[attibutesFormat].AddItem(geoID, vData, iData);
+            managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
+        }
+
+        public void AddGeometry(string geoID, int attibutesFormat, FloatBuffer vData, IntegerBuffer iData)
+        {
+            AppendData(geoID, attibutesFormat);
+            managingData[attibutesFormat].AddItem(geoID, vData.BufferData, iData.BufferData);
             managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
         }
 

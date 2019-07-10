@@ -241,6 +241,8 @@ namespace AhoraCore.Core.Shaders
 
             shaderPrograms = new Dictionary<ShaderType, int>();
 
+            uniforms = new Dictionary<string, int>();
+
             if (fromFile)
             {
                 LoadShaderFromFile(vshader, ShaderType.VertexShader);

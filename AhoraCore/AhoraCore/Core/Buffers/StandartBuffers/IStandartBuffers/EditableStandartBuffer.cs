@@ -13,7 +13,7 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
                 }
                 else
                 {
-                    EnhanceBuffer((int)(Capacity + 0.2f * Capacity));
+                    EnhanceBuffer((int)(Capacity + 1));
                     BufferData[Fillnes] = data;
                 }
 

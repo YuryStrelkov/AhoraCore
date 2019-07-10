@@ -13,17 +13,18 @@ namespace AhoraProject.Ahora.Core.Display
     {
         public GeometryStorrageManager Scene { get; private set; }
 
-        public StaticShader staticShader{ get; private set; }
+        public AShader staticShader{ get; private set; }
 
         public DisplayDevice(int w, int h):base(w,h)
         {
             Scene = new GeometryStorrageManager();
-            staticShader = new StaticShader();
+            staticShader = new DefaultShader();
         }
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             Scene.BeforeRender();
+            GL.Disable(EnableCap.DepthTest);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -36,7 +37,7 @@ namespace AhoraProject.Ahora.Core.Display
 
         private void cleanUpFrame()
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.ClearColor(0.1f, 0.1f, 0.1f, 1);
         }
@@ -48,6 +49,7 @@ namespace AhoraProject.Ahora.Core.Display
             cleanUpFrame();
 
             staticShader.Bind();
+            staticShader.UpdateUniforms();
             Scene.Render();
             this.SwapBuffers();
         }

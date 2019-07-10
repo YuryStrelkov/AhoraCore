@@ -22,10 +22,10 @@ namespace AhoraCore
 
 
             float[] vertices1 = {
-                -0.1f+0.5f,  0.1f+0.5f, 1f,//v0
-				-0.1f+0.5f, -0.1f+0.5f, 1f,//v1
-			     0.1f+0.5f, -0.1f+0.5f, 1f,//v2
-				 0.1f+0.5f,  0.1f+0.5f, 1f,//v3
+                -10f,-1,  10f,//v0
+				-10f,-1, -10f,//v1
+			     10f,-1, -10f,//v2
+				 10f,-1,  10f,//v3
 		};
 
 
@@ -53,9 +53,11 @@ namespace AhoraCore
 
             FloatBuffer vIco;IntegerBuffer iIco;
 
-            Icosphere.Create(1,out vIco,out iIco);
-                
+            Icosphere.Create(0,out vIco,out iIco);
+                ////TODO: проверить как выставляются атрибуты буфера
             dd.Scene.AddGeometry("1", VericesAttribytes.V_POSITION , vertices, indices);
+
+            dd.Scene.AddGeometry("ico", VericesAttribytes.V_POSITION| VericesAttribytes.V_UVS, vIco, iIco);
 
             dd.Scene.AddGeometry("2", VericesAttribytes.V_POSITION, vertices1, indices1);
 

@@ -49,11 +49,30 @@ namespace AhoraCore.Core.Transformations
         public Transform(Vector3 position)
         {
             PositionWorld = position;
+            ischangedWorld = true;
+            ischangedLocal = true;
+            PositionLocal = new Vector3();
+            ScaleLocal = new Vector3();
+            EulerRotationLoacal = new Vector3();
+            ScaleWorld = new Vector3();
+            EulerRotationWorld = new Vector3();
+            localTranformM = new Matrix4();
+            worldTranformM = new Matrix4();
         }
 
         public Transform(float x, float y, float z)  
         {
             PositionWorld = new Vector3(x, y, z);
+            ischangedWorld = true;
+            ischangedLocal = true;
+            PositionWorld = new Vector3(x,y,z);
+            PositionLocal = new Vector3();
+            ScaleLocal = new Vector3();
+            EulerRotationLoacal = new Vector3();
+            ScaleWorld = new Vector3();
+            EulerRotationWorld = new Vector3();
+            localTranformM = new Matrix4();
+            worldTranformM = new Matrix4();
         }
 
         public Vector3 GetWorldTranslation()
@@ -63,32 +82,18 @@ namespace AhoraCore.Core.Transformations
 
         public void SetWorldTranslation(Vector3 translation)
         {
-            ischangedWorld = true;
             ischangedLocal = true;
             PositionWorld = translation;
-            PositionLocal = new Vector3();
-            ScaleLocal = new Vector3();
-            EulerRotationLoacal = new Vector3();
-            PositionWorld = new Vector3();
-            ScaleWorld = new Vector3();
-            EulerRotationWorld = new Vector3();
-            localTranformM = new Matrix4();
-            worldTranformM = new Matrix4();
         }
 
         public void SetWorldTranslation(float x, float y, float z)
         {
-            ischangedWorld = true;
+
             ischangedLocal = true;
-            PositionWorld = new Vector3(x, y, z);
-            PositionLocal = new Vector3();
-            ScaleLocal = new Vector3();
-            EulerRotationLoacal = new Vector3();
-            PositionWorld = new Vector3();
-            ScaleWorld = new Vector3();
-            EulerRotationWorld = new Vector3();
-            localTranformM=new Matrix4();
-            worldTranformM=new Matrix4();
+            PositionWorld.X = x;
+            PositionWorld.Y = y;
+            PositionWorld.Z = z;// = translation;
+
         }
 
         public Vector3 GetWorldRotation()
@@ -105,7 +110,10 @@ namespace AhoraCore.Core.Transformations
         public void SetWorldRotation(float x, float y, float z)
         {
             ischangedWorld = true;
-            EulerRotationWorld = new Vector3(x, y, z);
+            EulerRotationWorld.X = x;
+            EulerRotationWorld.Y = y;
+            EulerRotationWorld.Z = z;
+            //= new Vector3(x, y, z);
         }
 
         public Vector3 GetWorldScaling()
@@ -122,13 +130,17 @@ namespace AhoraCore.Core.Transformations
         public void SetWorldScaling(float x, float y, float z)
         {
             ischangedWorld = true;
-            ScaleWorld = new Vector3(x, y, z);
+            ScaleWorld.X = x;//
+            ScaleWorld.Y = y;//
+            ScaleWorld.Z = z;//
         }
 
         public void SetWorldScaling(float s)
         {
             ischangedWorld = true;
-            ScaleWorld = new Vector3(s, s, s);
+            ScaleWorld.X = s;//
+            ScaleWorld.Y = s;//
+            ScaleWorld.Z = s;//
         }
 
         public Vector3 GetLocalTranslation()
@@ -145,7 +157,9 @@ namespace AhoraCore.Core.Transformations
         public void SetLocalTranslation(float x, float y, float z)
         {
             ischangedLocal = true;
-            PositionLocal = new Vector3(x, y, z);
+            PositionLocal.X = x;
+            PositionLocal.Y = y;
+            PositionLocal.Z = z;// = new Vector3(x, y, z);
         }
 
         public Vector3 GetLocalRotation()
@@ -162,7 +176,9 @@ namespace AhoraCore.Core.Transformations
         public void SetLocalRotation(float x, float y, float z)
         {
             ischangedLocal = true;
-            EulerRotationLoacal = new Vector3(x, y, z);
+            EulerRotationLoacal.X = x;
+            EulerRotationLoacal.Y = y;
+            EulerRotationLoacal.Z = z;// = new Vector3(x, y, z);
         }
 
         public Vector3 GetLocalScaling()
@@ -179,7 +195,9 @@ namespace AhoraCore.Core.Transformations
         public void SetLocalScaling(float x, float y, float z)
         {
             ischangedLocal = true;
-            ScaleLocal = new Vector3(x, y, z);
+            ScaleLocal.X = x;
+            ScaleLocal.Y = y;
+            ScaleLocal.Z = z;
         }
 
         public Matrix4 GetWorldTransformMat()

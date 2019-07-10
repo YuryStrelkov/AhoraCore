@@ -29,7 +29,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
             var t = (float)((1.0 + Math.Sqrt(5.0)) / 2.0);
             var s = 1;
             #region init base mesh
-            
+
             AddVertex(ref vertsData,-s, t, 0);
             AddVertex(ref vertsData, s, t, 0);
             AddVertex(ref vertsData,-s, -t, 0);
@@ -55,8 +55,8 @@ namespace AhoraCore.Core.Models.ProceduralModels
             // 5 adjacent faces 
             AddFace(ref indecesData, 1,  5, 9);
             AddFace(ref indecesData, 5, 11, 4);
-            AddFace(ref indecesData,11, 10, 2);
-            AddFace(ref indecesData,10,  7, 6);
+            AddFace(ref indecesData, 11, 10, 2);
+            AddFace(ref indecesData, 10,  7, 6);
             AddFace(ref indecesData, 7,  1, 8);
 
             // 5 faces around point 3
@@ -75,25 +75,25 @@ namespace AhoraCore.Core.Models.ProceduralModels
             #endregion
 
             // refine triangles
-            for (int i = 0; i < recursionLevel; i++)
-            {
-                var indecesData2 = new IntegerBuffer();
+            //for (int i = 0; i < recursionLevel; i++)
+            //{
+            //    var indecesData2 = new IntegerBuffer();
 
-                for (int k = 0; k < indecesData.Fillnes-3; k+=3)
-                {
-                    // replace triangle by 4 triangles
-                    int a = GetMiddlePoint(ref vertsData, indecesData.Pop(k) * 5,     indecesData.Pop(k + 1) * 5);//(tri.V1, tri.V2);v_offset/5 - 1
-                    int b = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 1) * 5, indecesData.Pop(k + 2) * 5);// tri.V2, tri.V3);v_offset/5 
-                    int c = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 2) * 5, indecesData.Pop(k )* 5);// tri.V3, tri.V1);v_offset/5 + 1
-                    Console.WriteLine(a + " " + b + " " +c);
-                    AddFace(ref indecesData2, indecesData.Pop(k), a, c);
-                    AddFace(ref indecesData2, indecesData.Pop(k + 1), b, a);
-                    AddFace(ref indecesData2, indecesData.Pop(k + 2), c, b);
-                    AddFace(ref indecesData2, a, b, c);
+            //    for (int k = 0; k < indecesData.Fillnes-3; k+=3)
+            //    {
+            //        // replace triangle by 4 triangles
+            //        int a = GetMiddlePoint(ref vertsData, indecesData.Pop(k),     indecesData.Pop(k + 1))-1;//(tri.V1, tri.V2);v_offset/5 - 1
+            //        int b = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 1), indecesData.Pop(k + 2))-1;// tri.V2, tri.V3);v_offset/5 
+            //        int c = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 2), indecesData.Pop(k ))-1;// tri.V3, tri.V1);v_offset/5 + 1
+            //        Console.WriteLine(a + " " + b + " " +c);
+            //        AddFace(ref indecesData2, indecesData.Pop(k), a, c);
+            //        AddFace(ref indecesData2, indecesData.Pop(k + 1), b, a);
+            //        AddFace(ref indecesData2, indecesData.Pop(k + 2), c, b);
+            //        AddFace(ref indecesData2, a, b, c);
 
-                }
-                indecesData = indecesData2;
-            }
+            //    }
+            //    indecesData = indecesData2;
+            //}
 
 
             // done, now add triangles to mesh
@@ -101,28 +101,32 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             for (int i = 0; i < indecesData.Fillnes - 3; i += 3)
             {
-                GetSphereCoord(ref vertsData, indecesData.Pop(i)*5);
+                GetSphereCoord(ref vertsData, indecesData.Pop(i));
 
-                GetSphereCoord(ref vertsData, indecesData.Pop(i + 1)*5);
+                GetSphereCoord(ref vertsData, indecesData.Pop(i + 1));
 
-                GetSphereCoord(ref vertsData, indecesData.Pop(i + 2)*5);
+                GetSphereCoord(ref vertsData, indecesData.Pop(i + 2));
 
 
                 //Console.WriteLine(indecesData.Pop(i)+" "+
                 //                  indecesData.Pop((i + 1) )+ " " +
                 //                  indecesData.Pop((i + 2) ));
 
-                FixColorStrip(ref vertsData, indecesData.Pop(i) * 5,
-                                             indecesData.Pop(i + 1) * 5,
-                                             indecesData.Pop(i + 2) * 5);
+                FixColorStrip(ref vertsData, indecesData.Pop(i) ,
+                                             indecesData.Pop(i + 1) ,
+                                             indecesData.Pop(i + 2));
             }
 
             // return vertices.ToArray();
         }
 
-
         private static void FixColorStrip(ref FloatBuffer buffer, int uv1, int uv2, int uv3)
         {
+            uv1 = uv1 * 5;
+
+            uv2 = uv2 * 5;
+
+            uv3 = uv3 * 5;
 
             if ((buffer.Pop(uv1 + 3) - buffer.Pop(uv2 + 3)) >= 0.8f)
             {
@@ -146,9 +150,10 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
         public static void GetSphereCoord(ref FloatBuffer buffer, int point)//Vector3 i)
         {
+            point = point * 5;
             var len =Math.Sqrt( buffer.Pop(point)* buffer.Pop(point)
                               + buffer.Pop(point + 1)* buffer.Pop(point + 1)
-                              + buffer.Pop(point+2)* buffer.Pop(point + 2));
+                              + buffer.Pop(point + 2)* buffer.Pop(point + 2));
 
             buffer.PutDirect(point + 3, -(float)((Math.Atan2(buffer.Pop(point + 2), buffer.Pop(point)) / Math.PI + 1.0f) * 0.5f));
 
@@ -188,9 +193,9 @@ namespace AhoraCore.Core.Models.ProceduralModels
             }
 
             // not in cache, calculate it
-            AddVertex(ref Data, 0.5f * (Data.Pop((int)i1    ) + Data.Pop((int)i2    )),
-                                0.5f * (Data.Pop((int)i1 + 1) + Data.Pop((int)i2 + 1)),
-                                0.5f * (Data.Pop((int)i1 + 2) + Data.Pop((int)i2 + 2)));
+            AddVertex(ref Data, 0.5f * (Data.Pop((int)i1*5    ) + Data.Pop((int)i2*5    )),
+                                0.5f * (Data.Pop((int)i1*5 + 1) + Data.Pop((int)i2*5 + 1)),
+                                0.5f * (Data.Pop((int)i1*5 + 2) + Data.Pop((int)i2*5 + 2)));
           
             _middlePointIndexCache.Add(key, _index);
 

@@ -81,7 +81,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public void MarkBufferAttributePointers(int VericesAttribytesMap)
         {
           
-            if ((AtribbytesMask & VericesAttribytesMap) == AtribbytesMask)
+            if ((AtribbytesMask & VericesAttribytesMap) == VericesAttribytesMap)
             {
                 return;
             }

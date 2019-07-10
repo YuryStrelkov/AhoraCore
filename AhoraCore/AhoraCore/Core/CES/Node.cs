@@ -21,6 +21,13 @@ namespace AhoraCore.Core.CES
             Children = new List<Node>();
         }
 
+        public Node(float x, float y, float z)
+        {
+            WorldTransform = new Transform(x, y, z);
+            LocalTransform = new Transform(0, 0, 0);
+            Children = new List<Node>();
+        }
+
         public void Input()
         {
             foreach (Node n in Children)
