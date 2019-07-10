@@ -21,9 +21,25 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
 
             }
 
+            public void PutDirect(int i,T data)
+            {
+
+                if (i < Capacity)
+                {
+                  ///  Fillnes += BufferData[i]==0?1:0;
+                    BufferData[i] = data;
+                }
+                else
+                {
+                    EnhanceBuffer(i+1);
+                    BufferData[i] = data;
+                }
+                
+            }
+
             public T Pop(int n)
             {
-                  return n<Fillnes? BufferData[n]:new T(); 
+                return BufferData[n];
             }
    
             /// <summary>
@@ -45,13 +61,11 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
                 {
                     return;
                 }
-                EditableStandartBuffer<T, D> tmp = new EditableStandartBuffer<T, D>();
+                EditableStandartBuffer<T, D> tmp = new EditableStandartBuffer<T, D>(enhancedCapacity);
+            
+                CopyBufferData(tmp, 0, Capacity, 0);
 
-                tmp.CreateBuffer(enhancedCapacity);
-
-                CopyBufferData(tmp, 0, Fillnes, 0);
-
-                DeleteBuffer();
+                BufferData = tmp.BufferData;
             
                 Capacity = enhancedCapacity;
             }
@@ -65,8 +79,9 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
                 {
                     EnhanceBuffer(buffer.Fillnes + Fillnes);
                 }
-                 Array.Copy(buffer.BufferData,0, BufferData, Fillnes, buffer.Fillnes);
-                Fillnes = Capacity;
+                 Array.Copy(buffer.BufferData,0, BufferData, Capacity, buffer.Capacity);
+
+                 Fillnes = Capacity;
             }
             /// <summary>
             /// Копирует данные буфера в буфер target
@@ -84,11 +99,12 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
             if (target.Capacity- target.Fillnes < Fillnes)
             {
                 target.EnhanceBuffer(target.Fillnes + Fillnes);
-                Array.Copy(BufferData, 0, target.BufferData, target.Fillnes, Fillnes);
+
+                Array.Copy(BufferData, source_offset, target.BufferData, target_offset, source_length);
             }
             else
             {
-                Array.Copy(BufferData, 0, target.BufferData, target.Fillnes, Fillnes);
+                Array.Copy(BufferData, source_offset, target.BufferData, target_offset, source_length);
             }
 
         }
@@ -149,7 +165,6 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
             /// <param name="capacity">ёмкость</param>
             public override void CreateBuffer(int capacity)
             {
-                CreateBuffer();
                 Capacity = capacity;
                 BufferData = new T[capacity];
             }
