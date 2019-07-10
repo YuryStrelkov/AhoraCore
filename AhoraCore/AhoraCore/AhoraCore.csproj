@@ -64,6 +64,10 @@
     <Compile Include="Core\Buffers\IBuffers\IMarkAttribyte.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\InstanceBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\UniformsBuffer.cs" />
+    <Compile Include="Core\Buffers\StandartBuffers\FloatBuffer.cs" />
+    <Compile Include="Core\Buffers\StandartBuffers\IntegerBuffer.cs" />
+    <Compile Include="Core\Buffers\StandartBuffers\IStandartBuffers\AStandartBuffer.cs" />
+    <Compile Include="Core\Buffers\StandartBuffers\IStandartBuffers\EditableStandartBuffer.cs" />
     <Compile Include="Core\Cameras\Camera.cs" />
     <Compile Include="Core\Cameras\CameraInstance.cs" />
     <Compile Include="Core\CES\AComponent.cs" />

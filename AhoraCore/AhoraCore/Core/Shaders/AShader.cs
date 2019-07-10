@@ -176,6 +176,7 @@ namespace AhoraCore.Core.Shaders
         private int LoadShader(string code, ShaderType type)
         {
             int status_code;
+             
             string info;
 
             int programID = GL.CreateShader(type);
