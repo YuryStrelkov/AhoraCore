@@ -1,4 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
+using AhoraCore.Core.Buffers.StandartBuffers;
+using AhoraCore.Core.Models.ProceduralModels;
 using AhoraProject.Ahora.Core.Display;
 using System;
 
@@ -48,6 +50,11 @@ namespace AhoraCore
 				11,9,10 //bottom right triangle (v3, v1, v2)
 		};
 
+
+            FloatBuffer vIco;IntegerBuffer iIco;
+
+            Icosphere.Create(1,out vIco,out iIco);
+                
             dd.Scene.AddGeometry("1", VericesAttribytes.V_POSITION , vertices, indices);
 
             dd.Scene.AddGeometry("2", VericesAttribytes.V_POSITION, vertices1, indices1);
