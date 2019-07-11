@@ -54,7 +54,7 @@ namespace AhoraCore
             FloatBuffer vIco;IntegerBuffer iIco;
 
             Icosphere.Create(0,out vIco,out iIco);
-                ////TODO: проверить как выставляются атрибуты буфера
+
             dd.Scene.AddGeometry("1", VericesAttribytes.V_POSITION , vertices, indices);
 
             dd.Scene.AddGeometry("ico", VericesAttribytes.V_POSITION| VericesAttribytes.V_UVS, vIco, iIco);

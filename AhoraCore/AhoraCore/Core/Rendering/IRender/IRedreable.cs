@@ -10,7 +10,7 @@ namespace AhoraProject.Ahora.Core.IRender
     {
        void BeforeRender();
        void Render();
-       void  RenderIteam(T iteamID);
+       void RenderIteam(T iteamID);
        void PostRender();
     }
 }

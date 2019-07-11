@@ -59,6 +59,7 @@
     <Compile Include="Core\Buffers\DataStorraging\UniformsStorrage.cs" />
     <Compile Include="Core\Buffers\DebugBuffers.cs" />
     <Compile Include="Core\Buffers\FrameBuffers\FrameBuffer.cs" />
+    <Compile Include="Core\Buffers\IBuffers\ABindable.cs" />
     <Compile Include="Core\Buffers\IBuffers\ABindableObject.cs" />
     <Compile Include="Core\Buffers\IBuffers\EditableBuffer.cs" />
     <Compile Include="Core\Buffers\IBuffers\IMarkAttribyte.cs" />
@@ -81,7 +82,11 @@
     <Compile Include="Core\DataManaging\AManager.cs" />
     <Compile Include="Core\Input\KeysInput.cs" />
     <Compile Include="Core\Input\MouseInput.cs" />
+    <Compile Include="Core\Materials\AMaterial\EditableMaterial.cs" />
+    <Compile Include="Core\Materials\AMaterial\ATextureChannel.cs" />
+    <Compile Include="Core\Materials\Material.cs" />
     <Compile Include="Core\Materials\Texture.cs" />
+    <Compile Include="Core\Materials\TextureChannel.cs" />
     <Compile Include="Core\Materials\TextureLoader.cs" />
     <Compile Include="Core\Models\Model.cs" />
     <Compile Include="Core\Models\ModelLoader.cs" />
@@ -128,6 +133,12 @@
   <ItemGroup>
     <None Include="Resources\FSdefault.txt" />
     <None Include="Resources\VSdefault.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MaterialDefinition.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CameraDefinition.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

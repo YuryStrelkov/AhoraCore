@@ -1,0 +1,9 @@
+layout(std140) uniform Camera
+{
+	mat4 ViewM;
+	mat4 ProjectionM;
+	vec3 PositionM;
+	vec3 LookAtV;
+	float FOV;
+	float Aspect;
+};

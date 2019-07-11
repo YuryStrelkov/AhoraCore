@@ -61,6 +61,23 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на layout(std140) uniform Camera
+        ///{
+        ///	mat4 ViewM;
+        ///	mat4 ProjectionM;
+        ///	vec3 PositionM;
+        ///	vec3 LookAtV;
+        ///	float FOV;
+        ///	float Aspect;
+        ///};.
+        /// </summary>
+        internal static string CameraDefinition {
+            get {
+                return ResourceManager.GetString("CameraDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 150
         ///
         ///in vec3 colour;
@@ -68,11 +85,11 @@ namespace AhoraCore.Properties {
         ///
         ///out vec4 out_Color;
         ///
-        ///uniform sampler2D modelTexture;
+        /////uniform sampler2D modelTexture;
         ///
         ///void main(void){
         ///
-        ///	out_Color = texture(modelTexture,pass_textureCoordinates);
+        ///	out_Color = vec4(colour,1);///texture(modelTexture,pass_textureCoordinates);
         ///
         ///}.
         /// </summary>
@@ -83,10 +100,48 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на #version 150
+        ///   Ищет локализованную строку, похожую на  const int  DiffuseID = 0,
+        ///			NormalID = 1,
+        ///			SpecularID = 2,
+        ///			HeightID = 3,
+        ///			ReflectGlossID = 4,
+        ///			TransparencyID =5;
         ///
-        ///in vec3 position;
-        ///in vec2 textureCoordinates;
+        ///struct  Channel
+        ///{
+        ///vec2 tileUV;
+        ///vec2 offsetUV;
+        ///vec4 multRGBA;
+        ///};
+        ///
+        ///layout(std140) uniform MaterialData
+        ///{
+        ///vec4 diffColor;
+        ///
+        ///vec4 embientColor;
+        ///
+        ///vec4 reflectionColor;
+        ///
+        ///float reflectivity, metallness, roughness, transparency;
+        ///
+        ///Channel[8] matChannels;
+        ///};
+        ///
+        ///
+        ///vec3 getFromMap(sampler2D map, int t_channel)
+        ///{
+        ///return	texture(map, (TexCoord + matChannels[t_channel].off [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string MaterialDefinition {
+            get {
+                return ResourceManager.GetString("MaterialDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 150
+        ///layout (location = 0) in vec3 position;
+        ///layout (location = 1) in vec2 textureCoordinates;
         ///
         ///out vec3 colour;
         ///out vec2 pass_textureCoordinates;
@@ -95,11 +150,10 @@ namespace AhoraCore.Properties {
         ///uniform mat4 projectionMatrix;
         ///uniform mat4 viewMatrix;
         ///
-        ///void main(void){
-        ///
-        ///	gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(position,1.0);
+        ///void main(){
+        ///	gl_Position = projectionMatrix * (viewMatrix) * transformationMatrix * vec4(position,1.0);
         ///	pass_textureCoordinates = textureCoordinates;
-        ///	colour = vec3(position.x+0.5,0.0,position.y+0.5);
+        ///	colour = vec3(position.x+0.125,0.0,position.y+0.125);
         ///}.
         /// </summary>
         internal static string VSdefault {

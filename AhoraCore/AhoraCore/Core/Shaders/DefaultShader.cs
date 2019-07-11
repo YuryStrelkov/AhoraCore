@@ -11,11 +11,13 @@ namespace AhoraCore.Core.Shaders
             AddUniform("transformationMatrix");
             AddUniform("projectionMatrix");
             AddUniform("viewMatrix");
+            BindAttribytes();
         }
         
         public override void BindAttribytes()
         {
-          //  BindAttributeLocation(0, "position");
+         BindAttributeLocation(0, "position");
+         BindAttributeLocation(1, "textureCoordinates");
         }
 
         public override void UpdateUniforms()

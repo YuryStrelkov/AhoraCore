@@ -199,9 +199,9 @@ namespace AhoraCore.Core.Buffers
 
         public void Render()
         {
-            foreach (KeyValuePair<string, GeometryStorrageIteam<string>> gsi in GeometryItemsList)
+            foreach (string key in GeometryItemsList.Keys)
             {
-                RenderIteam(gsi.Value.ID);
+                RenderIteam(key);
             }
         }
 

@@ -1,7 +1,10 @@
-#version 150
+#version 330
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec2 textureCoordinates;
 
-in vec3 position;
-in vec2 textureCoordinates;
+//#include MaterialDefinition
+//#include CameraDefinition
+
 
 out vec3 colour;
 out vec2 pass_textureCoordinates;

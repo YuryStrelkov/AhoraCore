@@ -24,7 +24,7 @@ namespace AhoraProject.Ahora.Core.Display
         {
             base.OnLoad(e);
             Scene.BeforeRender();
-            GL.Disable(EnableCap.DepthTest);
+           
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -40,14 +40,14 @@ namespace AhoraProject.Ahora.Core.Display
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.ClearColor(0.1f, 0.1f, 0.1f, 1);
+
+            GL.Enable(EnableCap.DepthTest);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-            
             cleanUpFrame();
-
             staticShader.Bind();
             staticShader.UpdateUniforms();
             Scene.Render();

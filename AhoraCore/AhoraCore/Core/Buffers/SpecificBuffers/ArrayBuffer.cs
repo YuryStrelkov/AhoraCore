@@ -24,7 +24,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             {
                 return;
             }
-            AtribbytesMask = 255;
+            
             GL.BindVertexArray(ID);
             VBO.BindBuffer();
             IBO.BindBuffer();
@@ -48,6 +48,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
         public override void CreateBuffer()
         {
+            AtribbytesMask = 0x00;
             ID = ID == -1 ? GL.GenVertexArray():ID ;
         }
 
@@ -81,7 +82,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public void MarkBufferAttributePointers(int VericesAttribytesMap)
         {
           
-            if ((AtribbytesMask & VericesAttribytesMap) == VericesAttribytesMap)
+            if ((AtribbytesMask == VericesAttribytesMap) && (Attribytes.Count!=0))
             {
                 return;
             }
@@ -101,56 +102,56 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 sizes.Add(3);
                 v_size += 3;
             }
-            else if ((VericesAttribytesMap & (byte)VericesAttribytes.V_UVS) == VericesAttribytes.V_UVS)
+             if ((VericesAttribytesMap & (byte)VericesAttribytes.V_UVS) == VericesAttribytes.V_UVS)
             {
                 Attribytes.Add(Attribytes.Count, VericesAttribytes.V_UVS);
                 AtribbytesMask |= (byte)VericesAttribytes.V_UVS;
                 sizes.Add(2);
                 v_size += 2;
             }
-            else if ((VericesAttribytesMap & (byte)VericesAttribytes.V_NORMAL) == VericesAttribytes.V_NORMAL)
+             if ((VericesAttribytesMap & (byte)VericesAttribytes.V_NORMAL) == VericesAttribytes.V_NORMAL)
             {
                 Attribytes.Add(Attribytes.Count, VericesAttribytes.V_NORMAL);
                 AtribbytesMask |= (byte)VericesAttribytes.V_NORMAL;
                 sizes.Add(3);
                 v_size += 3;
             }
-            else if ((VericesAttribytesMap & (byte)VericesAttribytes.V_TANGENT) == VericesAttribytes.V_TANGENT)
+             if ((VericesAttribytesMap & (byte)VericesAttribytes.V_TANGENT) == VericesAttribytes.V_TANGENT)
             {
                 Attribytes.Add(Attribytes.Count, VericesAttribytes.V_TANGENT);
                 AtribbytesMask |= (byte)VericesAttribytes.V_TANGENT;
                 sizes.Add(3);
                 v_size += 3;
             }
-            else if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BITANGENT) == VericesAttribytes.V_BITANGENT)
+             if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BITANGENT) == VericesAttribytes.V_BITANGENT)
             {
                 Attribytes.Add(Attribytes.Count, VericesAttribytes.V_BITANGENT);
                 AtribbytesMask |= (byte)VericesAttribytes.V_BITANGENT;
                 sizes.Add(3);
                 v_size += 3;
             }
-            else if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BONES) == VericesAttribytes.V_BONES)
+             if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BONES) == VericesAttribytes.V_BONES)
             {
                 Attribytes.Add(Attribytes.Count, VericesAttribytes.V_BONES);
                 AtribbytesMask |= (byte)VericesAttribytes.V_BONES;
                 sizes.Add(4);
                 v_size += 4;
             }
-            else if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BONES_WEIGHTS) == VericesAttribytes.V_BONES_WEIGHTS)
+             if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BONES_WEIGHTS) == VericesAttribytes.V_BONES_WEIGHTS)
             {
                 Attribytes.Add(Attribytes.Count, VericesAttribytes.V_BONES_WEIGHTS);
                 AtribbytesMask |= (byte)VericesAttribytes.V_BONES_WEIGHTS;
                 sizes.Add(4);
                 v_size += 4;
             }
-            else if ((VericesAttribytesMap & (byte)VericesAttribytes.V_COLOR_RGB) == VericesAttribytes.V_COLOR_RGB)
+             if ((VericesAttribytesMap & (byte)VericesAttribytes.V_COLOR_RGB) == VericesAttribytes.V_COLOR_RGB)
             {
                 Attribytes.Add(Attribytes.Count, VericesAttribytes.V_COLOR_RGB);
                 AtribbytesMask |= (byte)VericesAttribytes.V_COLOR_RGB;
                 sizes.Add(3);
                 v_size += 3;
             }
-            else if ((VericesAttribytesMap & (byte)VericesAttribytes.V_COLOR_RGBA) == VericesAttribytes.V_COLOR_RGBA)
+             if ((VericesAttribytesMap & (byte)VericesAttribytes.V_COLOR_RGBA) == VericesAttribytes.V_COLOR_RGBA)
             {
                 Attribytes.Add(Attribytes.Count, VericesAttribytes.V_COLOR_RGBA);
                 AtribbytesMask |= (byte)VericesAttribytes.V_COLOR_RGBA;
@@ -190,7 +191,6 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
         public ArrayBuffer() : base()
         {
-            AtribbytesMask = 0x00;
             Attribytes = new Dictionary<int, int>();
             CreateBuffer(100000);
 

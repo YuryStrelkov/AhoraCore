@@ -118,8 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CameraDefinition" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CameraDefinition.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
   <data name="FSdefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FSdefault.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MaterialDefinition" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MaterialDefinition.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
   <data name="VSdefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VSdefault.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>

@@ -28,9 +28,9 @@ namespace AhoraCore.Core.DataManaging
 
         public void Render()
         {
-            foreach (KeyValuePair<int, GeometryStorrage> kvp in managingData)
+            foreach (int key in managingData.Keys)
             {
-                Render(kvp.Key);
+                Render(key);
             }
         }
 
@@ -73,9 +73,9 @@ namespace AhoraCore.Core.DataManaging
 
         public override void ClearManager()
         {
-            foreach (KeyValuePair<int, GeometryStorrage> kvp in managingData)
+            foreach (GeometryStorrage val  in managingData.Values)
             {
-                kvp.Value.ClearStorrage();
+                val.ClearStorrage();
             }
         }
 

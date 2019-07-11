@@ -75,25 +75,25 @@ namespace AhoraCore.Core.Models.ProceduralModels
             #endregion
 
             // refine triangles
-            //for (int i = 0; i < recursionLevel; i++)
-            //{
-            //    var indecesData2 = new IntegerBuffer();
+            for (int i = 0; i < recursionLevel; i++)
+            {
+                var indecesData2 = new IntegerBuffer();
 
-            //    for (int k = 0; k < indecesData.Fillnes-3; k+=3)
-            //    {
-            //        // replace triangle by 4 triangles
-            //        int a = GetMiddlePoint(ref vertsData, indecesData.Pop(k),     indecesData.Pop(k + 1))-1;//(tri.V1, tri.V2);v_offset/5 - 1
-            //        int b = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 1), indecesData.Pop(k + 2))-1;// tri.V2, tri.V3);v_offset/5 
-            //        int c = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 2), indecesData.Pop(k ))-1;// tri.V3, tri.V1);v_offset/5 + 1
-            //        Console.WriteLine(a + " " + b + " " +c);
-            //        AddFace(ref indecesData2, indecesData.Pop(k), a, c);
-            //        AddFace(ref indecesData2, indecesData.Pop(k + 1), b, a);
-            //        AddFace(ref indecesData2, indecesData.Pop(k + 2), c, b);
-            //        AddFace(ref indecesData2, a, b, c);
+                for (int k = 0; k < indecesData.Fillnes - 3; k += 3)
+                {
+                    // replace triangle by 4 triangles
+                    int a = GetMiddlePoint(ref vertsData, indecesData.Pop(k), indecesData.Pop(k + 1)) - 1;//(tri.V1, tri.V2);v_offset/5 - 1
+                    int b = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 1), indecesData.Pop(k + 2)) - 1;// tri.V2, tri.V3);v_offset/5 
+                    int c = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 2), indecesData.Pop(k)) - 1;// tri.V3, tri.V1);v_offset/5 + 1
+                    Console.WriteLine(a + " " + b + " " + c);
+                    AddFace(ref indecesData2, indecesData.Pop(k), a, c);
+                    AddFace(ref indecesData2, indecesData.Pop(k + 1), b, a);
+                    AddFace(ref indecesData2, indecesData.Pop(k + 2), c, b);
+                    AddFace(ref indecesData2, a, b, c);
 
-            //    }
-            //    indecesData = indecesData2;
-            //}
+                }
+                indecesData = indecesData2;
+            }
 
 
             // done, now add triangles to mesh

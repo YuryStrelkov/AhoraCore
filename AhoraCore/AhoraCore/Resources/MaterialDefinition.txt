@@ -1,0 +1,48 @@
+ const int  DiffuseID = 0,
+			NormalID = 1,
+			SpecularID = 2,
+			HeightID = 3,
+			ReflectGlossID = 4,
+			TransparencyID =5;
+
+struct  Channel
+{
+vec2 tileUV;
+vec2 offsetUV;
+vec4 multRGBA;
+};
+
+layout(std140) uniform MaterialData
+{
+vec4 diffColor;
+
+vec4 embientColor;
+
+vec4 reflectionColor;
+
+float reflectivity, metallness, roughness, transparency;
+
+Channel[8] matChannels;
+};
+
+
+vec3 getFromMap(sampler2D map, int t_channel)
+{
+return	texture(map, (TexCoord + matChannels[t_channel].offsetUV)*
+                                 matChannels[t_channel].tileUV).xyz;
+}
+
+
+vec3 getNormalFromMap()
+{
+	return	normalize(getFromMap(Normal, normal).xyz*2.0-1.0);//normalize(texture(Normal,TexCoord).xyz*2.0-1.0);
+}
+
+////Textures
+
+uniform sampler2D   Diffuse;
+uniform sampler2D   Normal;
+uniform sampler2D   Specular;
+uniform sampler2D   Height;
+uniform sampler2D   ReflectGloss;
+uniform sampler2D   Transparency;

@@ -1,6 +1,6 @@
 ﻿namespace AhoraCore.Core.Buffers.IBuffers
 {
-    public abstract class ABindableObject<T>
+    public abstract class ABindableObject<T>:ABindable<T>
     {
         T bindTarget;
 

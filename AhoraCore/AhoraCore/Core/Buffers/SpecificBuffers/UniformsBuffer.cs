@@ -1,5 +1,4 @@
-﻿using AhoraCore.Core.Buffers.IBuffers;
-using AhoraCore.Core.Buffers.IBuffres;
+﻿using AhoraCore.Core.Buffers.IBuffres;
 using AhoraCore.Core.Shaders;
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
@@ -65,15 +64,32 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
             LoadBufferSubdata(data, itemID * mapSize + bufferItemsMap[bufferItemName].Offset);
         }
 
+
+        public void UpdateBufferIteam(KeyType bufferItemName, float[] data)
+        {
+            LoadBufferSubdata(data,  bufferItemsMap[bufferItemName].Offset);
+        }
+
+
+
         public void UpdateBufferIteam(KeyType bufferItemName, int itemID, float data)
         {
             LoadBufferSubdata(new float[] { data }, itemID * mapSize + bufferItemsMap[bufferItemName].Offset);
         }
 
+
+        public void UpdateBufferIteam(KeyType bufferItemName, float data)
+        {
+            LoadBufferSubdata(new float[] { data }, bufferItemsMap[bufferItemName].Offset);
+        }
+
+
         public UniformsBuffer() : base()
         {
             BufferType = BufferTarget.UniformBuffer;
             bufferItemsMap = new Dictionary<KeyType, BufferIteam>();
+           //Сперва разметит буфер, а потом уже создать 
+           //CreateBuffer(100);
         }
 
         public override void CreateBuffer(int numberOfMapSets)
