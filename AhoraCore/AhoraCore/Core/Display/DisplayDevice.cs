@@ -39,7 +39,7 @@ namespace AhoraProject.Ahora.Core.Display
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            GL.ClearColor(0.1f, 0.1f, 0.1f, 1);
+            GL.ClearColor(0.5f, 0.5f, 0.5f, 1);
 
             GL.Enable(EnableCap.DepthTest);
         }

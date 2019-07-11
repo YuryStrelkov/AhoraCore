@@ -22,7 +22,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             _middlePointIndexCache = new Dictionary<long, int>();
 
-            _index = 0;
+            _index = -1;
 
             v_offset = 0;
 
@@ -75,20 +75,29 @@ namespace AhoraCore.Core.Models.ProceduralModels
             #endregion
 
             // refine triangles
+            Console.WriteLine(indecesData.Fillnes);
             for (int i = 0; i < recursionLevel; i++)
             {
                 var indecesData2 = new IntegerBuffer();
 
-                for (int k = 0; k < indecesData.Fillnes - 3; k += 3)
+                for (int k = 0; k < indecesData.Capacity - 3; k += 3)
                 {
+                   /// Console.WriteLine(indecesData2.Capacity);
                     // replace triangle by 4 triangles
-                    int a = GetMiddlePoint(ref vertsData, indecesData.Pop(k), indecesData.Pop(k + 1)) - 1;//(tri.V1, tri.V2);v_offset/5 - 1
-                    int b = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 1), indecesData.Pop(k + 2)) - 1;// tri.V2, tri.V3);v_offset/5 
-                    int c = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 2), indecesData.Pop(k)) - 1;// tri.V3, tri.V1);v_offset/5 + 1
-                    Console.WriteLine(a + " " + b + " " + c);
+                    int a = GetMiddlePoint(ref vertsData, indecesData.Pop(k), indecesData.Pop(k + 1));//(tri.V1, tri.V2);v_offset/5 - 1
+
+                    int b = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 1), indecesData.Pop(k + 2));// tri.V2, tri.V3);v_offset/5 
+
+                    int c = GetMiddlePoint(ref vertsData, indecesData.Pop(k + 2), indecesData.Pop(k));// tri.V3, tri.V1);v_offset/5 + 1
+
+                    //Console.WriteLine(a + " " + b + " " + c);
+
                     AddFace(ref indecesData2, indecesData.Pop(k), a, c);
+
                     AddFace(ref indecesData2, indecesData.Pop(k + 1), b, a);
+
                     AddFace(ref indecesData2, indecesData.Pop(k + 2), c, b);
+
                     AddFace(ref indecesData2, a, b, c);
 
                 }
@@ -99,18 +108,13 @@ namespace AhoraCore.Core.Models.ProceduralModels
             // done, now add triangles to mesh
 
 
-            for (int i = 0; i < indecesData.Fillnes - 3; i += 3)
+            for (int i = 0; i < indecesData.Capacity - 3; i += 3)
             {
                 GetSphereCoord(ref vertsData, indecesData.Pop(i));
 
                 GetSphereCoord(ref vertsData, indecesData.Pop(i + 1));
 
                 GetSphereCoord(ref vertsData, indecesData.Pop(i + 2));
-
-
-                //Console.WriteLine(indecesData.Pop(i)+" "+
-                //                  indecesData.Pop((i + 1) )+ " " +
-                //                  indecesData.Pop((i + 2) ));
 
                 FixColorStrip(ref vertsData, indecesData.Pop(i) ,
                                              indecesData.Pop(i + 1) ,
@@ -175,29 +179,30 @@ namespace AhoraCore.Core.Models.ProceduralModels
         }
 
         // return index of point in the middle of p1 and p2
-        private static int GetMiddlePoint(ref FloatBuffer Data, long i1, long i2)
+        private static int GetMiddlePoint(ref FloatBuffer Data, int i1, int i2)
         {
             //long i1 = _points.IndexOf(point1);
             //long i2 = _points.IndexOf(point2);
             // first check if we have it already
-            var firstIsSmaller = i1 < i2;
-            long smallerIndex = firstIsSmaller ? i1 : i2;
-            long greaterIndex = firstIsSmaller ? i2 : i1;
-            long key = (smallerIndex << 32) + greaterIndex;
+            //var firstIsSmaller = i1 < i2;
+            //long smallerIndex = firstIsSmaller ? i1 : i2;
+            //long greaterIndex = firstIsSmaller ? i2 : i1;
+            //long key = (smallerIndex << 32) + greaterIndex;
+          
+            //int ret;
 
-            int ret;
-
-            if (_middlePointIndexCache.TryGetValue(key, out ret))
-            {
-                return ret ;
-            }
+            //if (_middlePointIndexCache.TryGetValue(key, out ret))
+            //{
+            //    Console.WriteLine("key "+ key+" ret "+ret);
+            //    return ret ;
+            //}
 
             // not in cache, calculate it
-            AddVertex(ref Data, 0.5f * (Data.Pop((int)i1*5    ) + Data.Pop((int)i2*5    )),
-                                0.5f * (Data.Pop((int)i1*5 + 1) + Data.Pop((int)i2*5 + 1)),
-                                0.5f * (Data.Pop((int)i1*5 + 2) + Data.Pop((int)i2*5 + 2)));
+            AddVertex(ref Data, 0.5f * (Data.Pop(i1*5    ) + Data.Pop(i2*5    )),
+                                0.5f * (Data.Pop(i1*5 + 1) + Data.Pop(i2*5 + 1)),
+                                0.5f * (Data.Pop(i1*5 + 2) + Data.Pop(i2*5 + 2)));
           
-            _middlePointIndexCache.Add(key, _index);
+           // _middlePointIndexCache.Add(key, _index);
 
             return _index;
         }

@@ -53,7 +53,7 @@ namespace AhoraCore
 
             FloatBuffer vIco;IntegerBuffer iIco;
 
-            Icosphere.Create(0,out vIco,out iIco);
+            Icosphere.Create(1,out vIco,out iIco);
 
             dd.Scene.AddGeometry("1", VericesAttribytes.V_POSITION , vertices, indices);
 

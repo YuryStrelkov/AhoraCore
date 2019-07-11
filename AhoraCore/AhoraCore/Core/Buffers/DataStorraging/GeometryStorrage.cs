@@ -217,8 +217,12 @@ namespace AhoraCore.Core.Buffers
             }
             else
             {
-                GL.DrawElements(PrimitiveType.Triangles, GeometryItemsList[iteamID].I_length,
-                            DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
+                /////сетка
+                GL.DrawElements(PrimitiveType.LineStripAdjacencyExt, GeometryItemsList[iteamID].I_length,
+                                DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
+                /////оболочка
+                //GL.DrawElements(PrimitiveType.Triangles, GeometryItemsList[iteamID].I_length,
+                //               DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
             }
         }
 
