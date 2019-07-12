@@ -192,16 +192,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public ArrayBuffer() : base()
         {
             Attribytes = new Dictionary<int, int>();
-            CreateBuffer(100000);
-
-            CreateBuffer();
-            GL.BindVertexArray(ID);
-            VBO = new VerticesBuffer();
-            VBO.CreateBuffer(100000);
-            IBO = new IndecesBuffer();
-            IBO.CreateBuffer(100000);
-            IBO.UnbindBuffer();
-            UnbindBuffer();
+            CreateBuffer(100);
         }
 
     }

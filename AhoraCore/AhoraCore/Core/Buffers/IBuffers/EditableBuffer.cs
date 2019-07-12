@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace AhoraCore.Core.Buffers.IBuffres
 {
    
-   public class EditableBuffer<T,D> : ABuffer where D: EditableBuffer<T, D> where T : struct
+   public abstract class EditableBuffer<T,D> : ABuffer where D: EditableBuffer<T, D> where T : struct
     {
         public int IteamByteSize = Marshal.SizeOf(typeof(T));
 
@@ -18,28 +18,10 @@ namespace AhoraCore.Core.Buffers.IBuffres
             GL.BufferData(BufferType, Capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
             Console.WriteLine(GL.GetError().ToString());
         }
-        /// <summary>
-        /// Увеличивает ёмкость буфера до enhancedCapacity
-        /// </summary>
-        /// <param name="enhancedCapacity"> увеличенная ёмкость</param>
-        public void EnhanceBuffer(int enhancedCapacity)
-        {
-            if (enhancedCapacity < Capacity)
-            {
-                return;
-            }
-            EditableBuffer<T, D> tmp = new EditableBuffer<T, D>();
 
-            tmp.CreateBuffer(enhancedCapacity);
 
-            CopyBufferData(tmp, 0, Fillnes, 0);
+        public abstract  void EnhanceBuffer(int enhancedCapacity);
 
-            DeleteBuffer();
-
-            ID = tmp.ID;
-
-            Capacity = enhancedCapacity;
-        }
         /// <summary>
         /// Дополняет значения буфера новыми значениями слева, принадлежащими buffer
         /// </summary>
@@ -151,7 +133,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
             BindBuffer();
             Capacity = capacity;
             GL.BufferData(BufferType, capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
-            Console.WriteLine(" Buffer ID = " + ID + " creation status " + GL.GetError().ToString());
+            Console.WriteLine(" Buffer ID = " + ID + " as "+ BufferType.ToString() + " creation status " + GL.GetError().ToString());
         }
 
         public override void DeleteBuffer()

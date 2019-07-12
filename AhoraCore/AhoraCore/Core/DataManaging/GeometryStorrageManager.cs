@@ -16,14 +16,14 @@ namespace AhoraCore.Core.DataManaging
         {
             AppendData(geoID, attibutesFormat);
             managingData[attibutesFormat].AddItem(geoID, vData, iData);
-            managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
+      //      managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
         }
 
         public void AddGeometry(string geoID, int attibutesFormat, FloatBuffer vData, IntegerBuffer iData)
         {
             AppendData(geoID, attibutesFormat);
             managingData[attibutesFormat].AddItem(geoID, vData.BufferData, iData.BufferData);
-            managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
+        //    managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
         }
 
         public void Render()
@@ -97,7 +97,7 @@ namespace AhoraCore.Core.DataManaging
             }
             else
             {
-                managingData.Add(attibutesFormat, new GeometryStorrage(1000));
+                managingData.Add(attibutesFormat, new GeometryStorrage(10000));
                 uniqueKeysList.Add(dataKey, attibutesFormat);
                 managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
             }

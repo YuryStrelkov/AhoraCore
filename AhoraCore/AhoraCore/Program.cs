@@ -51,9 +51,11 @@ namespace AhoraCore
 		};
 
 
-            FloatBuffer vIco;IntegerBuffer iIco;
+            FloatBuffer vIco; IntegerBuffer iIco;
 
-            Icosphere.Create(1,out vIco,out iIco);
+            Icosphere.Create(2, out vIco,out iIco);
+
+            ///TODO отследить расширение буфера в случчае, если мы пытаемся добьваить вершин больше чем влезает 
 
             dd.Scene.AddGeometry("1", VericesAttribytes.V_POSITION , vertices, indices);
 

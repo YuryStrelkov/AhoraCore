@@ -19,7 +19,6 @@ E:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\OpenTK.dll
 E:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\AssimpNet.xml
 E:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\OpenTK.pdb
 E:\GitHub\AhoraCore\AhoraCore\AhoraCore\bin\Debug\OpenTK.xml
-E:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.csprojResolveAssemblyReference.cache
 E:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.Properties.Resources.resources
 E:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.csproj.GenerateResource.Cache
 E:\GitHub\AhoraCore\AhoraCore\AhoraCore\obj\Debug\AhoraCore.exe

@@ -17,6 +17,27 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             AttribStartIdx = attrOfset;
         }
 
+
+
+        public override void EnhanceBuffer(int enhancedCapacity)
+        {
+            if (enhancedCapacity < Capacity)
+            {
+                return;
+            }
+            InstanceBuffer tmp = new InstanceBuffer(AttribStartIdx);
+
+            tmp.CreateBuffer(enhancedCapacity);
+
+            CopyBufferData(tmp, 0, Fillnes, 0);
+
+            DeleteBuffer();
+
+            ID = tmp.ID;
+
+            Capacity = enhancedCapacity;
+        }
+
         public void DisableAttribytes()
         {
             GL.DisableVertexAttribArray(AttribStartIdx);

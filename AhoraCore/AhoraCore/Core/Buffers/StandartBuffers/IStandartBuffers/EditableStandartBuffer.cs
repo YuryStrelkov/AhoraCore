@@ -69,6 +69,33 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
             
                 Capacity = enhancedCapacity;
             }
+        /// <summary>
+        /// Удаляет из бфуера всё, кроме указанного диапазона
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="till"></param>
+
+                public void Except(int from, int till)
+                {
+                    if (from > Fillnes || from > Capacity|| from > till)
+                    {
+                        return;
+                    }
+                    if (till > Capacity)
+                    {
+                        till = Capacity - 1;
+                    }
+
+                    EditableStandartBuffer<T, D> tmp = new EditableStandartBuffer<T, D>(till - from);
+
+                    CopyBufferData(tmp, from, till - from, 0);
+
+                    BufferData = tmp.BufferData;
+
+                    Capacity = till - from;
+
+                    Fillnes = Capacity;
+                }
             /// <summary>
             /// Дополняет значения буфера новыми значениями слева, принадлежащими buffer
             /// </summary>

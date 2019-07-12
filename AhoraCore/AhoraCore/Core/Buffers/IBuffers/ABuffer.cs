@@ -10,9 +10,22 @@ namespace AhoraCore.Core.Buffers.IBuffres
 
         int bufferFillness=0; //насколько буфер заполнен
 
-        public BufferTarget BufferType { get; protected set; }
+        public BufferTarget bufferType;
 
-        public int ID
+        public BufferTarget BufferType
+        {
+            get
+            {
+                return bufferType;
+            }
+            protected set
+            {
+            bufferType = value;
+            }
+        }
+
+
+    public int ID
         {
             get
             {
