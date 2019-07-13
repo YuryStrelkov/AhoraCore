@@ -33,26 +33,6 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
 
         public int Uniform_block_index;
 
-        public override void EnhanceBuffer(int enhancedCapacity)
-        {
-            if (enhancedCapacity < Capacity)
-            {
-                return;
-            }
-            UniformsBuffer<KeyType> tmp = new UniformsBuffer<KeyType>();
-
-            tmp.CreateBuffer(enhancedCapacity);
-
-            CopyBufferData(tmp, 0, Fillnes, 0);
-
-            DeleteBuffer();
-
-            ID = tmp.ID;
-
-            Capacity = enhancedCapacity;
-        }
-
-
         public void addBufferItem(KeyType name, int dataLength)
         {
             BufferIteam item = new BufferIteam(dataLength, mapSize);

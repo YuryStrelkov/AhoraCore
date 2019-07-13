@@ -1,5 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
+using AhoraCore.Core.Models;
 using AhoraCore.Core.Models.ProceduralModels;
 using AhoraProject.Ahora.Core.Display;
 using System;
@@ -53,13 +54,20 @@ namespace AhoraCore
 
             FloatBuffer vIco; IntegerBuffer iIco;
 
-            Icosphere.Create(2, out vIco,out iIco);
 
+            FloatBuffer[] Models; IntegerBuffer[] ModelsIndeces;  int [] masks;
+
+            int AttributesMask;
+
+            Icosphere.Create(2, 1, out vIco, out iIco, out AttributesMask);
             ///TODO отследить расширение буфера в случчае, если мы пытаемся добьваить вершин больше чем влезает 
-
             dd.Scene.AddGeometry("1", VericesAttribytes.V_POSITION , vertices, indices);
+ 
+            dd.Scene.AddGeometry("ico", AttributesMask, vIco, iIco);
+            
+            // dd.Scene.AddGeometry("ico", VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS, vIco, iIco);
 
-            dd.Scene.AddGeometry("ico", VericesAttribytes.V_POSITION| VericesAttribytes.V_UVS, vIco, iIco);
+            ModelLoader.LoadModel("", out masks, out Models, out ModelsIndeces);
 
             dd.Scene.AddGeometry("2", VericesAttribytes.V_POSITION, vertices1, indices1);
 

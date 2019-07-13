@@ -2,7 +2,10 @@
 using AhoraCore.Core.Buffers.StandartBuffers;
 using Assimp;
 using Assimp.Configs;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace AhoraCore.Core.Models
 {
@@ -13,22 +16,36 @@ namespace AhoraCore.Core.Models
 
         private delegate void VertDataIndexSetter(Assimp.Mesh a_mesh, ref IntegerBuffer buffer);
 
-        public static void LoadModel(string filename)
+        public static void LoadModel(string filename, out int[] AttribsMasks, out FloatBuffer[] Models, out IntegerBuffer[] ModelsIndeces)
         {
             AssimpContext importer = new AssimpContext();
             importer.SetConfig(new NormalSmoothingAngleConfig(66.6f));
-            Scene m_model = importer.ImportFile(filename, PostProcessSteps.Triangulate |
-                                                               PostProcessSteps.CalculateTangentSpace |
-                                                               PostProcessSteps.FlipUVs |
-                                                               PostProcessSteps.LimitBoneWeights);
-            string[] splittedPath= filename.Split('/');
+            try
+            {
+                Scene m_model = importer.ImportFile(filename, PostProcessSteps.Triangulate |
+                                                             PostProcessSteps.CalculateTangentSpace |
+                                                             PostProcessSteps.FlipUVs |
+                                                             PostProcessSteps.LimitBoneWeights);
+                string[] splittedPath = filename.Split('/');
 
-            splittedPath = splittedPath[splittedPath.Length-1].Split('.');
+                splittedPath = splittedPath[splittedPath.Length - 1].Split('.');
 
-            AssipPostProcess(m_model, splittedPath[0]);
+                AssipPostProcess(m_model, splittedPath[0], out AttribsMasks, out Models, out ModelsIndeces);
+
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("Unnable to open or found file : "+ filename);
+            }
+            finally
+            {
+                AttribsMasks = null; Models = null; ModelsIndeces = null;
+            }
+
+        
         }
 
-        private static void AssipPostProcess(Scene a_scene, string sName)
+        private static void AssipPostProcess(Scene a_scene, string sName,out int[] AttribsMasks,  out  FloatBuffer[] Models, out IntegerBuffer[] ModelsIndeces)
         {
             ///прочитать иерархию нодов 
 
@@ -114,6 +131,9 @@ namespace AhoraCore.Core.Models
                 #endregion
             }
 
+            AttribsMasks = AtrMaskPerMeshes.Keys.ToArray();
+            Models = AtrMaskPerMeshes.Values.ToArray();
+            ModelsIndeces = AtrMaskPerIndeses.Values.ToArray();
         }
 
         private static void GetAttributesMask(Assimp.Mesh a_mesh, out List<VertDataSetter> VDataSetters, out int attrMask, out int attrCount, out int attrByteCount)

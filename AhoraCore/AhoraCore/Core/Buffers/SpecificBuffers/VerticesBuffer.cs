@@ -12,25 +12,8 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public VerticesBuffer() : base()
         {
             BufferType = BufferTarget.ArrayBuffer;
+            CreateBuffer();
         }
 
-        public override void EnhanceBuffer(int enhancedCapacity)
-        {
-            if (enhancedCapacity < Capacity)
-            {
-                return;
-            }
-            VerticesBuffer tmp = new VerticesBuffer();
-
-            tmp.CreateBuffer(enhancedCapacity);
-
-            CopyBufferData(tmp, 0, Fillnes, 0);
-
-            DeleteBuffer();
-
-            ID = tmp.ID;
-
-            Capacity = enhancedCapacity;
-        }
     }
 }

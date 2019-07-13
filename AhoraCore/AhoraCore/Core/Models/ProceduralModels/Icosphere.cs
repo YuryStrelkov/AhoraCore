@@ -11,50 +11,49 @@ namespace AhoraCore.Core.Models.ProceduralModels
     {
         private static int _index;
         
-      
-
         private static int v_offset;
 
         private static int v_offset_stp;
-
-        private static int v_offset_iterations;
 
         private static Dictionary<long, int> _middlePointIndexCache;
 
         private static FloatBuffer vBufferChache;
 
 
-        public static void Create(int recursionLevel, out FloatBuffer vertsData, out IntegerBuffer indecesData)
+        public static void Create(int recursionLevel, out FloatBuffer vertsData, out IntegerBuffer indecesData, out int AttributesMask)
         {
-            Create(recursionLevel,0, out vertsData, out indecesData);
+            Create(recursionLevel, 0, out vertsData, out indecesData, out  AttributesMask);
         }
-        public static void Create(int recursionLevel, int mode, out FloatBuffer vertsData, out IntegerBuffer indecesData)
+
+        public static void Create(int recursionLevel, int mode, out FloatBuffer vertsData, out IntegerBuffer indecesData, out int AttributesMask)
         {
             ////mode == 0 - P_x/P_y/P_z/Ux/Uy/
             ////mode == 1 - P_x/P_y/P_z/Ux/Uy/N_x/N_y/N_z
             ////mode == 2 - P_x/P_y/P_z/Ux/Uy/N_x/N_y/N_z/T_x/T_y/T_z
+
             if (mode == 0)
             {
                 v_offset_stp = 5;
+                AttributesMask = VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS ;
             }
             else if (mode == 1)
             {
                 v_offset_stp = 8;
+                AttributesMask = VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS | VericesAttribytes.V_NORMAL;
             }
             else if (mode == 2)
             {
                 v_offset_stp = 11;
+                AttributesMask = VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS| VericesAttribytes.V_NORMAL| VericesAttribytes.V_TANGENT;
             }
             else
             {
                 mode = 0;
                 v_offset_stp = 5;
+                AttributesMask = VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS;
             }
 
-
-            v_offset_iterations = 0;
-
-            vBufferChache = new FloatBuffer(30* v_offset_stp);
+            vBufferChache = new FloatBuffer(0);
 
             _middlePointIndexCache = new Dictionary<long, int>();
 
@@ -115,13 +114,11 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             // refine triangles
 
-            Console.WriteLine(indecesData.Fillnes);
+           /// Console.WriteLine(indecesData.Fillnes);
 
             for (int i = 0; i < recursionLevel; i++)
             {
                 var indecesData2 = new IntegerBuffer();
-
-                v_offset_iterations = 0;
 
                 for (int k = 0; k < indecesData.Capacity ; k += 3)
                 {
@@ -149,9 +146,9 @@ namespace AhoraCore.Core.Models.ProceduralModels
             }
            vertsData = new FloatBuffer(5);
 
-            // done, now add triangles to mesh
+           // done, now add triangles to mesh
 
-
+            #region Calculation UV_s
             for (int i = 0; i < indecesData.Capacity - 3; i += 3)
             {
                 GetSphereCoord(ref vBufferChache, indecesData.Pop(i));
@@ -174,11 +171,10 @@ namespace AhoraCore.Core.Models.ProceduralModels
                     vertsData.PutDirect(indecesData.Pop(i + k) * v_offset_stp + 4, vBufferChache.Pop(indecesData.Pop(i + k) * v_offset_stp + 4));
                     vertsData.EnhanceBuffer(vertsData.Capacity + v_offset_stp);
                 }
-
-
+                MeshUtils.CalculateAttribures(ref vertsData, v_offset_stp, mode, indecesData.Pop(i), indecesData.Pop(i + 1), indecesData.Pop(i + 2));
             }
-
-   }
+            #endregion
+        }
 
         private static void FixColorStrip(ref FloatBuffer buffer, int uv1, int uv2, int uv3)
         {
@@ -230,7 +226,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
         private static void AddVertex(ref FloatBuffer buffer, float x,float y, float z)
         {
-            buffer.EnhanceBuffer(v_offset+ v_offset_stp);
+            buffer.EnhanceBuffer(v_offset + v_offset_stp);
             buffer.PutDirect(v_offset, x); buffer.PutDirect(v_offset + 1, y); buffer.PutDirect(v_offset + 2,z);
             _index++;
             v_offset += v_offset_stp;
@@ -241,7 +237,6 @@ namespace AhoraCore.Core.Models.ProceduralModels
         {
             buffer.Put(i); buffer.Put(j); buffer.Put(k);
         }
-
         // return index of point in the middle of p1 and p2
         private static int GetMiddlePoint(ref FloatBuffer Data, int i1, int i2)
         {
@@ -254,7 +249,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             if (_middlePointIndexCache.TryGetValue(key, out ret))
             {
-                Console.WriteLine("key " + key + " ret " + ret);
+            ///    Console.WriteLine("key " + key + " ret " + ret);
                 return ret;
             }
 
@@ -264,7 +259,6 @@ namespace AhoraCore.Core.Models.ProceduralModels
                                 0.5f * (Data.Pop(i1* v_offset_stp + 2) + Data.Pop(i2* v_offset_stp + 2)));
 
             _middlePointIndexCache.Add(key, _index);
-            v_offset_iterations++;
             return _index;
         }
 

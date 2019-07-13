@@ -25,7 +25,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
         }
 
 
-    public int ID
+        public int ID
         {
             get
             {

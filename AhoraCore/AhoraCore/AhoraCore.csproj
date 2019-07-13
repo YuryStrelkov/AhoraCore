@@ -92,6 +92,7 @@
     <Compile Include="Core\Models\ModelLoader.cs" />
     <Compile Include="Core\Models\ProceduralModels\Box.cs" />
     <Compile Include="Core\Models\ProceduralModels\Icosphere.cs" />
+    <Compile Include="Core\Models\ProceduralModels\MeshUtils.cs" />
     <Compile Include="Core\Models\ProceduralModels\SkyBox.cs" />
     <Compile Include="Core\Models\ProceduralModels\Terrain.cs" />
     <Compile Include="Core\Shaders\AShader.cs" />

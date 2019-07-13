@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace AhoraCore.Core.Buffers.IBuffres
 {
    
-   public abstract class EditableBuffer<T,D> : ABuffer where D: EditableBuffer<T, D> where T : struct
+   public class EditableBuffer<T,D> : ABuffer where D: EditableBuffer<T, D> where T : struct
     {
         public int IteamByteSize = Marshal.SizeOf(typeof(T));
 
@@ -19,8 +19,28 @@ namespace AhoraCore.Core.Buffers.IBuffres
             Console.WriteLine(GL.GetError().ToString());
         }
 
+      /*  public void EnhanceBuffer(int enhancedCapacity)
+        {
+            if (enhancedCapacity < Capacity)
+            {
+                return;
+            }
+            EditableBuffer<T, D> tmp = new EditableBuffer<T, D>();
 
-        public abstract  void EnhanceBuffer(int enhancedCapacity);
+            tmp.BufferType = BufferType;
+
+            tmp.CreateBuffer(enhancedCapacity);
+
+       ///     tmp.UnbindBuffer();
+            
+            CopyBufferData(tmp, 0, Fillnes, 0);
+           
+            DeleteBuffer();
+
+            ID = tmp.ID;
+
+            Capacity = enhancedCapacity;
+        }*/
 
         /// <summary>
         /// Дополняет значения буфера новыми значениями слева, принадлежащими buffer
@@ -30,7 +50,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
         {
             if (buffer.Fillnes > Capacity - Fillnes)
             {
-                EnhanceBuffer(buffer.Fillnes + Fillnes);
+                throw new Exception("Unnable to load data to buffer:not enought of space");
             }
             GL.BindBuffer(BufferTarget.CopyReadBuffer, buffer.ID);
             GL.BindBuffer(BufferTarget.CopyWriteBuffer, ID);
@@ -72,22 +92,13 @@ namespace AhoraCore.Core.Buffers.IBuffres
         {
             if (data.Length > Capacity - Fillnes)
             {
-                EnhanceBuffer(Capacity + data.Length);
-
-                BindBuffer();
-
+                throw new Exception("Unnable to load data to buffer:not enought of space");
+            }
+ 
                 GL.BufferSubData(BufferType, (IntPtr)(Fillnes * IteamByteSize), data.Length * IteamByteSize, data);
 
                 Fillnes += data.Length;
-            }
-            else
-            {
-
-                GL.BufferSubData(BufferType, (IntPtr)(Fillnes * IteamByteSize), data.Length * IteamByteSize, data);
-
-                Fillnes += data.Length;
-            }
-
+           
         }
         /// <summary>
         /// Загружает данные в буфер начиная с определённой позиции
@@ -98,19 +109,10 @@ namespace AhoraCore.Core.Buffers.IBuffres
         {
             if (data.Length > Capacity - Fillnes)
             {
-                EnhanceBuffer(Capacity + data.Length);
-
-                BindBuffer();
-
-                GL.BufferSubData(BufferType, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
-
-                Fillnes += data.Length;
+                throw new Exception("Unnable to load data to buffer:not enought of space");
             }
-            else
-            {
                 GL.BufferSubData(BufferType, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
                 Fillnes += data.Length;
-            }
         }
 
         public override void BindBuffer()
@@ -133,7 +135,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
             BindBuffer();
             Capacity = capacity;
             GL.BufferData(BufferType, capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
-            Console.WriteLine(" Buffer ID = " + ID + " as "+ BufferType.ToString() + " creation status " + GL.GetError().ToString());
+        //    Console.WriteLine(" Buffer ID = " + ID + " as "+ BufferType.ToString() + " creation status " + GL.GetError().ToString());
         }
 
         public override void DeleteBuffer()
@@ -143,7 +145,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
 
         public override void UnbindBuffer()
         {
-            GL.BindBuffer(BufferType, 0); ;
+            GL.BindBuffer(BufferType, 0);  
         }
     }
 }

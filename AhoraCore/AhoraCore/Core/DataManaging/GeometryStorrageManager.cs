@@ -2,7 +2,6 @@
 using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraProject.Ahora.Core.IRender;
 using System;
-using System.Collections.Generic;
 
 namespace AhoraCore.Core.DataManaging
 {
@@ -16,14 +15,13 @@ namespace AhoraCore.Core.DataManaging
         {
             AppendData(geoID, attibutesFormat);
             managingData[attibutesFormat].AddItem(geoID, vData, iData);
-      //      managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
         }
 
         public void AddGeometry(string geoID, int attibutesFormat, FloatBuffer vData, IntegerBuffer iData)
         {
             AppendData(geoID, attibutesFormat);
             managingData[attibutesFormat].AddItem(geoID, vData.BufferData, iData.BufferData);
-        //    managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
+             
         }
 
         public void Render()
@@ -86,6 +84,8 @@ namespace AhoraCore.Core.DataManaging
         /// <param name="attibutesFormat"></param>
         public override void AppendData(string dataKey, int attibutesFormat)
         {
+           
+
             if (uniqueKeysList.ContainsKey(dataKey))
             {
                 throw new Exception("The key is already added");
@@ -97,7 +97,7 @@ namespace AhoraCore.Core.DataManaging
             }
             else
             {
-                managingData.Add(attibutesFormat, new GeometryStorrage(10000));
+                managingData.Add(attibutesFormat, new GeometryStorrage());
                 uniqueKeysList.Add(dataKey, attibutesFormat);
                 managingData[attibutesFormat].MarkBufferAttributePointers(attibutesFormat);
             }

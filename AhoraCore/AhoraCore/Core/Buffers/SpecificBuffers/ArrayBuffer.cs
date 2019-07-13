@@ -1,23 +1,39 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.IBuffres;
 using OpenTK.Graphics.OpenGL;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+
 
 namespace AhoraCore.Core.Buffers.SpecificBuffers
 {
      public class ArrayBuffer: ABuffer, IAttribyteable, IEditMarkedAttribyte
     {
+
+        public struct AttrAndSize
+        {
+            public int attrType;
+            public int attrLength;
+            public AttrAndSize(int t, int l)
+            {
+                attrType = t;
+                attrLength = l;
+            }
+
+        }
+    
         protected bool isBinded = false;
+
+        private int VertexDataSize = 0;
 
         public byte AtribbytesMask { get; protected set; }
 
-        public Dictionary<int, int> Attribytes { get; protected set; }
+        public Dictionary<int, AttrAndSize> Attribytes { get; protected set; }
 
         public VerticesBuffer VBO { get; private set; }
 
         public IndecesBuffer IBO { get; private set; }
-       
+
         public override void BindBuffer()
         {
             if (isBinded)
@@ -43,7 +59,6 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             IBO.UnbindBuffer();
             DisableAttribytes();
             isBinded = false;
-            AtribbytesMask = 255;
         }
 
         public override void CreateBuffer()
@@ -60,9 +75,8 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             VBO.CreateBuffer(capacity);
             IBO = new IndecesBuffer();
             IBO.CreateBuffer(capacity);
-            IBO.UnbindBuffer();
             UnbindBuffer();
-        }
+      }
 
         public override void DeleteBuffer()
         {
@@ -74,9 +88,10 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
         public void MarkBufferAttributePointer(int attrType, int attribID, int sampleSize, int from)
         {
-            Attribytes.Add(Attribytes.Count, attrType);
+            Attribytes.Add(Attribytes.Count, new AttrAndSize(attrType, sampleSize));
             AtribbytesMask |= (byte)attrType;
             GL.VertexAttribPointer(attribID, sampleSize, VertexAttribPointerType.Float, false, from * sizeof(float), from * 4);
+            VertexDataSize += sampleSize;
         }
 
         public void MarkBufferAttributePointers(int VericesAttribytesMap)
@@ -87,112 +102,166 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 return;
             }
 
-            BindBuffer();
-
+             BindBuffer();
+   
             int offset = 0;
-            
-            List<int> sizes = new List<int>();
-
-            int v_size = 0;
-
+         
             if ((VericesAttribytesMap & VericesAttribytes.V_POSITION) == VericesAttribytes.V_POSITION)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_POSITION);
+                Attribytes.Add(Attribytes.Count, new AttrAndSize(VericesAttribytes.V_POSITION,3));
                 AtribbytesMask |= (byte)VericesAttribytes.V_POSITION;
-                sizes.Add(3);
-                v_size += 3;
+                VertexDataSize += 3;
             }
              if ((VericesAttribytesMap & (byte)VericesAttribytes.V_UVS) == VericesAttribytes.V_UVS)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_UVS);
+                Attribytes.Add(Attribytes.Count, new AttrAndSize(VericesAttribytes.V_UVS, 2));
                 AtribbytesMask |= (byte)VericesAttribytes.V_UVS;
-                sizes.Add(2);
-                v_size += 2;
+                VertexDataSize += 2;
             }
              if ((VericesAttribytesMap & (byte)VericesAttribytes.V_NORMAL) == VericesAttribytes.V_NORMAL)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_NORMAL);
+                Attribytes.Add(Attribytes.Count,new  AttrAndSize(VericesAttribytes.V_NORMAL, 3));
                 AtribbytesMask |= (byte)VericesAttribytes.V_NORMAL;
-                sizes.Add(3);
-                v_size += 3;
+                VertexDataSize += 3;
             }
              if ((VericesAttribytesMap & (byte)VericesAttribytes.V_TANGENT) == VericesAttribytes.V_TANGENT)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_TANGENT);
+                Attribytes.Add(Attribytes.Count, new AttrAndSize(VericesAttribytes.V_TANGENT, 3));
                 AtribbytesMask |= (byte)VericesAttribytes.V_TANGENT;
-                sizes.Add(3);
-                v_size += 3;
+                VertexDataSize += 3;
             }
              if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BITANGENT) == VericesAttribytes.V_BITANGENT)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_BITANGENT);
+                Attribytes.Add(Attribytes.Count, new AttrAndSize(VericesAttribytes.V_BITANGENT, 3));
                 AtribbytesMask |= (byte)VericesAttribytes.V_BITANGENT;
-                sizes.Add(3);
-                v_size += 3;
+                VertexDataSize += 3;
             }
              if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BONES) == VericesAttribytes.V_BONES)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_BONES);
+                Attribytes.Add(Attribytes.Count, new AttrAndSize(VericesAttribytes.V_BONES, 4));
                 AtribbytesMask |= (byte)VericesAttribytes.V_BONES;
-                sizes.Add(4);
-                v_size += 4;
+                VertexDataSize += 4;
             }
              if ((VericesAttribytesMap & (byte)VericesAttribytes.V_BONES_WEIGHTS) == VericesAttribytes.V_BONES_WEIGHTS)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_BONES_WEIGHTS);
+                Attribytes.Add(Attribytes.Count, new AttrAndSize(VericesAttribytes.V_BONES_WEIGHTS, 4));
                 AtribbytesMask |= (byte)VericesAttribytes.V_BONES_WEIGHTS;
-                sizes.Add(4);
-                v_size += 4;
+                VertexDataSize += 4;
             }
              if ((VericesAttribytesMap & (byte)VericesAttribytes.V_COLOR_RGB) == VericesAttribytes.V_COLOR_RGB)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_COLOR_RGB);
+                Attribytes.Add(Attribytes.Count, new AttrAndSize(VericesAttribytes.V_COLOR_RGB, 3));
                 AtribbytesMask |= (byte)VericesAttribytes.V_COLOR_RGB;
-                sizes.Add(3);
-                v_size += 3;
+                VertexDataSize += 3;
             }
              if ((VericesAttribytesMap & (byte)VericesAttribytes.V_COLOR_RGBA) == VericesAttribytes.V_COLOR_RGBA)
             {
-                Attribytes.Add(Attribytes.Count, VericesAttribytes.V_COLOR_RGBA);
+                Attribytes.Add(Attribytes.Count, new AttrAndSize(VericesAttribytes.V_COLOR_RGBA, 4));
                 AtribbytesMask |= (byte)VericesAttribytes.V_COLOR_RGBA;
-                sizes.Add(4);
-                v_size += 4;
+                VertexDataSize += 4;
             }
 
-            for (int i = 0; i < sizes.Count; i++)
+            for (int i = 0; i < Attribytes.Count; i++)
             {
-                GL.VertexAttribPointer(i, sizes[i], VertexAttribPointerType.Float, false, v_size*sizeof(float), offset);
-                offset += sizes[i] * 4;
+                GL.VertexAttribPointer(i, Attribytes[i].attrLength, VertexAttribPointerType.Float, false, VertexDataSize * sizeof(float), offset);
+                offset += Attribytes[i].attrLength * 4;
             }
             UnbindBuffer();
         }
 
         public void EnableAttribytes()
         {
-            foreach (KeyValuePair<int, int> kvp in Attribytes)
+            foreach (int key in Attribytes.Keys)
             {
-                GL.EnableVertexAttribArray(kvp.Key);
-            };
+                GL.EnableVertexAttribArray(key);
+            }
         }
 
         public void DisableAttribytes()
         {
-            foreach (KeyValuePair<int, int> kvp in Attribytes)
+            foreach (int key in Attribytes.Keys)
             {
-                GL.DisableVertexAttribArray(kvp.Key);
-            };
+                GL.DisableVertexAttribArray(key);
+            }
         }
-        
-        public ArrayBuffer(int targetCapacity) : base()
+
+        protected void LoadData(float [] vdata,  int [] idata)
         {
-            Attribytes = new Dictionary<int, int>();
-            CreateBuffer(targetCapacity);
+
+            if (Fillnes != 0)
+            {
+                for (int i = 1; i < idata.Length; i++)
+                {
+                    idata[i] += Fillnes;
+                }
+            }
+            if (vdata.Length > VBO.Capacity - VBO.Fillnes)
+            {
+                EnhanceBufferCapsity(vdata.Length + VBO.Fillnes, idata.Length + IBO.Fillnes);
+
+                BindBuffer();
+                VBO.LoadBufferData(vdata);
+                IBO.LoadBufferData(idata);
+                UnbindBuffer();
+            }
+            else
+            {
+                BindBuffer();
+                VBO.LoadBufferData(vdata);
+                IBO.LoadBufferData(idata);
+                UnbindBuffer();
+            }
+        }
+
+        private void EnhanceBufferCapsity(int v_cap, int i_cap)
+        {
+            ArrayBuffer enhanced = new ArrayBuffer();
+            enhanced.CreateBuffer();
+            GL.BindVertexArray(enhanced.ID);
+            enhanced.VBO = new VerticesBuffer();
+            enhanced.VBO.CreateBuffer(v_cap);
+            enhanced.IBO = new IndecesBuffer();
+            enhanced.IBO.CreateBuffer(i_cap);
+            
+            enhanced.UnbindBuffer();
+
+            if (VBO.Fillnes!=0)
+            {
+                VBO.CopyBufferData(enhanced.VBO, 0, VBO.Fillnes, 0);
+            }
+            if (IBO.Fillnes!=0)
+            {
+                IBO.CopyBufferData(enhanced.IBO, 0, IBO.Fillnes, 0);
+            }
+
+          ///Удаляем старое
+            GL.DeleteVertexArray(ID);
+
+            VBO.DeleteBuffer();
+
+            IBO.DeleteBuffer();
+            ////Переназначаем ID старых на ID новых
+            VBO = enhanced.VBO;
+
+            IBO = enhanced.IBO;
+
+            ID  = enhanced.ID;
+            ////Биндим  и переназначаем VertexAttribPointers
+            GL.BindVertexArray(ID);
+
+            int offset = 0;
+
+            for (int i = 0; i < Attribytes.Keys.Count; i++)
+            {
+                GL.VertexAttribPointer(i, Attribytes[i].attrLength, VertexAttribPointerType.Float, false, VertexDataSize * sizeof(float), offset);
+                offset += Attribytes[i].attrLength * 4;
+            }
         }
 
         public ArrayBuffer() : base()
         {
-            Attribytes = new Dictionary<int, int>();
-            CreateBuffer(100);
+            Attribytes = new Dictionary<int, AttrAndSize>();
+            CreateBuffer(16);
         }
 
     }

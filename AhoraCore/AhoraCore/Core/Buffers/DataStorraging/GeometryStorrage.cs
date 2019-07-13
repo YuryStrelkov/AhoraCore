@@ -61,6 +61,7 @@ namespace AhoraCore.Core.Buffers
 
         public void AddItem(string key, float[] vData, int[] iData)
         {
+
             try
             {
                 ResolveKeys(key);
@@ -84,23 +85,14 @@ namespace AhoraCore.Core.Buffers
                 }
                 LaysKey = key;
 
-                BindBuffer();
-                VBO.BindBuffer();
-                VBO.LoadBufferData(vData);
-                // DebugBuffers.displayBufferDataVBO(this);
-                IBO.BindBuffer();
-                IBO.LoadBufferData(iData);
-                UnbindBuffer();
-                //DebugBuffers.displayBufferDataIBO(this);
+
+
+                LoadData( vData, iData);
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e.StackTrace.ToString());
             }
-
-
-            /// public GeometryStorrageIteam(int ID_, int parenID_, int v_start, int v_length, int i_start, int i_length)
-            //return 0;
         }
 
         public void ResolveKeys(string keyID)
@@ -115,20 +107,22 @@ namespace AhoraCore.Core.Buffers
 
         public void ClearStorrage()
         {
+   
             VBO.ClearBuffer();
             IBO.ClearBuffer();
-            foreach (KeyValuePair<string, InstanceBuffer> kvp in GeometryItemsInstansesList)
+
+            foreach (string key in GeometryItemsInstansesList.Keys)
             {
-                kvp.Value.ClearBuffer();
+                GeometryItemsInstansesList[key].ClearBuffer();
             }
         }
 
         public void DeleteStorrage()
         {
             DeleteBuffer();
-            foreach (KeyValuePair<string, InstanceBuffer> kvp in GeometryItemsInstansesList)
+            foreach (string key  in GeometryItemsInstansesList.Keys)
             {
-                kvp.Value.DeleteBuffer();
+                GeometryItemsInstansesList[key].DeleteBuffer();
             }
         }
 
@@ -142,7 +136,8 @@ namespace AhoraCore.Core.Buffers
             ///Проверить что происходит , когда вообще всё удалим 
             /// 
             try
-            { string key = geometryID;
+            {
+                string key = geometryID;
 
                 BindBuffer();
 
@@ -199,6 +194,8 @@ namespace AhoraCore.Core.Buffers
 
         public void Render()
         {
+        
+
             foreach (string key in GeometryItemsList.Keys)
             {
                 RenderIteam(key);
@@ -211,18 +208,19 @@ namespace AhoraCore.Core.Buffers
             {
                 GeometryItemsInstansesList[iteamID].EnableAttribytes();
                 GL.DrawElementsInstanced(BeginMode.Triangles, GeometryItemsList[iteamID].I_length,
-                                         DrawElementsType.UnsignedInt, (IntPtr)(GeometryItemsList[iteamID].I_start_i * sizeof(int)),
+                                         DrawElementsType.UnsignedInt, (IntPtr)(0 * sizeof(int)),
                                          GeometryItemsInstansesList[iteamID].Fillnes / 16);
                 GeometryItemsInstansesList[iteamID].DisableAttribytes();
             }
             else
             {
                 /////сетка
-                //GL.DrawElements(PrimitiveType.LineStripAdjacencyExt, GeometryItemsList[iteamID].I_length,
+                //GL.DrawElements(PrimitiveType.Lines, GeometryItemsList[iteamID].I_length,
                 //                DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
                 // оболочка
+                //PrimitiveType.Triangles, 3*FacesCount, DrawElementsType.UnsignedInt, 0
                 GL.DrawElements(PrimitiveType.Triangles, GeometryItemsList[iteamID].I_length,
-                               DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
+                              DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
             }
         }
 
@@ -296,16 +294,17 @@ namespace AhoraCore.Core.Buffers
 
         public GeometryStorrage() : base()
         {
-            GeometryItemsList = new Dictionary<string, GeometryStorrageIteam<string>>();
+             GeometryItemsList = new Dictionary<string, GeometryStorrageIteam<string>>();
 
             GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
         }
 
-        public GeometryStorrage(int cap) : base(cap)
+      /*  public GeometryStorrage(int cap) : base(cap)
         {
             GeometryItemsList = new Dictionary<string, GeometryStorrageIteam<string>>();
+
             GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
-        }
+        }*/
 
     }
 }
