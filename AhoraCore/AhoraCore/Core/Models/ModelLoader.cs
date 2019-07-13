@@ -19,6 +19,9 @@ namespace AhoraCore.Core.Models
         public static void LoadModel(string filename, out int[] AttribsMasks, out FloatBuffer[] Models, out IntegerBuffer[] ModelsIndeces)
         {
             AssimpContext importer = new AssimpContext();
+
+            AttribsMasks = null; Models = null; ModelsIndeces = null;
+
             importer.SetConfig(new NormalSmoothingAngleConfig(66.6f));
             try
             {
@@ -37,10 +40,10 @@ namespace AhoraCore.Core.Models
             {
                 Console.WriteLine("Unnable to open or found file : "+ filename);
             }
-            finally
-            {
-                AttribsMasks = null; Models = null; ModelsIndeces = null;
-            }
+            //finally
+            //{
+            //    AttribsMasks = null; Models = null; ModelsIndeces = null;
+            //}
 
         
         }
@@ -69,9 +72,7 @@ namespace AhoraCore.Core.Models
 
             foreach (Assimp.Mesh a_mesh in a_scene.Meshes)
             {
-                GetAttributesMask(a_mesh,out  VDataSetters, out AttribsMask[i], out AttribsCount[i],out AttribsByteSize[i]);
-
-                i += 1;
+                GetAttributesMask(a_mesh, out  VDataSetters, out AttribsMask[i], out AttribsCount[i],out AttribsByteSize[i]);
                 
                 if (AttribsMask[i] == 256)
                 {
@@ -102,7 +103,7 @@ namespace AhoraCore.Core.Models
                 else
                 #region если нет mesh  с таким набором атрибутов, то : 
                 {
-                    AtrMaskPerMeshes.Add(AttribsMask[i], new FloatBuffer(AttribsByteSize[AttribsByteSize[i]] * a_mesh.Vertices.Count));
+                    AtrMaskPerMeshes.Add(AttribsMask[i], new FloatBuffer(AttribsByteSize[i] * a_mesh.Vertices.Count));
 
                     AtrMaskPerIndeses.Add(AttribsMask[i], new IntegerBuffer(3 * a_mesh.FaceCount));
 
@@ -129,6 +130,7 @@ namespace AhoraCore.Core.Models
                     }
                 }
                 #endregion
+                i += 1;
             }
 
             AttribsMasks = AtrMaskPerMeshes.Keys.ToArray();

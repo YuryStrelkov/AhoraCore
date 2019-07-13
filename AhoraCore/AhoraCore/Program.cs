@@ -63,15 +63,17 @@ namespace AhoraCore
             ///TODO отследить расширение буфера в случчае, если мы пытаемся добьваить вершин больше чем влезает 
             dd.Scene.AddGeometry("1", VericesAttribytes.V_POSITION , vertices, indices);
  
-            dd.Scene.AddGeometry("ico", AttributesMask, vIco, iIco);
+            //dd.Scene.AddGeometry("ico", AttributesMask, vIco, iIco);
             
             // dd.Scene.AddGeometry("ico", VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS, vIco, iIco);
 
-            ModelLoader.LoadModel("", out masks, out Models, out ModelsIndeces);
+            ModelLoader.LoadModel("D:\\GitHub\\AhoraEngine\\Tests\\SceneLoad\\bin\\Debug\\resources\\teapot.obj", out masks, out Models, out ModelsIndeces);
 
             dd.Scene.AddGeometry("2", VericesAttribytes.V_POSITION, vertices1, indices1);
 
             dd.Scene.AddGeometry("3", VericesAttribytes.V_POSITION, vertices2, indices2);
+
+            dd.Scene.AddGeometry("Sphere", masks[0], Models[0], ModelsIndeces[0]);
 
             dd.Run();
         }

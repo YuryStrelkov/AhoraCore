@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FSdefault.txt" />
+    <None Include="Resources\sphere.obj" />
     <None Include="Resources\VSdefault.txt" />
   </ItemGroup>
   <ItemGroup>

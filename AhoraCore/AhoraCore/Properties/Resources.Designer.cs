@@ -78,7 +78,7 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на #version 150
+        ///   Ищет локализованную строку, похожую на #version 330
         ///
         ///in vec3 colour;
         ///in vec2 pass_textureCoordinates;
@@ -139,9 +139,23 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на #version 150
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] sphere {
+            get {
+                object obj = ResourceManager.GetObject("sphere", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330
         ///layout (location = 0) in vec3 position;
         ///layout (location = 1) in vec2 textureCoordinates;
+        ///
+        /////#include MaterialDefinition
+        /////#include CameraDefinition
+        ///
         ///
         ///out vec3 colour;
         ///out vec2 pass_textureCoordinates;
@@ -153,8 +167,7 @@ namespace AhoraCore.Properties {
         ///void main(){
         ///	gl_Position = projectionMatrix * (viewMatrix) * transformationMatrix * vec4(position,1.0);
         ///	pass_textureCoordinates = textureCoordinates;
-        ///	colour = vec3(position.x+0.125,0.0,position.y+0.125);
-        ///}.
+        ///	colour = vec3(position.x+0.125,0. [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string VSdefault {
             get {
