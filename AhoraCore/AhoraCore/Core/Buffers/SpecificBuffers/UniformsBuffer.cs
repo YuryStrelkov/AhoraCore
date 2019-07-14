@@ -86,15 +86,15 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
 
         public UniformsBuffer() : base()
         {
-            BufferType = BufferTarget.UniformBuffer;
+            BindingTarget = BufferTarget.UniformBuffer;
             bufferItemsMap = new Dictionary<KeyType, BufferIteam>();
            //Сперва разметит буфер, а потом уже создать 
            //CreateBuffer(100);
         }
 
-        public override void CreateBuffer(int numberOfMapSets)
+        public override void Create(int numberOfMapSets)
         {
-            base.CreateBuffer(numberOfMapSets * mapSize);
+            base.Create(numberOfMapSets * mapSize);
         }
 
     }

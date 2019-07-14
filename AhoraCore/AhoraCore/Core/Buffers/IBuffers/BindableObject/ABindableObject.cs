@@ -1,6 +1,6 @@
 ﻿namespace AhoraCore.Core.Buffers.IBuffers
 {
-    public abstract class ABindableObject<T>:ABindable<T>
+    public abstract class ABindableObject<T>
     {
         T bindTarget;
 
@@ -15,7 +15,6 @@
                 bindTarget = value;
             }
         }
-
 
         int objID = -1;
         
@@ -40,5 +39,7 @@
         public abstract void Delete();
 
         public abstract void Unbind();
+
+        public abstract void Clear();
     }
 }

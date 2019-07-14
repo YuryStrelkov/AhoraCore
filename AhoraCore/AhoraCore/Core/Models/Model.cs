@@ -1,17 +1,23 @@
-﻿using System.Collections.Generic;
-
+﻿using AhoraCore.Core.Cameras;
+using AhoraCore.Core.CES;
+using AhoraCore.Core.Shaders;
 
 namespace AhoraCore.Core.Models
 {
-    public struct Mesh
+    public struct Mesh<KeyType>
     {
-        public int MeshGeometryID { get; set; }
+        public KeyType MeshGeometryID { get; set; }
 
-        public int MeshMaterialID { get; set; }
+        public KeyType MeshMaterialID { get; set; }
 
-        public int MeshSaderID { get; set; }
+        public KeyType MeshSaderID { get; set; }
+        
+        public void CheckCameraintesectionMesh(Camera cam)
+        {
 
-        public Mesh(int m_ID,int mat_ID, int s_ID)
+        }
+
+        public Mesh(KeyType m_ID,KeyType mat_ID, KeyType s_ID)
         {
             MeshGeometryID = m_ID;
 
@@ -21,13 +27,30 @@ namespace AhoraCore.Core.Models
         }
     }
 
-    public class Model
+    public class Model<KeyType> :Node
     {
-        public Dictionary<int, Mesh> Meshes { get; set; }
+        public KeyType ModelID { get; set; }
+   
+        public KeyType ModelMaterialID { get; set; }
 
-        public Model(string fileName)
+        public KeyType ModelSaderID { get; set; }
+
+        public void UpdateShaderModelTransForm(AShader shader)
         {
-            Meshes = new Dictionary<int, Mesh>();
+            shader.SetUniform("transformationMatrix", GetWorldTransform().GetWorldTransformMat());
+        }
+
+        public Model(KeyType ModelID) :base()
+        {
+            this.ModelID = ModelID;
+        }
+
+        public Model(KeyType ModelID, KeyType ModelMaterialID, KeyType ModelSaderID) : base()
+        {
+            this.ModelID = ModelID;
+            this.ModelMaterialID = ModelMaterialID;
+            this.ModelSaderID = ModelSaderID;
+
         }
     }
 }

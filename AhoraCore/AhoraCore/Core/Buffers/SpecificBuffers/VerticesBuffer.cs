@@ -11,8 +11,8 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         /// 
         public VerticesBuffer() : base()
         {
-            BufferType = BufferTarget.ArrayBuffer;
-            CreateBuffer();
+            BindingTarget = BufferTarget.ArrayBuffer;
+            Create();
         }
 
     }

@@ -34,7 +34,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
         public IndecesBuffer IBO { get; private set; }
 
-        public override void BindBuffer()
+        public override void Bind()
         {
             if (isBinded)
             {
@@ -42,47 +42,47 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             }
             
             GL.BindVertexArray(ID);
-            VBO.BindBuffer();
-            IBO.BindBuffer();
+            VBO.Bind();
+            IBO.Bind();
             EnableAttribytes();
             isBinded = true;
         }
 
-        public override void UnbindBuffer()
+        public override void Unbind()
         {
             if (!isBinded)
             {
                 return;
             }
             GL.BindVertexArray(0);
-            VBO.UnbindBuffer();
-            IBO.UnbindBuffer();
+            VBO.Unbind();
+            IBO.Unbind();
             DisableAttribytes();
             isBinded = false;
         }
 
-        public override void CreateBuffer()
+        public override void Create()
         {
             AtribbytesMask = 0x00;
             ID = ID == -1 ? GL.GenVertexArray():ID ;
         }
 
-        public override void CreateBuffer(int capacity)
+        public override void Create(int capacity)
         {
-            CreateBuffer();
+            Create();
             GL.BindVertexArray(ID);
             VBO = new VerticesBuffer();
-            VBO.CreateBuffer(capacity);
+            VBO.Create(capacity);
             IBO = new IndecesBuffer();
-            IBO.CreateBuffer(capacity);
-            UnbindBuffer();
+            IBO.Create(capacity);
+            Unbind();
       }
 
-        public override void DeleteBuffer()
+        public override void Delete()
         {
             GL.DeleteVertexArray(ID);
-            VBO.DeleteBuffer();
-            IBO.DeleteBuffer();
+            VBO.Delete();
+            IBO.Delete();
             Attribytes.Clear();
         }
 
@@ -102,7 +102,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 return;
             }
 
-             BindBuffer();
+             Bind();
    
             int offset = 0;
          
@@ -166,7 +166,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 GL.VertexAttribPointer(i, Attribytes[i].attrLength, VertexAttribPointerType.Float, false, VertexDataSize * sizeof(float), offset);
                 offset += Attribytes[i].attrLength * 4;
             }
-            UnbindBuffer();
+            Unbind();
         }
 
         public void EnableAttribytes()
@@ -199,31 +199,31 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             {
                 EnhanceBufferCapsity(vdata.Length + VBO.Fillnes, idata.Length + IBO.Fillnes);
 
-                BindBuffer();
+                Bind();
                 VBO.LoadBufferData(vdata);
                 IBO.LoadBufferData(idata);
-                UnbindBuffer();
+                Unbind();
             }
             else
             {
-                BindBuffer();
+                Bind();
                 VBO.LoadBufferData(vdata);
                 IBO.LoadBufferData(idata);
-                UnbindBuffer();
+                Unbind();
             }
         }
 
         private void EnhanceBufferCapsity(int v_cap, int i_cap)
         {
             ArrayBuffer enhanced = new ArrayBuffer();
-            enhanced.CreateBuffer();
+            enhanced.Create();
             GL.BindVertexArray(enhanced.ID);
             enhanced.VBO = new VerticesBuffer();
-            enhanced.VBO.CreateBuffer(v_cap);
+            enhanced.VBO.Create(v_cap);
             enhanced.IBO = new IndecesBuffer();
-            enhanced.IBO.CreateBuffer(i_cap);
+            enhanced.IBO.Create(i_cap);
             
-            enhanced.UnbindBuffer();
+            enhanced.Unbind();
 
             if (VBO.Fillnes!=0)
             {
@@ -237,9 +237,9 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
           ///Удаляем старое
             GL.DeleteVertexArray(ID);
 
-            VBO.DeleteBuffer();
+            VBO.Delete();
 
-            IBO.DeleteBuffer();
+            IBO.Delete();
             ////Переназначаем ID старых на ID новых
             VBO = enhanced.VBO;
 
@@ -258,10 +258,21 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             }
         }
 
+        public override void Bind(BufferTarget bindTarget)
+        {
+     
+        }
+
+        public override void Clear()
+        {
+            VBO.Clear();
+            IBO.Clear();
+        }
+
         public ArrayBuffer() : base()
         {
             Attribytes = new Dictionary<int, AttrAndSize>();
-            CreateBuffer(16);
+            Create(16);
         }
 
     }

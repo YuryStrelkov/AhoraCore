@@ -7,7 +7,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
     {
         public IndecesBuffer() : base()
         {
-            BufferType = BufferTarget.ElementArrayBuffer;
+            BindingTarget = BufferTarget.ElementArrayBuffer;
         }
 
         /// <summary>

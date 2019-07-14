@@ -22,7 +22,8 @@ namespace AhoraCore.Core.Materials
 
         public Texture(Vector3 c)
         {
-            ID = LoadColor(c);
+            LoadColor(c);
+            BindingTarget = TextureTarget.Texture2D;
         }
 
         public Texture(string pathToTexture)
@@ -41,7 +42,7 @@ namespace AhoraCore.Core.Materials
 
         public Texture(float r, float g, float b)
         {
-            ID = LoadColor(r, g, b);
+            LoadColor(r, g, b);
             BindingTarget = TextureTarget.Texture2D;
         }
 
@@ -52,20 +53,26 @@ namespace AhoraCore.Core.Materials
 
         public override void Create()
         {
-            int id;
-            GL.GenTextures(1, out id);
-            ID = id;
+            if (ID==-1)
+            {
+                int id;
+                GL.GenTextures(1, out id);
+                ID = id;
+            }
+           
         }
 
         public override void Delete()
         {
             GL.DeleteTexture(ID);
+            ID = -1;
         }
 
         public override void Unbind()
         {
             GL.BindTexture(BindingTarget, 0);
         }
+
         public override void Bind(TextureTarget bindTarget)
         {
             BindingTarget = bindTarget;
@@ -86,18 +93,16 @@ namespace AhoraCore.Core.Materials
             Unbind();
         }
 
-        int LoadColor(Vector3 color)
+        void LoadColor(Vector3 color)
         {
-            return LoadColor(color.X, color.Y, color.Z);
+             LoadColor(color.X, color.Y, color.Z);
         }
 
-        int LoadColor(float r, float g, float b)
+        void LoadColor(float r, float g, float b)
         {
-            int texID;
             Width = 2;
             Height = 2;
-            GL.GenTextures(1, out texID);
-
+            Create();
             Bind();
             float[] TexColor = new float[16] { r, g, b, 1f, r, g, b, 1f,
                                                r, g, b, 1f, r, g, b, 1f};
@@ -107,7 +112,7 @@ namespace AhoraCore.Core.Materials
             TextureLoader.setMagMinFilter(BindingTarget);
             TextureLoader.setClamp2Edge(BindingTarget);
             Unbind();
-            return texID;
+            
         }
 
         public void ReloadImage(Bitmap image)
@@ -165,6 +170,11 @@ namespace AhoraCore.Core.Materials
                 return -1;
             }
         }
-        
+
+        public override void Clear()
+        {
+            Delete();
+            LoadColor(0.5f, 0.5f, 0.5f);
+        }
     }
 }

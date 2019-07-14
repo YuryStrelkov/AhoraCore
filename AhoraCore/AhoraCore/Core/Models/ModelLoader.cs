@@ -1,5 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
+using AhoraCore.Core.Transformations;
 using Assimp;
 using Assimp.Configs;
 using System;
@@ -18,17 +19,19 @@ namespace AhoraCore.Core.Models
 
         public static void LoadModel(string filename, out int[] AttribsMasks, out FloatBuffer[] Models, out IntegerBuffer[] ModelsIndeces)
         {
-            AssimpContext importer = new AssimpContext();
 
             AttribsMasks = null; Models = null; ModelsIndeces = null;
 
-            importer.SetConfig(new NormalSmoothingAngleConfig(66.6f));
+            AssimpContext importer = new AssimpContext();
+
+            importer.SetConfig(new NormalSmoothingAngleConfig(66.666f));
+
             try
             {
                 Scene m_model = importer.ImportFile(filename, PostProcessSteps.Triangulate |
-                                                             PostProcessSteps.CalculateTangentSpace |
-                                                             PostProcessSteps.FlipUVs |
-                                                             PostProcessSteps.LimitBoneWeights);
+                                                              PostProcessSteps.CalculateTangentSpace |
+                                                              PostProcessSteps.FlipUVs |
+                                                              PostProcessSteps.LimitBoneWeights);
                 string[] splittedPath = filename.Split('/');
 
                 splittedPath = splittedPath[splittedPath.Length - 1].Split('.');
@@ -48,6 +51,127 @@ namespace AhoraCore.Core.Models
         
         }
 
+        public static Scene LoadScene(string filename)
+        {
+            AssimpContext importer = new AssimpContext();
+
+            Scene a_scene = null;
+
+            importer.SetConfig(new NormalSmoothingAngleConfig(66.666f));
+
+            try
+            {
+                a_scene = importer.ImportFile(filename, PostProcessSteps.Triangulate |
+                                                            PostProcessSteps.CalculateTangentSpace |
+                                                            PostProcessSteps.FlipUVs |
+                                                            PostProcessSteps.LimitBoneWeights);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("Unnable to open or found file : " + filename);
+            }
+            return a_scene;
+
+        }
+
+
+        public static void LoadSceneGeometry(Scene a_scene, out Dictionary<int, List<string>> AttrMasksPerModelNames,
+                                                             out Dictionary<int, List<FloatBuffer>> Vertices,
+                                                             out Dictionary<int, List<IntegerBuffer>> Indeces, 
+                                                             out Dictionary<int, List<int>> MaterialIDs)
+        {
+
+
+            AttrMasksPerModelNames = new Dictionary<int, List<string>>();
+            Vertices = new Dictionary<int, List<FloatBuffer>>();
+            Indeces = new Dictionary<int, List<IntegerBuffer>>();
+            MaterialIDs = new Dictionary<int, List<int>>();
+
+            FloatBuffer Verts; IntegerBuffer Inds; int  AttribsMask;
+
+            string Mname;
+
+            foreach (Mesh m in a_scene.Meshes)
+            {
+
+                AttribsMask = 256;
+                Mname = AssipPostProcess(m, out AttribsMask, out Verts, out Inds);
+                if (AttribsMask==256)
+                {
+                    continue;
+                }
+
+                if (AttrMasksPerModelNames.ContainsKey(AttribsMask))
+                {
+                    AttrMasksPerModelNames[AttribsMask].Add(Mname);
+                    Vertices[AttribsMask].Add(Verts);
+                    Indeces[AttribsMask].Add(Inds);
+                    MaterialIDs[AttribsMask].Add(m.MaterialIndex);
+                }
+                else
+                {
+                    AttrMasksPerModelNames.Add(AttribsMask, new List<string>());
+                    Vertices.Add(AttribsMask, new List<FloatBuffer>());
+                    Indeces.Add(AttribsMask,new List<IntegerBuffer>());
+                    MaterialIDs.Add(AttribsMask, new List<int>());
+
+                    AttrMasksPerModelNames[AttribsMask].Add(Mname);
+                    Vertices[AttribsMask].Add(Verts);
+                    Indeces[AttribsMask].Add(Inds);
+                    MaterialIDs[AttribsMask].Add(m.MaterialIndex);
+
+                }
+
+
+            }
+        }
+
+
+        public static void LoadSceneGeometryTransforms(Scene a_scene, out Dictionary<string, Transform>Transforms)
+        {
+            Transforms = null;
+            ///a_scene.RootNode.
+        }
+
+        private static string AssipPostProcess(Mesh a_mesh, out int AttribsMask, out FloatBuffer Vertices, out IntegerBuffer Indeces)
+        {
+            ///прочитать иерархию нодов 
+            List<VertDataSetter> VDataSetters;
+
+            int AttribsCount, AttribsByteSize;
+
+            GetAttributesMask(a_mesh, out VDataSetters, out AttribsMask, out AttribsCount, out AttribsByteSize);
+
+            if (AttribsMask == 256)
+            {
+                Vertices = null;
+                Indeces = null;
+                return "";
+            }
+
+            Vertices = new   FloatBuffer();
+
+            Indeces = new  IntegerBuffer();
+         
+           /// Dictionary<string, Material> Materials = new Dictionary<string, Material>();
+ 
+            for (int v = 0; v < a_mesh.VertexCount; v++)
+            {
+                for (int attribs = 0; attribs < AttribsCount; attribs++)
+                {
+                            VDataSetters[attribs](a_mesh,ref  Vertices, v);
+                }
+           }
+           for (int idx = 0; idx < a_mesh.FaceCount; idx++)
+           {
+                Indeces.Put(a_mesh.Faces[idx].Indices[0]);
+                Indeces.Put(a_mesh.Faces[idx].Indices[1]);
+                Indeces.Put(a_mesh.Faces[idx].Indices[2]);
+           }
+
+            return a_mesh.Name;
+        }
+
         private static void AssipPostProcess(Scene a_scene, string sName,out int[] AttribsMasks,  out  FloatBuffer[] Models, out IntegerBuffer[] ModelsIndeces)
         {
             ///прочитать иерархию нодов 
@@ -58,7 +182,7 @@ namespace AhoraCore.Core.Models
 
             Dictionary<int, IntegerBuffer> AtrMaskPerIndeses = new Dictionary<int, IntegerBuffer>();
 
-            //   Dictionary<string, Material> Materials = new Dictionary<string, Material>();
+            Dictionary<string, Material> Materials = new Dictionary<string, Material>();
 
             int[] AttribsMask = new int[a_scene.Meshes.Count];
 
@@ -137,6 +261,12 @@ namespace AhoraCore.Core.Models
             Models = AtrMaskPerMeshes.Values.ToArray();
             ModelsIndeces = AtrMaskPerIndeses.Values.ToArray();
         }
+
+        private static void GetMaterials(Scene scn)
+        {
+            
+        }
+
 
         private static void GetAttributesMask(Assimp.Mesh a_mesh, out List<VertDataSetter> VDataSetters, out int attrMask, out int attrCount, out int attrByteCount)
         {

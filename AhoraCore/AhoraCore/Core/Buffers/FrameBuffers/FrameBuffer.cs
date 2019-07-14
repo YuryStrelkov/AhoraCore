@@ -95,6 +95,11 @@ namespace AhoraCore.Core.Buffers.FrameBuffers
             GL.BindFramebuffer(BindingTarget, 0);
         }
 
+        public override void Clear()
+        {
+
+        }
+
         public override void Bind(FramebufferTarget bindTarget)
         {
             BindingTarget = bindTarget;

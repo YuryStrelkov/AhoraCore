@@ -16,7 +16,7 @@ namespace AhoraCore.Core.Materials.AMaterial
         Transparency=5,
         ChannelsCount = 6
     }
-    public class EditableMaterial: ABindable<AShader>
+    public class EditableMaterial: ABindableObject<AShader>
     {
 
         protected static float[] DefColor = new float[] { 0.5f, 0.5f, 0.5f, 0.5f };
@@ -114,11 +114,11 @@ namespace AhoraCore.Core.Materials.AMaterial
             get { return textures.ContainsKey(TextureChannels.Transparency); }
         }
 
-        public void Bind()
+        public override void Bind()
         {
         }
 
-        public void Bind(AShader bindTarget)
+        public override void Bind(AShader bindTarget)
         {
             materialUniformBuffer.LinkBufferToShder(bindTarget, "MaterialData");
             int i = 0;
@@ -131,23 +131,28 @@ namespace AhoraCore.Core.Materials.AMaterial
             }
         }
 
-        public void Create()
+        public override void Create()
         {
             textures = new Dictionary<TextureChannels, TextureChannel>();
             texturesChannelNames = new Dictionary<TextureChannels, string>();
             materialUniformBuffer = new UniformsBuffer<string>();
         }
 
-        public void Delete()
+        public override void Clear()
         {
-            materialUniformBuffer.DeleteBuffer();
+            materialUniformBuffer.Clear();
         }
 
-        public void Unbind()
+        public override void Delete()
+        {
+            materialUniformBuffer.Delete();
+        }
+
+        public override void Unbind()
         {
         }
         
-        public EditableMaterial()
+        public  EditableMaterial()
         {
             Create();
           ///  materialUniformBuffer = new UniformsBuffer<string>(8 * 6);

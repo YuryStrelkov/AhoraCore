@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using AhoraCore.Core.Buffers.IBuffers;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.IO;
 namespace AhoraCore.Core.Shaders
 {
 
-    public abstract class AShader
+    public abstract class AShader: ABindableObject<ShaderType>
     {
         private Dictionary<ShaderType, int> shaderPrograms;
 
@@ -110,13 +111,24 @@ namespace AhoraCore.Core.Shaders
             uniforms.Add(uniform, uniformLocation);
         }
 
-        public void Bind()
+        public override void Bind()
         {
             GL.UseProgram(ShaderID);
             UpdateUniforms();
         }
 
-        public void Unbind()
+        public override void Bind(ShaderType target)
+        {
+            GL.UseProgram(ShaderID);
+            UpdateUniforms();
+        }
+
+        public override void Clear()
+        {
+             
+        }
+
+        public override void Unbind()
         {
             GL.UseProgram(0);
         }
@@ -133,7 +145,7 @@ namespace AhoraCore.Core.Shaders
             Console.WriteLine(GL.GetProgramInfoLog(ShaderID));
         }
 
-        public void DeleteShader()
+        public override void Delete()
         {
             Unbind();
 
@@ -143,6 +155,15 @@ namespace AhoraCore.Core.Shaders
                 GL.DeleteShader(shaderPrograms[k]);
             }
             GL.DeleteProgram(ShaderID);
+        }
+
+        public override void Create()
+        {
+            ShaderID = GL.CreateProgram();
+
+            shaderPrograms = new Dictionary<ShaderType, int>();
+
+            uniforms = new Dictionary<string, int>();
         }
 
         public abstract void BindAttribytes();
@@ -237,11 +258,7 @@ namespace AhoraCore.Core.Shaders
         public AShader( string vshader, string fshader, bool fromFile=true)
         {
 
-            ShaderID = GL.CreateProgram();
-
-            shaderPrograms = new Dictionary<ShaderType, int>();
-
-            uniforms = new Dictionary<string, int>();
+            Create();
 
             if (fromFile)
             {

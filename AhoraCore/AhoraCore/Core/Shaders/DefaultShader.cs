@@ -1,5 +1,4 @@
-﻿
-using OpenTK;
+﻿using OpenTK;
 
 namespace AhoraCore.Core.Shaders
 {

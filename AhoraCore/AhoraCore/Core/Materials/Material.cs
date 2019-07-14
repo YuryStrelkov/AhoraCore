@@ -25,7 +25,7 @@ namespace AhoraCore.Core.Materials
             ///  materialUniformBuffer.packBuffer();
 
 
-            materialUniformBuffer.CreateBuffer(1);///Создаёт один размеченный выше буфер для материала 
+            materialUniformBuffer.Create(1);///Создаёт один размеченный выше буфер для материала 
 
 
             materialUniformBuffer.UpdateBufferIteam("AlbedoColor", DefColor);

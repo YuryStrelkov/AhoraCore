@@ -13,7 +13,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         
         public InstanceBuffer(int attrOfset) : base()
         {
-            BufferType = BufferTarget.ArrayBuffer;
+            BindingTarget = BufferTarget.ArrayBuffer;
             AttribStartIdx = attrOfset;
         }
 

@@ -24,7 +24,6 @@ namespace AhoraProject.Ahora.Core.Display
         {
             base.OnLoad(e);
             Scene.BeforeRender();
-           
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -60,7 +59,7 @@ namespace AhoraProject.Ahora.Core.Display
             base.OnClosed(e);
             Scene.PostRender();
             Scene.ClearManager();
-            staticShader.DeleteShader();
+            staticShader.Delete();
         }
 
     }

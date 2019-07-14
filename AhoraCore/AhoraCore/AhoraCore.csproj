@@ -56,13 +56,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Buffers\BufferUtils.cs" />
-    <Compile Include="Core\Buffers\DataStorraging\UniformsStorrage.cs" />
+    <Compile Include="Core\Buffers\DataStorraging\StorrageTemplate\TemplateStorrage.cs" />
     <Compile Include="Core\Buffers\DebugBuffers.cs" />
     <Compile Include="Core\Buffers\FrameBuffers\FrameBuffer.cs" />
-    <Compile Include="Core\Buffers\IBuffers\ABindable.cs" />
-    <Compile Include="Core\Buffers\IBuffers\ABindableObject.cs" />
+    <Compile Include="Core\Buffers\IBuffers\BindableObject\ABindableObject.cs" />
     <Compile Include="Core\Buffers\IBuffers\EditableBuffer.cs" />
+    <Compile Include="Core\Buffers\IBuffers\IGeometryDataStorrage.cs" />
     <Compile Include="Core\Buffers\IBuffers\IMarkAttribyte.cs" />
+    <Compile Include="Core\Buffers\IBuffers\ITemplateDataStorrage.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\InstanceBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\UniformsBuffer.cs" />
     <Compile Include="Core\Buffers\StandartBuffers\FloatBuffer.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Core\Models\ProceduralModels\MeshUtils.cs" />
     <Compile Include="Core\Models\ProceduralModels\SkyBox.cs" />
     <Compile Include="Core\Models\ProceduralModels\Terrain.cs" />
+    <Compile Include="Core\Scene3D\Scene.cs" />
     <Compile Include="Core\Shaders\AShader.cs" />
     <Compile Include="Core\Shaders\DefaultShader.cs" />
     <Compile Include="Core\Shaders\StaticShader.cs" />
@@ -117,7 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Buffers\IBuffers\ABuffer.cs" />
-    <Compile Include="Core\Buffers\IBuffers\IBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\ArrayBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\IndecesBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\VerticesBuffer.cs" />

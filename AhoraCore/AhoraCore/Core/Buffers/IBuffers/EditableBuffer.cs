@@ -12,36 +12,12 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// <summary>
         /// Очищает буфер
         /// </summary>
-        public void ClearBuffer()
+        public override void Clear()
         {
-            BindBuffer();
-            GL.BufferData(BufferType, Capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
+            Bind();
+            GL.BufferData(BindingTarget, Capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
             Console.WriteLine(GL.GetError().ToString());
         }
-
-      /*  public void EnhanceBuffer(int enhancedCapacity)
-        {
-            if (enhancedCapacity < Capacity)
-            {
-                return;
-            }
-            EditableBuffer<T, D> tmp = new EditableBuffer<T, D>();
-
-            tmp.BufferType = BufferType;
-
-            tmp.CreateBuffer(enhancedCapacity);
-
-       ///     tmp.UnbindBuffer();
-            
-            CopyBufferData(tmp, 0, Fillnes, 0);
-           
-            DeleteBuffer();
-
-            ID = tmp.ID;
-
-            Capacity = enhancedCapacity;
-        }*/
-
         /// <summary>
         /// Дополняет значения буфера новыми значениями слева, принадлежащими buffer
         /// </summary>
@@ -55,7 +31,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
             GL.BindBuffer(BufferTarget.CopyReadBuffer, buffer.ID);
             GL.BindBuffer(BufferTarget.CopyWriteBuffer, ID);
             GL.CopyBufferSubData(BufferTarget.CopyReadBuffer, BufferTarget.CopyWriteBuffer, (IntPtr)0, (IntPtr)(Fillnes * IteamByteSize), IteamByteSize);
-            GL.BindBuffer(BufferType, 0);
+            GL.BindBuffer(BindingTarget, 0);
             Fillnes = Capacity;
         }
         /// <summary>
@@ -95,7 +71,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
                 throw new Exception("Unnable to load data to buffer:not enought of space");
             }
  
-                GL.BufferSubData(BufferType, (IntPtr)(Fillnes * IteamByteSize), data.Length * IteamByteSize, data);
+                GL.BufferSubData(BindingTarget, (IntPtr)(Fillnes * IteamByteSize), data.Length * IteamByteSize, data);
 
                 Fillnes += data.Length;
            
@@ -111,41 +87,57 @@ namespace AhoraCore.Core.Buffers.IBuffres
             {
                 throw new Exception("Unnable to load data to buffer:not enought of space");
             }
-                GL.BufferSubData(BufferType, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
+                GL.BufferSubData(BindingTarget, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
                 Fillnes += data.Length;
         }
-
-        public override void BindBuffer()
+        /// <summary>
+        /// включает буфер
+        /// </summary>
+        public override void Bind()
         {
-            GL.BindBuffer(BufferType, ID);
+            GL.BindBuffer(BindingTarget, ID);
         }
-
-        public override void CreateBuffer()
+        /// <summary>
+        /// Создаёт буфер
+        /// </summary>
+        public override void Create()
         {
             ID = ID == -1 ? GL.GenBuffer() : ID;
         }
-
         /// <summary>
         /// Создаёт буфер обозначенной ёмкости
         /// </summary>
         /// <param name="capacity">ёмкость</param>
-        public override void CreateBuffer(int capacity)
+        public override void Create(int capacity)
         {
-            CreateBuffer();
-            BindBuffer();
+            Create();
+            Bind();
             Capacity = capacity;
-            GL.BufferData(BufferType, capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
+            GL.BufferData(BindingTarget, capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
         //    Console.WriteLine(" Buffer ID = " + ID + " as "+ BufferType.ToString() + " creation status " + GL.GetError().ToString());
         }
-
-        public override void DeleteBuffer()
+        /// <summary>
+        /// Удаляет буфер
+        /// </summary>
+        public override void Delete()
         {
             GL.DeleteBuffer(ID);
+            ID = -1;
         }
-
-        public override void UnbindBuffer()
+        /// <summary>
+        /// Отключает буфер 
+        /// </summary>
+        public override void Unbind()
         {
-            GL.BindBuffer(BufferType, 0);  
+            GL.BindBuffer(BindingTarget, 0);  
+        }
+        /// <summary>
+        /// Включает буфер в режиме, соответствующему bindTarget
+        /// </summary>
+        /// <param name="bindTarget"></param>
+        public override void Bind(BufferTarget bindTarget)
+        {
+            GL.BindBuffer(bindTarget, ID);
         }
     }
 }

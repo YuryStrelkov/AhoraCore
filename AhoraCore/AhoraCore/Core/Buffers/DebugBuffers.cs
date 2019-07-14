@@ -75,7 +75,7 @@ namespace AhoraCore.Core.Buffers
         public static float[] getBufferDataVBO(ArrayBuffer buffer)
         {
             float[] b_data = new float[buffer.VBO.Fillnes];
-            buffer.BindBuffer();
+            buffer.Bind();
             ///buffer.VBO.BindBuffer();
             GL.GetBufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, buffer.VBO.Fillnes * sizeof(float), b_data);
             return b_data;
@@ -91,8 +91,8 @@ namespace AhoraCore.Core.Buffers
         public static int[] getBufferDataIBO(ArrayBuffer buffer)
         {
             int[] b_data = new int[buffer.IBO.Fillnes];
-            buffer.BindBuffer();
-            buffer.IBO.BindBuffer();
+            buffer.Bind();
+            buffer.IBO.Bind();
             GL.GetBufferSubData(BufferTarget.ElementArrayBuffer, (IntPtr)0, buffer.IBO.Fillnes * sizeof(int), b_data);
             return b_data;
 
@@ -110,7 +110,7 @@ namespace AhoraCore.Core.Buffers
         public static float[] getBufferDataVBO(VerticesBuffer buffer)
         {
             float[] b_data = new float[buffer.Fillnes];
-            buffer.BindBuffer();
+            buffer.Bind();
             ///buffer.VBO.BindBuffer();
             GL.GetBufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, buffer.Fillnes * sizeof(float), b_data);
             return b_data;
@@ -126,7 +126,7 @@ namespace AhoraCore.Core.Buffers
         public static int[] getBufferDataIBO(IndecesBuffer buffer)
         {
             int[] b_data = new int[buffer.Fillnes];
-            buffer.BindBuffer();
+            buffer.Bind();
             GL.GetBufferSubData(BufferTarget.ElementArrayBuffer, (IntPtr)0, buffer.Fillnes * sizeof(int), b_data);
             return b_data;
 

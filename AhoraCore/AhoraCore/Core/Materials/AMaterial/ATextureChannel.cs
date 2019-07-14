@@ -4,9 +4,17 @@ namespace AhoraCore.Core.Materials.AMaterial
 {
     public abstract class ATextureChannel<T>
     {
+
+
+        /// <summary>
+        /// Убрать текстуру!!!
+        /// </summary>
+
         public static int NUMBER_OF_PARAMETRS = 8;
 
         protected int ChannelOffset = 0;
+
+        public string TextureID { get; protected set; }
 
         private Texture channelTexture;
 
@@ -34,6 +42,16 @@ namespace AhoraCore.Core.Materials.AMaterial
         public ATextureChannel(int ChannelOffset, Texture t, ref UniformsBuffer<T> TextureChannelData)
         {
             channelTexture = t;
+
+            this.ChannelOffset = ChannelOffset;
+
+            this.TextureChannelData = TextureChannelData;
+        }
+
+
+        public ATextureChannel(int ChannelOffset, string tID, ref UniformsBuffer<T> TextureChannelData)
+        {
+            TextureID = tID;
 
             this.ChannelOffset = ChannelOffset;
 

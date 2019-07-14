@@ -50,9 +50,9 @@ namespace AhoraCore.Core.DataManaging
         {
             try
             {
-                managingData[uniqueKeysList[id]].BeforeRender();
+                managingData[uniqueKeysList[id]].Bind();
                 managingData[uniqueKeysList[id]].RenderIteam(id);
-                managingData[uniqueKeysList[id]].PostRender();
+                managingData[uniqueKeysList[id]].Unbind();
             }
             catch (Exception e)
             {

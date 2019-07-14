@@ -51,7 +51,7 @@ namespace AhoraCore.Core.Buffers
     /// В одном экземпляре класса  GeometryStorrage могут храниться любые модели с одним и тем же набором вершинных атрибутов 
     /// Доступ к объёкту геометрии осуществляется по его ID
     /// </summary>
-    public class GeometryStorrage : ArrayBuffer, IDataStorrage<string>, IRedreable<string>
+    public class GeometryStorrage : ArrayBuffer, IDataStorrage<string>, IGeometryDataStorrage<string>, IRedreable<string>
     {
         private Dictionary<string, GeometryStorrageIteam<string>> GeometryItemsList;
 
@@ -95,7 +95,7 @@ namespace AhoraCore.Core.Buffers
             }
         }
 
-        public void ResolveKeys(string keyID)
+        private void ResolveKeys(string keyID)
         {
             if (!Equals(LaysKey, ""))
             {
@@ -108,26 +108,22 @@ namespace AhoraCore.Core.Buffers
         public void ClearStorrage()
         {
    
-            VBO.ClearBuffer();
-            IBO.ClearBuffer();
+            VBO.Clear();
+            IBO.Clear();
 
             foreach (string key in GeometryItemsInstansesList.Keys)
             {
-                GeometryItemsInstansesList[key].ClearBuffer();
+                GeometryItemsInstansesList[key].Clear();
             }
         }
 
         public void DeleteStorrage()
         {
-            DeleteBuffer();
+            Delete();
             foreach (string key  in GeometryItemsInstansesList.Keys)
             {
-                GeometryItemsInstansesList[key].DeleteBuffer();
+                GeometryItemsInstansesList[key].Delete();
             }
-        }
-
-        public void MergeItems(string[] geometryIDs)
-        {
         }
 
         public void RemoveItem(string geometryID)
@@ -139,11 +135,11 @@ namespace AhoraCore.Core.Buffers
             {
                 string key = geometryID;
 
-                BindBuffer();
+                Bind();
 
                 VerticesBuffer Vtmp = new VerticesBuffer();
 
-                Vtmp.CreateBuffer(VBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i);
+                Vtmp.Create(VBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i);
 
                 VBO.CopyBufferData(Vtmp, GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i,
 
@@ -154,7 +150,7 @@ namespace AhoraCore.Core.Buffers
 
                 IndecesBuffer Itmp = new IndecesBuffer();
 
-                Itmp.CreateBuffer(IBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].I_start_i);
+                Itmp.Create(IBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].I_start_i);
 
                 IBO.CopyBufferData(Itmp, GeometryItemsList[GeometryItemsList[geometryID].ChildID].I_start_i,
 
@@ -162,11 +158,11 @@ namespace AhoraCore.Core.Buffers
 
                 Itmp.CopyBufferData(IBO, 0, Itmp.Fillnes, GeometryItemsList[geometryID].I_start_i);
 
-                UnbindBuffer();
+                Unbind();
 
-                Vtmp.DeleteBuffer();
+                Vtmp.Delete();
 
-                Itmp.DeleteBuffer();
+                Itmp.Delete();
 
                 while (!Equals(GeometryItemsList[key].ChildID, ""))
                 {
@@ -189,13 +185,11 @@ namespace AhoraCore.Core.Buffers
 
         public void BeforeRender()
         {
-            BindBuffer();
+            Bind();
         }
 
         public void Render()
         {
-        
-
             foreach (string key in GeometryItemsList.Keys)
             {
                 RenderIteam(key);
@@ -204,6 +198,7 @@ namespace AhoraCore.Core.Buffers
 
         public void RenderIteam(string iteamID)
         {
+            Bind();
             if (GeometryItemsInstansesList.ContainsKey(iteamID))
             {
                 GeometryItemsInstansesList[iteamID].EnableAttribytes();
@@ -222,11 +217,12 @@ namespace AhoraCore.Core.Buffers
                 GL.DrawElements(PrimitiveType.Triangles, GeometryItemsList[iteamID].I_length,
                               DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
             }
+            Unbind();
         }
 
         public void PostRender()
         {
-            UnbindBuffer();
+            Unbind();
         }
 
         public void AssignInstToGeo(string geoID, float[] data)
@@ -234,7 +230,7 @@ namespace AhoraCore.Core.Buffers
             if (GeometryItemsList.ContainsKey(geoID))
             {
                 GeometryItemsInstansesList.Add(geoID, new InstanceBuffer(Attribytes.Count));
-                GeometryItemsInstansesList[geoID].CreateBuffer(data.Length);
+                GeometryItemsInstansesList[geoID].Create(data.Length);
                 GeometryItemsInstansesList[geoID].LoadBufferData(data);
             }
             else
@@ -249,7 +245,7 @@ namespace AhoraCore.Core.Buffers
             {
                 float[] tmp = new float[16];
 
-                GeometryItemsInstansesList[geoID].BindBuffer();
+                GeometryItemsInstansesList[geoID].Bind();
 
                 for (int i = 0; i < instID.Length; i++)
                 {
@@ -283,7 +279,7 @@ namespace AhoraCore.Core.Buffers
         {
             if (GeometryItemsList.ContainsKey(geoID))
             {
-                GeometryItemsInstansesList[geoID].BindBuffer();
+                GeometryItemsInstansesList[geoID].Bind();
                  GeometryItemsInstansesList[geoID].LoadBufferSubdata(data, 0);
             }
             else
@@ -298,13 +294,6 @@ namespace AhoraCore.Core.Buffers
 
             GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
         }
-
-      /*  public GeometryStorrage(int cap) : base(cap)
-        {
-            GeometryItemsList = new Dictionary<string, GeometryStorrageIteam<string>>();
-
-            GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
-        }*/
 
     }
 }
