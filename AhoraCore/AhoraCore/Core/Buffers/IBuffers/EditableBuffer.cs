@@ -124,6 +124,17 @@ namespace AhoraCore.Core.Buffers.IBuffres
             GL.DeleteBuffer(ID);
             ID = -1;
         }
+
+
+        public void Delete(int start, int length)
+        {
+            EditableBuffer<T, D> target = new EditableBuffer<T, D>();
+            CopyBufferData(target, start + length, Fillnes - 1, 0);
+            CopyBufferData(this, 0, target.Fillnes - 1, start);
+            target.Delete();
+        }
+
+
         /// <summary>
         /// Отключает буфер 
         /// </summary>

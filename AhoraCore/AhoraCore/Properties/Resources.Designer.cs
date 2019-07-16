@@ -139,16 +139,6 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        internal static byte[] sphere {
-            get {
-                object obj = ResourceManager.GetObject("sphere", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
         ///layout (location = 0) in vec3 position;
         ///layout (location = 1) in vec2 textureCoordinates;

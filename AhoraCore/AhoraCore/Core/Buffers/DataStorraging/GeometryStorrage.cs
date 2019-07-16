@@ -4,48 +4,11 @@ using AhoraProject.Ahora.Core.IRender;
 using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.SpecificBuffers;
 using System;
+using AhoraCore.Core.Utils;
 
 namespace AhoraCore.Core.Buffers
 {
-    public struct GeometryStorrageIteam<T>
-    {
-        public T ID { get; private set; }
-
-        public T ParentID { get; set; }
-
-        public T ChildID { get; set; }
-
-        public int V_start_i { get; private set; }
-
-        public int V_length { get; private set; }
-
-        public int I_start_i { get; private set; }
-
-        public int I_length  { get; private set; }
-
-        public void shiftLeft(int v_shift, int i_shift)
-        {
-            V_start_i -= v_shift;
-            I_start_i -= i_shift;
-        }
-
-        public void shiftRight(int v_shift, int i_shift)
-        {
-            V_start_i += v_shift;
-            I_start_i += i_shift;
-        }
-
-        public GeometryStorrageIteam(T ID_, T parenID_,T childID, int v_start, int v_length, int i_start, int i_length)
-        {
-            ID = ID_;
-            ParentID  = parenID_;
-            ChildID   = childID;
-            V_start_i = v_start;
-            V_length  = v_length;
-            I_start_i = i_start;
-            I_length  = i_length;
-        }
-    }
+  
     /// <summary>
     /// Основной класс предназначенный для взаимодействия с буферами VAO,VBO,IBO их инстансирования в случае необходимости.
     /// В одном экземпляре класса  GeometryStorrage могут храниться любые модели с одним и тем же набором вершинных атрибутов 
@@ -53,56 +16,17 @@ namespace AhoraCore.Core.Buffers
     /// </summary>
     public class GeometryStorrage : ArrayBuffer, IDataStorrage<string>, IGeometryDataStorrage<string>, IRedreable<string>
     {
-        private Dictionary<string, GeometryStorrageIteam<string>> GeometryItemsList;
+        private IndexedList<string> VerticesIndeces;
+
+        private IndexedList<string> FacesIndeces;
 
         private Dictionary<string, InstanceBuffer> GeometryItemsInstansesList;
 
-        private string LaysKey = "", RootKey;
-
         public void AddItem(string key, float[] vData, int[] iData)
         {
-
-            try
-            {
-                ResolveKeys(key);
-                if (Equals(LaysKey, ""))
-                {
-                    RootKey = key;
-
-                    GeometryItemsList.Add(key, new GeometryStorrageIteam<string>(
-                                                               /*GeometryID*/key,
-                                                               /*ParentID*/key,
-                                                               /*ChildID*/""
-                                                               , VBO.Fillnes, vData.Length, IBO.Fillnes, iData.Length));
-                }
-                else
-                {
-                    GeometryItemsList.Add(key, new GeometryStorrageIteam<string>(
-                                           /*GeometryID*/key,
-                                           /*ParentID*/ LaysKey,
-                                           /*ChildID*/""
-                                           , VBO.Fillnes, vData.Length, IBO.Fillnes, iData.Length));
-                }
-                LaysKey = key;
-
-
-
-                LoadData( vData, iData);
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e.StackTrace.ToString());
-            }
-        }
-
-        private void ResolveKeys(string keyID)
-        {
-            if (!Equals(LaysKey, ""))
-            {
-                GeometryStorrageIteam<string> tmp = GeometryItemsList[LaysKey];
-                tmp.ChildID = keyID;
-                GeometryItemsList[LaysKey] = tmp;
-            }
+            VerticesIndeces.Add(key, vData.Length);
+            FacesIndeces.Add(key, iData.Length);
+            LoadData(vData, iData);
         }
 
         public void ClearStorrage()
@@ -128,58 +52,12 @@ namespace AhoraCore.Core.Buffers
 
         public void RemoveItem(string geometryID)
         {
-            ///
-            ///Проверить что происходит , когда вообще всё удалим 
-            /// 
-            try
+            if (FacesIndeces.Indexes.ContainsKey(geometryID))
             {
-                string key = geometryID;
-
-                Bind();
-
-                VerticesBuffer Vtmp = new VerticesBuffer();
-
-                Vtmp.Create(VBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i);
-
-                VBO.CopyBufferData(Vtmp, GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i,
-
-                                    VBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].V_start_i, 0);
-
-
-                Vtmp.CopyBufferData(VBO, 0, Vtmp.Fillnes, GeometryItemsList[geometryID].V_start_i);
-
-                IndecesBuffer Itmp = new IndecesBuffer();
-
-                Itmp.Create(IBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].I_start_i);
-
-                IBO.CopyBufferData(Itmp, GeometryItemsList[GeometryItemsList[geometryID].ChildID].I_start_i,
-
-                                    IBO.Fillnes - GeometryItemsList[GeometryItemsList[geometryID].ChildID].I_start_i, 0);
-
-                Itmp.CopyBufferData(IBO, 0, Itmp.Fillnes, GeometryItemsList[geometryID].I_start_i);
-
-                Unbind();
-
-                Vtmp.Delete();
-
-                Itmp.Delete();
-
-                while (!Equals(GeometryItemsList[key].ChildID, ""))
-                {
-                    key = GeometryItemsList[key].ChildID;
-
-                    GeometryItemsList[key].shiftLeft(GeometryItemsList[geometryID].V_length,
-                                                     GeometryItemsList[geometryID].I_length);
-                }
-
-                ///не переназначена ссылочность 
-                ///
-                GeometryItemsList.Remove(geometryID);
-                ///DebugBuffers.displayBufferDataIBO(this);
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e.StackTrace.ToString());
+                IBO.Delete(FacesIndeces.GetOffset(geometryID), FacesIndeces.GetLength(geometryID));
+                VBO.Delete(VerticesIndeces.GetOffset(geometryID), VerticesIndeces.GetLength(geometryID));
+                FacesIndeces.Remove(geometryID);
+                VerticesIndeces.Remove(geometryID);
             }
         }
 
@@ -190,7 +68,7 @@ namespace AhoraCore.Core.Buffers
 
         public void Render()
         {
-            foreach (string key in GeometryItemsList.Keys)
+            foreach (string key in VerticesIndeces.Indexes.Keys)
             {
                 RenderIteam(key);
             }
@@ -199,10 +77,12 @@ namespace AhoraCore.Core.Buffers
         public void RenderIteam(string iteamID)
         {
             Bind();
+            int l, o;
             if (GeometryItemsInstansesList.ContainsKey(iteamID))
             {
+                
                 GeometryItemsInstansesList[iteamID].EnableAttribytes();
-                GL.DrawElementsInstanced(BeginMode.Triangles, GeometryItemsList[iteamID].I_length,
+                GL.DrawElementsInstanced(BeginMode.Triangles, FacesIndeces.GetLength(iteamID),
                                          DrawElementsType.UnsignedInt, (IntPtr)(0 * sizeof(int)),
                                          GeometryItemsInstansesList[iteamID].Fillnes / 16);
                 GeometryItemsInstansesList[iteamID].DisableAttribytes();
@@ -214,8 +94,8 @@ namespace AhoraCore.Core.Buffers
                 //                DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
                 // оболочка
                 //PrimitiveType.Triangles, 3*FacesCount, DrawElementsType.UnsignedInt, 0
-                GL.DrawElements(PrimitiveType.Triangles, GeometryItemsList[iteamID].I_length,
-                              DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
+                GL.DrawElements(PrimitiveType.Triangles, FacesIndeces.GetLength(iteamID),
+                              DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(iteamID) * sizeof(int));
             }
             Unbind();
         }
@@ -227,7 +107,7 @@ namespace AhoraCore.Core.Buffers
 
         public void AssignInstToGeo(string geoID, float[] data)
         {
-            if (GeometryItemsList.ContainsKey(geoID))
+            if (FacesIndeces.Indexes.ContainsKey(geoID))
             {
                 GeometryItemsInstansesList.Add(geoID, new InstanceBuffer(Attribytes.Count));
                 GeometryItemsInstansesList[geoID].Create(data.Length);
@@ -241,7 +121,7 @@ namespace AhoraCore.Core.Buffers
 
         public void UpdateConcreteInst(string geoID, int[] instID, float[] data)
         {
-            if (GeometryItemsList.ContainsKey(geoID))
+            if (FacesIndeces.Indexes.ContainsKey(geoID))
             {
                 float[] tmp = new float[16];
 
@@ -277,7 +157,7 @@ namespace AhoraCore.Core.Buffers
 
         public void UpdateWholeInst(string geoID, float[] data)
         {
-            if (GeometryItemsList.ContainsKey(geoID))
+            if (FacesIndeces.Indexes.ContainsKey(geoID))
             {
                 GeometryItemsInstansesList[geoID].Bind();
                  GeometryItemsInstansesList[geoID].LoadBufferSubdata(data, 0);
@@ -290,8 +170,8 @@ namespace AhoraCore.Core.Buffers
 
         public GeometryStorrage() : base()
         {
-             GeometryItemsList = new Dictionary<string, GeometryStorrageIteam<string>>();
-
+            FacesIndeces = new IndexedList<string>();
+            VerticesIndeces = new IndexedList<string>();
             GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
         }
 

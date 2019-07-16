@@ -127,9 +127,6 @@
   <data name="MaterialDefinition" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MaterialDefinition.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-  <data name="sphere" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sphere.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="VSdefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VSdefault.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
