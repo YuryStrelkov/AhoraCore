@@ -7,13 +7,18 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
     {
         public Dictionary<KeyType, ValueType> StorrageIteams { get; protected set; }
 
+       public ValueType GetItem(KeyType ID)
+       {
+              return  StorrageIteams[ID];
+       }
 
-
-        public ValueType GetItem(KeyType ID)
+        public void AddItems(Dictionary<KeyType, ValueType> Iteams)
         {
-          return  StorrageIteams[ID];
+            foreach (KeyType k in Iteams.Keys)
+            {
+                AddItem(k, Iteams[k]);
+            }
         }
-
 
         public void AddItem(KeyType ID, ValueType Item)
         {

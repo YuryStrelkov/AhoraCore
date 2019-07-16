@@ -8,21 +8,24 @@ using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 using System;
 using AhoraCore.Core.Buffers.StandartBuffers;
+using AhoraCore.Core.Buffers.DataStorraging;
 
 namespace AhoraCore.Core.Scene3D
 {
     public class Scene :IRedreable<string>
     {
         public GeometryStorrageManager SceneMeshes { get; private set; }
+        //Нужна хотя бы одна дефолтная текстура
+        public TextureStorrage SceneTextures { get; private set; }
+        //Нужен хотя бы один дефолтный мфтериал
+        public MaterialStorrage SceneMaterials { get; private set; }
 
-        public TemplateStorrage<string, Texture, TextureTarget> SceneTextures { get; private set; }
+        public ShaderStorrage SceneShaders { get; private set; }/// <summary>
+        /// нах?
+        /// </summary>
 
-        public TemplateStorrage<string, Material, AShader> SceneMaterials { get; private set; }
-
-        public TemplateStorrage<string, AShader, ShaderType> SceneShaders { get; private set; }
-
-        public Dictionary<string,Model<string>> SceneModels { get; private set; }
-
+        public Dictionary<string, Model<string>> SceneModels { get; private set; }///убрать метод Bind(BindingTarget target) в отдельный интерфейс и заменить 
+            // Dictionary<string, Model<string>>  на ModelStorrage
         public void Load(string path)
         {
              Dictionary<int, List<string>> AttrMasksPerModelNames;
@@ -31,17 +34,23 @@ namespace AhoraCore.Core.Scene3D
              Dictionary<int, List<int>> MaterialIDs;
             ///*Load Materials Here*///
             ///*Load Heirarhy Here*///
+            ///
+
+            ///Загрузка модели или сцены
+            ///Загурка вершин и индексов в виде Dictionary< маска атрибутов меша, список буферов вершин/индексов>
+            ///Загрузка ID материалов в виде < маска атрибутов меша, список ID материалов>
             ModelLoader.LoadSceneGeometry(ModelLoader.LoadScene(path), out AttrMasksPerModelNames,
                                                                        out Vertices,
                                                                        out Indeces,
                                                                        out MaterialIDs);
-
+            ///Загрузка материалов -> ModelLoader.LoadSceneMaterials(Dictionary<TexID, Texture>, Dictionary<MatID, Material>) Material - содержит набор ID из словаря с текстурами
             foreach (int attrMask in AttrMasksPerModelNames.Keys)
             {
                 for (int nameIdx=0; nameIdx< AttrMasksPerModelNames[attrMask].Count; nameIdx++)
                 {   ///Индексирование модели происходит непоследственно в буфере SceneMeshes, что бы нариовать модель и этого буфера, просто запроси ее отрисовку
-                    SceneMeshes.AddGeometry( AttrMasksPerModelNames[attrMask][nameIdx], attrMask, Vertices[attrMask][nameIdx], Indeces[attrMask][nameIdx]);
-                    SceneModels.Add(AttrMasksPerModelNames[attrMask][nameIdx], new Model<string>(AttrMasksPerModelNames[attrMask][nameIdx]));
+                    SceneMeshes.AddGeometrySet( attrMask, AttrMasksPerModelNames[attrMask].ToArray(), Vertices[attrMask].ToArray(), Indeces[attrMask].ToArray());
+                    //   SceneMeshes.AddGeometry( AttrMasksPerModelNames[attrMask][nameIdx], attrMask, Vertices[attrMask][nameIdx], Indeces[attrMask][nameIdx]);
+                    ///  SceneModels.Add(AttrMasksPerModelNames[attrMask][nameIdx], new Model<string>(AttrMasksPerModelNames[attrMask][nameIdx]));
                 }
             }
         }
@@ -49,18 +58,18 @@ namespace AhoraCore.Core.Scene3D
         public Scene() 
             {
                 SceneMeshes = new GeometryStorrageManager();
-                SceneTextures = new TemplateStorrage<string, Texture, TextureTarget>();
-                SceneMaterials = new TemplateStorrage<string, Material, AShader>();
-                SceneShaders = new TemplateStorrage<string, AShader, ShaderType>();
+                SceneTextures = new TextureStorrage();
+                SceneMaterials = new MaterialStorrage();
+                SceneShaders = new ShaderStorrage();
                 SceneModels = new Dictionary<string, Model<string>>();
             }
 
         public Scene(string path)
         {
             SceneMeshes = new GeometryStorrageManager();
-            SceneTextures = new TemplateStorrage<string, Texture, TextureTarget>();
-            SceneMaterials = new TemplateStorrage<string, Material, AShader>();
-            SceneShaders = new TemplateStorrage<string, AShader, ShaderType>();
+            SceneTextures = new TextureStorrage();
+            SceneMaterials = new MaterialStorrage();
+            SceneShaders = new ShaderStorrage();
             SceneModels = new Dictionary<string, Model<string>>();
 
             Load( path);

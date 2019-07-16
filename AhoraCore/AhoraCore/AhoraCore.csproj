@@ -56,7 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Buffers\BufferUtils.cs" />
+    <Compile Include="Core\Buffers\DataStorraging\MaterialStorrage.cs" />
+    <Compile Include="Core\Buffers\DataStorraging\ShaderStorrage.cs" />
     <Compile Include="Core\Buffers\DataStorraging\StorrageTemplate\TemplateStorrage.cs" />
+    <Compile Include="Core\Buffers\DataStorraging\TextureStorrage.cs" />
     <Compile Include="Core\Buffers\DebugBuffers.cs" />
     <Compile Include="Core\Buffers\FrameBuffers\FrameBuffer.cs" />
     <Compile Include="Core\Buffers\IBuffers\BindableObject\ABindableObject.cs" />

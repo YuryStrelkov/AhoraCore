@@ -75,14 +75,13 @@ namespace AhoraCore.Core.Models
         }
 
 
-        public static void LoadSceneGeometry(Scene a_scene, out Dictionary<int, List<string>> AttrMasksPerModelNames,
-                                                             out Dictionary<int, List<FloatBuffer>> Vertices,
-                                                             out Dictionary<int, List<IntegerBuffer>> Indeces, 
-                                                             out Dictionary<int, List<int>> MaterialIDs)
+        public static void LoadSceneGeometry(Scene a_scene, out Dictionary<int, List<string>> MasksMerModelIDS,
+                                                            out Dictionary<int, List<FloatBuffer>> Vertices,
+                                                            out Dictionary<int, List<IntegerBuffer>> Indeces, 
+                                                            out Dictionary<int, List<int>> MaterialIDs)
         {
 
-
-            AttrMasksPerModelNames = new Dictionary<int, List<string>>();
+            MasksMerModelIDS = new Dictionary<int, List<string>>();
             Vertices = new Dictionary<int, List<FloatBuffer>>();
             Indeces = new Dictionary<int, List<IntegerBuffer>>();
             MaterialIDs = new Dictionary<int, List<int>>();
@@ -101,21 +100,21 @@ namespace AhoraCore.Core.Models
                     continue;
                 }
 
-                if (AttrMasksPerModelNames.ContainsKey(AttribsMask))
+                if (Vertices.ContainsKey(AttribsMask))
                 {
-                    AttrMasksPerModelNames[AttribsMask].Add(Mname);
+                    MasksMerModelIDS[AttribsMask].Add(Mname);
                     Vertices[AttribsMask].Add(Verts);
                     Indeces[AttribsMask].Add(Inds);
                     MaterialIDs[AttribsMask].Add(m.MaterialIndex);
                 }
                 else
                 {
-                    AttrMasksPerModelNames.Add(AttribsMask, new List<string>());
                     Vertices.Add(AttribsMask, new List<FloatBuffer>());
                     Indeces.Add(AttribsMask,new List<IntegerBuffer>());
                     MaterialIDs.Add(AttribsMask, new List<int>());
+                    MasksMerModelIDS.Add(AttribsMask, new List<string>());
 
-                    AttrMasksPerModelNames[AttribsMask].Add(Mname);
+                    MasksMerModelIDS[AttribsMask].Add(Mname);
                     Vertices[AttribsMask].Add(Verts);
                     Indeces[AttribsMask].Add(Inds);
                     MaterialIDs[AttribsMask].Add(m.MaterialIndex);

@@ -15,8 +15,7 @@ namespace AhoraCore.Core.Utils
             public int StartPosition { get;  set; }
 
             public int Length { get;  set; }
-
-
+            
             public void shiftLeft(int v_shift)
             {
                 StartPosition -= v_shift;
@@ -47,8 +46,6 @@ namespace AhoraCore.Core.Utils
         public void Add(KeyType key,int Length)
         {
 
-            
-
             if (Indexes.Count == 0)
             {
                 Indexes.Add(key, new ListIteam(key, key, key, initialOffset, Length));
@@ -73,10 +70,18 @@ namespace AhoraCore.Core.Utils
             }
         }
 
+
+        public void Clear()
+        {
+            Indexes.Clear();
+            initialOffset = 0;
+        }
+
         public int GetLength(KeyType key)
         {
             return Indexes[key].Length;
         }
+
         public int GetOffset(KeyType key)
         {
             return Indexes[key].StartPosition;

@@ -5,6 +5,7 @@ using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.SpecificBuffers;
 using System;
 using AhoraCore.Core.Utils;
+using AhoraCore.Core.Buffers.StandartBuffers;
 
 namespace AhoraCore.Core.Buffers
 {
@@ -22,6 +23,14 @@ namespace AhoraCore.Core.Buffers
 
         private Dictionary<string, InstanceBuffer> GeometryItemsInstansesList;
 
+        public void AddItems(List<string> geometryIDs, List<FloatBuffer> verticesData, List<IntegerBuffer> indecesDtata)
+        {
+            for (int i=0; i< geometryIDs.Count;i++)
+            {
+                AddItem(geometryIDs[i], verticesData[i].BufferData, indecesDtata[i].BufferData);
+            }
+        }
+
         public void AddItem(string key, float[] vData, int[] iData)
         {
             VerticesIndeces.Add(key, vData.Length);
@@ -31,10 +40,11 @@ namespace AhoraCore.Core.Buffers
 
         public void ClearStorrage()
         {
-   
+
+            VerticesIndeces.Clear();
+            FacesIndeces.Clear();
             VBO.Clear();
             IBO.Clear();
-
             foreach (string key in GeometryItemsInstansesList.Keys)
             {
                 GeometryItemsInstansesList[key].Clear();
@@ -44,6 +54,8 @@ namespace AhoraCore.Core.Buffers
         public void DeleteStorrage()
         {
             Delete();
+            VerticesIndeces.Clear();
+            FacesIndeces.Clear();
             foreach (string key  in GeometryItemsInstansesList.Keys)
             {
                 GeometryItemsInstansesList[key].Delete();
@@ -77,7 +89,6 @@ namespace AhoraCore.Core.Buffers
         public void RenderIteam(string iteamID)
         {
             Bind();
-            int l, o;
             if (GeometryItemsInstansesList.ContainsKey(iteamID))
             {
                 
