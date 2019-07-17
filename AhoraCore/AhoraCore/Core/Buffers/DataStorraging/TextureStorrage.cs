@@ -1,11 +1,19 @@
-﻿using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
+﻿using System;
+using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
 using AhoraCore.Core.Materials;
-using OpenTK.Graphics.OpenGL;
 
 namespace AhoraCore.Core.Buffers.DataStorraging
 {
-    public class TextureStorrage: TemplateStorrage<string, Texture, TextureTarget>
+    public class TextureStorrage : TemplateStorrage<string, Texture>
     {
+        public override void ClearIteamData(string ID)
+        {
+            Iteams[ID].Data.Clear();
+        }
 
+        public override void DeleteIteamData(string ID)
+        {
+            Iteams[ID].Data.Delete();
+        }
     }
 }

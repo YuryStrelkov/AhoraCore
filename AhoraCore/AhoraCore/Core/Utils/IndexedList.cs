@@ -1,133 +1,100 @@
-﻿using System.Collections.Generic;
+﻿using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
+using OpenTK;
+using System.Collections.Generic;
+using System;
 
 namespace AhoraCore.Core.Utils
 {
-    public class IndexedList<KeyType>
+    public struct ListIteam<KeyType>
     {
-        public struct ListIteam
+        public int StartPosition { get; set; }
+     
+        public int Length { get; set; }
+
+        public void shiftLeft(int v_shift)
         {
-            public KeyType ID { get;  set; }
-
-            public KeyType ParentID { get;  set; }
-
-            public KeyType ChildID { get;  set; }
-            
-            public int StartPosition { get;  set; }
-
-            public int Length { get;  set; }
-            
-            public void shiftLeft(int v_shift)
-            {
-                StartPosition -= v_shift;
-            }
-
-            public void shiftRight(int v_shift)
-            {
-                StartPosition += v_shift;
-            }
-
-            public ListIteam(KeyType ID_, KeyType ParentID_, KeyType ChildID_, int p, int l )
-            {
-                StartPosition = p;
-                Length = l;
-                ID = ID_;
-                ParentID = ParentID_;
-                ChildID = ChildID_;
-            }
-           
+            StartPosition -= v_shift;
         }
+
+        public void shiftRight(int v_shift)
+        {
+            StartPosition += v_shift;
+        }
+
+        public ListIteam( int p, int l)
+        {
+            StartPosition = p;
+            Length = l;
+        }
+
+    }
+
+    public class IndexedList<KeyType>: TemplateStorrage<KeyType, ListIteam<KeyType>>
+    {
+       
 
         private int initialOffset = 0;
 
-        public Dictionary<KeyType,ListIteam> Indexes { get; }
-
-        private KeyType LastKeyAdded;
-
-        public void Add(KeyType key,int Length)
+        public void Add(KeyType key, int Length)
         {
-
-            if (Indexes.Count == 0)
-            {
-                Indexes.Add(key, new ListIteam(key, key, key, initialOffset, Length));
-
-                LastKeyAdded = key;
-
-                initialOffset += Length;
-            }
-            else
-            {
-                Indexes.Add(key, new ListIteam(key, LastKeyAdded, key, initialOffset, Length));
-
-                ListIteam L = Indexes[LastKeyAdded];
-
-                L.ChildID = key;
-
-                Indexes[LastKeyAdded] = L;
-
-                LastKeyAdded = key;
-
-                initialOffset += Length;
-            }
+             AddItem(key, new ListIteam<KeyType>(initialOffset, Length));
+            initialOffset += Length;
         }
 
 
         public void Clear()
         {
-            Indexes.Clear();
+            base.ClearStorrage();
             initialOffset = 0;
         }
 
         public int GetLength(KeyType key)
         {
-            return Indexes[key].Length;
+            return Iteams[key].Data.Length;
         }
 
         public int GetOffset(KeyType key)
         {
-            return Indexes[key].StartPosition;
+            return Iteams[key].Data.StartPosition;
         }
 
         public void Remove(KeyType key)
         {
-            if (Indexes.ContainsKey(key))
+           
+          if (Iteams.ContainsKey(key))
             {
-               KeyType t_key = Indexes[key].ChildID;
+               KeyType t_key = Iteams[key].Childrens[0];
 
                 do
                 {
-                    Indexes[t_key].shiftLeft(Indexes[key].Length);
-                    t_key = Indexes[t_key].ChildID;
-                } while (!Indexes[t_key].ID.Equals(Indexes[t_key].ChildID));
+                    Iteams[t_key].Data.shiftLeft(Iteams[t_key].Data.Length);
+                    t_key = Iteams[key].Childrens[0];
+                } while (!Iteams[key].ID.Equals(Iteams[t_key].Childrens[0]));
 
-
-                ///Pearent reassign
-                ListIteam tmp = Indexes[Indexes[key].ParentID];
-
-                tmp.ChildID = Indexes[key].ChildID;
-
-                Indexes[Indexes[key].ParentID] = tmp;
-
-                ///Child reassign
-                tmp = Indexes[Indexes[key].ChildID];
-
-                tmp.ParentID = Indexes[key].ParentID;
-
-                Indexes[Indexes[key].ChildID] = tmp;
-
-                Indexes.Remove(key);
+                base.RemoveItem(key);
             }
-
+            
         }
 
         public void TryToGet(KeyType key, out int offset, out int length)
         {
-            offset=Indexes[key].StartPosition;
-            length = Indexes[key].Length;
+            offset= Iteams[key].Data.StartPosition;
+            length = Iteams[key].Data.Length;
         }
 
-        public IndexedList()
+        public override void ClearIteamData(KeyType ID)
         {
-            Indexes = new Dictionary<KeyType, ListIteam>();
+           // throw new NotImplementedException();
+        }
+
+        public override void DeleteIteamData(KeyType ID)
+        {
+          ///  throw new NotImplementedException();
+        }
+
+        public IndexedList():base()
+        {
+    
         }
 
     }

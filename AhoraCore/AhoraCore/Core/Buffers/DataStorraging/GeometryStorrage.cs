@@ -64,7 +64,7 @@ namespace AhoraCore.Core.Buffers
 
         public void RemoveItem(string geometryID)
         {
-            if (FacesIndeces.Indexes.ContainsKey(geometryID))
+            if (FacesIndeces.Iteams.ContainsKey(geometryID))
             {
                 IBO.Delete(FacesIndeces.GetOffset(geometryID), FacesIndeces.GetLength(geometryID));
                 VBO.Delete(VerticesIndeces.GetOffset(geometryID), VerticesIndeces.GetLength(geometryID));
@@ -80,7 +80,7 @@ namespace AhoraCore.Core.Buffers
 
         public void Render()
         {
-            foreach (string key in VerticesIndeces.Indexes.Keys)
+            foreach (string key in VerticesIndeces.Iteams.Keys)
             {
                 RenderIteam(key);
             }
@@ -118,7 +118,7 @@ namespace AhoraCore.Core.Buffers
 
         public void AssignInstToGeo(string geoID, float[] data)
         {
-            if (FacesIndeces.Indexes.ContainsKey(geoID))
+            if (FacesIndeces.Iteams.ContainsKey(geoID))
             {
                 GeometryItemsInstansesList.Add(geoID, new InstanceBuffer(Attribytes.Count));
                 GeometryItemsInstansesList[geoID].Create(data.Length);
@@ -132,7 +132,7 @@ namespace AhoraCore.Core.Buffers
 
         public void UpdateConcreteInst(string geoID, int[] instID, float[] data)
         {
-            if (FacesIndeces.Indexes.ContainsKey(geoID))
+            if (FacesIndeces.Iteams.ContainsKey(geoID))
             {
                 float[] tmp = new float[16];
 
@@ -168,7 +168,7 @@ namespace AhoraCore.Core.Buffers
 
         public void UpdateWholeInst(string geoID, float[] data)
         {
-            if (FacesIndeces.Indexes.ContainsKey(geoID))
+            if (FacesIndeces.Iteams.ContainsKey(geoID))
             {
                 GeometryItemsInstansesList[geoID].Bind();
                  GeometryItemsInstansesList[geoID].LoadBufferSubdata(data, 0);

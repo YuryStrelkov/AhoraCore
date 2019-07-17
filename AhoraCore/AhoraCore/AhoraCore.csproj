@@ -63,6 +63,7 @@
     <Compile Include="Core\Buffers\DebugBuffers.cs" />
     <Compile Include="Core\Buffers\FrameBuffers\FrameBuffer.cs" />
     <Compile Include="Core\Buffers\IBuffers\BindableObject\ABindableObject.cs" />
+    <Compile Include="Core\Buffers\IBuffers\BindableObject\IBindable.cs" />
     <Compile Include="Core\Buffers\IBuffers\EditableBuffer.cs" />
     <Compile Include="Core\Buffers\IBuffers\IGeometryDataStorrage.cs" />
     <Compile Include="Core\Buffers\IBuffers\IMarkAttribyte.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Core\Cameras\CameraInstance.cs" />
     <Compile Include="Core\CES\AComponent.cs" />
     <Compile Include="Core\CES\GameEntity.cs" />
+    <Compile Include="Core\CES\GameEntityStorrage.cs" />
     <Compile Include="Core\CES\ICES\IComponent.cs" />
     <Compile Include="Core\CES\ICES\ITransformable.cs" />
     <Compile Include="Core\CES\Node.cs" />

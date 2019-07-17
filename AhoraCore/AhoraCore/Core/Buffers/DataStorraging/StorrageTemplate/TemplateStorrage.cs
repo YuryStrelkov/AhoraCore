@@ -1,15 +1,64 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
+using System;
 using System.Collections.Generic;
 
 namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
-{
-    public class TemplateStorrage <KeyType, ValueType, BindTarget> : IDataStorrage<KeyType> where ValueType:ABindableObject<BindTarget>
+{/// <summary>
+/// Иерархически хранит данные 
+/// </summary>
+/// <typeparam name="KeyType"></typeparam>
+/// <typeparam name="ValueType"></typeparam>
+    public abstract class TemplateStorrage <KeyType, ValueType> : IDataStorrage<KeyType> 
     {
-        public Dictionary<KeyType, ValueType> StorrageIteams { get; protected set; }
 
-       public ValueType GetItem(KeyType ID)
+
+        public delegate void IteamAtion(ValueType ItemData);
+
+        public struct Cell
+        {
+         public ValueType Data { get; set; }
+
+         public KeyType ID { get; set; }
+
+         public KeyType Parent { get; set; }
+
+         public List<KeyType> Childrens { get; set; }
+
+         public void AddChild(KeyType child)
+         {
+                Childrens.Add(child);
+         }
+
+         public void RemoveChild(KeyType child)
+          {
+                Childrens.Remove(child);
+          }
+
+         public void SetParent(KeyType parent)
+          {
+                Parent = parent;
+          }
+
+         public Cell(KeyType ID_, KeyType Parent_, ValueType val)
+         {
+                ID = ID_;
+                Data = val;
+                Parent = Parent_;
+                Childrens = new List<KeyType>();
+         }
+        }
+
+        protected KeyType lastKey;
+
+        public KeyType RootID { get; protected set; }
+
+        public ValueType Root { get { return Iteams[RootID].Data; } }
+
+        public  Dictionary<KeyType, Cell> Iteams { get; protected set; }
+
+        public ValueType GetItem(KeyType ID)
        {
-              return  StorrageIteams[ID];
+              return Iteams[ID].Data;
        }
 
         public void AddItems(Dictionary<KeyType, ValueType> Iteams)
@@ -22,42 +71,126 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
 
         public void AddItem(KeyType ID, ValueType Item)
         {
-            if (!StorrageIteams.ContainsKey(ID))
+            if (Iteams.Count==0)
             {
-                StorrageIteams.Add(ID, Item);
+                Iteams.Add(ID, new Cell( ID, ID, Item));
+                lastKey = ID;
+                RootID = ID;
+            }
+
+            if (!Iteams.ContainsKey(ID))
+            {
+                Iteams.Add(ID, new Cell(ID, lastKey, Item));
+
+                Iteams[lastKey].AddChild(ID);
+
+                lastKey = ID;
             }
             else
             {
-                StorrageIteams[ID].Delete();
-                StorrageIteams[ID] = Item;
+                Cell t = Iteams[ID];
+
+                DeleteIteamData(t.ID);
+
+                t.Data = Item;
+
+                Iteams[ID] = t;
             }
         }
-        
+
+        public void AddItem(KeyType ParentID, KeyType ID, ValueType Item)
+        {
+
+            if (!Iteams.ContainsKey(ParentID))
+            {
+                Console.WriteLine("Unnable to find ParentID : "+ ParentID);
+            }
+
+            if (!Iteams.ContainsKey(ID))
+            {
+                Iteams.Add(ID, new Cell(ID, ParentID, Item));
+
+                Iteams[ParentID].AddChild(ID);
+
+                lastKey = ID;
+            }
+            else
+            {
+                Cell t = Iteams[ID];
+
+                Iteams[t.Parent].RemoveChild(ID);
+
+                t.Parent = ParentID;
+
+                Iteams[ParentID].AddChild(t.ID);
+
+                DeleteIteamData(t.ID);
+
+                t.Data = Item;
+
+                Iteams[ID] = t;
+            }
+        }
+
         public void ClearStorrage()
         {
-            foreach (KeyType k in StorrageIteams.Keys)
+            foreach (KeyType k in Iteams.Keys)
             {
-                StorrageIteams[k].Clear();
+                ClearIteamData(k);
             }
         }
 
         public void DeleteStorrage()
         {
-            foreach (KeyType k in StorrageIteams.Keys)
+            foreach (KeyType k in Iteams.Keys)
             {
-                StorrageIteams[k].Delete();
+                DeleteIteamData(k);
             }
-            StorrageIteams.Clear();
+            Iteams.Clear();
         }
-
+        
         public void RemoveItem(KeyType ID)
         {
-            if (!StorrageIteams.ContainsKey(ID))
+            if (!Iteams.ContainsKey(ID))
             {
-                StorrageIteams[ID].Delete();
-                StorrageIteams.Remove(ID);
+                DeleteIteamData(ID); ///StorrageIteams[ID].Data.Delete();
+
+                Iteams[Iteams[ID].Parent].RemoveChild(ID);
+
+                foreach (KeyType k in Iteams[ID].Childrens)
+                {
+                    Iteams[Iteams[ID].Parent].AddChild(k);
+                    Iteams[k].SetParent(Iteams[ID].Parent);
+                }
+
+                Iteams.Remove(ID);
             }
         }
+
+        public TemplateStorrage()
+        {
+            Iteams = new Dictionary<KeyType, Cell>();
+        }
+
+        public void DoAction(KeyType key, IteamAtion action)
+        {
+            action(Iteams[key].Data);
+
+            foreach (KeyType k in Iteams[key].Childrens)
+            {
+                DoAction(k, action);
+            }
+        }
+
+        public void WholeStorrageAction(IteamAtion action)
+        {
+            DoAction(RootID, action);
+        }
+
+        public abstract void ClearIteamData(KeyType ID);
+
+        public abstract void DeleteIteamData(KeyType ID);
+
 
     }
 }
