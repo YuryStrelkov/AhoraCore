@@ -144,7 +144,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
                 }
                 indecesData = indecesData2;
             }
-           vertsData = new FloatBuffer(5);
+           vertsData = new FloatBuffer(vBufferChache.Capacity);
 
            // done, now add triangles to mesh
 
@@ -169,10 +169,10 @@ namespace AhoraCore.Core.Models.ProceduralModels
                     vertsData.PutDirect(indecesData.Pop(i + k) * v_offset_stp + 2, vBufferChache.Pop(indecesData.Pop(i + k) * v_offset_stp + 2));
                     vertsData.PutDirect(indecesData.Pop(i + k) * v_offset_stp + 3, vBufferChache.Pop(indecesData.Pop(i + k) * v_offset_stp + 3));
                     vertsData.PutDirect(indecesData.Pop(i + k) * v_offset_stp + 4, vBufferChache.Pop(indecesData.Pop(i + k) * v_offset_stp + 4));
-                    vertsData.EnhanceBuffer(vertsData.Capacity + v_offset_stp);
+       ////             vertsData.EnhanceBuffer(vertsData.Capacity + v_offset_stp);
                 }
-                MeshUtils.CalculateAttribures(ref vertsData, v_offset_stp, mode, indecesData.Pop(i), indecesData.Pop(i + 1), indecesData.Pop(i + 2));
-            }
+                 MeshUtils.CalculateAttribures(ref vertsData, v_offset_stp, mode, indecesData.Pop(i), indecesData.Pop(i+1), indecesData.Pop(i+2));
+                }
             #endregion
         }
 

@@ -1,32 +1,56 @@
 ﻿using AhoraCore.Core.CES;
-using AhoraCore.Core.Shaders;
+using AhoraCore.Core.DataManaging;
+using AhoraCore.Core.Buffers.DataStorraging;
 
 namespace AhoraCore.Core.Models
 {
-    public class Model<KeyType>:GameEntity
+    public class Model: AComponent
     {
-        public KeyType ModelID { get; set; }
+        public string ModelID { get; set; }
    
-        public KeyType ModelMaterialID { get; set; }
+        public string ModelMaterialID { get; set; }
 
-        public KeyType ModelSaderID { get; set; }
-
-        public void UpdateShaderModelTransForm(AShader shader)
+        public string ModelSaderID { get; set; }
+             
+        
+        public override void Delete()
         {
-            shader.SetUniform("transformationMatrix", GetWorldTransform().GetWorldTransformMat());
+            GeometryStorrageManager.Data.RemoveData(ModelID);
         }
 
-        public Model(KeyType ModelID) :base()
+        public override void Disable()
+        {
+           /// throw new NotImplementedException();
+        }
+
+        public override void Input()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public override void Render()
+        {
+            ShaderStorrage.Sahaders.GetItem(ModelSaderID).SetUniform("transformationMatrix", GetWorldTransform().GetWorldTransformMat());
+            MaterialStorrage.Materials.GetItem(ModelMaterialID).Bind(ShaderStorrage.Sahaders.GetItem(ModelSaderID));
+            GeometryStorrageManager.Data.RenderIteam(ModelID);
+
+        }
+
+        public override void Update()
+        {
+           /// throw new NotImplementedException();
+        }
+
+        public Model(string ModelID) :base()
         {
             this.ModelID = ModelID;
         }
 
-        public Model(KeyType ModelID, KeyType ModelMaterialID, KeyType ModelSaderID) : base()
+        public Model(string ModelID, string ModelMaterialID, string ModelSaderID) : base()
         {
             this.ModelID = ModelID;
             this.ModelMaterialID = ModelMaterialID;
             this.ModelSaderID = ModelSaderID;
-
         }
     }
 }

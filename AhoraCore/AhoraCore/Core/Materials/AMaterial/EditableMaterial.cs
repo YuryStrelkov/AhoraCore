@@ -48,39 +48,40 @@ namespace AhoraCore.Core.Materials.AMaterial
             }
         }
 
-        public void SetDiffuse(Texture t)
+        public void SetDiffuse(string TextID)
         {
-            textures.Add(TextureChannels.Diffuse, new TextureChannel(TextureChannel.NUMBER_OF_PARAMETRS * 0, t,ref materialUniformBuffer));
+            
+            textures.Add(TextureChannels.Diffuse, new TextureChannel( 0, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.Diffuse, "Diffuse");
         }
 
-        public void SetNormals(Texture t)
+        public void SetNormals(string TextID)
         {
-            textures.Add(TextureChannels.Normal,  new TextureChannel(TextureChannel.NUMBER_OF_PARAMETRS * 1, t, ref materialUniformBuffer));
+            textures.Add(TextureChannels.Normal,  new TextureChannel( 1, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.Normal, "Normal");
         }
 
-        public void SetSpecular(Texture t)
+        public void SetSpecular(string TextID)
         {
-            textures.Add(TextureChannels.Specular, new TextureChannel(TextureChannel.NUMBER_OF_PARAMETRS * 2, t, ref materialUniformBuffer));
+            textures.Add(TextureChannels.Specular, new TextureChannel( 2, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.Specular, "Specular");
         }
 
-        public void SetHeight(Texture t)
+        public void SetHeight(string TextID)
         {
-            textures.Add(TextureChannels.Height, new TextureChannel(TextureChannel.NUMBER_OF_PARAMETRS * 3, t, ref materialUniformBuffer));
+            textures.Add(TextureChannels.Height, new TextureChannel( 3, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.Height, "Height");
         }
 
-        public void SetReflectGloss(Texture t)
+        public void SetReflectGloss(string TextID)
         {
-            textures.Add(TextureChannels.ReflectGloss, new TextureChannel(TextureChannel.NUMBER_OF_PARAMETRS * 4, t, ref materialUniformBuffer));
+            textures.Add(TextureChannels.ReflectGloss, new TextureChannel( 4, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.ReflectGloss, "ReflectGloss");
         }
 
-        public void SetTransparency(Texture t)
+        public void SetTransparency(string TextID)
         {
-            textures.Add(TextureChannels.Transparency, new TextureChannel(TextureChannel.NUMBER_OF_PARAMETRS * 5, t, ref materialUniformBuffer));
+            textures.Add(TextureChannels.Transparency, new TextureChannel( 5, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.Transparency, "Transparency");
         }
 

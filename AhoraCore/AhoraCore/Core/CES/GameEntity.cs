@@ -12,7 +12,6 @@ namespace AhoraCore.Core.CES
             components = new Dictionary<string, AComponent>();
         }
 
-
         public GameEntity(Vector3 wordPos, Vector3 wordOrient) : base()
         {
             WorldTransform.SetWorldRotation(wordOrient);
@@ -21,8 +20,6 @@ namespace AhoraCore.Core.CES
 
             components = new Dictionary<string, AComponent>();
         }
-
-
 
         public void AddComponent(string Key, AComponent component)
         {

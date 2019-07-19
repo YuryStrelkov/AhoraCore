@@ -1,6 +1,7 @@
-﻿using AhoraCore.Core.Buffers.IBuffers;
+﻿using AhoraCore.Core.Buffers.DataStorraging;
+using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
-using AhoraCore.Core.Models;
+using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Models.ProceduralModels;
 using AhoraProject.Ahora.Core.Display;
 using System;
@@ -9,11 +10,38 @@ namespace AhoraCore
 {
     class Program
     {
+        private static DisplayDevice FrameDisplay;
+
+        private static void Begin()
+        {
+            FrameDisplay = new DisplayDevice(800, 600);
+
+            TextureStorrage.Initilaze();
+
+            MaterialStorrage.Initilaze();
+
+            ShaderStorrage.Initilaze();
+
+            GeometryStorrageManager.Initialize();
+        }
+
+        private static void End()
+        {
+            TextureStorrage.Textures.DeleteStorrage();
+
+            MaterialStorrage.Materials.DeleteStorrage();
+
+            ShaderStorrage.Sahaders.DeleteStorrage();
+
+            GeometryStorrageManager.Data.DeleteManager();
+
+            FrameDisplay.Dispose();
+        }
+
         [STAThread]
         static void Main(string[] args)
         {
-            DisplayDevice dd = new DisplayDevice(800,600);
-
+            Begin();
             float[] vertices = {
                 -0.5f, 0.5f, 0f,//v0
 				-0.5f, -0.5f, 0f,//v1
@@ -53,29 +81,24 @@ namespace AhoraCore
 
 
             FloatBuffer vIco; IntegerBuffer iIco;
-
-
-            FloatBuffer[] Models; IntegerBuffer[] ModelsIndeces;  int [] masks;
-
+            
             int AttributesMask;
 
-            Icosphere.Create(2, 1, out vIco, out iIco, out AttributesMask);
+            Icosphere.Create(3,1, out vIco, out iIco, out AttributesMask);
             ///TODO отследить расширение буфера в случчае, если мы пытаемся добьваить вершин больше чем влезает 
-            dd.Scene.AddGeometry(VericesAttribytes.V_POSITION,"1",  vertices, indices);
- 
-            dd.Scene.AddGeometry(AttributesMask, "ico", vIco, iIco);
+           //// GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION,"1",  vertices, indices);
+
+            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "ico", vIco, iIco);
             
-            // dd.Scene.AddGeometry("ico", VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS, vIco, iIco);
+        //    GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "2", vertices1, indices1);
 
-           // ModelLoader.LoadModel("D:\\GitHub\\AhoraEngine\\Tests\\SceneLoad\\bin\\Debug\\resources\\teapot.obj", out masks, out Models, out ModelsIndeces);
+          ///  GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "3", vertices2, indices2);
 
-            dd.Scene.AddGeometry(VericesAttribytes.V_POSITION, "2", vertices1, indices1);
+            FrameDisplay.Run();
 
-            dd.Scene.AddGeometry(VericesAttribytes.V_POSITION, "3", vertices2, indices2);
+            End();
 
-//            dd.Scene.AddGeometry("Sphere", masks[0], Models[0], ModelsIndeces[0]);
-
-            dd.Run();
+            Console.ReadKey();
         }
     }
 }

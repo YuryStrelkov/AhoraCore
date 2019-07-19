@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Text.RegularExpressions;
 
 namespace AhoraCore.Core.Shaders
 {
@@ -191,7 +191,21 @@ namespace AhoraCore.Core.Shaders
 
         public void LoadShaderFromstring(string code, ShaderType type)
         {
+            Regex includes = new Regex(@"\w*#include CameraDefinition;\w*");
+
+            code = includes.Replace(code,Properties.Resources.CameraDefinition);
+
+            includes = new Regex(@"\w*#include MaterialDefinition;\w*");
+
+            code = includes.Replace(code, Properties.Resources.MaterialDefinition);
+            Console.Clear();
+            Console.Write(code);
             shaderPrograms.Add(type, LoadShader(code, type));
+        }
+
+        private void GetAllUniforms(string code)
+        {
+
         }
 
         private int LoadShader(string code, ShaderType type)

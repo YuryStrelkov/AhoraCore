@@ -14,6 +14,8 @@ namespace AhoraCore.Core.DataManaging
 
         public abstract void ClearManager();
 
+        public abstract void DeleteManager();
+
         public AManager()
         {
             managingData = new Dictionary<ManagingBy, ManagingData>();

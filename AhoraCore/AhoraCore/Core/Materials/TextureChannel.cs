@@ -10,7 +10,7 @@ namespace AhoraCore.Core.Materials
 {
     public class TextureChannel : ATextureChannel<string>
     {
-        public TextureChannel(int ChannelOffset, Texture t, ref UniformsBuffer<string> TextureChannelData) : base(ChannelOffset, t, ref TextureChannelData)
+        public TextureChannel(int ChannelOffset, string T_ID, ref UniformsBuffer<string> TextureChannelData) : base(ChannelOffset, T_ID, ref TextureChannelData)
         {
             SetMultiply(1,1,1,0);
             SetOffeset(0, 0);
@@ -20,17 +20,20 @@ namespace AhoraCore.Core.Materials
         // TextureChannels => Tx Ty Ox Oy R  G  B  A    
         public override void SetMultiply(float R_mull, float G_mull, float B_mull, float A_mull)
         {
-            TextureChannelData.UpdateBufferIteam("Channel[" + ChannelOffset + "].multRGBA", ChannelOffset*8 + 4, new float[] { R_mull, G_mull, B_mull, A_mull });//  ("Channel[" + (int)channel + "].multRGBA", );
+            TextureChannelData.Bind();
+            TextureChannelData.UpdateBufferIteam("Channel[" + ChannelOffset + "].multRGBA", ChannelOffset*NUMBER_OF_PARAMETRS + 4, new float[] { R_mull, G_mull, B_mull, A_mull });//  ("Channel[" + (int)channel + "].multRGBA", );
         }
 
         public override void SetOffeset(float x, float y)
         {
-            TextureChannelData.UpdateBufferIteam("Channel[" + ChannelOffset + "].offsetUV", ChannelOffset * 8 + 2, new float[] { x, y });//  ("Channel[" + (int)channel + "].multRGBA", );
+            TextureChannelData.Bind();
+            TextureChannelData.UpdateBufferIteam("Channel[" + ChannelOffset + "].offsetUV", ChannelOffset * NUMBER_OF_PARAMETRS + 2, new float[] { x, y });//  ("Channel[" + (int)channel + "].multRGBA", );
         }
 
         public override void SetTile(float x, float y)
         {
-            TextureChannelData.UpdateBufferIteam("Channel[" + ChannelOffset + "].tileUV", ChannelOffset * 8 , new float[] { x, y });//  ("Channel[" + (int)channel + "].multRGBA", );
+            TextureChannelData.Bind();
+            TextureChannelData.UpdateBufferIteam("Channel[" + ChannelOffset + "].tileUV", ChannelOffset * NUMBER_OF_PARAMETRS, new float[] { x, y });//  ("Channel[" + (int)channel + "].multRGBA", );
         }
     }
 }

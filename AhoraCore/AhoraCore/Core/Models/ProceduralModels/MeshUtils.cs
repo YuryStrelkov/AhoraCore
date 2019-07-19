@@ -21,26 +21,45 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
         public static int BONE_W_OFFSET = 17;
 
-        public static void CalculateNormal(ref FloatBuffer buffer, int vertexSize, int p1, int p2, int p3, Vector3 edge1, Vector3 edge2)
+
+        private static Vector3 crossProduct(Vector3 v1, Vector3 v2)
+        {
+            return new Vector3(v1.Y * v2.Z - v2.Y * v1.Z, (v1.X * v2.Z - v2.X * v1.Z) * -1, v1.X * v2.Y - v2.X * v1.Y);
+        }
+
+        public static void CalculateNormal(ref FloatBuffer buffer, int vertexSize, int p1, int p2, int p3, Vector3 U, Vector3 V)
         {
             Vector3 n;
 
-            n = Vector3.Cross(edge1, edge2);
+            n = crossProduct(U,V*2);
 
             n.NormalizeFast();
 
-            buffer.PutDirect(p1 + N_OFFSET, -n.X);
-            buffer.PutDirect(p1 + N_OFFSET + 1, -n.Y);
-            buffer.PutDirect(p1 + N_OFFSET + 2, -n.Z);
+            buffer.PutDirect(p1 + N_OFFSET, buffer.Pop(p1 + N_OFFSET) -n.X);
+            buffer.PutDirect(p1 + N_OFFSET + 1, buffer.Pop(p1 + N_OFFSET+1) -n.Y);
+            buffer.PutDirect(p1 + N_OFFSET + 2, buffer.Pop(p1 + N_OFFSET+2) -n.Z);
+            NormalizeNormal(ref buffer, p1 + N_OFFSET);
 
-            buffer.PutDirect(p2 + N_OFFSET, -n.X);
-            buffer.PutDirect(p2 + N_OFFSET + 1, -n.Y);
-            buffer.PutDirect(p2 + N_OFFSET + 2, -n.Z);
+            buffer.PutDirect(p2 + N_OFFSET,     buffer.Pop(p2 + N_OFFSET)- n.X);
+            buffer.PutDirect(p2 + N_OFFSET + 1, buffer.Pop(p2 + N_OFFSET+1) - n.Y);
+            buffer.PutDirect(p2 + N_OFFSET + 2, buffer.Pop(p2 + N_OFFSET+2) - n.Z);
+            NormalizeNormal(ref buffer, p2 + N_OFFSET);
 
-            buffer.PutDirect(p3 + N_OFFSET, -n.X);
-            buffer.PutDirect(p3 + N_OFFSET + 1, -n.Y);
-            buffer.PutDirect(p3 + N_OFFSET + 2, -n.Z);
+            buffer.PutDirect(p3 + N_OFFSET, buffer.Pop(p3 + N_OFFSET) -n.X);
+            buffer.PutDirect(p3 + N_OFFSET + 1 ,buffer.Pop(p3 + N_OFFSET+1)  -n.Y);
+            buffer.PutDirect(p3 + N_OFFSET + 2, buffer.Pop(p3 + N_OFFSET+2) -n.Z);
+            NormalizeNormal(ref buffer, p3 + N_OFFSET);
         }
+
+        private static void NormalizeNormal(ref FloatBuffer buffer , int point)
+        {
+            float l = (float)Math.Sqrt(buffer.Pop(point) * buffer.Pop(point) + buffer.Pop(point + 1) * buffer.Pop(point + 1) + buffer.Pop(point + 2) * buffer.Pop(point + 2));
+
+            buffer.PutDirect(point, buffer.Pop(point)/l);
+            buffer.PutDirect(point+1, buffer.Pop(point+1)/l);
+            buffer.PutDirect(point+2, buffer.Pop(point+2)/l);
+        }
+
 
         public static void CalculateAttribures(ref FloatBuffer buffer, int vertexSize, int mode, int p1, int p2, int p3)
         {
@@ -55,15 +74,20 @@ namespace AhoraCore.Core.Models.ProceduralModels
             else if (mode == 2)
             {
                 Vector3 v1;
+
                 Vector3 v2;
 
                 p1 = p1 * vertexSize;
                 p2 = p3 * vertexSize;
                 p3 = p3 * vertexSize;
 
-                v1 = new Vector3(buffer.Pop(p2) - buffer.Pop(p1), buffer.Pop(p2 + 1) - buffer.Pop(p1 + 1), buffer.Pop(p2 + 2) - buffer.Pop(p1 + 2));
+                v1 = new Vector3(buffer.Pop(p2)     - buffer.Pop(p1),
+                                 buffer.Pop(p2 + 1) - buffer.Pop(p1 + 1), 
+                                 buffer.Pop(p2 + 2) - buffer.Pop(p1 + 2));
 
-                v2 = new Vector3(buffer.Pop(p3) - buffer.Pop(p1), buffer.Pop(p3 + 1) - buffer.Pop(p1 + 1), buffer.Pop(p3 + 2) - buffer.Pop(p1 + 2));
+                v2 = new Vector3(buffer.Pop(p3)     - buffer.Pop(p1),
+                                 buffer.Pop(p3 + 1) - buffer.Pop(p1 + 1),
+                                 buffer.Pop(p3 + 2) - buffer.Pop(p1 + 2));
 
                 CalculateNormal(ref buffer, vertexSize, p1, p2, p3, v1, v2);
 
@@ -92,7 +116,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             float L;
             ////P1
-
+          ///  Console.WriteLine(tangent);
             buffer.PutDirect(p1 + T_OFFSET, buffer.Pop(p1 + T_OFFSET) + tangent.X);
             buffer.PutDirect(p1 + T_OFFSET+1, buffer.Pop(p1 + T_OFFSET+1) + tangent.Y);
             buffer.PutDirect(p1 + T_OFFSET+2, buffer.Pop(p1 + T_OFFSET+2) + tangent.Z);
@@ -140,7 +164,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
             Vector3 v2;
 
             p1 = p1 * vertexSize;
-            p2 = p3 * vertexSize;
+            p2 = p2 * vertexSize;
             p3 = p3 * vertexSize;
 
             v1 = new Vector3(buffer.Pop(p2) - buffer.Pop(p1), buffer.Pop(p2 + 1) - buffer.Pop(p1 + 1), buffer.Pop(p2 + 2) - buffer.Pop(p1 + 2));
@@ -153,7 +177,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
         public static void CalculateTangent(ref FloatBuffer buffer, int vertexSize, int p1, int p2, int p3)
         {
             p1 = p1 * vertexSize;
-            p2 = p3 * vertexSize;
+            p2 = p2 * vertexSize;
             p3 = p3 * vertexSize;
 
             Vector3 edge1 = new Vector3(buffer.Pop(p2) - buffer.Pop(p1), buffer.Pop(p2 + 1) - buffer.Pop(p1 + 1), buffer.Pop(p2 + 2) - buffer.Pop(p1 + 2));

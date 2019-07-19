@@ -7,7 +7,16 @@ namespace AhoraCore.Core.DataManaging
 {
     public class GeometryStorrageManager:AManager<GeometryStorrage, int, string>, IRedreable<string>
     {
-        public GeometryStorrageManager():base()
+        private static GeometryStorrageManager geometryData;
+
+        public static GeometryStorrageManager Data { get { return geometryData; } }
+
+        public static void Initialize()
+        {
+            geometryData = new GeometryStorrageManager();
+        }
+
+        private GeometryStorrageManager():base()
         {
         }
 
@@ -78,9 +87,17 @@ namespace AhoraCore.Core.DataManaging
 
         public override void ClearManager()
         {
-            foreach (GeometryStorrage val  in managingData.Values)
+            foreach (int k  in managingData.Keys)
             {
-                val.ClearStorrage();
+                managingData[k].ClearStorrage();
+            }
+        }
+
+        public override void DeleteManager()
+        {
+            foreach (int k in managingData.Keys)
+            {
+                managingData[k].DeleteStorrage();
             }
         }
 

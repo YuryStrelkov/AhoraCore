@@ -1,4 +1,5 @@
-﻿using AhoraCore.Core.DataManaging;
+﻿using AhoraCore.Core.Buffers.DataStorraging;
+using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Input;
 using AhoraCore.Core.Shaders;
 using OpenTK;
@@ -11,19 +12,19 @@ namespace AhoraProject.Ahora.Core.Display
 {
     public class DisplayDevice: GameWindow
     {
-        public GeometryStorrageManager Scene { get; private set; }
+       // public GeometryStorrageManager Scene { get; private set; }
 
         public AShader staticShader{ get; private set; }
 
         public DisplayDevice(int w, int h):base(w,h)
         {
-            Scene = new GeometryStorrageManager();
+         ///   Scene = new GeometryStorrageManager();
             staticShader = new DefaultShader();
         }
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            Scene.BeforeRender();
+            GeometryStorrageManager.Data.BeforeRender();
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -49,7 +50,8 @@ namespace AhoraProject.Ahora.Core.Display
             cleanUpFrame();
             staticShader.Bind();
             staticShader.UpdateUniforms();
-            Scene.Render();
+          ///  MaterialStorrage.Materials.GetItem("DefaultMaterial").Bind(staticShader);
+            GeometryStorrageManager.Data.Render();
             this.SwapBuffers();
         }
 
@@ -57,8 +59,8 @@ namespace AhoraProject.Ahora.Core.Display
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            Scene.PostRender();
-            Scene.ClearManager();
+            //GeometryStorrageManager.Data.PostRender();
+            //GeometryStorrageManager.Data.ClearManager();
             staticShader.Delete();
         }
 

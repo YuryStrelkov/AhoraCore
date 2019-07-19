@@ -6,6 +6,24 @@ namespace AhoraCore.Core.Buffers.DataStorraging
 {
     public class ShaderStorrage : TemplateStorrage<string, AShader>
     {
+
+        private static ShaderStorrage shaders;
+
+        public static ShaderStorrage Sahaders
+        {
+            get { return shaders; }
+        }
+
+        public static void Initilaze()
+        {
+            shaders = new ShaderStorrage();
+        }
+
+        private ShaderStorrage():base()
+        {
+
+        }
+
         public override void ClearIteamData(string ID)
         {
             Iteams[ID].Data.Clear();

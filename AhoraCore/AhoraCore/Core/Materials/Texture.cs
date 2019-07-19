@@ -55,9 +55,7 @@ namespace AhoraCore.Core.Materials
         {
             if (ID==-1)
             {
-                int id;
-                GL.GenTextures(1, out id);
-                ID = id;
+                ID=GL.GenTexture(); 
             }
            
         }

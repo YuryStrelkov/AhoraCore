@@ -4,25 +4,12 @@ using AhoraProject.Ahora.Core.IRender;
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 using AhoraCore.Core.Buffers.StandartBuffers;
-using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.CES;
 
 namespace AhoraCore.Core.Scene3D
 {
     public class Scene : GameEntityStorrage,IRedreable<string>
     {
-        /// <summary>
-        /// Так получилось, что все меши отсортированы по наборам атрибутов, однако все меши с одним и тем же
-        /// набором атрибутов хранятся в одном буфере, а доступ к конкретной модели осущетсвляется по индексам.
-        /// </summary>
-        public GeometryStorrageManager SceneMeshes { get; private set; }
-        //Нужна хотя бы одна дефолтная текстура
-        public TextureStorrage SceneTextures { get; private set; }
-        //Нужен хотя бы один дефолтный мфтериал
-        public MaterialStorrage SceneMaterials { get; private set; }
-     
-        public Dictionary<string, Model<string>> SceneModels { get; private set; }///убрать метод Bind(BindingTarget target) в отдельный интерфейс и заменить 
-            // Dictionary<string, Model<string>>  на ModelStorrage
         public void Load(string path)
         {
              Dictionary<int, List<string>> AttrMasksPerModelNames;
@@ -43,7 +30,7 @@ namespace AhoraCore.Core.Scene3D
             {
                 for (int nameIdx=0; nameIdx< AttrMasksPerModelNames[attrMask].Count; nameIdx++)
                 {   ///Индексирование модели происходит непоследственно в буфере SceneMeshes, что бы нариовать модель и этого буфера, просто запроси ее отрисовку
-                    SceneMeshes.AddGeometrySet( attrMask, AttrMasksPerModelNames[attrMask].ToArray(), Vertices[attrMask].ToArray(), Indeces[attrMask].ToArray());
+                    GeometryStorrageManager.Data.AddGeometrySet( attrMask, AttrMasksPerModelNames[attrMask].ToArray(), Vertices[attrMask].ToArray(), Indeces[attrMask].ToArray());
                 }
             }
             ModelLoader.LoadHeirarhy( scn.RootNode,  this);
@@ -51,19 +38,12 @@ namespace AhoraCore.Core.Scene3D
 
         public Scene():base()
             {
-                SceneMeshes = new GeometryStorrageManager();
-                SceneTextures = new TextureStorrage();
-                SceneMaterials = new MaterialStorrage();
-                SceneModels = new Dictionary<string, Model<string>>();
+              //  SceneMeshes = new GeometryStorrageManager();
             }
 
         public Scene(string path) : base()
         {
-            SceneMeshes = new GeometryStorrageManager();
-            SceneTextures = new TextureStorrage();
-            SceneMaterials = new MaterialStorrage();
-            SceneModels = new Dictionary<string, Model<string>>();
-
+          ///  SceneMeshes = new GeometryStorrageManager();
             Load( path);
         }
 
@@ -95,7 +75,7 @@ namespace AhoraCore.Core.Scene3D
                 ///Updating Model transformayion un shader
                // SceneModels[iteamID].UpdateShaderModelTransForm(SceneShaders.GetItem(SceneModels[iteamID].ModelSaderID));
 
-                SceneMeshes.RenderIteam(iteamID);
+               // SceneMeshes.RenderIteam(iteamID);
  
         }
 
