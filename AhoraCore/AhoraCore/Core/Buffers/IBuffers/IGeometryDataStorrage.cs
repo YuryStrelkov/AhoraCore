@@ -1,13 +1,11 @@
-﻿using System;
+﻿using AhoraCore.Core.Buffers.StandartBuffers;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AhoraCore.Core.Buffers.IBuffers
 {
   public  interface IGeometryDataStorrage<T>
     {
         void AddItem(T geometryID, float[] verticesData, int[] indecesDtata);
+        void AddItems(List<T> geometryIDs, List<FloatBuffer> verticesData, List<IntegerBuffer> indecesDtata);
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace AhoraCore.Core.Buffers.IBuffers
+﻿using AhoraCore.Core.Buffers.IBuffers.BindableObject;
+
+namespace AhoraCore.Core.Buffers.IBuffers
 {
-    public abstract class ABindableObject<T>
+    public abstract class ABindableObject<T>: IBindable
     {
         T bindTarget;
 
@@ -30,9 +32,10 @@
             }
         }
 
-        public abstract void Bind();
-
+        
         public abstract void Bind(T bindTarget);
+
+        public abstract void Bind();
 
         public abstract void Create();
 

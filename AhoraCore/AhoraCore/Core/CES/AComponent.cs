@@ -3,7 +3,7 @@ using AhoraCore.Core.Transformations;
 
 namespace AhoraCore.Core.CES
 {
-    public abstract class AComponent : IComponent<GameEntity>, ITransformable
+    public abstract class AComponent : IComponent, ITransformable
     {
         GameEntity parent;
 

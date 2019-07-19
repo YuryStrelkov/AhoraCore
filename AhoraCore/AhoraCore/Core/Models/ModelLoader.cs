@@ -1,8 +1,10 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
+using AhoraCore.Core.CES;
 using AhoraCore.Core.Transformations;
 using Assimp;
 using Assimp.Configs;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,14 +77,13 @@ namespace AhoraCore.Core.Models
         }
 
 
-        public static void LoadSceneGeometry(Scene a_scene, out Dictionary<int, List<string>> AttrMasksPerModelNames,
-                                                             out Dictionary<int, List<FloatBuffer>> Vertices,
-                                                             out Dictionary<int, List<IntegerBuffer>> Indeces, 
-                                                             out Dictionary<int, List<int>> MaterialIDs)
+        public static void LoadSceneGeometry(ref Scene a_scene, out Dictionary<int, List<string>> MasksMerModelIDS,
+                                                            out Dictionary<int, List<FloatBuffer>> Vertices,
+                                                            out Dictionary<int, List<IntegerBuffer>> Indeces, 
+                                                            out Dictionary<int, List<int>> MaterialIDs)
         {
 
-
-            AttrMasksPerModelNames = new Dictionary<int, List<string>>();
+            MasksMerModelIDS = new Dictionary<int, List<string>>();
             Vertices = new Dictionary<int, List<FloatBuffer>>();
             Indeces = new Dictionary<int, List<IntegerBuffer>>();
             MaterialIDs = new Dictionary<int, List<int>>();
@@ -101,21 +102,21 @@ namespace AhoraCore.Core.Models
                     continue;
                 }
 
-                if (AttrMasksPerModelNames.ContainsKey(AttribsMask))
+                if (Vertices.ContainsKey(AttribsMask))
                 {
-                    AttrMasksPerModelNames[AttribsMask].Add(Mname);
+                    MasksMerModelIDS[AttribsMask].Add(Mname);
                     Vertices[AttribsMask].Add(Verts);
                     Indeces[AttribsMask].Add(Inds);
                     MaterialIDs[AttribsMask].Add(m.MaterialIndex);
                 }
                 else
                 {
-                    AttrMasksPerModelNames.Add(AttribsMask, new List<string>());
                     Vertices.Add(AttribsMask, new List<FloatBuffer>());
                     Indeces.Add(AttribsMask,new List<IntegerBuffer>());
                     MaterialIDs.Add(AttribsMask, new List<int>());
+                    MasksMerModelIDS.Add(AttribsMask, new List<string>());
 
-                    AttrMasksPerModelNames[AttribsMask].Add(Mname);
+                    MasksMerModelIDS[AttribsMask].Add(Mname);
                     Vertices[AttribsMask].Add(Verts);
                     Indeces[AttribsMask].Add(Inds);
                     MaterialIDs[AttribsMask].Add(m.MaterialIndex);
@@ -123,6 +124,52 @@ namespace AhoraCore.Core.Models
                 }
 
 
+            }
+        }
+
+        public static void LoadHeirarhy( Assimp.Node rootNode,  GameEntityStorrage storrage)
+        {
+            ProcessNodes(ref storrage, rootNode, Assimp.Matrix4x4.Identity, new Transform(0, 0, 0), "");
+        }
+
+
+        private static void ProcessNodes(ref GameEntityStorrage storrage, Assimp.Node node, Assimp.Matrix4x4 parentTransform, Transform parent, string parent_name)
+        {
+            GameEntity go = new GameEntity();
+            
+
+            Vector3D scale, translation;
+            Assimp.Quaternion rotation;
+            Vector3 angles;
+
+            Matrix4x4 matrix = node.Transform * parentTransform;
+            // Matrix4x4 unityMatrix = Matrix4x4. matrix.();
+            matrix.Decompose(out scale, out rotation, out translation);
+
+            ToEulerAngles(rotation, out angles);
+
+            go.GetLocalTransform().SetWorldRotation(angles);
+            go.GetLocalTransform().SetWorldTranslation(translation[0], translation[1], translation[2]);
+            go.GetLocalTransform().SetWorldScaling(scale[0], scale[1], scale[2]);
+
+            //go.transform.localScale = new Vector3(scale[0], scale[1], scale[2]);
+            //go.transform.rotation = new Assimp.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W);
+            //go.transform.position = new Vector3(translation[0], translation[1], translation[2]);
+
+            go.GetWorldTransform().SetWorldRotation(parent.GetWorldRotation());
+            go.GetWorldTransform().SetWorldTranslation(parent.GetWorldTranslation());
+            go.GetWorldTransform().SetWorldScaling(parent.GetWorldScaling());
+
+            //go.transform.parent = parent;
+
+            storrage.AddItem(parent_name, node.Name, go);
+
+            if (node.HasChildren)
+            {
+                foreach (Assimp.Node child in node.Children)
+                {
+                    ProcessNodes(ref storrage, child, matrix, go.GetLocalTransform(), node.Name);
+                }
             }
         }
 
@@ -389,7 +436,29 @@ namespace AhoraCore.Core.Models
         }
 
 
+        private static void ToEulerAngles(Assimp.Quaternion q, out Vector3 angles)
+        {
+             angles=new Vector3();
 
+            // roll (x-axis rotation)
+            double sinr_cosp = +2.0 * (q.W * q.X + q.Y * q.Z);
+            double cosr_cosp = +1.0 - 2.0 * (q.X * q.X + q.Y * q.Y);
+            angles.X = (float)Math.Atan2(sinr_cosp, cosr_cosp);
+
+            // pitch (y-axis rotation)
+            double sinp = +2.0 * (q.W * q.Y - q.Z * q.X);
+            if (Math.Abs(sinp) >= 1)
+                angles.Y = (float)(Math.Sign(sinp) * Math.Max(Math.PI / 2, Math.Abs(sinp))); // use 90 degrees if out of range
+            else
+                angles.Z = (float)Math.Asin(sinp);
+
+            // yaw (z-axis rotation)
+            double siny_cosp = +2.0 * (q.W * q.Z + q.X * q.Y);
+            double cosy_cosp = +1.0 - 2.0 * (q.Y * q.Y + q.Z * q.Z);
+            angles.Z = (float)Math.Atan2(siny_cosp, cosy_cosp);
+
+        
+        }
     }
 
 }

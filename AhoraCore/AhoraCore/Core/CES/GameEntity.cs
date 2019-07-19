@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using OpenTK;
+using System.Collections.Generic;
 
 namespace AhoraCore.Core.CES
 {
@@ -6,14 +7,34 @@ namespace AhoraCore.Core.CES
     {
         private Dictionary<string, AComponent> components;
 
-        public GameEntity()
+        public GameEntity():base()
         {
             components = new Dictionary<string, AComponent>();
         }
 
+
+        public GameEntity(Vector3 wordPos, Vector3 wordOrient) : base()
+        {
+            WorldTransform.SetWorldRotation(wordOrient);
+
+            WorldTransform.SetWorldTranslation(wordPos);
+
+            components = new Dictionary<string, AComponent>();
+        }
+
+
+
         public void AddComponent(string Key, AComponent component)
         {
-
+            if (!components.ContainsKey(Key))
+            {
+                components.Add(Key, component);
+            }
+            else
+            {
+                components[Key].Delete();
+                components[Key] = component;
+            }
         }
 
         public new void Update()
