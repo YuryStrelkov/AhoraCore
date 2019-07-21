@@ -7,7 +7,6 @@ using AhoraCore.Core.Shaders;
 using System;
 using System.Collections.Generic;
 
-
 namespace AhoraCore.Core.Models.ProceduralModels
 {
    public static class Icosphere
@@ -42,17 +41,15 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             GameEntityStorrage.Entities.AddItem("SkyDome", new GameEntity());
 
-
             MaterialStorrage.Materials.AddItem("AtmosphereMaterial", new Materials.Material());
 
-            TextureStorrage.Textures.AddItem("Clouds", new Materials.Texture(Properties.Resources.Clouds));
+            TextureStorrage.Textures.AddItem("Clouds", new Materials.Texture(Properties.Resources.Clouds1));
 
             MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetDiffuse("Clouds");
 
             MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetNormals("Clouds");
 
             MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetSpecular("Clouds");
-
 
             GameEntityStorrage.Entities.GetItem("SkyDome").AddComponent("SkyDome", new Model("SkyDome", "AtmosphereMaterial", "AtmosphereShader"));
 

@@ -98,6 +98,16 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Clouds1 {
+            get {
+                object obj = ResourceManager.GetObject("Clouds1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
         ///
         ///out vec4 out_Color;
@@ -174,7 +184,7 @@ namespace AhoraCore.Properties {
         ///
         ///void main()
         ///{ 
-        ///	out_Color.rgb       =    mix(1.2*getDiffuse().rgb*getDiffuse().rgb,skyColor,0.8);
+        ///	out_Color.rgb       =    mix(2*getDiffuse().rgb,skyColor,0.9);
         ///					     
         ///    out_Color.a         =  getDiffuse().r;
         ///	 

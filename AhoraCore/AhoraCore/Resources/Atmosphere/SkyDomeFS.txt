@@ -10,8 +10,7 @@ in vec3 skyColor;
 
 void main()
 { 
-	out_Color.rgb       =    mix(2*getDiffuse().rgb,skyColor,0.9);
+	out_Color.rgb       =    mix(1.75*getDiffuse().rgb,skyColor,0.35);
 					     
     out_Color.a         =  getDiffuse().r;
-	 
 }
