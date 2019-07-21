@@ -1,6 +1,9 @@
-﻿using AhoraCore.Core.Buffers.IBuffers;
+﻿using AhoraCore.Core.Buffers.DataStorraging;
+using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
-using OpenTK;
+using AhoraCore.Core.CES;
+using AhoraCore.Core.DataManaging;
+using AhoraCore.Core.Shaders;
 using System;
 using System.Collections.Generic;
 
@@ -19,6 +22,42 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
         private static FloatBuffer vBufferChache;
 
+
+        public static void CreateSkyDome(int domeQuality)
+        {
+            if (GameEntityStorrage.Entities.Iteams.ContainsKey("SkyDome"))
+            {
+                return;
+            }
+
+            FloatBuffer vIco; IntegerBuffer iIco;
+
+            int AttributesMask;
+
+            ShaderStorrage.Sahaders.AddItem("AtmosphereShader", new AtmosphereShader());
+
+            Create(3, 1, out vIco, out iIco, out AttributesMask);
+
+            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "SkyDome", vIco, iIco);
+
+            GameEntityStorrage.Entities.AddItem("SkyDome", new GameEntity());
+
+
+            MaterialStorrage.Materials.AddItem("AtmosphereMaterial", new Materials.Material());
+
+            TextureStorrage.Textures.AddItem("Clouds", new Materials.Texture(Properties.Resources.Clouds));
+
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetDiffuse("Clouds");
+
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetNormals("Clouds");
+
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetSpecular("Clouds");
+
+
+            GameEntityStorrage.Entities.GetItem("SkyDome").AddComponent("SkyDome", new Model("SkyDome", "AtmosphereMaterial", "AtmosphereShader"));
+
+            GameEntityStorrage.Entities.GetItem("SkyDome").GetWorldTransform().SetWorldScaling(2000, 2000, 2000);
+        }
 
         public static void Create(int recursionLevel, out FloatBuffer vertsData, out IntegerBuffer indecesData, out int AttributesMask)
         {

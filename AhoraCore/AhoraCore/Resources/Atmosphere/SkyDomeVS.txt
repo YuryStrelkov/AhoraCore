@@ -1,0 +1,42 @@
+#version 330
+
+layout (location = 0) in vec3 p_position;
+layout (location = 1) in vec2 p_texcoord;
+layout (location = 2) in vec3 p_normal;
+
+out vec3 v_Colour;
+out vec2 v_TexCoord;
+out vec3 v_normal;
+out vec3 skyColor;
+
+uniform mat4 transformationMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
+
+//uniform float domeRadius;
+
+//uniform vec3 baseColor;
+
+const vec3 baseColor=vec3(0.18,0.27,0.47);
+ 
+vec3 atmosphereDescend(vec3 position, vec3 atm_color)
+{
+return vec3(-0.00022*(position.y-2000)+ atm_color.x,
+			-0.00025*(position.y-2000)+ atm_color.y,
+			-0.00019*(position.y-2000)+ atm_color.z);
+} 
+ 
+void  main()
+{	
+	vec4 fragPosition;
+
+    fragPosition       =    transformationMatrix*vec4(p_position,1);
+	
+	v_TexCoord          =  p_texcoord;
+	
+ 	v_normal            =  normalize(mat3(viewMatrix*transformationMatrix)*p_normal);///normalMatrix*aNormals;
+
+	skyColor          =    atmosphereDescend(fragPosition.xyz,baseColor);
+	
+	gl_Position       =    projectionMatrix*viewMatrix*fragPosition;
+}

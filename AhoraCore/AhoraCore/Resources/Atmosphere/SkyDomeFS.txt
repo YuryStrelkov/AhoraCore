@@ -1,0 +1,17 @@
+#version 330 core
+out vec4 out_Color;
+
+in vec3 v_Colour;
+in vec2 v_TexCoord;
+in vec3 v_normal;
+in vec3 skyColor;
+
+#include MaterialDefinition;
+
+void main()
+{ 
+	out_Color.rgb       =    mix(2*getDiffuse().rgb,skyColor,0.9);
+					     
+    out_Color.a         =  getDiffuse().r;
+	 
+}

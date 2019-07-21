@@ -88,13 +88,23 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Clouds {
+            get {
+                object obj = ResourceManager.GetObject("Clouds", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
         ///
-        ///in vec3 v_Colour;
-        ///in vec2 v_TexCoord;
-        ///
-        ///
         ///out vec4 out_Color;
+        ///
+        ///in vec3 v_Colour;
+        ///
+        ///in vec2 v_TexCoord;
         ///
         ///#include MaterialDefinition;
         ///
@@ -102,7 +112,7 @@ namespace AhoraCore.Properties {
         ///
         ///void main(void){
         ///
-        ///	out_Color = vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
+        ///	out_Color = vec4(v_Colour*texture(defTexture,v_TexCoord).xyz+albedoColor.xyz*getNormal(),1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
         ///
         ///}.
         /// </summary>
@@ -114,13 +124,6 @@ namespace AhoraCore.Properties {
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на ////Textures
-        ///uniform sampler2D   DiffuseMap;
-        ///uniform sampler2D   NormalMap;
-        ///uniform sampler2D   SpecularMap;
-        ///uniform sampler2D   HeightMap;
-        ///uniform sampler2D   ReflectGlossMap;
-        ///uniform sampler2D   TransparencyMap;
-        ///
         ///const int   DiffuseID = 0,
         ///	    	NormalID = 1,
         ///     		SpecularID = 2,
@@ -128,7 +131,7 @@ namespace AhoraCore.Properties {
         ///			ReflectGlossID = 4,
         ///			TransparencyID =5;
         ///
-        ///struct  Channel
+        ///struct  channel
         ///{
         ///vec2 tileUV;
         ///vec2 offsetUV;
@@ -137,13 +140,81 @@ namespace AhoraCore.Properties {
         ///
         ///layout(std140) uniform MaterialData
         ///{
-        ///vec4 AlbedoColor;
+        ///vec4 albedoColor;
         ///
-        ///vec4 AmbientColo [остаток строки не уместился]&quot;;.
+        ///vec4 ambientColor;
+        ///
+        ///vec4 reflectionColor;
+        ///
+        ///float reflectivity, metallness, roughness, transparency;
+        ///
+        ///channel[8] matChannels;
+        ///};
+        ///
+        ///uniform sampler2D   diffuseMap;
+        ///uniform sampler2D   normalMap;
+        ///uniform sampler2D   sp [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string MaterialDefinition {
             get {
                 return ResourceManager.GetString("MaterialDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///out vec4 out_Color;
+        ///
+        ///in vec3 v_Colour;
+        ///in vec2 v_TexCoord;
+        ///in vec3 v_normal;
+        ///in vec3 skyColor;
+        ///
+        ///#include MaterialDefinition;
+        ///
+        ///void main()
+        ///{ 
+        ///	out_Color.rgb       =    mix(1.2*getDiffuse().rgb*getDiffuse().rgb,skyColor,0.8);
+        ///					     
+        ///    out_Color.a         =  getDiffuse().r;
+        ///	 
+        ///}.
+        /// </summary>
+        internal static string SkyDomeFS {
+            get {
+                return ResourceManager.GetString("SkyDomeFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330
+        ///
+        ///layout (location = 0) in vec3 p_position;
+        ///layout (location = 1) in vec2 p_texcoord;
+        ///layout (location = 2) in vec3 p_normal;
+        ///
+        ///out vec3 v_Colour;
+        ///out vec2 v_TexCoord;
+        ///out vec3 v_normal;
+        ///out vec3 skyColor;
+        ///
+        ///uniform mat4 transformationMatrix;
+        ///uniform mat4 projectionMatrix;
+        ///uniform mat4 viewMatrix;
+        ///
+        /////uniform float domeRadius;
+        ///
+        /////uniform vec3 baseColor;
+        ///
+        ///const vec3 baseColor=vec3(0.18,0.27,0.47);
+        /// 
+        ///vec3 atmosphereDescend(vec3 position, vec3 atm_color)
+        ///{
+        ///return vec3(-0.00022*( [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string SkyDomeVS {
+            get {
+                return ResourceManager.GetString("SkyDomeVS", resourceCulture);
             }
         }
         

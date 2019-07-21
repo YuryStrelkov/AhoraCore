@@ -5,6 +5,7 @@ using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Models;
 using AhoraCore.Core.Models.ProceduralModels;
+using AhoraCore.Core.Shaders;
 using AhoraProject.Ahora.Core.Display;
 using System;
 
@@ -57,10 +58,10 @@ namespace AhoraCore
 
 
             float[] vertices1 = {
-                -10f,-1,  10f,//v0
-				-10f,-1, -10f,//v1
-			     10f,-1, -10f,//v2
-				 10f,-1,  10f,//v3
+                -100f,-1,  100f,0,1,0,//v0
+				-100f,-1, -100f,0,1,0,//v1
+			     100f,-1, -100f,0,1,0,//v2
+				 100f,-1,  100f,0,1,0,//v3
 		};
 
 
@@ -85,25 +86,23 @@ namespace AhoraCore
 				11,9,10 //bottom right triangle (v3, v1, v2)
 		};
 
+            Icosphere.CreateSkyDome(2);
+           // FloatBuffer vIco; IntegerBuffer iIco;
 
-            FloatBuffer vIco; IntegerBuffer iIco;
-            
-            int AttributesMask;
+            // int AttributesMask;
 
-            Icosphere.Create(3,1, out vIco, out iIco, out AttributesMask);
-            ///TODO отследить расширение буфера в случчае, если мы пытаемся добьваить вершин больше чем влезает 
-           //// GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION,"1",  vertices, indices);
 
-            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "ico", vIco, iIco);
-            GameEntityStorrage.Entities.AddItem("ico",new GameEntity());
-            GameEntityStorrage.Entities.GetItem("ico").AddComponent("ico_model", new Model("ico", "DefaultMaterial", "DefaultShader"));
+            // ShaderStorrage.Sahaders.AddItem("AtmosphereSahder", new AtmosphereShader());
+            // Icosphere.Create(3,1, out vIco, out iIco, out AttributesMask);
+            // ///TODO отследить расширение буфера в случчае, если мы пытаемся добьваить вершин больше чем влезает 
+            ////// GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION,"1",  vertices, indices);
 
-            GameEntityStorrage.Entities.GetItem("ico").GetWorldTransform().SetWorldScaling(10, 10, 10);
-           //    GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "2", vertices1, indices1);
+            // GeometryStorrageManager.Data.AddGeometry(AttributesMask, "ico", vIco, iIco);
+            // GameEntityStorrage.Entities.AddItem("ico",new GameEntity());
+            // GameEntityStorrage.Entities.GetItem("ico").AddComponent("ico_model", new Model("ico", "DefaultMaterial", "AtmosphereSahder"));
 
-           ///  GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "3", vertices2, indices2);
 
-           FrameDisplay.Run();
+            FrameDisplay.Run();
 
             End();
 
