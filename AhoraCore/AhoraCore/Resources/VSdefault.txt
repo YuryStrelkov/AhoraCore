@@ -1,6 +1,7 @@
 #version 330
+
 layout (location = 0) in vec3 p_position;
-layout (location = 1) in vec2 p_TexCoord;
+layout (location = 1) in vec2 p_texcoord;
 layout (location = 2) in vec3 p_normal;
 
 out vec3 v_Colour;
@@ -19,7 +20,7 @@ void main(){
 
 	v_normal = (viewTransform*vec4(p_normal,1.0)).xyz;
 
-	v_TexCoord = p_TexCoord;
+	 v_TexCoord = p_texcoord;
 
 	v_Colour = dot((p_normal*0.5+0.5), vec3(1,-1,1))*vec3(0.6,0.8,1);
 }

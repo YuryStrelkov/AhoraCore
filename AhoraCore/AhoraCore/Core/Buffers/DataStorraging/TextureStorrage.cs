@@ -1,5 +1,4 @@
-﻿using System;
-using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
+﻿using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
 using AhoraCore.Core.Materials;
 
 namespace AhoraCore.Core.Buffers.DataStorraging
@@ -21,7 +20,7 @@ namespace AhoraCore.Core.Buffers.DataStorraging
 
         private TextureStorrage():base()
         {
-            AddItem("DefaultTexture", new Texture(1f,0.0f,0.0f));
+            AddItem("DefaultTexture", new Texture(Properties.Resources.checkerboard_rainbow));
         }
 
 

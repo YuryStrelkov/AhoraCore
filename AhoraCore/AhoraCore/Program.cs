@@ -1,7 +1,9 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
+using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
+using AhoraCore.Core.Models;
 using AhoraCore.Core.Models.ProceduralModels;
 using AhoraProject.Ahora.Core.Display;
 using System;
@@ -23,6 +25,8 @@ namespace AhoraCore
             ShaderStorrage.Initilaze();
 
             GeometryStorrageManager.Initialize();
+
+            GameEntityStorrage.Initialize();
         }
 
         private static void End()
@@ -34,6 +38,8 @@ namespace AhoraCore
             ShaderStorrage.Sahaders.DeleteStorrage();
 
             GeometryStorrageManager.Data.DeleteManager();
+
+            GameEntityStorrage.Entities.DeleteStorrage();
 
             FrameDisplay.Dispose();
         }
@@ -89,12 +95,15 @@ namespace AhoraCore
            //// GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION,"1",  vertices, indices);
 
             GeometryStorrageManager.Data.AddGeometry(AttributesMask, "ico", vIco, iIco);
-            
-        //    GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "2", vertices1, indices1);
+            GameEntityStorrage.Entities.AddItem("ico",new GameEntity());
+            GameEntityStorrage.Entities.GetItem("ico").AddComponent("ico_model", new Model("ico", "DefaultMaterial", "DefaultShader"));
 
-          ///  GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "3", vertices2, indices2);
+            GameEntityStorrage.Entities.GetItem("ico").GetWorldTransform().SetWorldScaling(10, 10, 10);
+           //    GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "2", vertices1, indices1);
 
-            FrameDisplay.Run();
+           ///  GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "3", vertices2, indices2);
+
+           FrameDisplay.Run();
 
             End();
 

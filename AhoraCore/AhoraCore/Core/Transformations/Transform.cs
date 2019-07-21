@@ -52,9 +52,9 @@ namespace AhoraCore.Core.Transformations
             ischangedWorld = true;
             ischangedLocal = true;
             PositionLocal = new Vector3();
-            ScaleLocal = new Vector3();
+            ScaleLocal = new Vector3(1, 1, 1);
             EulerRotationLoacal = new Vector3();
-            ScaleWorld = new Vector3();
+            ScaleWorld = new Vector3(1, 1, 1);
             EulerRotationWorld = new Vector3();
             localTranformM = new Matrix4();
             worldTranformM = new Matrix4();
@@ -67,9 +67,9 @@ namespace AhoraCore.Core.Transformations
             ischangedLocal = true;
             PositionWorld = new Vector3(x,y,z);
             PositionLocal = new Vector3();
-            ScaleLocal = new Vector3();
+            ScaleLocal = new Vector3(1,1,1);
             EulerRotationLoacal = new Vector3();
-            ScaleWorld = new Vector3();
+            ScaleWorld = new Vector3(1, 1, 1);
             EulerRotationWorld = new Vector3();
             localTranformM = new Matrix4();
             worldTranformM = new Matrix4();

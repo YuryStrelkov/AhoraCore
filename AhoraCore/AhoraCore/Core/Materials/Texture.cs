@@ -46,6 +46,14 @@ namespace AhoraCore.Core.Materials
             BindingTarget = TextureTarget.Texture2D;
         }
 
+
+        public Texture(Bitmap image)
+        {
+            BindingTarget = TextureTarget.Texture2D;
+            Create();
+            ReloadImage(image);
+        }
+
         public override void Bind()
         {
             GL.BindTexture(BindingTarget, ID);
@@ -55,7 +63,7 @@ namespace AhoraCore.Core.Materials
         {
             if (ID==-1)
             {
-                ID=GL.GenTexture(); 
+                ID = GL.GenTexture(); 
             }
            
         }

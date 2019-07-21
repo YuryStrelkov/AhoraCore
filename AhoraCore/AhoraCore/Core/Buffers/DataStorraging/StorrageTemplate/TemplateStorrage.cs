@@ -76,6 +76,7 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
                 Iteams.Add(ID, new Cell( ID, ID, Item));
                 lastKey = ID;
                 RootID = ID;
+                return;
             }
 
             if (!Iteams.ContainsKey(ID))

@@ -5,22 +5,24 @@ namespace AhoraCore.Core.Materials
    
     public class Material:EditableMaterial
     {
+        public static int MAX_TEXTURE_CHANNELS_NUMBER = 8;
+
         public Material() : base()
         {
-            materialUniformBuffer.addBufferItem("AlbedoColor", 4);
-            materialUniformBuffer.addBufferItem("AmbientColor", 4);
-            materialUniformBuffer.addBufferItem("ReflectionColor", 4);
+            materialUniformBuffer.addBufferItem("albedoColor", 4);
+            materialUniformBuffer.addBufferItem("ambientColor", 4);
+            materialUniformBuffer.addBufferItem("reflectionColor", 4);
 
-            materialUniformBuffer.addBufferItem("Reflectivity", 1);
-            materialUniformBuffer.addBufferItem("Metallness", 1);
-            materialUniformBuffer.addBufferItem("Roughness", 1);
-            materialUniformBuffer.addBufferItem("Transparency", 1);
+            materialUniformBuffer.addBufferItem("reflectivity", 1);
+            materialUniformBuffer.addBufferItem("metallness", 1);
+            materialUniformBuffer.addBufferItem("roughness", 1);
+            materialUniformBuffer.addBufferItem("transparency", 1);
 
             for (int j = 0; j < (int)TextureChannels.ChannelsCount; j++)
             {
-                materialUniformBuffer.addBufferItem("Channel[" + j + "].tileUV", 2);
-                materialUniformBuffer.addBufferItem("Channel[" + j + "].offsetUV", 2);
-                materialUniformBuffer.addBufferItem("Channel[" + j + "].multRGBA", 4);
+                materialUniformBuffer.addBufferItem("channel[" + j + "].tileUV", 2);
+                materialUniformBuffer.addBufferItem("channel[" + j + "].offsetUV", 2);
+                materialUniformBuffer.addBufferItem("channel[" + j + "].multRGBA", 4);
             }
             ///  materialUniformBuffer.packBuffer();
 
@@ -28,21 +30,21 @@ namespace AhoraCore.Core.Materials
             materialUniformBuffer.Create(1);///Создаёт один размеченный выше буфер для материала 
 
 
-            materialUniformBuffer.UpdateBufferIteam("AlbedoColor", DefColor);
-            materialUniformBuffer.UpdateBufferIteam("AmbientColor",DefColor);
-            materialUniformBuffer.UpdateBufferIteam("ReflectionColor", BlackColor);
+            materialUniformBuffer.UpdateBufferIteam("albedoColor", DefColor);
+            materialUniformBuffer.UpdateBufferIteam("ambientColor",DefColor);
+            materialUniformBuffer.UpdateBufferIteam("reflectionColor", BlackColor);
 
            /// TextureChannelData.UpdateBufferIteam("Channel[" + ChannelOffset + "].multRGBA", ChannelOffset * 8 + 4, new float[] { R_mull, G_mull, B_mull, A_mull });//  ("Channel[" + (int)channel + "].multRGBA", );
-            materialUniformBuffer.UpdateBufferIteam("Reflectivity", 0);
-            materialUniformBuffer.UpdateBufferIteam("Metallness", 0);
-            materialUniformBuffer.UpdateBufferIteam("Roughness", 0);
-            materialUniformBuffer.UpdateBufferIteam("Transparency", 0);
+            materialUniformBuffer.UpdateBufferIteam("reflectivity", 0);
+            materialUniformBuffer.UpdateBufferIteam("metallness", 0);
+            materialUniformBuffer.UpdateBufferIteam("roughness", 0);
+            materialUniformBuffer.UpdateBufferIteam("transparency", 0);
 
             for (int j = 0; j < textures.Count; j++)
             {
-                materialUniformBuffer.UpdateBufferIteam("Channel[" + j + "].tileUV",   DefUV);
-                materialUniformBuffer.UpdateBufferIteam("Channel[" + j + "].offsetUV", DefOffs);
-                materialUniformBuffer.UpdateBufferIteam("Channel[" + j + "].multRGBA", DefMult);
+                materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].tileUV",   DefUV);
+                materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].offsetUV", DefOffs);
+                materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].multRGBA", DefMult);
             }
         }
     }

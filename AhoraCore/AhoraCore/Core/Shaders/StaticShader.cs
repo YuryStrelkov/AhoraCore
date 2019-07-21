@@ -14,14 +14,18 @@ namespace AhoraCore.Core.Shaders
         {
         }
 
-        public override void BindAttribytes()
-        {
-           //  BindAttributeLocation(0,"position");
-        }
-
+      
         public override void UpdateUniforms()
         {
 
+        }
+
+        protected override void BindUniforms()
+        {
+        }
+
+        protected override void BindAttributes()
+        {
         }
     }
 }

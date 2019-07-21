@@ -8,7 +8,7 @@ using AhoraCore.Core.CES;
 
 namespace AhoraCore.Core.Scene3D
 {
-    public class Scene : GameEntityStorrage,IRedreable<string>
+    public class Scene ///: GameEntityStorrage,IRedreable<string>
     {
         public void Load(string path)
         {
@@ -33,19 +33,19 @@ namespace AhoraCore.Core.Scene3D
                     GeometryStorrageManager.Data.AddGeometrySet( attrMask, AttrMasksPerModelNames[attrMask].ToArray(), Vertices[attrMask].ToArray(), Indeces[attrMask].ToArray());
                 }
             }
-            ModelLoader.LoadHeirarhy( scn.RootNode,  this);
+       //     ModelLoader.LoadHeirarhy( scn.RootNode,  this);
         }
 
-        public Scene():base()
-            {
-              //  SceneMeshes = new GeometryStorrageManager();
-            }
+        //public Scene():base()
+        //    {
+        //      //  SceneMeshes = new GeometryStorrageManager();
+        //    }
 
-        public Scene(string path) : base()
-        {
-          ///  SceneMeshes = new GeometryStorrageManager();
-            Load( path);
-        }
+        //public Scene(string path) : base()
+        //{
+        //  ///  SceneMeshes = new GeometryStorrageManager();
+        //    Load( path);
+        //}
 
         public void BeforeRender()
         {
@@ -60,7 +60,7 @@ namespace AhoraCore.Core.Scene3D
         {
             BeforeRender();
 
-            Render(RootID);
+          ///  Render(RootID);
 
             PostRender();
         }

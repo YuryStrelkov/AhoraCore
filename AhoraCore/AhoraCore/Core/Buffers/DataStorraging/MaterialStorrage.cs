@@ -1,5 +1,4 @@
-﻿using System;
-using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
+﻿using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
 using AhoraCore.Core.Materials;
 
 namespace AhoraCore.Core.Buffers.DataStorraging

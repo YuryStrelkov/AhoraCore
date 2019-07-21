@@ -26,11 +26,14 @@ namespace AhoraCore.Core.CES
             if (!components.ContainsKey(Key))
             {
                 components.Add(Key, component);
+                components[Key].SetParent(this);
             }
             else
             {
                 components[Key].Delete();
                 components[Key] = component;
+                components[Key].SetParent(this);
+
             }
         }
 

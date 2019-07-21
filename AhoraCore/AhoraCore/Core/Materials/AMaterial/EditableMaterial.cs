@@ -19,9 +19,9 @@ namespace AhoraCore.Core.Materials.AMaterial
     public class EditableMaterial: ABindableObject<AShader>
     {
 
-        protected static float[] DefColor = new float[] { 0.5f, 0.5f, 0.5f, 0.5f };
+        protected static float[] DefColor = new float[] { 1f, 0.0f, 0.0f, 1f };
 
-        protected static float[] BlackColor = new float[] { 0.5f, 0.5f, 0.5f, 0.5f };
+        protected static float[] BlackColor = new float[] { 0.5f, 0.5f, 0.5f, 1f };
 
 
         protected static float[] DefUV = new float[] { 1, 1};
@@ -52,37 +52,37 @@ namespace AhoraCore.Core.Materials.AMaterial
         {
             
             textures.Add(TextureChannels.Diffuse, new TextureChannel( 0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "Diffuse");
+            texturesChannelNames.Add(TextureChannels.Diffuse, "diffuseMap");
         }
 
         public void SetNormals(string TextID)
         {
             textures.Add(TextureChannels.Normal,  new TextureChannel( 1, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Normal, "Normal");
+            texturesChannelNames.Add(TextureChannels.Normal, "normalMap");
         }
 
         public void SetSpecular(string TextID)
         {
             textures.Add(TextureChannels.Specular, new TextureChannel( 2, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Specular, "Specular");
+            texturesChannelNames.Add(TextureChannels.Specular, "specularMap");
         }
 
         public void SetHeight(string TextID)
         {
             textures.Add(TextureChannels.Height, new TextureChannel( 3, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Height, "Height");
+            texturesChannelNames.Add(TextureChannels.Height, "heightMap");
         }
 
         public void SetReflectGloss(string TextID)
         {
             textures.Add(TextureChannels.ReflectGloss, new TextureChannel( 4, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.ReflectGloss, "ReflectGloss");
+            texturesChannelNames.Add(TextureChannels.ReflectGloss, "reflectGlossMap");
         }
 
         public void SetTransparency(string TextID)
         {
             textures.Add(TextureChannels.Transparency, new TextureChannel( 5, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Transparency, "Transparency");
+            texturesChannelNames.Add(TextureChannels.Transparency, "transparencyMap");
         }
 
         public bool HasDiffuse

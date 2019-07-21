@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using AhoraCore.Core.Materials;
+using OpenTK;
 
 namespace AhoraCore.Core.Shaders
 {
@@ -7,24 +8,57 @@ namespace AhoraCore.Core.Shaders
         public DefaultShader() 
             : base(Properties.Resources.VSdefault, Properties.Resources.FSdefault, false)
         {
-            AddUniform("transformationMatrix");
-            AddUniform("projectionMatrix");
-            AddUniform("viewMatrix");
-            BindAttribytes();
+ 
         }
         
-        public override void BindAttribytes()
-        {
-         BindAttributeLocation(0, "p_position");
-         BindAttributeLocation(1, "p_TexCoord");
-         BindAttributeLocation(2, "p_normal");
-        }
-
-        public override void UpdateUniforms()
+         public override void UpdateUniforms()
         {
             SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
             SetUniform("transformationMatrix", Matrix4.Identity);
             SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
+        }
+
+        protected override void BindAttributes()
+        {
+            AddAttribyte("p_position");
+            AddAttribyte("p_normal");
+            AddAttribyte("p_texcoord");
+        }
+
+        protected override void BindUniforms()
+        {
+            
+            AddUniform("transformationMatrix");
+            AddUniform("projectionMatrix");
+            AddUniform("viewMatrix");
+
+            AddUniform("defTexture");
+            AddUniform("diffuseMap");
+            AddUniform("normalMap");
+            AddUniform("specularMap");
+            AddUniform("heightMap");
+            AddUniform("reflectGlossMap");
+            AddUniform("transparencyMap");
+
+           /* AddUniform("albedoColor");
+            AddUniform("ambientColor");
+            AddUniform("reflectionColor");
+
+            AddUniform("reflectivity");
+            AddUniform("metallness");
+            AddUniform("roughness");
+            AddUniform("transparency");
+
+            for (int i = 0; i < Material.MAX_TEXTURE_CHANNELS_NUMBER; i++)
+            {
+                AddUniform("channel[" + i + "].tileUV");
+                AddUniform("channel[" + i + "].offsetUV");
+                AddUniform("channel[" + i + "].multRGBA");
+            }
+            */
+     
+
+
         }
     }
 }

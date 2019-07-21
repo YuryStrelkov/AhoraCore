@@ -1,6 +1,9 @@
 ﻿using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Buffers.DataStorraging;
+using OpenTK.Graphics.OpenGL;
+using AhoraCore.Core.Shaders;
+using AhoraCore.Core.Materials;
 
 namespace AhoraCore.Core.Models
 {
@@ -11,8 +14,11 @@ namespace AhoraCore.Core.Models
         public string ModelMaterialID { get; set; }
 
         public string ModelSaderID { get; set; }
-             
-        
+
+        private AShader modelShader;
+
+        private Material modelMaterial;
+
         public override void Delete()
         {
             GeometryStorrageManager.Data.RemoveData(ModelID);
@@ -30,8 +36,13 @@ namespace AhoraCore.Core.Models
 
         public override void Render()
         {
-            ShaderStorrage.Sahaders.GetItem(ModelSaderID).SetUniform("transformationMatrix", GetWorldTransform().GetWorldTransformMat());
-            MaterialStorrage.Materials.GetItem(ModelMaterialID).Bind(ShaderStorrage.Sahaders.GetItem(ModelSaderID));
+            modelShader.Bind();
+            modelShader.UpdateUniforms();
+            modelShader.SetUniform("transformationMatrix", GetWorldTransform().GetWorldTransformMat());
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureStorrage.Textures.GetItem("DefaultTexture").BindingTarget, TextureStorrage.Textures.GetItem("DefaultTexture").ID);
+            modelShader.SetUniformi("defTexture", 0);
+            modelMaterial.Bind(modelShader);
             GeometryStorrageManager.Data.RenderIteam(ModelID);
 
         }
@@ -51,6 +62,8 @@ namespace AhoraCore.Core.Models
             this.ModelID = ModelID;
             this.ModelMaterialID = ModelMaterialID;
             this.ModelSaderID = ModelSaderID;
+            modelMaterial = MaterialStorrage.Materials.GetItem(ModelMaterialID);
+            modelShader = ShaderStorrage.Sahaders.GetItem(ModelSaderID);
         }
     }
 }

@@ -78,18 +78,31 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap checkerboard_rainbow {
+            get {
+                object obj = ResourceManager.GetObject("checkerboard_rainbow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
         ///
-        ///in vec3 colour;
-        ///in vec2 pass_textureCoordinates;
+        ///in vec3 v_Colour;
+        ///in vec2 v_TexCoord;
+        ///
         ///
         ///out vec4 out_Color;
         ///
-        /////uniform sampler2D modelTexture;
+        ///#include MaterialDefinition;
+        ///
+        ///uniform sampler2D defTexture;
         ///
         ///void main(void){
         ///
-        ///	out_Color = vec4(colour,1);///texture(modelTexture,pass_textureCoordinates);
+        ///	out_Color = vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
         ///
         ///}.
         /// </summary>
@@ -100,9 +113,17 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на  const int  DiffuseID = 0,
-        ///			NormalID = 1,
-        ///			SpecularID = 2,
+        ///   Ищет локализованную строку, похожую на ////Textures
+        ///uniform sampler2D   DiffuseMap;
+        ///uniform sampler2D   NormalMap;
+        ///uniform sampler2D   SpecularMap;
+        ///uniform sampler2D   HeightMap;
+        ///uniform sampler2D   ReflectGlossMap;
+        ///uniform sampler2D   TransparencyMap;
+        ///
+        ///const int   DiffuseID = 0,
+        ///	    	NormalID = 1,
+        ///     		SpecularID = 2,
         ///			HeightID = 3,
         ///			ReflectGlossID = 4,
         ///			TransparencyID =5;
@@ -116,21 +137,9 @@ namespace AhoraCore.Properties {
         ///
         ///layout(std140) uniform MaterialData
         ///{
-        ///vec4 diffColor;
+        ///vec4 AlbedoColor;
         ///
-        ///vec4 embientColor;
-        ///
-        ///vec4 reflectionColor;
-        ///
-        ///float reflectivity, metallness, roughness, transparency;
-        ///
-        ///Channel[8] matChannels;
-        ///};
-        ///
-        ///
-        ///vec3 getFromMap(sampler2D map, int t_channel)
-        ///{
-        ///return	texture(map, (TexCoord + matChannels[t_channel].off [остаток строки не уместился]&quot;;.
+        ///vec4 AmbientColo [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string MaterialDefinition {
             get {
@@ -140,24 +149,27 @@ namespace AhoraCore.Properties {
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
-        ///layout (location = 0) in vec3 position;
-        ///layout (location = 1) in vec2 textureCoordinates;
         ///
-        /////#include MaterialDefinition
-        /////#include CameraDefinition
+        ///layout (location = 0) in vec3 p_position;
+        ///layout (location = 1) in vec2 p_texcoord;
+        ///layout (location = 2) in vec3 p_normal;
         ///
-        ///
-        ///out vec3 colour;
-        ///out vec2 pass_textureCoordinates;
+        ///out vec3 v_Colour;
+        ///out vec2 v_TexCoord;
+        ///out vec3 v_normal;
         ///
         ///uniform mat4 transformationMatrix;
         ///uniform mat4 projectionMatrix;
         ///uniform mat4 viewMatrix;
         ///
         ///void main(){
-        ///	gl_Position = projectionMatrix * (viewMatrix) * transformationMatrix * vec4(position,1.0);
-        ///	pass_textureCoordinates = textureCoordinates;
-        ///	colour = vec3(position.x+0.125,0. [остаток строки не уместился]&quot;;.
+        ///
+        ///    mat4 viewTransform=viewMatrix * transformationMatrix ;
+        ///	
+        ///	gl_Position = projectionMatrix * viewTransform* vec4(p_position,1.0);
+        ///
+        ///	v_normal = (viewTransform*vec4(p_normal,1.0)).xyz;
+        ///        /// [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string VSdefault {
             get {

@@ -88,8 +88,9 @@ namespace AhoraCore.Core.Shaders
             }
         }
 
-        public void AddUniform(string uniform)
+        protected void AddUniform(string uniform)
         {
+
             int uniformLocation = GL.GetUniformLocation(ShaderID, uniform);
 
             if (uniformLocation == 0xFFFFFFFF)
@@ -100,7 +101,7 @@ namespace AhoraCore.Core.Shaders
             uniforms.Add(uniform, uniformLocation);
         }
 
-        public void AddUniformBlock(string uniform)
+        protected void AddUniformBlock(string uniform)
         {
             int uniformLocation = GL.GetUniformBlockIndex(ShaderID, uniform);
             if (uniformLocation == 0xFFFFFFFF)
@@ -109,6 +110,18 @@ namespace AhoraCore.Core.Shaders
             }
 
             uniforms.Add(uniform, uniformLocation);
+        }
+
+        protected void AddAttribyte(string uniform)
+        {
+            int uniformLocation = GL.GetAttribLocation(ShaderID, uniform);
+            if (uniformLocation == 0xFFFFFFFF)
+            {
+                Console.WriteLine("ShderID " + ShaderID + " Error: Could not find uniform: " + uniform);
+            }
+
+            uniforms.Add(uniform, uniformLocation);
+            BindAttributeLocation(uniformLocation, uniform);
         }
 
         public override void Bind()
@@ -166,11 +179,13 @@ namespace AhoraCore.Core.Shaders
             uniforms = new Dictionary<string, int>();
         }
 
-        public abstract void BindAttribytes();
-
         public abstract void UpdateUniforms();
 
-        public void BindAttributeLocation(int attrIndex,string attrName)
+        protected abstract void BindUniforms();
+
+        protected abstract void BindAttributes();
+
+        private void BindAttributeLocation(int attrIndex,string attrName)
         {
             GL.BindAttribLocation(ShaderID, attrIndex, attrName);
         }
@@ -198,15 +213,48 @@ namespace AhoraCore.Core.Shaders
             includes = new Regex(@"\w*#include MaterialDefinition;\w*");
 
             code = includes.Replace(code, Properties.Resources.MaterialDefinition);
+
             Console.Clear();
+
             Console.Write(code);
+
             shaderPrograms.Add(type, LoadShader(code, type));
-        }
+      }
 
-        private void GetAllUniforms(string code)
-        {
+        //private void GetAllVaribles()
+        //{
+        //    int count;
+            
+        //    string nameData;
 
-        }
+        //    int arraySize = 0;
+
+        //    ActiveUniformType type_ = 0;
+        //    ActiveAttribType type_1 = 0;
+
+        //    int actualLength = 0;
+        //    ///Attributes
+        //    GL.GetProgram(ShaderID, GetProgramParameterName.ActiveAttributes, out count);
+        //    Console.WriteLine("Active Attributes: %d\n", count);
+
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        GL.GetActiveAttrib(ShaderID, i, 100, out actualLength, out arraySize, out type_1, out nameData);
+        //        AddAttribyte(nameData);
+        //        Console.WriteLine("Attribute " + i + "  Type: " + type_ + " Name: " + nameData);
+        //    }
+        //    ///Uniforms
+        //    ///
+        //    GL.GetProgram(ShaderID, GetProgramParameterName.ActiveUniforms, out count);
+
+        //    Console.WriteLine("Active Uniforms: %d\n", count);
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        GL.GetActiveUniform(ShaderID, i, 100, out actualLength, out arraySize, out type_, out nameData);
+        //        AddUniform(nameData);
+        //        Console.WriteLine("Uniform " + i + "  Type: " + type_ + " Name: " + nameData);
+        //    }
+        //}
 
         private int LoadShader(string code, ShaderType type)
         {
@@ -285,10 +333,16 @@ namespace AhoraCore.Core.Shaders
                 LoadShaderFromstring(fshader, ShaderType.FragmentShader);
             }
 
-           
+            
             Link();
             Validate();
-            BindAttribytes();
+            BindAttributes();
+            BindUniforms();
+            /// Bind();
+
+
+
+
         }
 
     }

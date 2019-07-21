@@ -17,6 +17,7 @@ namespace AhoraCore.Core.Buffers.DataStorraging
         public static void Initilaze()
         {
             shaders = new ShaderStorrage();
+            shaders.AddItem("DefaultShader", new DefaultShader());
         }
 
         private ShaderStorrage():base()

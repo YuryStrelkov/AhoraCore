@@ -4,7 +4,18 @@ namespace AhoraCore.Core.CES
 {
     public class GameEntityStorrage : TemplateStorrage<string, GameEntity>
     {
-    
+        private static GameEntityStorrage entities;
+
+        public static void Initialize()
+        {
+            entities = new GameEntityStorrage();
+        }
+        public static GameEntityStorrage Entities
+        {
+        get {
+                return entities;
+            }
+        }
 
         public void Input(string NodeID)
         {
@@ -41,7 +52,7 @@ namespace AhoraCore.Core.CES
         {
             Iteams[ID].Data.Delete();
         }
-        public GameEntityStorrage() : base()
+        private GameEntityStorrage() : base()
         {
 
         }
