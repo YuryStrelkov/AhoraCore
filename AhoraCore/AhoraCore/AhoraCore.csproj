@@ -163,9 +163,6 @@
     <None Include="Resources\Clouds.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TextFile1.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Clouds1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

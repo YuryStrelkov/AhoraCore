@@ -37,7 +37,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             Create(3, 1, out vIco, out iIco, out AttributesMask);
 
-            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "SkyDome", vIco, iIco);
+            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel", vIco, iIco);
 
             GameEntityStorrage.Entities.AddItem("SkyDome", new GameEntity());
 
@@ -51,9 +51,9 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetSpecular("Clouds");
 
-            GameEntityStorrage.Entities.GetItem("SkyDome").AddComponent("SkyDome", new Model("SkyDome", "AtmosphereMaterial", "AtmosphereShader"));
+            GameEntityStorrage.Entities.GetItem("SkyDome").AddComponent("SkyDomeModel", new Model("SkyDomeModel", "AtmosphereMaterial", "AtmosphereShader"));
 
-            GameEntityStorrage.Entities.GetItem("SkyDome").GetWorldTransform().SetWorldScaling(2000, 2000, 2000);
+            GameEntityStorrage.Entities.GetItem("SkyDome").GetWorldTransform().SetWorldScaling(5000, 5000, 5000);
         }
 
         public static void Create(int recursionLevel, out FloatBuffer vertsData, out IntegerBuffer indecesData, out int AttributesMask)
