@@ -148,17 +148,17 @@ namespace AhoraCore.Core.Models
 
             ToEulerAngles(rotation, out angles);
 
-            go.GetLocalTransform().SetWorldRotation(angles);
-            go.GetLocalTransform().SetWorldTranslation(translation[0], translation[1], translation[2]);
-            go.GetLocalTransform().SetWorldScaling(scale[0], scale[1], scale[2]);
+            go.GetLocalTransform().SetRotation(angles);
+            go.GetLocalTransform().SetTranslation(translation[0], translation[1], translation[2]);
+            go.GetLocalTransform().SetScaling(scale[0], scale[1], scale[2]);
 
             //go.transform.localScale = new Vector3(scale[0], scale[1], scale[2]);
             //go.transform.rotation = new Assimp.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W);
             //go.transform.position = new Vector3(translation[0], translation[1], translation[2]);
 
-            go.GetWorldTransform().SetWorldRotation(parent.GetWorldRotation());
-            go.GetWorldTransform().SetWorldTranslation(parent.GetWorldTranslation());
-            go.GetWorldTransform().SetWorldScaling(parent.GetWorldScaling());
+            go.GetWorldTransform().SetRotation(parent.Rotation);
+            go.GetWorldTransform().SetTranslation(parent.Position);
+            go.GetWorldTransform().SetScaling(parent.Scale);
 
             //go.transform.parent = parent;
 

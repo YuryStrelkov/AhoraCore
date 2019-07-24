@@ -81,7 +81,7 @@ namespace AhoraCore.Core.Input
 
             if (isResetPosition())
             {
-                CameraInstance.Get().GetWorldTransform().SetWorldTranslation(new Vector3(0, 0, -1));
+                CameraInstance.Get().GetWorldTransform().SetTranslation(new Vector3(0, 0, -1));
                 isUpdated = true;    ///        CameraInstance.Get().updateCamera();
 
                 DragEnvoirmentModel(); return;
@@ -101,7 +101,7 @@ namespace AhoraCore.Core.Input
                 isUpdated = true;
                 return;
             }
-
+            CameraInstance.Get().IsUpdated = false;
             if (isOne())
             {
                // Camera.setCamera("free_cam");

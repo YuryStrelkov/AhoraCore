@@ -10,8 +10,6 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
 /// <typeparam name="ValueType"></typeparam>
     public abstract class TemplateStorrage <KeyType, ValueType> : IDataStorrage<KeyType> 
     {
-
-
         public delegate void IteamAtion(ValueType ItemData);
 
         public struct Cell
@@ -60,6 +58,8 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
        {
               return Iteams[ID].Data;
        }
+
+       
 
         public void AddItems(Dictionary<KeyType, ValueType> Iteams)
         {
@@ -149,7 +149,20 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
             }
             Iteams.Clear();
         }
-        
+
+        public void RemoveChildrens(KeyType ID)
+        {
+            if (!Iteams.ContainsKey(ID))
+            {
+                foreach (KeyType key in Iteams[ID].Childrens)
+                {
+                    RemoveItem(key);
+                }
+                Iteams[ID].Childrens.Clear();
+            }
+        }
+
+
         public void RemoveItem(KeyType ID)
         {
             if (!Iteams.ContainsKey(ID))

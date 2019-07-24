@@ -10,6 +10,7 @@ namespace AhoraCore.Core.CES
         {
             entities = new GameEntityStorrage();
         }
+
         public static GameEntityStorrage Entities
         {
         get {
@@ -42,7 +43,6 @@ namespace AhoraCore.Core.CES
             DoAction(NodeID, (gameEntity) => { gameEntity.Delete(); });
         }
 
-
         public override void ClearIteamData(string ID)
         {
           ///  StorrageIteams[ID].Data.Clear();
@@ -52,6 +52,7 @@ namespace AhoraCore.Core.CES
         {
             Iteams[ID].Data.Delete();
         }
+
         private GameEntityStorrage() : base()
         {
 

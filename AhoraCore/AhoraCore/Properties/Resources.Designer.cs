@@ -184,10 +184,9 @@ namespace AhoraCore.Properties {
         ///
         ///void main()
         ///{ 
-        ///	out_Color.rgb       =    mix(2*getDiffuse().rgb,skyColor,0.9);
+        ///	out_Color.rgb       =    mix(1.75*getDiffuse().rgb,skyColor,0.35);
         ///					     
         ///    out_Color.a         =  getDiffuse().r;
-        ///	 
         ///}.
         /// </summary>
         internal static string SkyDomeFS {
@@ -229,6 +228,147 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на # version 430
+        ///
+        ///layout(location = 0) out vec4 outColor;
+        ///
+        ///void main()
+        ///{
+        ///outColor=vec4(1,0,0,1);
+        ///}.
+        /// </summary>
+        internal static string TerrainFS {
+            get {
+                return ResourceManager.GetString("TerrainFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///layout(triangles) in;
+        ///
+        ///layout( line_strip, max_vertices = 4 )out;
+        ///
+        ///uniform mat4 WorldTransMatrix;
+        ///
+        ///uniform mat4 projectionMatrix;
+        ///
+        ///void main()
+        ///{
+        ///	vec4 pos;
+        ///	
+        ///	mat4   wpm = projectionMatrix*WorldTransMatrix;
+        ///	
+        ///	for (int i=0;i&lt;gl_in.length();i++)
+        ///	{
+        ///		pos = gl_in[i].gl_Position;
+        ///		
+        ///		gl_Position=wpm*pos;
+        ///		
+        ///		EmitVertex();
+        ///	}
+        ///	
+        ///	pos = gl_in[0].gl_Position;
+        ///	
+        ///	gl_Position=wpm*pos;
+        ///		
+        ///	EmitVertex();
+        ///	
+        ///	EndPrimitive();
+        ///	
+        ///}.
+        /// </summary>
+        internal static string TerrainGS {
+            get {
+                return ResourceManager.GetString("TerrainGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///layout(vertises =16) out;
+        ///
+        ///const int AB=2;
+        ///
+        ///const int BC=3;
+        ///
+        ///const int CD=0;
+        ///
+        ///const int DA=1;
+        ///
+        ///void main()
+        ///{
+        ///	if (gl_InvocationID==0)
+        ///	{
+        ///		gl_TessLevelOuter[AB]=1;
+        ///		gl_TessLevelOuter[BC]=1;
+        ///		gl_TessLevelOuter[CD]=1;
+        ///		gl_TessLevelOuter[DA]=1;
+        ///		
+        ///		gl_TessLevelInner[0]=1;
+        ///		gl_TessLevelInner[1]=1;
+        ///	}
+        ///	gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
+        ///}
+        ///.
+        /// </summary>
+        internal static string TerrainTC {
+            get {
+                return ResourceManager.GetString("TerrainTC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///layout(quads,fractional_odd_spacing, cw) in;
+        ///
+        ///void main()
+        ///{
+        ///	float u = gl_TessCoord.x;
+        ///	float v = gl_TessCoord.y;
+        ///	vec4 position =((1-u)*(1-v)*gl_in[12].gl_Position+
+        ///					u*(1-v)*gl_in[0].gl_Position+
+        ///					u*v*gl_in[3].gl_Position+
+        ///					(1-u)*v*gl_in[15].gl_Position);
+        ///	gl_Position = position;
+        ///}.
+        /// </summary>
+        internal static string TerrainTE {
+            get {
+                return ResourceManager.GetString("TerrainTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на # version 430
+        ///
+        ///layout(location = 0)in vec3 p_position;
+        ///
+        ///uniform mat4 LocTransMatrix;
+        ///
+        ///uniform mat4 WorldTransMatrix;
+        ///
+        ///uniform mat4 viewMatrix;
+        ///
+        ///void main()
+        ///{
+        ///
+        ///vec3 localPos =( LocTransMatrix*vec4(p_position.x,0,p_position.y,1)).xyz;	
+        ///
+        ///gl_Position =  WorldTransMatrix*vec4(p_position.x,0,p_position.y,1);
+        ///
+        ///}.
+        /// </summary>
+        internal static string TerrainVS {
+            get {
+                return ResourceManager.GetString("TerrainVS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
         ///
         ///layout (location = 0) in vec3 p_position;
@@ -250,7 +390,8 @@ namespace AhoraCore.Properties {
         ///	gl_Position = projectionMatrix * viewTransform* vec4(p_position,1.0);
         ///
         ///	v_normal = (viewTransform*vec4(p_normal,1.0)).xyz;
-        ///        /// [остаток строки не уместился]&quot;;.
+        ///
+        /// [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string VSdefault {
             get {

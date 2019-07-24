@@ -37,8 +37,8 @@ namespace AhoraCore.Core.Models
         public override void Render()
         {
             modelShader.Bind();
-            modelShader.UpdateUniforms();
-            modelShader.SetUniform("transformationMatrix", GetWorldTransform().GetWorldTransformMat());
+            modelShader.UpdateUniforms(GetParent());
+            modelShader.SetUniform("transformationMatrix", GetWorldTransform().GetTransformMat());
             //GL.ActiveTexture(TextureUnit.Texture0);
             //GL.BindTexture(TextureStorrage.Textures.GetItem("DefaultTexture").BindingTarget, TextureStorrage.Textures.GetItem("DefaultTexture").ID);
            // modelShader.SetUniformi("defTexture", 0);

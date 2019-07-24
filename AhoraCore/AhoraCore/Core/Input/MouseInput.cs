@@ -69,12 +69,12 @@ namespace AhoraCore.Core.Input
             if (isPressed && (e.MiddleButton.Equals(OpenTK.Input.ButtonState.Pressed)))
             {
                 shiftHorizontal = basisX -
-                                 ( CameraInstance.Get().GetWorldTransform().GetWorldRotation() * basisX) *
-                                   CameraInstance.Get().GetWorldTransform().GetWorldRotation();
+                                 ( CameraInstance.Get().GetWorldTransform().Rotation * basisX) *
+                                   CameraInstance.Get().GetWorldTransform().Rotation;
                 shiftHorizontal.Normalize();
                 shiftVertical = basisY -
-                                 (  CameraInstance.Get().GetWorldTransform().GetWorldRotation() * basisY) *
-                                    CameraInstance.Get().GetWorldTransform().GetWorldRotation();
+                                 (  CameraInstance.Get().GetWorldTransform().Rotation * basisY) *
+                                    CameraInstance.Get().GetWorldTransform().Rotation;
                 shiftVertical.Normalize();
                 CameraInstance.Get().Move(shiftVertical.X + shiftHorizontal.X,
                                                                shiftVertical.Y + shiftHorizontal.Y,
@@ -86,6 +86,8 @@ namespace AhoraCore.Core.Input
             {
                 CursorX1 = e.X;
                 CursorY1 = e.Y;
+                CameraInstance.Get().IsUpdated = false;
+
             }
         }
     }

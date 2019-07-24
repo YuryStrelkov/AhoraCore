@@ -5,6 +5,7 @@ using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Models;
 using AhoraCore.Core.Models.ProceduralModels;
+using AhoraCore.Core.Models.ProceduralModels.TerranPack;
 using AhoraCore.Core.Shaders;
 using AhoraProject.Ahora.Core.Display;
 using System;
@@ -87,6 +88,9 @@ namespace AhoraCore
 		};
 
             Icosphere.CreateSkyDome(2);
+
+            ShaderStorrage.Sahaders.AddItem("TerrainShader", new TerrainShader());
+
            // FloatBuffer vIco; IntegerBuffer iIco;
 
             // int AttributesMask;

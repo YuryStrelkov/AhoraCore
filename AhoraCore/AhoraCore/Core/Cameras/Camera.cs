@@ -37,6 +37,8 @@ namespace AhoraCore.Core.Cameras
 
         public float MoveSpeed;
 
+        public bool IsUpdated { get;  set;}
+
         public float MouseSensitivity;
       
             public Camera(float sensitivity, float speed, float aspect) : base(0,0,-1)
@@ -49,7 +51,8 @@ namespace AhoraCore.Core.Cameras
                 FOV = MathHelper.DegreesToRadians(90.0f);
                 Matrix4.CreatePerspectiveFieldOfView(FOV, aspect, 0.5f, 50000, out PespectiveMatrix);
                 LookAt = new Vector3(0, 0, 1);
-                ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetWorldTranslation(), GetWorldTransform().GetWorldTranslation() + LookAt, Vector3.UnitY);
+                ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + LookAt, Vector3.UnitY);
+                IsUpdated = true;
             }
 
             public Camera() : base(0,0,-1)
@@ -63,7 +66,8 @@ namespace AhoraCore.Core.Cameras
                 FOV = MathHelper.DegreesToRadians(70.0f);
                 Matrix4.CreatePerspectiveFieldOfView(FOV, 1.4f, 0.5f, 50000, out PespectiveMatrix);
                 LookAt = new Vector3(0, 0, 1);
-                ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetWorldTranslation(), GetWorldTransform().GetWorldTranslation() + LookAt, Vector3.UnitY);
+                ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + LookAt, Vector3.UnitY);
+               IsUpdated = true;
             }
         
             
@@ -71,26 +75,27 @@ namespace AhoraCore.Core.Cameras
 
             public void SwitchToFace(int faceIndex)
             {
+                IsUpdated = true;
                 switch (faceIndex)
                 {
 
                     case 0:
-                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetLocalTranslation(), GetWorldTransform().GetLocalTranslation() + new Vector3(1, 0, 0), new Vector3(0.0f, -1.0f, 0.0f));
+                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + new Vector3(1, 0, 0), new Vector3(0.0f, -1.0f, 0.0f));
                         break;
                     case 1:
-                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetLocalTranslation(), GetWorldTransform().GetLocalTranslation() + new Vector3(-1, 0, 0), new Vector3(0.0f, -1.0f, 0.0f));
+                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + new Vector3(-1, 0, 0), new Vector3(0.0f, -1.0f, 0.0f));
                         break;
                     case 2:
-                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetLocalTranslation(), GetWorldTransform().GetLocalTranslation() + new Vector3(0, 1, 0), new Vector3(0.0f, 0.0f, 1.0f));
+                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + new Vector3(0, 1, 0), new Vector3(0.0f, 0.0f, 1.0f));
                         break;
                     case 3:
-                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetLocalTranslation(), GetWorldTransform().GetLocalTranslation() + new Vector3(0, -1, 0), new Vector3(0.0f, 0.0f, -1.0f));
+                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + new Vector3(0, -1, 0), new Vector3(0.0f, 0.0f, -1.0f));
                         break;
                     case 4:
-                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetLocalTranslation(), GetWorldTransform().GetLocalTranslation() + new Vector3(0, 0, 1), new Vector3(0.0f, -1.0f, 0.0f));
+                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + new Vector3(0, 0, 1), new Vector3(0.0f, -1.0f, 0.0f));
                         break;
                     case 5:
-                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetLocalTranslation(), GetWorldTransform().GetLocalTranslation() + new Vector3(0, 0, -1), new Vector3(0.0f, -1.0f, 0.0f));
+                    ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + new Vector3(0, 0, -1), new Vector3(0.0f, -1.0f, 0.0f));
                         break;
                 }
             }
@@ -99,13 +104,13 @@ namespace AhoraCore.Core.Cameras
             {
                 Tilt += tiltAngle;
                 TiltM = Matrix4.CreateRotationZ(Tilt);
-
+                IsUpdated = true;
             }
 
             public void Move(float x, float y, float z)
             {
                 Vector3 offset = new Vector3();
-                Vector3 forward = new Vector3((float)Math.Sin(GetWorldTransform().GetWorldRotation().X), 0, (float)Math.Cos(GetWorldTransform().GetWorldRotation().X));
+                Vector3 forward = new Vector3((float)Math.Sin(GetWorldTransform().Rotation.X), 0, (float)Math.Cos(GetWorldTransform().Rotation.X));
                 Vector3 right = new Vector3(-forward.Z, 0, forward.X);
 
                 offset += x * right;
@@ -114,10 +119,11 @@ namespace AhoraCore.Core.Cameras
 
                 offset.NormalizeFast();
                 offset = Vector3.Multiply(offset, MoveSpeed);
-                GetWorldTransform().SetWorldTranslation(GetWorldTransform().GetWorldTranslation() + offset);
-                ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetWorldTranslation(), GetWorldTransform().GetWorldTranslation() + LookAt, Vector3.UnitY);
-                 ViewMatrix.Transpose();
-            }
+                GetWorldTransform().SetTranslation(GetWorldTransform().Position + offset);
+                ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + LookAt, Vector3.UnitY);
+                ViewMatrix.Transpose();
+                IsUpdated = true;
+           }
 
             public void AddRotation(float x, float y)
             {
@@ -125,17 +131,18 @@ namespace AhoraCore.Core.Cameras
                 x = x * MouseSensitivity;
                 y = y * MouseSensitivity;
 
-            GetWorldTransform().SetWorldRotation((  GetWorldTransform().GetWorldRotation().X + x) % ((float)Math.PI * 2.0f),
-                                                    Math.Max(Math.Min(GetWorldTransform().GetWorldRotation().Y + y, 
+            GetWorldTransform().SetRotation((  GetWorldTransform().Rotation.X + x) % ((float)Math.PI * 2.0f),
+                                                    Math.Max(Math.Min(GetWorldTransform().Rotation.Y + y, 
                                                     (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f )
-                                                    , GetWorldTransform().GetWorldRotation().Z);
+                                                    , GetWorldTransform().Rotation.Z);
 
-            LookAt = new Vector3((float)(Math.Sin(GetWorldTransform().GetWorldRotation().X) * Math.Cos(GetWorldTransform().GetWorldRotation().Y)),
-                                 (float) Math.Sin(GetWorldTransform().GetWorldRotation().Y),
-                                 (float)(Math.Cos(GetWorldTransform().GetWorldRotation().X) * Math.Cos(GetWorldTransform().GetWorldRotation().Y)));
+            LookAt = new Vector3((float)(Math.Sin(GetWorldTransform().Rotation.X) * Math.Cos(GetWorldTransform().Rotation.Y)),
+                                 (float) Math.Sin(GetWorldTransform().Rotation.Y),
+                                 (float)(Math.Cos(GetWorldTransform().Rotation.X) * Math.Cos(GetWorldTransform().Rotation.Y)));
       
-                ViewMatrix = Matrix4.LookAt(GetWorldTransform().GetWorldTranslation(), GetWorldTransform().GetWorldTranslation() + LookAt, Vector3.UnitY);
+                ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + LookAt, Vector3.UnitY);
                 ViewMatrix.Transpose();
+                IsUpdated = true;
             }
        
         }

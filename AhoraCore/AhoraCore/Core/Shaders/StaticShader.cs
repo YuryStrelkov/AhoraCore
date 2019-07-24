@@ -1,5 +1,5 @@
-﻿
-using System;
+﻿using AhoraCore.Core.CES;
+
 
 namespace AhoraCore.Core.Shaders
 {
@@ -18,6 +18,10 @@ namespace AhoraCore.Core.Shaders
         public override void UpdateUniforms()
         {
 
+        }
+
+        public override void UpdateUniforms(GameEntity e)
+        {
         }
 
         protected override void BindUniforms()

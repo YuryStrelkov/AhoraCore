@@ -1,4 +1,5 @@
-﻿using AhoraCore.Core.Materials;
+﻿using AhoraCore.Core.CES;
+using AhoraCore.Core.Materials;
 using OpenTK;
 
 namespace AhoraCore.Core.Shaders
@@ -25,6 +26,14 @@ namespace AhoraCore.Core.Shaders
             AddAttribyte("p_texcoord");
         }
 
+
+        public override void UpdateUniforms(GameEntity e)
+        {
+            SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
+            SetUniform("transformationMatrix", e.GetWorldTransform().GetTransformMat());
+            SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
+        }
+        
         protected override void BindUniforms()
         {
             

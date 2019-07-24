@@ -1,4 +1,5 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
+using AhoraCore.Core.CES;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -146,13 +147,13 @@ namespace AhoraCore.Core.Shaders
             GL.UseProgram(0);
         }
 
-        private  void Link()
+        protected  void Link()
         {
             GL.LinkProgram(ShaderID);
             Console.WriteLine(GL.GetProgramInfoLog(ShaderID));
         }
 
-        private void Validate()
+        protected void Validate()
         {
             GL.ValidateProgram(ShaderID);
             Console.WriteLine(GL.GetProgramInfoLog(ShaderID));
@@ -180,6 +181,8 @@ namespace AhoraCore.Core.Shaders
         }
 
         public abstract void UpdateUniforms();
+
+        public abstract void UpdateUniforms(GameEntity e);
 
         protected abstract void BindUniforms();
 
@@ -221,41 +224,7 @@ namespace AhoraCore.Core.Shaders
             shaderPrograms.Add(type, LoadShader(code, type));
       }
 
-        //private void GetAllVaribles()
-        //{
-        //    int count;
-            
-        //    string nameData;
-
-        //    int arraySize = 0;
-
-        //    ActiveUniformType type_ = 0;
-        //    ActiveAttribType type_1 = 0;
-
-        //    int actualLength = 0;
-        //    ///Attributes
-        //    GL.GetProgram(ShaderID, GetProgramParameterName.ActiveAttributes, out count);
-        //    Console.WriteLine("Active Attributes: %d\n", count);
-
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        GL.GetActiveAttrib(ShaderID, i, 100, out actualLength, out arraySize, out type_1, out nameData);
-        //        AddAttribyte(nameData);
-        //        Console.WriteLine("Attribute " + i + "  Type: " + type_ + " Name: " + nameData);
-        //    }
-        //    ///Uniforms
-        //    ///
-        //    GL.GetProgram(ShaderID, GetProgramParameterName.ActiveUniforms, out count);
-
-        //    Console.WriteLine("Active Uniforms: %d\n", count);
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        GL.GetActiveUniform(ShaderID, i, 100, out actualLength, out arraySize, out type_, out nameData);
-        //        AddUniform(nameData);
-        //        Console.WriteLine("Uniform " + i + "  Type: " + type_ + " Name: " + nameData);
-        //    }
-        //}
-
+      
         private int LoadShader(string code, ShaderType type)
         {
             int status_code;
@@ -317,6 +286,11 @@ namespace AhoraCore.Core.Shaders
             GL.UniformBlockBinding(ShaderID, uniforms[uniformBlockName], uniformBlockBinding);
         }
 
+
+        public AShader()
+        {
+            Create();
+        }
         public AShader( string vshader, string fshader, bool fromFile=true)
         {
 
@@ -338,11 +312,7 @@ namespace AhoraCore.Core.Shaders
             Validate();
             BindAttributes();
             BindUniforms();
-            /// Bind();
-
-
-
-
+    
         }
 
     }
