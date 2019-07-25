@@ -104,6 +104,7 @@
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\Terrain.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainConfig.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainNode.cs" />
+    <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainNodeModel.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainQuadTree.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainShader.cs" />
     <Compile Include="Core\Scene3D\Scene.cs" />
@@ -184,6 +185,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TerrainShaders\TerrainGS.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TerrainSettings.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

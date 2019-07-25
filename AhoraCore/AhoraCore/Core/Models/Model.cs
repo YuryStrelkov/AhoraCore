@@ -38,10 +38,6 @@ namespace AhoraCore.Core.Models
         {
             modelShader.Bind();
             modelShader.UpdateUniforms(GetParent());
-            modelShader.SetUniform("transformationMatrix", GetWorldTransform().GetTransformMat());
-            //GL.ActiveTexture(TextureUnit.Texture0);
-            //GL.BindTexture(TextureStorrage.Textures.GetItem("DefaultTexture").BindingTarget, TextureStorrage.Textures.GetItem("DefaultTexture").ID);
-           // modelShader.SetUniformi("defTexture", 0);
             modelMaterial.Bind(modelShader);
             GeometryStorrageManager.Data.RenderIteam(ModelID);
 

@@ -53,6 +53,14 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             AddUniform("WorldTransMatrix");
             AddUniform("projectionMatrix");
             AddUniform("viewMatrix");
+
+
+            AddUniform("diffuseMap");
+            AddUniform("normalMap");
+            AddUniform("specularMap");
+            AddUniform("heightMap");
+            AddUniform("reflectGlossMap");
+            AddUniform("transparencyMap");
         }
     }
 }

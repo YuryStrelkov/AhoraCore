@@ -291,6 +291,8 @@ namespace AhoraCore.Core.Shaders
         {
             Create();
         }
+
+
         public AShader( string vshader, string fshader, bool fromFile=true)
         {
 

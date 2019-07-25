@@ -286,9 +286,21 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на #terrain settings
+        ///ScaleXZ 6000
+        ///ScaleY 0
+        ///LodRanges 1750 874 386 192 100 50 0 0.
+        /// </summary>
+        internal static string TerrainSettings {
+            get {
+                return ResourceManager.GetString("TerrainSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 430
         ///
-        ///layout(vertises =16) out;
+        ///layout(vertices =16) out;
         ///
         ///const int AB=2;
         ///
@@ -390,8 +402,7 @@ namespace AhoraCore.Properties {
         ///	gl_Position = projectionMatrix * viewTransform* vec4(p_position,1.0);
         ///
         ///	v_normal = (viewTransform*vec4(p_normal,1.0)).xyz;
-        ///
-        /// [остаток строки не уместился]&quot;;.
+        ///        /// [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string VSdefault {
             get {

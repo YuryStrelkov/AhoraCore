@@ -69,8 +69,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             GameEntityStorrage.Entities.Update("terrainQuadTree");
         }
         */
-        public TerrainQuadTree(TerrainConfig config)
+        public TerrainQuadTree(TerrainConfig config):base()
         {
+            GameEntityStorrage.Entities.AddItem("terrainQuadTree", this);
+
             string id;
             for (int i=0;i<rootNodes ;i++)
             {
@@ -79,11 +81,11 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
                     id = "N_" + i + "_" + j;
                     GameEntityStorrage.Entities.AddItem("terrainQuadTree", id, new TerrainNode(id, config, new Vector2(i/(float)rootNodes, j / (float)rootNodes),0,new Vector2(i,j)));
 
-                    GameEntityStorrage.Entities.GetItem(id).AddComponent("QTNodeModel", new Model("QTNodeModel", "DefaultMaterial", "DefaultShader"));
+                    GameEntityStorrage.Entities.GetItem(id).AddComponent("TNModel", new Model("TNModel", "DefaultMaterial", "TerrainShader"));
 
                 }
             }
-            GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "QTNodeModel", GeneratePath(), GeneratePathIndeces());
+            GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, "TNModel", GeneratePath(), GeneratePathIndeces());
 
             GetWorldTransform().SetScaling(config.ScaleXZ,  config.ScaleY, config.ScaleXZ);
 

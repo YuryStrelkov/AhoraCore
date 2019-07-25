@@ -29,6 +29,12 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             foreach (string line in lines)
             {
                 string[] lineTokens = line.Split(' ');
+
+                if (lineTokens.Length==0)
+                {
+                    continue;
+                }
+
                 switch (lineTokens[0])
                 {
                     case "ScaleY": ScaleY = float.Parse(lineTokens[1]); break;
@@ -36,9 +42,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
                     case "ScaleXZ": ScaleXZ = float.Parse(lineTokens[1]); break;
 
                     case "LodRanges":
-                        for (int i = 2; i < lineTokens.Length; i++)
+                        for (int i = 0; i < 8; i++)
                         {
-                            int val = int.Parse(lineTokens[i]);
+                            int val = int.Parse(lineTokens[i + 1]);
                             if (val == 0)
                             {
                                 LodRanges[i] = 0;
@@ -55,13 +61,13 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             }
         }
 
-        public void LoadConfigFromFile(string strings)
+        public void LoadConfigFromString (string strings)
         {
             string[] lines = strings.Split('\n');
             LoadConfig(lines);
         }
 
-        public void LoadConfigFromString(string filname)
+        public void LoadConfigFromFile(string filname)
         {
             try
             {
