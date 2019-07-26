@@ -3,7 +3,7 @@ using AhoraCore.Core.Transformations;
 
 namespace AhoraCore.Core.CES 
 {
-    public class Node: IComponent, ITransformable
+    public class Node
     {
         protected Transform WorldTransform;
 
@@ -21,26 +21,26 @@ namespace AhoraCore.Core.CES
             LocalTransform = new Transform(0, 0, 0);
         }
 
-        public void Input()
-        {
+        //public void Input()
+        //{
            
-        }
+        //}
 
-        public void Update()
-        {
-        }
+        //public void Update()
+        //{
+        //}
 
-        public void Render()
-        {
-        }
+        //public void Render()
+        //{
+        //}
 
-        public void Disable()
-        {
-        }
+        //public void Disable()
+        //{
+        //}
 
-        public void Delete()
-        {
-        }
+        //public void Delete()
+        //{
+        //}
 
         public Transform GetLocalTransform()
         {

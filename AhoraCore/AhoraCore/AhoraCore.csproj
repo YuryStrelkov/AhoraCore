@@ -79,8 +79,9 @@
     <Compile Include="Core\CES\AComponent.cs" />
     <Compile Include="Core\CES\GameEntity.cs" />
     <Compile Include="Core\CES\GameEntityStorrage.cs" />
-    <Compile Include="Core\CES\ICES\IComponent.cs" />
+    <Compile Include="Core\CES\ICES\IBehavoir.cs" />
     <Compile Include="Core\CES\ICES\ITransformable.cs" />
+    <Compile Include="Core\CES\ICES\IGameEntity.cs" />
     <Compile Include="Core\CES\Node.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\DataManaging\GeometryStorrageManager.cs" />

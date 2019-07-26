@@ -1,7 +1,6 @@
 ﻿using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Buffers.DataStorraging;
-using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.Shaders;
 using AhoraCore.Core.Materials;
 
@@ -34,6 +33,11 @@ namespace AhoraCore.Core.Models
             //throw new NotImplementedException();
         }
 
+        public override void Enable()
+        {
+            //throw new NotImplementedException();
+        }
+
         public override void Render()
         {
             modelShader.Bind();
@@ -47,6 +51,12 @@ namespace AhoraCore.Core.Models
         {
            /// throw new NotImplementedException();
         }
+
+        public override void Clear()
+        {
+            /// throw new NotImplementedException();
+        }
+
 
         public Model(string ModelID) :base()
         {

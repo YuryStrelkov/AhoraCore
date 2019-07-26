@@ -63,6 +63,12 @@ namespace AhoraCore.Core.Utils
            
           if (Iteams.ContainsKey(key))
             {
+
+                if (Iteams[key].Childrens.Count==0)
+                {
+                 base.RemoveItem(key);
+                    return;
+                }
                KeyType t_key = Iteams[key].Childrens[0];
 
                 do

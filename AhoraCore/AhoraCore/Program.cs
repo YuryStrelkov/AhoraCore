@@ -87,27 +87,9 @@ namespace AhoraCore
 				11,9,10 //bottom right triangle (v3, v1, v2)
 		};
 
-         ///   Icosphere.CreateSkyDome(2);
+            Icosphere.CreateSkyDome(2);
 
             Terrain.CreateTerrain();
-
-            TerrainConfig config = new TerrainConfig();
-
-            config.LoadConfigFromString(Properties.Resources.TerrainSettings);
-           // FloatBuffer vIco; IntegerBuffer iIco;
-
-            // int AttributesMask;
-
-
-            // ShaderStorrage.Sahaders.AddItem("AtmosphereSahder", new AtmosphereShader());
-            // Icosphere.Create(3,1, out vIco, out iIco, out AttributesMask);
-            // ///TODO отследить расширение буфера в случчае, если мы пытаемся добьваить вершин больше чем влезает 
-            ////// GeometryStorrageManager.Data.AddGeometry(VericesAttribytes.V_POSITION,"1",  vertices, indices);
-
-            // GeometryStorrageManager.Data.AddGeometry(AttributesMask, "ico", vIco, iIco);
-            // GameEntityStorrage.Entities.AddItem("ico",new GameEntity());
-            // GameEntityStorrage.Entities.GetItem("ico").AddComponent("ico_model", new Model("ico", "DefaultMaterial", "AtmosphereSahder"));
-
 
             FrameDisplay.Run();
 

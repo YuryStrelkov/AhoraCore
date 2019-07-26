@@ -1,9 +1,10 @@
-﻿using OpenTK;
+﻿using AhoraCore.Core.CES.ICES;
+using OpenTK;
 using System.Collections.Generic;
 
 namespace AhoraCore.Core.CES
 {
-    public class GameEntity:Node
+    public class GameEntity : Node, IGameEntity
     {
         private Dictionary<string, AComponent> components;
 
@@ -37,32 +38,70 @@ namespace AhoraCore.Core.CES
             }
         }
 
-        public new void Update()
+        public  void Update()
         {
             foreach (string k in components.Keys)
             {
                 components[k].Update();
             }
-            base.Update();
+        //    base.Update();
         }
 
-        public new void Input()
+        public  void Input()
         {
             foreach (string k in components.Keys)
             {
                 components[k].Input();
             }
-            base.Input();
-
+        //    base.Input();
         }
 
-        public new void Render()
+
+        public void Enable()
+        {
+            foreach (string k in components.Keys)
+            {
+                components[k].Enable();
+            }
+            //    base.Input();
+        }
+
+        public  void Render()
         {
             foreach (string k in components.Keys)
             {
                  components[k].Render();
             }
-            base.Render();
+          //  base.Render();
+        }
+
+        public  void Disable()
+        {
+            foreach (string k in components.Keys)
+            {
+                components[k].Disable();
+            }
+         //   base.Disable();
+        }
+
+
+        public void Delete()
+        {
+            foreach (string k in components.Keys)
+            {
+                components[k].Delete();
+            }
+            //   base.Delete();
+        }
+
+
+        public void Clear()
+        {
+            foreach (string k in components.Keys)
+            {
+                components[k].Clear();
+            }
+            //   base.Delete();
         }
     }
 }

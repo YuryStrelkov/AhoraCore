@@ -2,7 +2,7 @@
 
 namespace AhoraCore.Core.CES.ICES
 {
-    interface ITransformable
+ public  interface ITransformable
     {
         Transform GetLocalTransform();
         Transform GetWorldTransform();

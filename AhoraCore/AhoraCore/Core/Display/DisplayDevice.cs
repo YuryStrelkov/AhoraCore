@@ -45,6 +45,7 @@ namespace AhoraProject.Ahora.Core.Display
             
             base.OnRenderFrame(e);
             cleanUpFrame();
+            GameEntityStorrage.Entities.Update(GameEntityStorrage.Entities.RootID);
             GameEntityStorrage.Entities.Render(GameEntityStorrage.Entities.RootID);
             this.SwapBuffers();
         }

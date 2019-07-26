@@ -124,7 +124,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public new void Update()
         {
-
             if (CameraInstance.Get().GetLocalTransform().Position.Y > config.ScaleY)
             {
                 worldPosition.Y = config.ScaleY;
@@ -135,7 +134,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
                 UpdateChildsNodes();
             }
             base.Update();
-           
         }
 
         private void UpdateChildsNodes()

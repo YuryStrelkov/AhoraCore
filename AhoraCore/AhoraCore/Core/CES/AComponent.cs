@@ -3,11 +3,13 @@ using AhoraCore.Core.Transformations;
 
 namespace AhoraCore.Core.CES
 {
-    public abstract class AComponent : IComponent, ITransformable
+    public abstract class  AComponent : IBehavoir, ITransformable
     {
         GameEntity parent;
 
         public abstract void Delete();
+        
+        public abstract void Enable();
 
         public abstract void Disable();
 
@@ -16,6 +18,8 @@ namespace AhoraCore.Core.CES
         public abstract void Render();
 
         public abstract void Update();
+
+        public abstract void Clear();
 
         public void SetParent(GameEntity parent)
         {
