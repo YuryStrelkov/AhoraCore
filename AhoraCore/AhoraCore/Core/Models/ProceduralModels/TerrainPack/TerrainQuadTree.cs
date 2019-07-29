@@ -2,12 +2,17 @@
 using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
 using OpenTK;
+using System.Collections.Generic;
+using System;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 {
-    public class TerrainQuadTree: GameEntity
+    // Сделать компанентом
+    public class TerrainQuadTree: AComponent
     {
         private static int rootNodes=8;
+
+        List<TerrainNode> terrainNodes;
 
         public static int GetRootNodesNumber()
         {
@@ -64,24 +69,81 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
      
     }
 
-      /*  public void UpdateQuadTree()
+        public override void Delete()
         {
-            GameEntityStorrage.Entities.Update("terrainQuadTree");
+            for(int i=0; i< terrainNodes.Count;i++ )
+            {
+                terrainNodes[i].Delete();
+            }
         }
-        */
+
+        public override void Enable()
+        {
+            for (int i = 0; i < terrainNodes.Count; i++)
+            {
+                terrainNodes[i].Enable();
+            }
+        }
+
+        public override void Disable()
+        {
+            for (int i = 0; i < terrainNodes.Count; i++)
+            {
+                terrainNodes[i].Disable();
+            }
+        }
+
+        public override void Input()
+        {
+            for (int i = 0; i < terrainNodes.Count; i++)
+            {
+                terrainNodes[i].Input();
+            }
+        }
+
+        public override void Render()
+        {
+            for (int i = 0; i < terrainNodes.Count; i++)
+            {
+                terrainNodes[i].Render();
+            }
+        }
+
+        public override void Update()
+        {
+            for (int i = 0; i < terrainNodes.Count; i++)
+            {
+                terrainNodes[i].Update();
+            }
+        }
+
+        public override void Clear()
+        {
+            for (int i = 0; i < terrainNodes.Count; i++)
+            {
+                terrainNodes[i].Clear();
+            }
+        }
+
+        /*  public void UpdateQuadTree()
+          {
+              GameEntityStorrage.Entities.Update("terrainQuadTree");
+          }
+          */
         public TerrainQuadTree(TerrainConfig config):base()
         {
-            GameEntityStorrage.Entities.AddItem("terrainQuadTree", this);
+            ///    GameEntityStorrage.Entities.AddItem("terrainQuadTree", this);
 
-            string id;
+            terrainNodes = new List<TerrainNode>(rootNodes * rootNodes);
+
+         
             for (int i=0;i<rootNodes ;i++)
             {
                 for (int j = 0; j < rootNodes; j++)
                 {
-                    id = "N_" + i + "_" + j;
-                    GameEntityStorrage.Entities.AddItem("terrainQuadTree", id, new TerrainNode(id, config, new Vector2(i/(float)rootNodes, j / (float)rootNodes),0,new Vector2(i,j)));
-
-                    GameEntityStorrage.Entities.GetItem(id).AddComponent("TNModel", new Model("TNModel", "DefaultMaterial", "TerrainShader"));
+                    terrainNodes[i * rootNodes + j] = new TerrainNode(config, new Vector2(i / (float)rootNodes, j / (float)rootNodes), 0, new Vector2(i, j));
+           
+                ///    GameEntityStorrage.Entities.GetItem(id).AddComponent("TNModel", new Model("TNModel", "DefaultMaterial", "TerrainShader"));
 
                 }
             }

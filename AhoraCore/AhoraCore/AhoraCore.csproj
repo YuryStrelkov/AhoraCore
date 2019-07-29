@@ -105,7 +105,6 @@
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\Terrain.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainConfig.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainNode.cs" />
-    <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainNodeModel.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainQuadTree.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainShader.cs" />
     <Compile Include="Core\Scene3D\Scene.cs" />

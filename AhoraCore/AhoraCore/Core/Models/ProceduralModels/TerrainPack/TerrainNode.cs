@@ -1,13 +1,31 @@
 ﻿using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.Transformations;
 using OpenTK;
 using System;
+using System.Collections.Generic;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 {
-    public  class TerrainNode:GameEntity
+
+    /// <summary>
+    /// Сделать компанентом!!!
+    /// </summary>
+    public  class TerrainNode:AComponent
     {
-        public string ID { get; private set;}
+        List<TerrainNode> childsNodes;
+
+        private Transform localTransform, worldTransform;
+
+        public Transform GetNodeLoclTrans()
+        {
+            return localTransform;
+        }
+
+        public Transform GetNodeWorldTrans()
+        {
+            return worldTransform;
+        }
 
         private TerrainConfig config;
 
@@ -114,15 +132,15 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             }
         }
 
-        public new void Render()
+        public override void Render()
         {
             if (isLeaf)
             {
-                base.Render();
+              //  base.Render();
             }
         }
 
-        public new void Update()
+        public override void Update()
         {
             if (CameraInstance.Get().GetLocalTransform().Position.Y > config.ScaleY)
             {
@@ -133,7 +151,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
                 worldPosition.Y = CameraInstance.Get().GetLocalTransform().Position.Y;
                 UpdateChildsNodes();
             }
-            base.Update();
+      //      base.Update();
         }
 
         private void UpdateChildsNodes()
@@ -156,15 +174,13 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             {
                 IsLeaf = false;
             }
-            if (GameEntityStorrage.Entities.Iteams[ID].Childrens.Count==0)
+            if (childsNodes.Count == 0)
             {
-                string id;
-                for (int i=0;i<2 ;i++ )
+                for (int i = 0 ; i < 2 ; i++ )
                 {
                     for (int j = 0; j < 2; j++)
                     {
-                        id = ID +"_N_" + i + "_" + j;
-                        GameEntityStorrage.Entities.AddItem(ID, new TerrainNode(id, config, new Vector2(i*gap/2, j*gap/2), lod, new Vector2(i, j)));
+                        childsNodes[i * 2 + j] = new TerrainNode(config, new Vector2(i * gap / 2, j * gap / 2), lod, new Vector2(i, j));
                     }
                 }
             }
@@ -181,29 +197,54 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             {
                 IsLeaf = true;
             }
-            if (GameEntityStorrage.Entities.Iteams[ID].Childrens.Count != 0)
+            if (childsNodes.Count!=0)
             {
-                GameEntityStorrage.Entities.RemoveChildrens(ID);
+                childsNodes.Clear();
             }
 
         }
-        
-        public TerrainNode(string id, TerrainConfig config, Vector2 location, int lod, Vector2 index)
+
+        public override void Delete()
         {
-            this.ID = id;
+        }
+
+        public override void Enable()
+        {
+        }
+
+        public override void Disable()
+        {
+        }
+
+        public override void Input()
+        {
+        }
+
+        public override void Clear()
+        {
+        }
+
+        public TerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index)
+        {
+            childsNodes = new List<TerrainNode>(4);
             this.config = config;
             this.location = location;
             this.lod = lod;
             this.index = index;
+
+            localTransform = new Transform(0, 0, 0);
+
+            worldTransform = new Transform(0, 0, 0);
+            
             gap = 1.0f / (TerrainQuadTree.GetRootNodesNumber() * (float)Math.Pow(2, lod));
 
-            GetLocalTransform().SetScaling(gap, 0,gap);
+            GetNodeLoclTrans().SetScaling(gap, 0,gap);
 
-            GetLocalTransform().SetTranslation(location.X,0, location.Y);
+            GetNodeLoclTrans().SetTranslation(location.X,0, location.Y);
 
-            GetWorldTransform().SetScaling(config.ScaleXZ,config.ScaleY, config.ScaleXZ);
+            GetNodeWorldTrans().SetScaling(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
 
-            GetWorldTransform().SetTranslation(-config.ScaleXZ / 2, 0, -config.ScaleXZ / 2);
+            GetNodeWorldTrans().SetTranslation(-config.ScaleXZ / 2, 0, -config.ScaleXZ / 2);
 
             ComputeWorldPosition();
         }
