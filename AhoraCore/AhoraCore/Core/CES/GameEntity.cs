@@ -6,11 +6,11 @@ namespace AhoraCore.Core.CES
 {
     public class GameEntity : Node, IGameEntity
     {
-        private Dictionary<string, AComponent> components;
+        private Dictionary<string, AComponent<IGameEntity>> components;
 
         public GameEntity():base()
         {
-            components = new Dictionary<string, AComponent>();
+            components = new Dictionary<string, AComponent<IGameEntity>>();
         }
 
         public GameEntity(Vector3 wordPos, Vector3 wordOrient) : base()
@@ -19,10 +19,10 @@ namespace AhoraCore.Core.CES
 
             WorldTransform.SetTranslation(wordPos);
 
-            components = new Dictionary<string, AComponent>();
+            components = new Dictionary<string, AComponent<IGameEntity>>();
         }
 
-        public void AddComponent(string Key, AComponent component)
+        public void AddComponent(string Key, AComponent<IGameEntity> component)
         {
             if (!components.ContainsKey(Key))
             {

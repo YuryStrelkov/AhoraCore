@@ -1,4 +1,5 @@
 ﻿using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.Materials;
 using OpenTK;
 
@@ -27,7 +28,7 @@ namespace AhoraCore.Core.Shaders
         }
 
 
-        public override void UpdateUniforms(GameEntity e)
+        public override void UpdateUniforms(IGameEntity e)
         {
             SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
             SetUniform("transformationMatrix", e.GetWorldTransform().GetTransformMat());

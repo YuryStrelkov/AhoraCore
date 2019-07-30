@@ -102,6 +102,7 @@
     <Compile Include="Core\Models\ProceduralModels\Icosphere.cs" />
     <Compile Include="Core\Models\ProceduralModels\MeshUtils.cs" />
     <Compile Include="Core\Models\ProceduralModels\SkyBox.cs" />
+    <Compile Include="Core\Models\ProceduralModels\TerrainPack\ATerrainNode.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\Terrain.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainConfig.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainNode.cs" />

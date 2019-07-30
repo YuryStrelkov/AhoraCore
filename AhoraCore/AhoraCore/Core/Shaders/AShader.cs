@@ -1,5 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.ICES;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -182,7 +183,7 @@ namespace AhoraCore.Core.Shaders
 
         public abstract void UpdateUniforms();
 
-        public abstract void UpdateUniforms(GameEntity e);
+        public abstract void UpdateUniforms(IGameEntity e);
 
         protected abstract void BindUniforms();
 

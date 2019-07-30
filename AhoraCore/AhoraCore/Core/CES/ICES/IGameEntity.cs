@@ -2,6 +2,6 @@
 {
     public interface IGameEntity:IBehavoir,ITransformable
     {
-        void AddComponent(string Key, AComponent component);
+        void AddComponent(string Key, AComponent<IGameEntity> component);
     }
 }

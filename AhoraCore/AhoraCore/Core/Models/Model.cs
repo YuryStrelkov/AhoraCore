@@ -3,10 +3,11 @@ using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.Shaders;
 using AhoraCore.Core.Materials;
+using AhoraCore.Core.CES.ICES;
 
 namespace AhoraCore.Core.Models
 {
-    public class Model: AComponent
+    public class Model: AComponent<IGameEntity>
     {
         public string ModelID { get; set; }
    
@@ -44,7 +45,6 @@ namespace AhoraCore.Core.Models
             modelShader.UpdateUniforms(GetParent());
             modelMaterial.Bind(modelShader);
             GeometryStorrageManager.Data.RenderIteam(ModelID);
-
         }
 
         public override void Update()

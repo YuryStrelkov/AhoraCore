@@ -1,6 +1,7 @@
 ﻿using System;
 using AhoraCore.Core.CES;
 using OpenTK;
+using AhoraCore.Core.CES.ICES;
 
 namespace AhoraCore.Core.Shaders
 {
@@ -19,7 +20,7 @@ namespace AhoraCore.Core.Shaders
             SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
         }
 
-        public override void UpdateUniforms(GameEntity e)
+        public override void UpdateUniforms(IGameEntity e)
         {
             SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
             SetUniform("transformationMatrix", e.GetWorldTransform().GetTransformMat());
