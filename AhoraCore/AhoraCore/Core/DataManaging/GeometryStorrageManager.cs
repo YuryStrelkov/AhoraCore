@@ -26,6 +26,21 @@ namespace AhoraCore.Core.DataManaging
             managingData[attibutesFormat].AddItem(geoID, vData, iData);
         }
 
+
+        public void AddGeometry(int attibutesFormat, string geoID, float[] vData)
+        {
+            AppendData(geoID, attibutesFormat);
+            managingData[attibutesFormat].AddItem(geoID, vData);
+        }
+
+
+        public void AddGeometry(int attibutesFormat, string geoID, FloatBuffer vData)
+        {
+            AppendData(geoID, attibutesFormat);
+            managingData[attibutesFormat].AddItem(geoID, vData.BufferData);
+        }
+
+
         public void AddGeometry( int attibutesFormat, string geoID, FloatBuffer vData, IntegerBuffer iData)
         {
             AppendData(geoID, attibutesFormat);

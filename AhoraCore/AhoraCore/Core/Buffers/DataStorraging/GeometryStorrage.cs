@@ -17,9 +17,15 @@ namespace AhoraCore.Core.Buffers
     /// </summary>
     public class GeometryStorrage : ArrayBuffer, IDataStorrage<string>, IGeometryDataStorrage<string>, IRedreable<string>
     {
+        private delegate void renderMethod(string ID);
+
+       
+
         private IndexedList<string> VerticesIndeces;
 
         private IndexedList<string> FacesIndeces;
+
+        private Dictionary<string, renderMethod> RenderMethods;
 
         private Dictionary<string, InstanceBuffer> GeometryItemsInstansesList;
 
@@ -31,10 +37,28 @@ namespace AhoraCore.Core.Buffers
             }
         }
 
+        public void AddItem(string key, float[] vData)
+        {
+            VerticesIndeces.Add(key, vData.Length);
+            RenderMethods.Add(key, (ID) =>
+            {
+                GL.DrawArrays(PrimitiveType.Patches, VerticesIndeces.GetOffset(ID), VerticesIndeces.GetLength(ID));
+            }
+           );
+            LoadData(vData);
+        }
+
+
         public void AddItem(string key, float[] vData, int[] iData)
         {
             VerticesIndeces.Add(key, vData.Length);
             FacesIndeces.Add(key, iData.Length);
+            RenderMethods.Add(key, (ID) => 
+            {
+                GL.DrawElements(PrimitiveType.Triangles, FacesIndeces.GetLength(ID),
+                 DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(ID) * sizeof(int));
+            }
+            );
             LoadData(vData, iData);
         }
 
@@ -66,7 +90,14 @@ namespace AhoraCore.Core.Buffers
         {
             if (FacesIndeces.Iteams.ContainsKey(geometryID))
             {
-                IBO.Delete(FacesIndeces.GetOffset(geometryID), FacesIndeces.GetLength(geometryID));
+                if (FacesIndeces.Iteams.ContainsKey(geometryID))
+                {
+                    IBO.Delete(FacesIndeces.GetOffset(geometryID), FacesIndeces.GetLength(geometryID));
+                }
+                if (GeometryItemsInstansesList.ContainsKey(geometryID))
+                {
+                    GeometryItemsInstansesList.Remove(geometryID);
+                }
                 VBO.Delete(VerticesIndeces.GetOffset(geometryID), VerticesIndeces.GetLength(geometryID));
                 FacesIndeces.Remove(geometryID);
                 VerticesIndeces.Remove(geometryID);
@@ -89,25 +120,26 @@ namespace AhoraCore.Core.Buffers
         public void RenderIteam(string iteamID)
         {
             Bind();
-            if (GeometryItemsInstansesList.ContainsKey(iteamID))
-            {
+            RenderMethods[iteamID](iteamID);
+            //if (GeometryItemsInstansesList.ContainsKey(iteamID))
+            //{
                 
-                GeometryItemsInstansesList[iteamID].EnableAttribytes();
-                GL.DrawElementsInstanced(BeginMode.Triangles, FacesIndeces.GetLength(iteamID),
-                                         DrawElementsType.UnsignedInt, (IntPtr)(0 * sizeof(int)),
-                                         GeometryItemsInstansesList[iteamID].Fillnes / 16);
-                GeometryItemsInstansesList[iteamID].DisableAttribytes();
-            }
-            else
-            {
-                /////сетка
-                //GL.DrawElements(PrimitiveType.Lines, GeometryItemsList[iteamID].I_length,
-                //                DrawElementsType.UnsignedInt, GeometryItemsList[iteamID].I_start_i * sizeof(int));
-                // оболочка
-                //PrimitiveType.Triangles, 3*FacesCount, DrawElementsType.UnsignedInt, 0
-                GL.DrawElements(PrimitiveType.Triangles, FacesIndeces.GetLength(iteamID),
-                              DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(iteamID) * sizeof(int));
-            }
+            //    GeometryItemsInstansesList[iteamID].EnableAttribytes();
+            //    GL.DrawElementsInstanced(BeginMode.Triangles, FacesIndeces.GetLength(iteamID),
+            //                             DrawElementsType.UnsignedInt, (IntPtr)(0 * sizeof(int)),
+            //                             GeometryItemsInstansesList[iteamID].Fillnes / 16);
+            //    GeometryItemsInstansesList[iteamID].DisableAttribytes();
+            //}
+            //else
+            //{
+            //    /////сетка
+            //    //GL.DrawElements(PrimitiveType.Lines, FacesIndeces.GetLength(iteamID),
+            //    //                DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(iteamID) * sizeof(int));
+            //    // оболочка
+            //    //PrimitiveType.Triangles, 3*FacesCount, DrawElementsType.UnsignedInt, 0
+            //    GL.DrawElements(PrimitiveType.Triangles, FacesIndeces.GetLength(iteamID),
+            //       DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(iteamID) * sizeof(int));
+            //}
             Unbind();
         }
 
@@ -123,6 +155,14 @@ namespace AhoraCore.Core.Buffers
                 GeometryItemsInstansesList.Add(geoID, new InstanceBuffer(Attribytes.Count));
                 GeometryItemsInstansesList[geoID].Create(data.Length);
                 GeometryItemsInstansesList[geoID].LoadBufferData(data);
+                RenderMethods[geoID] = (ID) => 
+                {
+                    GeometryItemsInstansesList[ID].EnableAttribytes();
+                    GL.DrawElementsInstanced(BeginMode.Triangles, FacesIndeces.GetLength(ID),
+                                             DrawElementsType.UnsignedInt, (IntPtr)(0 * sizeof(int)),
+                                             GeometryItemsInstansesList[ID].Fillnes / 16);
+                    GeometryItemsInstansesList[ID].DisableAttribytes();
+                };
             }
             else
             {
@@ -184,6 +224,7 @@ namespace AhoraCore.Core.Buffers
             FacesIndeces = new IndexedList<string>();
             VerticesIndeces = new IndexedList<string>();
             GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
+            RenderMethods = new Dictionary<string, renderMethod>();
         }
 
     }

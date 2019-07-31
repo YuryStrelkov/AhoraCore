@@ -1,7 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.IBuffres;
 using OpenTK.Graphics.OpenGL;
-using System;
 using System.Collections.Generic;
 
 
@@ -209,6 +208,28 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 Bind();
                 VBO.LoadBufferData(vdata);
                 IBO.LoadBufferData(idata);
+                Unbind();
+            }
+        }
+
+
+
+        protected void LoadData(float[] vdata)
+        {
+
+            if (vdata.Length > VBO.Capacity - VBO.Fillnes)
+            {
+                EnhanceBufferCapsity(vdata.Length + VBO.Fillnes,IBO.Capacity);
+                Bind();
+                VBO.LoadBufferData(vdata);
+                GL.PatchParameter(PatchParameterInt.PatchVertices, 16);
+                Unbind();
+            }
+            else
+            {
+                Bind();
+                VBO.LoadBufferData(vdata);
+                GL.PatchParameter(PatchParameterInt.PatchVertices, 16);
                 Unbind();
             }
         }

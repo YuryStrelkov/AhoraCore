@@ -8,24 +8,26 @@ uniform mat4 WorldTransMatrix;
 
 uniform mat4 projectionMatrix;
 
+uniform mat4 viewMatrix;
+
 void main()
 {
 	vec4 pos;
 	
-	mat4   wpm = projectionMatrix*WorldTransMatrix;
+	mat4   vpm = projectionMatrix*viewMatrix*WorldTransMatrix;
 	
 	for (int i=0;i<gl_in.length();i++)
 	{
 		pos = gl_in[i].gl_Position;
 		
-		gl_Position=wpm*pos;
+		gl_Position = vpm *pos;
 		
 		EmitVertex();
 	}
 	
 	pos = gl_in[0].gl_Position;
 	
-	gl_Position=wpm*pos;
+	gl_Position=vpm *pos;
 		
 	EmitVertex();
 	

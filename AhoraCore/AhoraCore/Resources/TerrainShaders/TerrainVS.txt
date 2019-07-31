@@ -6,13 +6,12 @@ uniform mat4 LocTransMatrix;
 
 uniform mat4 WorldTransMatrix;
 
-uniform mat4 viewMatrix;
-
 void main()
 {
 
 vec3 localPos =( LocTransMatrix*vec4(p_position.x,0,p_position.y,1)).xyz;	
 
 gl_Position =  WorldTransMatrix*vec4(p_position.x,0,p_position.y,1);
+
 
 }

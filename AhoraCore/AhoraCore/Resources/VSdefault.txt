@@ -14,7 +14,7 @@ uniform mat4 viewMatrix;
 
 void main(){
 
-    mat4 viewTransform=viewMatrix * transformationMatrix ;
+    mat4 viewTransform = viewMatrix * transformationMatrix ;
 	
 	gl_Position = projectionMatrix * viewTransform* vec4(p_position,1.0);
 

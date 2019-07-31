@@ -1,4 +1,4 @@
 #terrain settings
-ScaleXZ 6000
+ScaleXZ 10
 ScaleY 0
 LodRanges 1750 874 386 192 100 50 0 0

@@ -171,20 +171,21 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             this.location = location;
             this.lod = lod;
             this.index = index;
+            isLeaf = true;
 
-            localTransform = new Transform(0, 0, 0);
+            //Random r = new Random();
 
-            worldTransform = new Transform(0, 0, 0);
+            localTransform = new Transform(location.X, 0, location.Y);
+
+            worldTransform = new Transform(-config.ScaleXZ / 2,0, -config.ScaleXZ / 2);
 
             gap = 1.0f / (TerrainQuadTree.GetRootNodesNumber() * (float)Math.Pow(2, lod));
 
+          //  Console.WriteLine(gap);
+
             GetNodeLoclTrans().SetScaling(gap, 0, gap);
 
-            GetNodeLoclTrans().SetTranslation(location.X, 0, location.Y);
-
             GetNodeWorldTrans().SetScaling(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
-
-            GetNodeWorldTrans().SetTranslation(-config.ScaleXZ / 2, 0, -config.ScaleXZ / 2);
 
             ComputeWorldPosition();
         }
