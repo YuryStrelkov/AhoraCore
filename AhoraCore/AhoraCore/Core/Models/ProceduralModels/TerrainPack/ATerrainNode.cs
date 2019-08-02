@@ -13,17 +13,17 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
     {
         protected List<TerrainNode> childsNodes;
 
-        protected Transform localTransform, worldTransform;
+        protected Transform localTransform;//, worldTransform;
 
         public Transform GetNodeLoclTrans()
         {
             return localTransform;
         }
 
-        public Transform GetNodeWorldTrans()
-        {
-            return worldTransform;
-        }
+        //public Transform GetNodeWorldTrans()
+        //{
+        //    return worldTransform;
+        //}
 
         protected TerrainConfig config;
 
@@ -136,7 +136,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             if (distance < config.LodRanges[lod])
             {
-                AddChildNodes(lod + 1);
+                 AddChildNodes(lod + 1);
             }
             else if (distance < config.LodRanges[lod])
             {
@@ -172,20 +172,12 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             this.lod = lod;
             this.index = index;
             isLeaf = true;
-
-            //Random r = new Random();
-
-            localTransform = new Transform(location.X, 0, location.Y);
-
-            worldTransform = new Transform(-config.ScaleXZ / 2,0, -config.ScaleXZ / 2);
-
+            
+            localTransform = new Transform(location.X , 0, location.Y);
+            
             gap = 1.0f / (TerrainQuadTree.GetRootNodesNumber() * (float)Math.Pow(2, lod));
-
-          //  Console.WriteLine(gap);
-
+                
             GetNodeLoclTrans().SetScaling(gap, 0, gap);
-
-            GetNodeWorldTrans().SetScaling(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
 
             ComputeWorldPosition();
         }

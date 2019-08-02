@@ -222,14 +222,12 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 EnhanceBufferCapsity(vdata.Length + VBO.Fillnes,IBO.Capacity);
                 Bind();
                 VBO.LoadBufferData(vdata);
-                GL.PatchParameter(PatchParameterInt.PatchVertices, 16);
                 Unbind();
             }
             else
             {
                 Bind();
                 VBO.LoadBufferData(vdata);
-                GL.PatchParameter(PatchParameterInt.PatchVertices, 16);
                 Unbind();
             }
         }

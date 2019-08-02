@@ -68,6 +68,7 @@
     <Compile Include="Core\Buffers\IBuffers\IGeometryDataStorrage.cs" />
     <Compile Include="Core\Buffers\IBuffers\IMarkAttribyte.cs" />
     <Compile Include="Core\Buffers\IBuffers\ITemplateDataStorrage.cs" />
+    <Compile Include="Core\Buffers\SpecificBuffers\PatchBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\InstanceBuffer.cs" />
     <Compile Include="Core\Buffers\SpecificBuffers\UniformsBuffer.cs" />
     <Compile Include="Core\Buffers\StandartBuffers\FloatBuffer.cs" />

@@ -34,6 +34,6 @@ namespace AhoraCore.Core.Buffers.IBuffres
         }
   
         public abstract void Create(int cap);
-        
+      
     }
 }

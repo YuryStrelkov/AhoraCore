@@ -1,7 +1,4 @@
-﻿using System;
-using AhoraCore.Core.CES;
-using AhoraCore.Core.Shaders;
-using OpenTK;
+﻿using AhoraCore.Core.Shaders;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.CES.ICES;
 
@@ -26,10 +23,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public override void UpdateUniforms()
         {
-            SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
+          /*  SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
             SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
             SetUniform("WorldTransMatrix", Matrix4.Identity);
-            SetUniform("LocTransMatrix", Matrix4.Identity);
+            SetUniform("LocTransMatrix", Matrix4.Identity);*/
         }
 
         public override void UpdateUniforms(IGameEntity e)

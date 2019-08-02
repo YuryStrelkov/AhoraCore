@@ -42,7 +42,7 @@ namespace AhoraCore.Core.Buffers
             VerticesIndeces.Add(key, vData.Length);
             RenderMethods.Add(key, (ID) =>
             {
-                GL.DrawArrays(PrimitiveType.Patches, VerticesIndeces.GetOffset(ID), VerticesIndeces.GetLength(ID));
+                GL.DrawArrays(PrimitiveType.Patches, 0 , 32);
             }
            );
             LoadData(vData);
@@ -55,7 +55,7 @@ namespace AhoraCore.Core.Buffers
             FacesIndeces.Add(key, iData.Length);
             RenderMethods.Add(key, (ID) => 
             {
-                GL.DrawElements(PrimitiveType.Triangles, FacesIndeces.GetLength(ID),
+                 GL.DrawElements(PrimitiveType.Triangles, FacesIndeces.GetLength(ID),
                  DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(ID) * sizeof(int));
             }
             );

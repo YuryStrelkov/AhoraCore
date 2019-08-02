@@ -4,8 +4,6 @@ layout(triangles) in;
 
 layout( line_strip, max_vertices = 4 )out;
 
-uniform mat4 WorldTransMatrix;
-
 uniform mat4 projectionMatrix;
 
 uniform mat4 viewMatrix;
@@ -14,7 +12,7 @@ void main()
 {
 	vec4 pos;
 	
-	mat4   vpm = projectionMatrix*viewMatrix*WorldTransMatrix;
+	mat4   vpm = projectionMatrix*viewMatrix;
 	
 	for (int i=0;i<gl_in.length();i++)
 	{

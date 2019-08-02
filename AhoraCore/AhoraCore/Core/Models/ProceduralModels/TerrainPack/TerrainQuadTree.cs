@@ -1,10 +1,12 @@
-﻿using AhoraCore.Core.Buffers.DataStorraging;
+﻿using AhoraCore.Core.Buffers;
+using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.Materials;
 using AhoraCore.Core.Shaders;
 using OpenTK;
+using System;
 using System.Collections.Generic;
 
 
@@ -17,9 +19,38 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public AShader TerrainShader { get; private set; }
 
-        private static int rootNodes=8;
+        public PatchBuffer NodePachModel { get; private set; }
+
+        private static int rootNodes = 8;
 
         List<TerrainNode> terrainNodes;
+
+        public float[] GeneratePath()
+        {
+            return new float[] {
+             0,0,
+             0.333f, 0,
+             0.666f, 0,
+             1, 0, 
+
+             0,      0.333f,
+             0.333f, 0.333f,
+             0.666f, 0.333f,
+             1,      0.333f,
+
+
+
+             0,      0.666f,
+             0.333f, 0.666f,
+             0.666f, 0.666f,
+             1,      0.666f,
+
+
+             0,      1, 
+             0.333f, 1,
+             0.666f, 1,
+             1,      1};
+        }
 
         public static int GetRootNodesNumber()
         {
@@ -61,8 +92,11 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
         public override void Render()
         {
             TerrainShader.Bind();
+
             TerrainMaterial.Bind(TerrainShader);
+
             TerrainShader.SetUniform("viewMatrix", CameraInstance.Get().ViewMatrix);
+
             TerrainShader.SetUniform("projectionMatrix", CameraInstance.Get().PespectiveMatrix);
 
             for (int i = 0; i < terrainNodes.Count; i++)
@@ -96,22 +130,23 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             TerrainMaterial = MaterialStorrage.Materials.GetItem("DefaultMaterial");
 
             TerrainShader = ShaderStorrage.Sahaders.GetItem("TerrainShader");
-
+            
             terrainNodes = new List<TerrainNode>(rootNodes * rootNodes);
 
             for (int i=0; i < rootNodes ;i++)
             {
                 for (int j = 0; j < rootNodes; j++)
                 {
-                    terrainNodes.Add(new TerrainNode(config, new Vector2(i / (float)rootNodes, j / (float)rootNodes), 0, new Vector2(i, j)));
+                    terrainNodes.Add(new TerrainNode(config,  new Vector2(i * 1.0f / rootNodes, j*1.0f / rootNodes), 0, new Vector2(i, j)));
                     terrainNodes[i * rootNodes + j].SetParent(this);
-                ///    GameEntityStorrage.Entities.GetItem(id).AddComponent("TNModel", new Model("TNModel", "DefaultMaterial", "TerrainShader"));
-
                 }
             }
-            GetWorldTransform().SetScaling(config.ScaleXZ,  config.ScaleY, config.ScaleXZ);
 
-            GetWorldTransform().SetTranslation(config.ScaleXZ/2, 0, config.ScaleXZ/2);
+           NodePachModel = new PatchBuffer(GeneratePath(), 2);
+
+           GetWorldTransform().SetScaling(config.ScaleXZ,  config.ScaleY, config.ScaleXZ);
+
+           GetWorldTransform().SetTranslation(-config.ScaleXZ/2f, 0, -config.ScaleXZ/2f);
         }
     }
 }

@@ -116,6 +116,16 @@ namespace AhoraCore.Core.Buffers.IBuffres
             GL.BufferData(BindingTarget, capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
         //    Console.WriteLine(" Buffer ID = " + ID + " as "+ BufferType.ToString() + " creation status " + GL.GetError().ToString());
         }
+
+
+
+        public void Create(T[] data)
+        {
+            Create();
+            Bind();
+            Capacity = data.Length;
+            GL.BufferData(BindingTarget, data.Length* IteamByteSize, data, BufferUsageHint.StaticDraw);
+        }
         /// <summary>
         /// Удаляет буфер
         /// </summary>
