@@ -32,13 +32,14 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public override void Update()
         {
-            if (CameraInstance.Get().GetLocalTransform().Position.Y > config.ScaleY)
+            if (CameraInstance.Get().GetWorldTransform().Position.Y < config.ScaleY)
             {
                 worldPosition.Y = config.ScaleY;
+        //        UpdateChildsNodes();
             }
             else
             {
-                worldPosition.Y = CameraInstance.Get().GetLocalTransform().Position.Y;
+                worldPosition.Y = CameraInstance.Get().GetWorldTransform().Position.Y;
                 UpdateChildsNodes();
             }
         }
@@ -55,8 +56,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
                 {
                     for (int j = 0; j < 2; j++)
                     {
-                        childsNodes.Add(new TerrainNode(config, new Vector2(i * gap / 2, j * gap / 2), lod, new Vector2(i, j)));
+                        childsNodes.Add(new TerrainNode(config, new Vector2(GetNodeLoclTrans().Position.X + i * gap / 2, GetNodeLoclTrans().Position.Z + j * gap / 2), lod, new Vector2(i, j)));
                         childsNodes[i * 2 + j].SetParent(GetParent());
+                       
                     }
                 }
             }

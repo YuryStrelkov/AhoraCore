@@ -44,7 +44,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
                     case "LodRanges":
                         for (int i = 0; i < 8; i++)
                         {
-                            int val = int.Parse(lineTokens[i + 1]);
+                            int val = (int)(ScaleXZ * float.Parse(lineTokens[i + 1]));
                             if (val == 0)
                             {
                                 LodRanges[i] = 0;
