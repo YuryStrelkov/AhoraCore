@@ -2,8 +2,27 @@
 
 layout(location = 0) out vec4 outColor;
 
+in vec2 mapCoord_FS;
+
+uniform sampler2D normalMap;
+
+uniform sampler2D heightMap;
+
+const vec3 direction = vec3(0.333,0.333,0.333);
+
+const float intensity = 1.2;
+
+float diffuse(vec3 dir, vec3 n, float i)
+{
+	return max(0.01, dot(n,dir) * i);
+}
 
 void main()
 {
-outColor=vec4(0.1,0.7,0.2,1);
+	vec3 normal = texture(normalMap, mapCoord_FS).rgb;
+
+	float diffuse = diffuse(direction, normal, intensity);
+
+	outColor = vec4(0.1,1.0,0.1,1.0) * diffuse;
+
 }

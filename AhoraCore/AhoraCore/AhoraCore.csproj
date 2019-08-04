@@ -81,6 +81,7 @@
     <Compile Include="Core\CES\GameEntity.cs" />
     <Compile Include="Core\CES\GameEntityStorrage.cs" />
     <Compile Include="Core\CES\ICES\IBehavoir.cs" />
+    <Compile Include="Core\CES\ICES\IComponent.cs" />
     <Compile Include="Core\CES\ICES\ITransformable.cs" />
     <Compile Include="Core\CES\ICES\IGameEntity.cs" />
     <Compile Include="Core\CES\Node.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Core\Input\MouseInput.cs" />
     <Compile Include="Core\Materials\AMaterial\EditableMaterial.cs" />
     <Compile Include="Core\Materials\AMaterial\ATextureChannel.cs" />
+    <Compile Include="Core\Materials\GpuGpu\NormalMapRendererShader.cs" />
     <Compile Include="Core\Materials\Material.cs" />
     <Compile Include="Core\Materials\Texture.cs" />
     <Compile Include="Core\Materials\TextureChannel.cs" />
@@ -190,6 +192,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TerrainSettings.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hm2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hm1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hm0.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NormalMapRenderer.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

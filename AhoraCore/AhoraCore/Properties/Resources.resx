@@ -163,4 +163,16 @@
   <data name="TerrainSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TerrainSettings.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="hm0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hm0.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hm1.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hm2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hm2.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NormalMapRenderer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NormalMapRenderer.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
 </root>

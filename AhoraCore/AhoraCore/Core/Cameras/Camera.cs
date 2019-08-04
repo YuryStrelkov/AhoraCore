@@ -119,7 +119,7 @@ namespace AhoraCore.Core.Cameras
 
                 offset.NormalizeFast();
                 offset = Vector3.Multiply(offset, MoveSpeed);
-                GetWorldTransform().SetTranslation(GetWorldTransform().Position + offset);
+                GetWorldTransform().SetTranslation(GetWorldTransform().Position + 100*offset);
                 ViewMatrix = Matrix4.LookAt(GetWorldTransform().Position, GetWorldTransform().Position + LookAt, Vector3.UnitY);
                 ViewMatrix.Transpose();
                 IsUpdated = true;

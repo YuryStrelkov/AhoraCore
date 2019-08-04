@@ -146,6 +146,40 @@ namespace AhoraCore.Core.Materials
 
         }
 
+
+        public void NoFilter()
+        {
+
+            if (TextureTarget.Texture2D == BindingTarget)
+            {
+                GL.TexParameterI(BindingTarget, TextureParameterName.TextureMagFilter, ref TextureLoader.NEAREST);
+
+                GL.TexParameterI(BindingTarget, TextureParameterName.TextureMinFilter, ref TextureLoader.NEAREST);
+
+                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            }
+
+            if (TextureTarget.TextureCubeMap == BindingTarget)
+            {
+                GL.TexParameter(BindingTarget, TextureParameterName.TextureMinFilter,   TextureLoader.NEAREST);
+
+                GL.TexParameter(BindingTarget, TextureParameterName.TextureMagFilter,   TextureLoader.NEAREST);
+
+                GL.TexParameter(BindingTarget, TextureParameterName.GenerateMipmap, (int)All.True);
+            }
+        }
+
+        public void BilinearFilter()
+        {
+            GL.TexParameterI(BindingTarget, TextureParameterName.TextureMagFilter, ref TextureLoader.LINEAR);
+
+            GL.TexParameterI(BindingTarget, TextureParameterName.TextureMinFilter, ref TextureLoader.LINEAR);
+
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+        }
+
+
+
         public void LoadData2Texture(int w, int h, float[] data)
         {
             Bind();

@@ -1,4 +1,15 @@
 #terrain settings
-ScaleXZ 200
-ScaleY 0
-LodRanges 0,875 0,4375 0,21875 0,109375 0,0546875 0,02734375 0 0
+
+ScaleXZ 6000
+
+ScaleY 600
+
+HeigthMap false hm1
+
+TessellationFactor 300
+
+TessellationSlope 2
+
+TessellationShift 0,1
+
+LodRanges 1750 874 386 192 100 50 0 0

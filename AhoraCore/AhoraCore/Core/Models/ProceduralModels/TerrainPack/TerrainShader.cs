@@ -23,7 +23,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public override void UpdateUniforms()
         {
-          /*  SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
+          /*SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
             SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
             SetUniform("WorldTransMatrix", Matrix4.Identity);
             SetUniform("LocTransMatrix", Matrix4.Identity);*/
@@ -39,23 +39,48 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         protected override void BindAttributes()
         {
-            AddAttribyte("p_position");
-//            AddAttribyte("p_normal");
-  //          AddAttribyte("p_texcoord");
+            AddAttribyte("p_position"); 
         }
 
         protected override void BindUniforms()
         {
             AddUniform("LocTransMatrix");
+
             AddUniform("WorldTransMatrix");
+
             AddUniform("projectionMatrix");
+
             AddUniform("viewMatrix");
 
+            AddUniform("index");//gap location ScaleY  index lod_morph_area cameraPosition
+
+            AddUniform("gap");
+
+            AddUniform("lod");
+
+            AddUniform("location");
+
+            AddUniform("ScaleY");
+
+            AddUniform("lod_morph_area");
+
+            AddUniform("cameraPosition");
+
+            AddUniform("tessellationFactor");
+
+            AddUniform("tessellationSlope");
+
+            AddUniform("tessellationShift");
+   
+            for (int i = 0; i < 8 ;i++)
+            {
+                AddUniform("lod_morph_area[" + i + "]");
+            }
 
             AddUniform("diffuseMap");
             AddUniform("normalMap");
             AddUniform("specularMap");
-            AddUniform("heightMap");
+             AddUniform("heightMap");
             AddUniform("reflectGlossMap");
             AddUniform("transparencyMap");
         }

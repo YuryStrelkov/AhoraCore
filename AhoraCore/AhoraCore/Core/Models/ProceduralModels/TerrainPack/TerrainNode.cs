@@ -1,7 +1,7 @@
 ﻿using AhoraCore.Core.Cameras;
 using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
 using OpenTK;
-using System;
+
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 {
@@ -11,15 +11,27 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
     public  class TerrainNode: ATerrainNode
     {
-         public override void Render()
-        {
 
-          //  Console.WriteLine(index);
+
+        public override void Render()
+        {
+            
             if (isLeaf)
             {
+
+                GetParent().TerrainShader.SetUniform("index", Index);
+
+                GetParent().TerrainShader.SetUniformf("gap", Gap);
+
+                GetParent().TerrainShader.SetUniformi("lod", Lod);
+
+                GetParent().TerrainShader.SetUniform("location", Location);
+
                 GetParent().TerrainShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransform().GetTransformMat());
-                GetParent().TerrainShader.SetUniform("LocTransMatrix",   GetNodeLoclTrans().GetTransformMat());
-                GetParent().NodePachModel.DrawPatch();
+
+                GetParent().TerrainShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
+
+                GetParent().NodePachModel.DrawPatch();    
            }
             else
             {
@@ -32,37 +44,17 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public override void Update()
         {
-            if (CameraInstance.Get().GetWorldTransform().Position.Y < config.ScaleY)
+           if (CameraInstance.Get().GetWorldTransform().Position.Y > config.ScaleY)
             {
                 worldPosition.Y = config.ScaleY;
-        //        UpdateChildsNodes();
             }
             else
             {
                 worldPosition.Y = CameraInstance.Get().GetWorldTransform().Position.Y;
-                UpdateChildsNodes();
             }
+            UpdateChildsNodes();
         }
 
-        protected override void AddChildNodes(int lod)
-        {
-            if (IsLeaf)
-            {
-                IsLeaf = false;
-            }
-            if (childsNodes.Count == 0)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    for (int j = 0; j < 2; j++)
-                    {
-                        childsNodes.Add(new TerrainNode(config, new Vector2(GetNodeLoclTrans().Position.X + i * gap / 2, GetNodeLoclTrans().Position.Z + j * gap / 2), lod, new Vector2(i, j)));
-                        childsNodes[i * 2 + j].SetParent(GetParent());
-                       
-                    }
-                }
-            }
-        }
 
         public override void Delete()
         {
@@ -84,9 +76,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
         {
         }
 
-        public TerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index):base( config,  location,  lod,  index)
+        public TerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index) : base(config, location, lod, index)
         {
-            
+
         }
 
     }
