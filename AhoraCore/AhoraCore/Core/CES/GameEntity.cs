@@ -8,7 +8,7 @@ namespace AhoraCore.Core.CES
     {
         private Dictionary<string, AComponent<IGameEntity>> components;
 
-        public GameEntity():base()
+        public GameEntity() : base()
         {
             components = new Dictionary<string, AComponent<IGameEntity>>();
         }
@@ -38,22 +38,22 @@ namespace AhoraCore.Core.CES
             }
         }
 
-        public  void Update()
+        public void Update()
         {
             foreach (string k in components.Keys)
             {
                 components[k].Update();
             }
-        //    base.Update();
+            //    base.Update();
         }
 
-        public  void Input()
+        public void Input()
         {
             foreach (string k in components.Keys)
             {
                 components[k].Input();
             }
-        //    base.Input();
+            //    base.Input();
         }
 
 
@@ -66,22 +66,22 @@ namespace AhoraCore.Core.CES
             //    base.Input();
         }
 
-        public  void Render()
+        public void Render()
         {
             foreach (string k in components.Keys)
             {
-                 components[k].Render();
+                components[k].Render();
             }
-          //  base.Render();
+            //  base.Render();
         }
 
-        public  void Disable()
+        public void Disable()
         {
             foreach (string k in components.Keys)
             {
                 components[k].Disable();
             }
-         //   base.Disable();
+            //   base.Disable();
         }
 
 

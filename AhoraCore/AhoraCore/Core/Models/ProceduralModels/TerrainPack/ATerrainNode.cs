@@ -20,6 +20,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             return localTransform;
         }
 
+
+
         //public Transform GetNodeWorldTrans()
         //{
         //    return worldTransform;
@@ -134,10 +136,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             float distance = (CameraInstance.Get().GetWorldTransform().Position - worldPosition).Length;
 
-            if (distance < config.LodRanges[lod])
+            if (distance < config.LodRanges[lod]&&(lod<7))
             {
-                 AddChildNodes(lod + 1);
-
+                AddChildNodes(lod + 1);
                 childsNodes[0].Update();
                 childsNodes[1].Update();
                 childsNodes[2].Update();
@@ -149,11 +150,29 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             }
         }
 
-        protected abstract void AddChildNodes(int lod);
+        private void AddChildNodes(int lod)
+        {
+            if (IsLeaf)
+            {
+                IsLeaf = false;
+            }
+            if (childsNodes.Count == 0)//цыклы для педиков
+            {
+                childsNodes.Add(new TerrainNode(config, new Vector2(GetNodeLoclTrans().Position.X, GetNodeLoclTrans().Position.Z ), lod, new Vector2(0,0)));
+                childsNodes[0].SetParent(GetParent());
+                childsNodes.Add(new TerrainNode(config, new Vector2(GetNodeLoclTrans().Position.X , GetNodeLoclTrans().Position.Z +  gap / 2), lod, new Vector2(0, 1)));
+                childsNodes[1].SetParent(GetParent());
+                childsNodes.Add(new TerrainNode(config, new Vector2(GetNodeLoclTrans().Position.X +  gap / 2, GetNodeLoclTrans().Position.Z ), lod, new Vector2(1, 0)));
+                childsNodes[2].SetParent(GetParent());
+                childsNodes.Add(new TerrainNode(config, new Vector2(GetNodeLoclTrans().Position.X  + gap / 2, GetNodeLoclTrans().Position.Z +  gap / 2), lod, new Vector2(1, 1)));
+                childsNodes[3].SetParent(GetParent());
+            }
+        }
 
         public void ComputeWorldPosition()
         {
-            worldPosition = new Vector3((location.X + gap / 2) * config.ScaleXZ - config.ScaleXZ / 2, 0, (location.Y + gap / 2) * config.ScaleXZ - config.ScaleXZ / 2);
+            worldPosition = new Vector3((localTransform.Position.X + gap / 2) * config.ScaleXZ - config.ScaleXZ / 2, 0,
+                                        (localTransform.Position.Z + gap / 2) * config.ScaleXZ - config.ScaleXZ / 2);
         }
 
         protected void RemoveChildNodes()
@@ -172,17 +191,24 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public ATerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index)
         {
             childsNodes = new List<TerrainNode>(4);
+
             this.config = config;
-            this.location = location;
+
             this.lod = lod;
+
             this.index = index;
+
             isLeaf = true;
-            
-            localTransform = new Transform(location.X , 0, location.Y);
-            
+
+            this.location = location;
+
             gap = 1.0f / (TerrainQuadTree.GetRootNodesNumber() * (float)Math.Pow(2, lod));
-                
+
+            localTransform = new Transform(location.X, 0, location.Y);
+
             GetNodeLoclTrans().SetScaling(gap, 0, gap);
+
+           //// location = index * gap;
 
             ComputeWorldPosition();
         }

@@ -3,12 +3,12 @@ using AhoraCore.Core.Transformations;
 
 namespace AhoraCore.Core.CES
 {
-    public abstract class  AComponent <ParentType>: IBehavoir, ITransformable where ParentType:ITransformable
+    public abstract class AComponent<ParentType> : IBehavoir, ITransformable where ParentType : ITransformable
     {
-        ParentType parent;
+        protected ParentType parent;
 
         public abstract void Delete();
-        
+
         public abstract void Enable();
 
         public abstract void Disable();
@@ -33,7 +33,7 @@ namespace AhoraCore.Core.CES
 
         public Transform GetLocalTransform()
         {
-          return  parent.GetLocalTransform();
+            return parent.GetLocalTransform();
         }
 
         public Transform GetWorldTransform()

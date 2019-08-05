@@ -10,7 +10,7 @@ namespace AhoraCore.Core.Input
     {
         static bool isUpdated = false;
 
-        static float runStep = 10f;
+        static float runStep = 100f;
 
         public static bool IsUpdated()
         {

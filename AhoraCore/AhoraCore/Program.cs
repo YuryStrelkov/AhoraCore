@@ -1,12 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
-using AhoraCore.Core.Buffers.IBuffers;
-using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
-using AhoraCore.Core.Models;
 using AhoraCore.Core.Models.ProceduralModels;
-using AhoraCore.Core.Models.ProceduralModels.TerranPack;
-using AhoraCore.Core.Shaders;
 using AhoraProject.Ahora.Core.Display;
 using System;
 
@@ -18,7 +13,7 @@ namespace AhoraCore
 
         private static void Begin()
         {
-            FrameDisplay = new DisplayDevice(800, 600);
+            FrameDisplay = new DisplayDevice(1024, 840);
 
             TextureStorrage.Initilaze();
 
