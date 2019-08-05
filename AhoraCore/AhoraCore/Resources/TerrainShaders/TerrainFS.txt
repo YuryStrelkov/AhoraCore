@@ -23,6 +23,6 @@ void main()
 
 	float diffuse = diffuse(direction, texture(normalMap, mapCoord_FS).rgb, intensity);
 
-	outColor = vec4(vec3(0.1,1.0,0.1)*texture(heightMap, mapCoord_FS).rgb,1.0) * diffuse;
+	outColor = vec4(vec3(0.1,1.0,0.1)*(1-texture(heightMap, mapCoord_FS).rgb),1.0) * diffuse;
 
 }

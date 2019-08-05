@@ -27,7 +27,7 @@ uniform vec3 cameraPosition;
 
 float LodFactor(float dist)
 {
-	return  max( 0.125, tessellationFactor/pow(dist,tessellationSlope) + tessellationShift);
+	return  max( 0.0, tessellationFactor/(pow(dist,tessellationSlope) + tessellationShift));
 }
 
 
