@@ -87,23 +87,24 @@ vec2 Morphing(vec2 localPosition, int morph_area){
 	float distLongitude;
 	
 	if (index == vec2(0,0)) {
-		fixPointLatitude = location + vec2(gap,0);
+		fixPointLatitude  = location + vec2(gap,0);
 		fixPointLongitude = location + vec2(0,gap);
 	}
 	else if (index == vec2(1,0)) {
-		fixPointLatitude = location;
+		fixPointLatitude  = location;
 		fixPointLongitude = location + vec2(gap,gap);
 	}
 	else if (index == vec2(0,1)) {
-		fixPointLatitude = location + vec2(gap,gap);
+		fixPointLatitude  = location + vec2(gap,gap);
 		fixPointLongitude = location;
 	}
 	else if (index == vec2(1,1)) {
-		fixPointLatitude = location + vec2(0,gap);
+		fixPointLatitude  = location + vec2(0,gap);
 		fixPointLongitude = location + vec2(gap,0);
 	}
 	
 	float planarFactor = 0;
+
 	if (cameraPosition.y > abs(ScaleY))
 	{
 		planarFactor = 1;

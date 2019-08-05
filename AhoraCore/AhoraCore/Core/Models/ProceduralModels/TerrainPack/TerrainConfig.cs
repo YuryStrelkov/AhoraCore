@@ -94,7 +94,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
                         }
                         HeightMap.Bind();
                         HeightMap.BilinearFilter();
-                        Strength = 8;
+                        Strength = 12;
                         N = HeightMap.Width;
                         RenderNormalMap();
 

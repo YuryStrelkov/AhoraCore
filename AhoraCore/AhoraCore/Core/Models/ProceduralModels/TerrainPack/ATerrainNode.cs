@@ -136,7 +136,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             float distance = (CameraInstance.Get().GetWorldTransform().Position - worldPosition).Length;
 
-            if (distance < config.LodRanges[lod])
+            if (distance < config.LodRanges[lod]&&(lod<7))
             {
                 AddChildNodes(lod + 1);
                 childsNodes[0].Update();

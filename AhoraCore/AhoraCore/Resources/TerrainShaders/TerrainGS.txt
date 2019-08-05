@@ -2,9 +2,9 @@
 
 layout(triangles) in;
 
-///layout( line_strip, max_vertices = 4 )out;
+ ///layout( line_strip, max_vertices = 4 )out;
 
- layout( triangle_strip, max_vertices = 3 )out;
+layout( triangle_strip, max_vertices = 3 )out;
 
 in vec2 mapCoord_GS[];
 
@@ -30,14 +30,14 @@ void main()
 		
 		EmitVertex();
 	}
-	
- 	/* pos = gl_in[0].gl_Position;
+  	
+   /* pos = gl_in[0].gl_Position;
 	
 	gl_Position=vpm *pos;
 	
 	mapCoord_FS=mapCoord_GS[0];
 	
-	EmitVertex();  */
+	EmitVertex();    */
 	
 	EndPrimitive();
 	

@@ -44,14 +44,14 @@ void main()
 	float distanceBC =distance(bcMid,cameraPosition);
 	float distanceCD =distance(cdMid,cameraPosition);
 	float distanceDA =distance(daMid,cameraPosition);
-	
-		gl_TessLevelOuter[AB]=mix(1,gl_MaxTessGenLevel,LodFactor(distanceAB));
-		gl_TessLevelOuter[BC]=mix(1,gl_MaxTessGenLevel,LodFactor(distanceBC));
-		gl_TessLevelOuter[CD]=mix(1,gl_MaxTessGenLevel,LodFactor(distanceCD));
-		gl_TessLevelOuter[DA]=mix(1,gl_MaxTessGenLevel,LodFactor(distanceDA)); 
+	//gl_MaxTessGenLevel
+		gl_TessLevelOuter[AB]=mix(1,16,LodFactor(distanceAB));
+		gl_TessLevelOuter[BC]=mix(1,16,LodFactor(distanceBC));
+		gl_TessLevelOuter[CD]=mix(1,16,LodFactor(distanceCD));
+		gl_TessLevelOuter[DA]=mix(1,16,LodFactor(distanceDA)); 
 
-		gl_TessLevelInner[0]=(gl_TessLevelOuter[BC]+gl_TessLevelOuter[DA])/4;
-		gl_TessLevelInner[1]=(gl_TessLevelOuter[AB]+gl_TessLevelOuter[CD])/4;
+		gl_TessLevelInner[0]=(gl_TessLevelOuter[BC]+gl_TessLevelOuter[DA])/2;
+		gl_TessLevelInner[1]=(gl_TessLevelOuter[AB]+gl_TessLevelOuter[CD])/2;
 	}
 	
 	mapCoord_TE[gl_InvocationID]=mapCoord_TC[gl_InvocationID];

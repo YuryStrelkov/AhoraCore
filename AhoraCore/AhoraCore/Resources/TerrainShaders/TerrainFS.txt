@@ -19,10 +19,10 @@ float diffuse(vec3 dir, vec3 n, float i)
 
 void main()
 {
-	vec3 normal = texture(normalMap, mapCoord_FS).rgb;
+	///vec3 normal = ;
 
-	float diffuse = diffuse(direction, normal, intensity);
+	float diffuse = diffuse(direction, texture(normalMap, mapCoord_FS).rgb, intensity);
 
-	outColor = vec4(0.1,1.0,0.1,1.0) * diffuse;
+	outColor = vec4(vec3(0.1,1.0,0.1)*texture(heightMap, mapCoord_FS).rgb,1.0) * diffuse;
 
 }
