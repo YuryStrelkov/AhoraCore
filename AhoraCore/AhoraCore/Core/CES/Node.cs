@@ -1,13 +1,31 @@
-﻿using AhoraCore.Core.CES.ICES;
+﻿using System;
+using AhoraCore.Core.Cameras;
+using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.Transformations;
+using OpenTK;
 
 namespace AhoraCore.Core.CES 
 {
-    public class Node
+    public class Node: IFrustumCulled
     {
         protected Transform WorldTransform;
 
         protected Transform LocalTransform;
+
+        private  float frustumR;
+
+        public float FrustumRadius
+        {
+            get
+            {
+                return frustumR;
+            }
+
+            set
+            {
+                frustumR = value;
+            }
+        }
 
         public Node()
         {
@@ -21,27 +39,6 @@ namespace AhoraCore.Core.CES
             LocalTransform = new Transform(0, 0, 0);
         }
 
-        //public void Input()
-        //{
-           
-        //}
-
-        //public void Update()
-        //{
-        //}
-
-        //public void Render()
-        //{
-        //}
-
-        //public void Disable()
-        //{
-        //}
-
-        //public void Delete()
-        //{
-        //}
-
         public Transform GetLocalTransform()
         {
             return LocalTransform;
@@ -50,6 +47,11 @@ namespace AhoraCore.Core.CES
         public Transform GetWorldTransform()
         {
             return WorldTransform;
+        }
+
+        public bool FrustumCulled(Camera frustumcam)
+        {
+            return Vector3.Dot(WorldTransform.Position - frustumcam.GetWorldTransform().Position, -frustumcam.LookAt) > 0;
         }
     }
 }

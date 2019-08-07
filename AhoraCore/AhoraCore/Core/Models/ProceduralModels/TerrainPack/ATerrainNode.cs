@@ -1,5 +1,6 @@
 ﻿using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.Models.ProceduralModels.TerranPack;
 using AhoraCore.Core.Transformations;
 using OpenTK;
@@ -9,23 +10,13 @@ using System.Collections.Generic;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-    public abstract class ATerrainNode : AComponent<TerrainQuadTree>
+    public abstract class ATerrainNode : AComponent<TerrainQuadTree>, IFrustumCulled
     {
         protected List<TerrainNode> childsNodes;
 
         protected Transform localTransform;//, worldTransform;
 
-        public Transform GetNodeLoclTrans()
-        {
-            return localTransform;
-        }
-
-
-
-        //public Transform GetNodeWorldTrans()
-        //{
-        //    return worldTransform;
-        //}
+        private float frustumR;
 
         protected TerrainConfig config;
 
@@ -132,6 +123,25 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             }
         }
 
+        public float FrustumRadius
+        {
+            get
+            {
+                return frustumR;
+            }
+
+            set
+            {
+                frustumR = value;
+            }
+        }
+
+        public Transform GetNodeLoclTrans()
+        {
+            return localTransform;
+        }
+
+
         protected void UpdateChildsNodes()
         {
             float distance = (CameraInstance.Get().GetWorldTransform().Position - worldPosition).Length;
@@ -188,6 +198,24 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         }
 
+        public bool FrustumCulled(Camera frustumcam)
+        {
+            float distance = (worldPosition - frustumcam.GetWorldTransform().Position).Length;
+
+            if (distance < frustumR)
+            {
+                return true;
+            }
+
+
+            if (distance > frustumR)
+            {
+                return (worldPosition - distance * frustumcam.LookAt).Length < frustumR;
+            }
+             
+            return false;
+        }
+
         public ATerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index)
         {
             childsNodes = new List<TerrainNode>(4);
@@ -208,7 +236,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             GetNodeLoclTrans().SetScaling(gap, 0, gap);
 
-           //// location = index * gap;
+            frustumR = gap / 2 * config.ScaleXZ * (float)Math.Sqrt(2);
 
             ComputeWorldPosition();
         }

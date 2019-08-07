@@ -15,7 +15,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public override void Render()
         {
-            
+           
             if (isLeaf)
             {
 
@@ -35,10 +35,16 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
            }
             else
             {
-                childsNodes[0].Render();
-                childsNodes[1].Render();
-                childsNodes[2].Render();
-                childsNodes[3].Render();
+
+                if (FrustumCulled(CameraInstance.Get()))
+                {
+                    childsNodes[0].Render();
+                    childsNodes[1].Render();
+                    childsNodes[2].Render();
+                    childsNodes[3].Render();
+                }
+
+              
             }
         }
 

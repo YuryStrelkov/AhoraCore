@@ -23,7 +23,6 @@ namespace AhoraCore.Core.Materials.AMaterial
 
         protected static float[] BlackColor = new float[] { 0.5f, 0.5f, 0.5f, 1f };
 
-
         protected static float[] DefUV = new float[] { 1, 1};
 
         protected static float[] DefMult = new float[] { 0.5f, 0.5f, 0.5f, 0.5f };

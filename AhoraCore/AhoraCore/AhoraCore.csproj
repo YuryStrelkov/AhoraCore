@@ -82,6 +82,7 @@
     <Compile Include="Core\CES\GameEntityStorrage.cs" />
     <Compile Include="Core\CES\ICES\IBehavoir.cs" />
     <Compile Include="Core\CES\ICES\IComponent.cs" />
+    <Compile Include="Core\CES\ICES\IFrustumCulled.cs" />
     <Compile Include="Core\CES\ICES\ITransformable.cs" />
     <Compile Include="Core\CES\ICES\IGameEntity.cs" />
     <Compile Include="Core\CES\Node.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\ATerrainNode.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\Terrain.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainConfig.cs" />
+    <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainMaterial.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainNode.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainQuadTree.cs" />
     <Compile Include="Core\Models\ProceduralModels\TerrainPack\TerrainShader.cs" />
