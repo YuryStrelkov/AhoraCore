@@ -1,7 +1,7 @@
 ﻿using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.ICES;
-using AhoraCore.Core.Models.ProceduralModels.TerranPack;
+using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
 using AhoraCore.Core.Transformations;
 using OpenTK;
 using System;

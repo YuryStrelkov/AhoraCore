@@ -1,0 +1,41 @@
+#version 330
+
+layout(location = 0)in vec3 p_position;
+layout(location = 1)in vec2 p_uv;
+layout(location = 2)in vec3 p_normal;
+
+uniform sampler2D heightMap;
+
+uniform mat4 LocTransMatrix;
+
+uniform mat4 WorldTransMatrix;
+
+uniform mat4 projectionMatrix;
+
+uniform mat4 viewMatrix;
+
+uniform  float ScaleY;
+
+uniform  float ScaleXZ;
+
+out vec2 uvCoord;
+
+out vec3 normal;
+
+
+void main()
+{	
+
+	uvCoord = p_uv;
+	
+	normal = p_normal;
+	
+	vec4 localPos = LocTransMatrix*vec4(p_position, 1);
+	
+	float verticalShift = texture(heightMap,localPos.xz).r;
+	
+	localPos.y = localPos.y + verticalShift;
+	
+	gl_Position = projectionMatrix * viewMatrix * WorldTransMatrix * localPos;
+
+}

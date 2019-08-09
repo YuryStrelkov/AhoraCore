@@ -3,6 +3,7 @@ using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.ICES;
+using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Materials;
 using AhoraCore.Core.Shaders;
 using OpenTK;
@@ -10,7 +11,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 
 
-namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
+namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
     // Сделать компонентом
     public class TerrainQuadTree : AComponent<IGameEntity>
@@ -19,6 +20,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public AShader TerrainShader { get; private set; }
 
+        public AShader TerrainGrassShader { get; private set; }
+
         public PatchBuffer NodePachModel { get; private set; }
 
         private static int rootNodes = 8;
@@ -26,6 +29,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
         List<TerrainNode> terrainNodes;
 
         private TerrainConfig config;
+
+        private delegate void renderer();
 
         public float[] GeneratePath()
         {
@@ -93,9 +98,17 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
         public override void Render()
         {
+           drawTerrain();
+            drawGrass();
+         //   drawTrees();
+        }
+
+
+        private void drawTerrain()
+        {
             TerrainShader.Bind();
 
-         ///   TerrainMaterial.Bind(TerrainShader);
+            ///   TerrainMaterial.Bind(TerrainShader);
 
             TerrainShader.SetUniform("viewMatrix", CameraInstance.Get().ViewMatrix);
 
@@ -123,17 +136,54 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
             GL.ActiveTexture(TextureUnit.Texture0);
             config.HeightMap.Bind();
-            TerrainShader.SetUniformi("heightMap",0);
+            TerrainShader.SetUniformi("heightMap", 0);
 
             GL.ActiveTexture(TextureUnit.Texture1);
             config.NormalMap.Bind();
             TerrainShader.SetUniformi("normalMap", 1);
 
-          
+            GL.BindVertexArray(NodePachModel.ID);
+            NodePachModel.EnableAttribytes();
+
             for (int i = 0; i < terrainNodes.Count; i++)
             {
                 terrainNodes[i].Render();
             }
+
+            NodePachModel.DisableAttribytes();
+            GL.BindVertexArray(0);
+            TerrainShader.Unbind();
+        }
+
+        private void drawGrass()
+        {
+            TerrainGrassShader.Bind();
+
+            TerrainGrassShader.SetUniform("viewMatrix", CameraInstance.Get().ViewMatrix);
+
+            TerrainGrassShader.SetUniform("projectionMatrix", CameraInstance.Get().PespectiveMatrix);
+
+            TerrainGrassShader.SetUniformf("ScaleY", config.ScaleY);
+
+
+            TerrainGrassShader.SetUniformf("ScaleXZ", config.ScaleXZ);
+            //    TerrainGrassShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldTransform().Position);
+
+            GL.ActiveTexture(TextureUnit.Texture0);
+            config.HeightMap.Bind();
+
+            TerrainGrassShader.SetUniformi("heightMap", 0);
+
+           for (int i = 0; i < terrainNodes.Count; i++)
+            {
+                terrainNodes[i].RenderGrass();
+            }
+
+            TerrainGrassShader.Unbind();
+        }
+
+        private void drawTrees()
+        {
 
         }
 
@@ -163,6 +213,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
             TerrainShader = ShaderStorrage.Sahaders.GetItem("TerrainShader");
 
+            TerrainGrassShader = ShaderStorrage.Sahaders.GetItem("TerrainGrassShader");
+
             terrainNodes = new List<TerrainNode>(rootNodes * rootNodes);
 
             for (int i = 0; i < rootNodes; i++)
@@ -178,7 +230,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
             GetWorldTransform().SetScaling(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
 
-               GetWorldTransform().SetTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
+            GetWorldTransform().SetTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
         }
     }
 }

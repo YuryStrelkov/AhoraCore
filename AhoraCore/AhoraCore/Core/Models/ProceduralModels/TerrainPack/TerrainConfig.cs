@@ -4,7 +4,7 @@ using System.IO;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.Materials.GpuGpu;
 
-namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
+namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
     public class TerrainConfig
     {

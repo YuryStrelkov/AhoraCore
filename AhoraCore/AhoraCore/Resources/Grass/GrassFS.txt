@@ -1,0 +1,26 @@
+#version 330
+
+layout(location = 0) out vec4 outColor;
+
+in vec2 uvCoord;
+
+in vec3 normal;
+
+const vec3 direction = vec3(0.333,0.333,0.333);
+
+const float intensity = 1.2;
+
+float diffuse(vec3 dir, vec3 n, float i)
+{
+	return max(0.01, dot(n,dir) * i);
+}
+
+void main()
+{
+	///vec3 normal = ;
+
+	float diffuse = diffuse(direction, normal, intensity);
+
+	outColor = vec4(vec3(0.999,0.1,0.1),1.0) * diffuse;
+
+}

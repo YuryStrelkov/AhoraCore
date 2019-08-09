@@ -82,7 +82,7 @@ namespace AhoraCore
 				11,9,10 //bottom right triangle (v3, v1, v2)
 		};
 
-            Icosphere.CreateSkyDome(2);
+           // Icosphere.CreateSkyDome(2);
 
             Terrain.CreateTerrain();
 

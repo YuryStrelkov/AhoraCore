@@ -1,9 +1,11 @@
 ﻿using AhoraCore.Core.Cameras;
+using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using System;
 
-
-namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
+namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
     /// <summary>
     /// TODO Трансформациии увязать нормальным образом 
@@ -31,8 +33,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
 
                 GetParent().TerrainShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
 
-                GetParent().NodePachModel.DrawPatch();    
-           }
+                GL.DrawArrays(PrimitiveType.Patches, 0, GetParent().NodePachModel.VerticesNumber);
+            }
             else
             {
 
@@ -45,6 +47,32 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
                 }
 
               
+            }
+        }
+
+        public void RenderGrass()
+        {
+
+            if (isLeaf)
+            {
+                GetParent().TerrainGrassShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransform().GetTransformMat());
+
+                GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
+
+                GeometryStorrageManager.Data.RenderIteam("grass_lod_0");
+            }
+            else
+            {
+
+                if (FrustumCulled(CameraInstance.Get()))
+                {
+                    childsNodes[0].RenderGrass();
+                    childsNodes[1].RenderGrass();
+                    childsNodes[2].RenderGrass();
+                    childsNodes[3].RenderGrass();
+                }
+
+
             }
         }
 

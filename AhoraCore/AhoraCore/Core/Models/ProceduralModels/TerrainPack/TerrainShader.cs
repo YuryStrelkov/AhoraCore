@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.CES.ICES;
 
-namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
+namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
     public class TerrainShader : AShader
     {
@@ -80,7 +80,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerranPack
             AddUniform("diffuseMap");
             AddUniform("normalMap");
             AddUniform("specularMap");
-             AddUniform("heightMap");
+            AddUniform("heightMap");
             AddUniform("reflectGlossMap");
             AddUniform("transparencyMap");
         }

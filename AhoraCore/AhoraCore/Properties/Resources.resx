@@ -175,4 +175,10 @@
   <data name="NormalMapRenderer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NormalMapRenderer.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="GrassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Grass\GrassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GrassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Grass\GrassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
 </root>
