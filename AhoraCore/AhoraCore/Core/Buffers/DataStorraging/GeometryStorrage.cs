@@ -55,8 +55,8 @@ namespace AhoraCore.Core.Buffers
             FacesIndeces.Add(key, iData.Length);
             RenderMethods.Add(key, (ID) => 
             {
-                 GL.DrawElements(PrimitiveType.Triangles, FacesIndeces.GetLength(ID),
-                 DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(ID) * sizeof(int));
+                 GL.DrawElements(PrimitiveType.Triangles,      FacesIndeces.GetLength(ID),
+                                 DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(ID)*sizeof(int));
             }
             );
             LoadData(vData, iData);
@@ -121,25 +121,6 @@ namespace AhoraCore.Core.Buffers
         {
             Bind();
             RenderMethods[iteamID](iteamID);
-            //if (GeometryItemsInstansesList.ContainsKey(iteamID))
-            //{
-                
-            //    GeometryItemsInstansesList[iteamID].EnableAttribytes();
-            //    GL.DrawElementsInstanced(BeginMode.Triangles, FacesIndeces.GetLength(iteamID),
-            //                             DrawElementsType.UnsignedInt, (IntPtr)(0 * sizeof(int)),
-            //                             GeometryItemsInstansesList[iteamID].Fillnes / 16);
-            //    GeometryItemsInstansesList[iteamID].DisableAttribytes();
-            //}
-            //else
-            //{
-            //    /////сетка
-            //    //GL.DrawElements(PrimitiveType.Lines, FacesIndeces.GetLength(iteamID),
-            //    //                DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(iteamID) * sizeof(int));
-            //    // оболочка
-            //    //PrimitiveType.Triangles, 3*FacesCount, DrawElementsType.UnsignedInt, 0
-            //    GL.DrawElements(PrimitiveType.Triangles, FacesIndeces.GetLength(iteamID),
-            //       DrawElementsType.UnsignedInt, FacesIndeces.GetOffset(iteamID) * sizeof(int));
-            //}
             Unbind();
         }
 

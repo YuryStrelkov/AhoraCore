@@ -60,24 +60,24 @@ namespace AhoraCore.Core.Utils
 
         public void Remove(KeyType key)
         {
-           
+           ///работает неправильно !!!
           if (Iteams.ContainsKey(key))
             {
 
                 if (Iteams[key].Childrens.Count==0)
                 {
-                 base.RemoveItem(key);
+                    RemoveItem(key);
                     return;
                 }
-               KeyType t_key = Iteams[key].Childrens[0];
+                //KeyType t_key = Iteams[key].Childrens[0];
 
-                do
-                {
-                    Iteams[t_key].Data.shiftLeft(Iteams[t_key].Data.Length);
-                    t_key = Iteams[key].Childrens[0];
-                } while (!Iteams[key].ID.Equals(Iteams[t_key].Childrens[0]));
+                //do
+                //{
+                //    Iteams[t_key].Data.shiftLeft(Iteams[t_key].Data.Length);
+                //    t_key = Iteams[key].Childrens[0];
+                //} while (!Iteams[key].ID.Equals(Iteams[t_key].Childrens[0]));
 
-                base.RemoveItem(key);
+                //base.RemoveItem(key);
             }
             
         }

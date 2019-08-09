@@ -49,10 +49,13 @@ namespace AhoraCore.Core.Buffers.IBuffres
             }
             GL.BindBuffer(BufferTarget.CopyReadBuffer, ID);
             GL.BindBuffer(BufferTarget.CopyWriteBuffer, target.ID);
+
             GL.CopyBufferSubData(BufferTarget.CopyReadBuffer, BufferTarget.CopyWriteBuffer,
                                 (IntPtr)(source_offset * IteamByteSize),
                                 (IntPtr)(target_offset * IteamByteSize), (IntPtr)(IteamByteSize * source_length));
+            
             target.Fillnes = target_offset + source_length;
+
             GL.BindBuffer(BufferTarget.CopyReadBuffer, 0);
             GL.BindBuffer(BufferTarget.CopyWriteBuffer, 0);
             //DebugBuffers.displayBufferDataVBO(target);

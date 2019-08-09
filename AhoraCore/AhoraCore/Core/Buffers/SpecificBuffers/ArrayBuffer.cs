@@ -1,6 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.IBuffres;
 using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
 
 
@@ -201,7 +202,14 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 Bind();
                 VBO.LoadBufferData(vdata);
                 IBO.LoadBufferData(idata);
+
                 Unbind();
+
+                //Console.WriteLine("VBO");
+                //DebugBuffers.displayBufferDataVBO(VBO);
+                //Console.WriteLine("IBO");
+                //DebugBuffers.displayBufferDataIBO(IBO);
+
             }
             else
             {
@@ -273,7 +281,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             for (int i = 0; i < Attribytes.Keys.Count; i++)
             {
                 GL.VertexAttribPointer(i, Attribytes[i].attrLength, VertexAttribPointerType.Float, false, VertexDataSize * sizeof(float), offset);
-                offset += Attribytes[i].attrLength * 4;
+                offset += Attribytes[i].attrLength  *sizeof(float);
             }
         }
 
@@ -291,7 +299,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public ArrayBuffer() : base()
         {
             Attribytes = new Dictionary<int, AttrAndSize>();
-            Create(16);
+            Create(16000);
         }
 
     }

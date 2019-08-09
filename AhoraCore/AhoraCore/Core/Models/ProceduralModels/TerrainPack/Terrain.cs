@@ -52,13 +52,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
             //buffer.Put( 0.5f); buffer.Put(0); buffer.Put(0);  buffer.Put(1f); buffer.Put(0); buffer.Put(0); buffer.Put(1); buffer.Put(0);
             //buffer.Put( 0.5f); buffer.Put(0); buffer.Put(-1); buffer.Put(1f); buffer.Put(1); buffer.Put(0); buffer.Put(1); buffer.Put(0);
             //buffer.Put(-0.5f); buffer.Put(0); buffer.Put(-1); buffer.Put(0f); buffer.Put(1); buffer.Put(0); buffer.Put(1); buffer.Put(0);
-
-            float[] v = {
-                -0.5000f,0.0000f,-0.0000f ,0.0f,0.00f, 0.0f,1.0000f,-0.0000f,
-                 0.5000f,0.0000f,-0.0000f, 1.0f,0.00f, 0.0f,1.0000f,-0.0000f,
-                 0.5000f,0.0000f,-1.0000f, 1.0f,1.00f, 0.0f,1.0000f,-0.0000f,
-                -0.5000f,0.0000f,-1.0000f, 0.0f,1.00f, 0.0f,1.0000f,-0.0000f,
-            };/*
+/*
                 -0.3536f,0.3536f,-0.0000f, 0.0000f,0.0000f,0.7071f,0.7071f,-0.0000f,
                 0.3536f,-0.3536f,-0.0000f, 1.0000f,0.0000f,0.7071f,0.7071f,-0.0000f,
                 0.3536f,-0.3536f,-1.0000f, 1.0000f,1.0000f,0.7071f,0.7071f,-0.0000f,
@@ -72,19 +66,24 @@ namespace AhoraCore.Core.Models.ProceduralModels
                 -0.3536f,-0.3536f,-1.0000f, 1.0000f,1.0000f,0.7071f,-0.7071f,-0.0000f,
                 0.3536f,0.3536f,-1.0000f, 0.0000f,1.0000f,0.7071f,-0.7071f,-0.0000f,};
 */
-            int[] f =
-           {    1, 2, 3,
-                3, 4, 1 };/*,
-                5, 6, 7,
-                7, 8, 5,
-                9, 10, 11,
-                11,12, 9,
-                13,14, 15,
-                15,16, 13};*/
+            float[] vertices = {
+                -0.5f, 1f, 0f, /*v0*/ 0, 0, /*uv0*/ 0, 0, 1, /*n0*/
+				-0.5f, 0f, 0f, /*v1*/ 0, 1, /*uv1*/ 0, 0, 1, /*n1*/
+				 0.5f, 0f, 0f, /*v2*/ 1, 1, /*uv2*/ 0, 0, 1, /*n2*/
+                 0.5f, 1f, 0f, /*v3*/ 1, 0, /*uv0*/ 0, 0, 1  /*n3*/
+        };
+
+            int[] f = {
+                0,1,3,//top left triangle (v0, v1, v3)
+				3,1,2//bottom right triangle (v3, v1, v2)
+		    };
+         
 
           int AttributesMask = VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS| VericesAttribytes.V_NORMAL;
 
-          GeometryStorrageManager.Data.AddGeometry(AttributesMask, "grass_lod_0", v, f);
+         /////   GeometryStorrageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel", vIco, iIco);
+
+            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "grass_lod_0", vertices, f);
 
         }
 
@@ -95,7 +94,8 @@ namespace AhoraCore.Core.Models.ProceduralModels
             if (fromfile)
             {
                 configuration.LoadConfigFromFile(config);
-            } else
+            }
+            else
             {
                 configuration.LoadConfigFromString(config);
             }

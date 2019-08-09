@@ -55,6 +55,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             AddUniform("ScaleXZ");
 
+            AddUniform("lod");
+
+            AddUniform("gap");
+
             AddUniform("diffuseMap");
 
             AddUniform("normalMap");

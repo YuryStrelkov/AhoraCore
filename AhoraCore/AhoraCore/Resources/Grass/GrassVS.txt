@@ -18,6 +18,10 @@ uniform  float ScaleY;
 
 uniform  float ScaleXZ;
 
+uniform  int lod;
+
+uniform  float gap;
+
 out vec2 uvCoord;
 
 out vec3 normal;
@@ -29,13 +33,19 @@ void main()
 	uvCoord = p_uv;
 	
 	normal = p_normal;
-	
-	vec4 localPos = LocTransMatrix*vec4(p_position, 1);
+
+    vec4 localPos = LocTransMatrix*vec4(0,0,0, 1);
+
+	vec4 globalPos = WorldTransMatrix*vec4(0,0,0, 1);
 	
 	float verticalShift = texture(heightMap,localPos.xz).r;
 	
-	localPos.y = localPos.y + verticalShift;
+    localPos.xyz = localPos.xyz + p_position*gap/2;
 	
-	gl_Position = projectionMatrix * viewMatrix * WorldTransMatrix * localPos;
+	localPos.xyz=localPos.xyz*ScaleXZ+globalPos.xyz;
+
+	localPos.y=localPos.y+verticalShift*ScaleY;
+
+	gl_Position = projectionMatrix * viewMatrix *(localPos);
 
 }

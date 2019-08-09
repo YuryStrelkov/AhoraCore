@@ -6,7 +6,7 @@ in vec2 uvCoord;
 
 in vec3 normal;
 
-const vec3 direction = vec3(0.333,0.333,0.333);
+const vec3 direction = vec3(0.333,-0.333,0.333);
 
 const float intensity = 1.2;
 

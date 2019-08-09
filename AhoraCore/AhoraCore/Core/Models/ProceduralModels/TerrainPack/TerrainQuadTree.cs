@@ -170,6 +170,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             //    TerrainGrassShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldTransform().Position);
 
             GL.ActiveTexture(TextureUnit.Texture0);
+
             config.HeightMap.Bind();
 
             TerrainGrassShader.SetUniformi("heightMap", 0);

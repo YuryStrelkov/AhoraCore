@@ -55,11 +55,16 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             if (isLeaf)
             {
+
+                GetParent().TerrainGrassShader.SetUniformi("lod", Lod);
+
+                GetParent().TerrainGrassShader.SetUniformf("gap", Gap);
+
                 GetParent().TerrainGrassShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransform().GetTransformMat());
 
                 GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
 
-                GeometryStorrageManager.Data.RenderIteam("grass_lod_0");
+                GeometryStorrageManager.Data.RenderIteam("SkyDomeModel0");
             }
             else
             {
