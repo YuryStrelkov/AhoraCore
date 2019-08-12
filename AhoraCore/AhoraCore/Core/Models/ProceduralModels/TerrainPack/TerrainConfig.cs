@@ -96,8 +96,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                     case "material":;break;
 
-                    case "texture": TextureStorrage.Textures.AddItem(lineTokens[1], new Texture(lineTokens[2]));//TessellationShift = float.Parse(lineTokens[1]);
-                        break;
+               //     case "texture": TextureStorrage.Textures.AddItem(lineTokens[1], new Texture(lineTokens[2]));//TessellationShift = float.Parse(lineTokens[1]);
+                 ///       break;
 
                     case "HeigthMap":
                         if (lineTokens[1].Equals("true"))

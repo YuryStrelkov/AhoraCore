@@ -69,6 +69,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             AddUniform("reflectGlossMap");
 
+            AddUniform("grassMap");
+
             AddUniform("transparencyMap");
         }
 

@@ -10,6 +10,8 @@ const vec3 direction = vec3(0.333,-0.333,0.333);
 
 const float intensity = 1.2;
 
+uniform sampler2D grassMap;
+
 float diffuse(vec3 dir, vec3 n, float i)
 {
 	return max(0.01, dot(n,dir) * i);
@@ -17,10 +19,16 @@ float diffuse(vec3 dir, vec3 n, float i)
 
 void main()
 {
-	///vec3 normal = ;
+	vec4 color = texture(grassMap,uvCoord);
+	if(color.a<0.2)
+	{
+	discard;
+	}
+
 
 	float diffuse = diffuse(direction, normal, intensity);
 
-	outColor = vec4(vec3(0.999,0.1,0.1),1.0) * diffuse;
+	
+	outColor = vec4(color.rgb,color.a);
 
 }

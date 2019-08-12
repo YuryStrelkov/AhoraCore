@@ -21,7 +21,18 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
 
             }
 
-            public void PutDirect(int i,T data)
+
+        public void Put(T[] data)
+        {
+
+            foreach (T t in data)
+            {
+                Put(t);
+            }
+
+        }
+
+        public void PutDirect(int i,T data)
             {
 
                 if (i < Capacity)

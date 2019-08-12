@@ -175,7 +175,15 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             TerrainGrassShader.SetUniformi("heightMap", 0);
 
-           for (int i = 0; i < terrainNodes.Count; i++)
+
+            GL.ActiveTexture(TextureUnit.Texture1);
+
+            TextureStorrage.Textures.GetItem("GrassTexture").Bind();
+
+            TerrainGrassShader.SetUniformi("grassMap", 1);
+
+
+            for (int i = 0; i < terrainNodes.Count; i++)
             {
                 terrainNodes[i].RenderGrass();
             }

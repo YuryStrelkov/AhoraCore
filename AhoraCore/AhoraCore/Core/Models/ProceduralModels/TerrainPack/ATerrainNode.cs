@@ -235,7 +235,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             localTransform = new Transform(location.X, 0, location.Y);
 
-            GetNodeLoclTrans().SetScaling(gap, 0, gap);
+            GetNodeLoclTrans().SetScaling(gap, 1, gap);
 
             frustumR = gap / 2 * config.ScaleXZ * (float)Math.Sqrt(2);
 

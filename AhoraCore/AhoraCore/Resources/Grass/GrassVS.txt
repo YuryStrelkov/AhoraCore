@@ -34,18 +34,13 @@ void main()
 	
 	normal = p_normal;
 
-    vec4 localPos = LocTransMatrix*vec4(0,0,0, 1);
-
-	vec4 globalPos = WorldTransMatrix*vec4(0,0,0, 1);
+	
+    vec4 localPos = LocTransMatrix*vec4(p_position, 1);
 	
 	float verticalShift = texture(heightMap,localPos.xz).r;
 	
-    localPos.xyz = localPos.xyz + p_position*gap/2;
-	
-	localPos.xyz=localPos.xyz*ScaleXZ+globalPos.xyz;
+	localPos.y=localPos.y + verticalShift;
 
-	localPos.y=localPos.y+verticalShift*ScaleY;
-
-	gl_Position = projectionMatrix * viewMatrix *(localPos);
+	gl_Position = projectionMatrix * viewMatrix *WorldTransMatrix*(localPos);
 
 }
