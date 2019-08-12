@@ -56,7 +56,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
              0,      1,
              0.333f, 1,
              0.666f, 1,
-             1,      1};
+             1,      1};    
         }
 
         public static int GetRootNodesNumber()
@@ -99,7 +99,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public override void Render()
         {
            drawTerrain();
-            drawGrass();
+           drawGrass();
          //   drawTrees();
         }
 

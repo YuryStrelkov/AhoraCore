@@ -178,6 +178,16 @@ namespace AhoraCore.Core.Materials
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
+        public void TrilinearFilter()
+        {
+            GL.TexParameterI(BindingTarget, TextureParameterName.TextureMagFilter, ref TextureLoader.LINEAR);
+
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            GL.TexParameterI(BindingTarget, TextureParameterName.TextureMinFilter, ref TextureLoader.LINEAR_MIP_MAP);
+
+          
+        }
 
 
         public void LoadData2Texture(int w, int h, float[] data)

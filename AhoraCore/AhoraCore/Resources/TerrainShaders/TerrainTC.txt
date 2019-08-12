@@ -27,7 +27,7 @@ uniform vec3 cameraPosition;
 
 float LodFactor(float dist)
 {
-	return  max( 0.0, tessellationFactor/(pow(dist,tessellationSlope) + tessellationShift));
+	return  max( 0.0, tessellationFactor/pow(dist,tessellationSlope) + tessellationShift);
 }
 
 
@@ -50,8 +50,8 @@ void main()
 		gl_TessLevelOuter[CD]=mix(1,16,LodFactor(distanceCD));
 		gl_TessLevelOuter[DA]=mix(1,16,LodFactor(distanceDA)); 
 
-		gl_TessLevelInner[0]=(gl_TessLevelOuter[BC]+gl_TessLevelOuter[DA])/2;
-		gl_TessLevelInner[1]=(gl_TessLevelOuter[AB]+gl_TessLevelOuter[CD])/2;
+		gl_TessLevelInner[0]=(gl_TessLevelOuter[BC]+gl_TessLevelOuter[DA])/4;
+		gl_TessLevelInner[1]=(gl_TessLevelOuter[AB]+gl_TessLevelOuter[CD])/4;
 	}
 	
 	mapCoord_TE[gl_InvocationID]=mapCoord_TC[gl_InvocationID];

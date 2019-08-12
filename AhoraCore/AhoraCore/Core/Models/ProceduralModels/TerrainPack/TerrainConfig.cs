@@ -3,6 +3,8 @@ using System;
 using System.IO;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.Materials.GpuGpu;
+using AhoraCore.Core.Buffers.DataStorraging;
+using AhoraCore.Core.Materials.AMaterial;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
@@ -13,8 +15,12 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public Texture NormalMap { get; private set; }
 
+        public float TBNRange { get; private set; }
+
         private NormalMapRendererShader normalMapRendererShader;
 
+        TerrainMaterial TMaterial;
+        
         private int N;
 
         private float Strength;
@@ -62,6 +68,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         private void LoadConfig(string[] lines)
         {
+
+            TMaterial = new TerrainMaterial();
+
             foreach (string line in lines)
             {
                 string[] lineTokens = line.Split(' ');
@@ -83,6 +92,13 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                     case "TessellationShift": TessellationShift = float.Parse(lineTokens[1]); break;
 
+                    case "TBNRange": TBNRange = float.Parse(lineTokens[1]); break;
+
+                    case "material":;break;
+
+                    case "texture": TextureStorrage.Textures.AddItem(lineTokens[1], new Texture(lineTokens[2]));//TessellationShift = float.Parse(lineTokens[1]);
+                        break;
+
                     case "HeigthMap":
                         if (lineTokens[1].Equals("true"))
                         {
@@ -90,7 +106,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                         }
                         else
                         {
-                            HeightMap = new Texture(Properties.Resources.hm0);
+                            HeightMap = new Texture(Properties.Resources.hm2);
                         }
                         HeightMap.Bind();
                         HeightMap.BilinearFilter();
@@ -119,6 +135,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 }
             }
         }
+
+
+    
 
         public void LoadConfigFromString (string strings)
         {

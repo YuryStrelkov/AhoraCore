@@ -86,10 +86,10 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// <param name="start">позиция смещения </param>
         public void LoadBufferSubdata(T[] data, int startIdx)
         {
-            if (data.Length > Capacity - Fillnes)
+            /*if (data.Length > Capacity - Fillnes)
             {
                 throw new Exception("Unnable to load data to buffer:not enought of space");
-            }
+            }*/
                 GL.BufferSubData(BindingTarget, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
                 Fillnes += data.Length;
         }

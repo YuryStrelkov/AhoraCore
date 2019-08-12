@@ -12,4 +12,39 @@ TessellationSlope 0,9
 
 TessellationShift 0,3
 
+TBNRange 300
+
 LodRanges 1750 874 386 192 100 50 0 0
+
+texture grassDiffuse gassDiff.jpg
+texture grassNormal gassNorm.jpg
+texture grassDisplacemnt gassDisp.jpg
+
+texture rockDiffuse rockDiff.jpg
+texture rockNormal rockNorm.jpg
+texture rockDisplacemnt rockDisp.jpg
+
+texture groundDiffuse groundDiff.jpg
+texture groundNormal groundNorm.jpg
+texture groundDisplacemnt groundDisp.jpg
+
+material
+{
+verticalScale 0,4
+horizontalScale 400 
+grassDiffuse grassDiffuse
+grassNormal grassNormal
+grassDisplacemnt grassDisplacemnt
+
+verticalScale 0,4
+horizontalScale 400 
+rockDiffuse rockDiffuse
+rockNormal rockNormal
+rockDisplacemnt rockDisplacemnt
+
+verticalScale 1,2
+horizontalScale 200 
+groundDiffuse groundDiffuse
+groundNormal groundNormal
+groundDisplacemnt groundDisplacemnt
+}
