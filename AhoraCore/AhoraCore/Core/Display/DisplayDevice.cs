@@ -20,7 +20,7 @@ namespace AhoraProject.Ahora.Core.Display
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            GeometryStorrageManager.Data.BeforeRender();
+            GeometryStorageManager.Data.BeforeRender();
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)

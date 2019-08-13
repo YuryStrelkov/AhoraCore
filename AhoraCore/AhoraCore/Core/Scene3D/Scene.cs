@@ -30,7 +30,7 @@ namespace AhoraCore.Core.Scene3D
             {
                 for (int nameIdx=0; nameIdx< AttrMasksPerModelNames[attrMask].Count; nameIdx++)
                 {   ///Индексирование модели происходит непоследственно в буфере SceneMeshes, что бы нариовать модель и этого буфера, просто запроси ее отрисовку
-                    GeometryStorrageManager.Data.AddGeometrySet( attrMask, AttrMasksPerModelNames[attrMask].ToArray(), Vertices[attrMask].ToArray(), Indeces[attrMask].ToArray());
+                    GeometryStorageManager.Data.AddGeometrySet( attrMask, AttrMasksPerModelNames[attrMask].ToArray(), Vertices[attrMask].ToArray(), Indeces[attrMask].ToArray());
                 }
             }
        //     ModelLoader.LoadHeirarhy( scn.RootNode,  this);

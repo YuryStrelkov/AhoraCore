@@ -64,7 +64,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                 GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
 
-                GeometryStorrageManager.Data.RenderIteam("grass_lod_0");
+                GeometryStorageManager.Data.RenderIteam("grass_lod_0");
             }
             else
             {

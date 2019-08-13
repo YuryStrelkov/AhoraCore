@@ -22,7 +22,7 @@ namespace AhoraCore.Core.Models
 
         public override void Delete()
         {
-            GeometryStorrageManager.Data.RemoveData(ModelID);
+            GeometryStorageManager.Data.RemoveData(ModelID);
         }
 
         public override void Disable()
@@ -45,7 +45,7 @@ namespace AhoraCore.Core.Models
             modelShader.Bind();
             modelShader.UpdateUniforms(GetParent());
             modelMaterial.Bind(modelShader);
-            GeometryStorrageManager.Data.RenderIteam(ModelID);
+            GeometryStorageManager.Data.RenderIteam(ModelID);
         }
 
         public override void Update()

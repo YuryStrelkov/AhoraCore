@@ -37,15 +37,15 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             Create(3, 1, out vIco, out iIco, out AttributesMask);
 
-            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel", vIco, iIco);
+            GeometryStorageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel", vIco, iIco);
 
             Create(2, 1, out vIco, out iIco, out AttributesMask);
 
-            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel0", vIco, iIco);
+            GeometryStorageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel0", vIco, iIco);
 
             Create(1, 1, out vIco, out iIco, out AttributesMask);
 
-            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel1", vIco, iIco);
+            GeometryStorageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel1", vIco, iIco);
 
 
 

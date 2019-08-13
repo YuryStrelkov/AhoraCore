@@ -138,7 +138,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
          /////   GeometryStorrageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel", vIco, iIco);
 
-            GeometryStorrageManager.Data.AddGeometry(AttributesMask, "grass_lod_0", vbuffer, ibuffer);
+            GeometryStorageManager.Data.AddGeometry(AttributesMask, "grass_lod_0", vbuffer, ibuffer);
 
         }
 
