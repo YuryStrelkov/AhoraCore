@@ -13,6 +13,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
     public  class TerrainNode: ATerrainNode
     {
+        
+
+        public string grassLodName{ get;private set;}
 
 
         public override void Render()
@@ -64,7 +67,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                 GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
 
-                GeometryStorrageManager.Data.RenderIteam("grass_lod_0");
+                
+                GeometryStorrageManager.Data.RenderIteam(grassLodName);
             }
             else
             {
@@ -117,7 +121,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public TerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index) : base(config, location, lod, index)
         {
-
+            grassLodName= lod == 6? "grass_lod_0" : "grass_lod_2";
+            grassLodName = lod == 5 ? "grass_lod_1" : "grass_lod_2";
         }
 
     }

@@ -30,15 +30,48 @@ namespace AhoraCore.Core.Models
 
             try
             {
-                Scene m_model = importer.ImportFile(filename, PostProcessSteps.Triangulate |
-                                                              PostProcessSteps.CalculateTangentSpace |
-                                                              PostProcessSteps.FlipUVs |
-                                                              PostProcessSteps.LimitBoneWeights);
+                Scene scn = importer.ImportFile(filename, PostProcessSteps.Triangulate |
+                                                          PostProcessSteps.CalculateTangentSpace |
+                                                          PostProcessSteps.FlipUVs |
+                                                          PostProcessSteps.LimitBoneWeights);
                 string[] splittedPath = filename.Split('/');
 
                 splittedPath = splittedPath[splittedPath.Length - 1].Split('.');
 
-                AssipPostProcess(m_model, splittedPath[0], out AttribsMasks, out Models, out ModelsIndeces);
+                ///***///
+                Dictionary<int, List<string>> MasksPerModelIDS;
+                Dictionary<int, List<FloatBuffer>> Vertices;
+                Dictionary<int, List<IntegerBuffer>> Indeces;
+                Dictionary<int, List<int>> MaterialIDs;
+                ///***///
+                int modelsNumber = 0;
+                ///***///
+                LoadSceneGeometry(ref scn, out MasksPerModelIDS,
+                                           out Vertices,
+                                           out Indeces,
+                                           out MaterialIDs);
+
+
+                foreach (int key in MasksPerModelIDS.Keys)
+                {
+                    modelsNumber += MasksPerModelIDS[key].Count;
+                }
+
+                AttribsMasks = new int[modelsNumber];
+                Models = new FloatBuffer[modelsNumber];
+                ModelsIndeces = new IntegerBuffer[modelsNumber];
+
+                int idx = 0;
+                foreach (int key in MasksPerModelIDS.Keys)
+                {
+                    for(int i=0; i< Vertices[key].Count; i++ )
+                    {
+                        AttribsMasks[idx] = key;
+                        Models[idx] = Vertices[key][i];
+                        ModelsIndeces[idx] = Indeces[key][i];
+                        idx += 1;
+                    }
+                }
 
             }
             catch (FileNotFoundException e)
@@ -64,9 +97,9 @@ namespace AhoraCore.Core.Models
             try
             {
                 a_scene = importer.ImportFile(filename, PostProcessSteps.Triangulate |
-                                                            PostProcessSteps.CalculateTangentSpace |
-                                                            PostProcessSteps.FlipUVs |
-                                                            PostProcessSteps.LimitBoneWeights);
+                                                        PostProcessSteps.CalculateTangentSpace |
+                                                        PostProcessSteps.FlipUVs |
+                                                        PostProcessSteps.LimitBoneWeights);
             }
             catch (FileNotFoundException e)
             {
@@ -77,13 +110,13 @@ namespace AhoraCore.Core.Models
         }
 
 
-        public static void LoadSceneGeometry(ref Scene a_scene, out Dictionary<int, List<string>> MasksMerModelIDS,
-                                                            out Dictionary<int, List<FloatBuffer>> Vertices,
-                                                            out Dictionary<int, List<IntegerBuffer>> Indeces, 
-                                                            out Dictionary<int, List<int>> MaterialIDs)
+        public static void LoadSceneGeometry(ref Scene a_scene, out Dictionary<int, List<string>> MasksPerModelIDS,
+                                                                out Dictionary<int, List<FloatBuffer>> Vertices,
+                                                                out Dictionary<int, List<IntegerBuffer>> Indeces, 
+                                                                out Dictionary<int, List<int>> MaterialIDs)
         {
 
-            MasksMerModelIDS = new Dictionary<int, List<string>>();
+            MasksPerModelIDS = new Dictionary<int, List<string>>();
             Vertices = new Dictionary<int, List<FloatBuffer>>();
             Indeces = new Dictionary<int, List<IntegerBuffer>>();
             MaterialIDs = new Dictionary<int, List<int>>();
@@ -104,7 +137,7 @@ namespace AhoraCore.Core.Models
 
                 if (Vertices.ContainsKey(AttribsMask))
                 {
-                    MasksMerModelIDS[AttribsMask].Add(Mname);
+                    MasksPerModelIDS[AttribsMask].Add(Mname);
                     Vertices[AttribsMask].Add(Verts);
                     Indeces[AttribsMask].Add(Inds);
                     MaterialIDs[AttribsMask].Add(m.MaterialIndex);
@@ -114,9 +147,9 @@ namespace AhoraCore.Core.Models
                     Vertices.Add(AttribsMask, new List<FloatBuffer>());
                     Indeces.Add(AttribsMask,new List<IntegerBuffer>());
                     MaterialIDs.Add(AttribsMask, new List<int>());
-                    MasksMerModelIDS.Add(AttribsMask, new List<string>());
+                    MasksPerModelIDS.Add(AttribsMask, new List<string>());
 
-                    MasksMerModelIDS[AttribsMask].Add(Mname);
+                    MasksPerModelIDS[AttribsMask].Add(Mname);
                     Vertices[AttribsMask].Add(Verts);
                     Indeces[AttribsMask].Add(Inds);
                     MaterialIDs[AttribsMask].Add(m.MaterialIndex);
@@ -173,7 +206,6 @@ namespace AhoraCore.Core.Models
             }
         }
 
-
         public static void LoadSceneGeometryTransforms(Scene a_scene, out Dictionary<string, Transform>Transforms)
         {
             Transforms = null;
@@ -219,15 +251,15 @@ namespace AhoraCore.Core.Models
             return a_mesh.Name;
         }
 
-        private static void AssipPostProcess(Scene a_scene, string sName,out int[] AttribsMasks,  out  FloatBuffer[] Models, out IntegerBuffer[] ModelsIndeces)
+        private static void AssipPostProcess(Scene a_scene, string sName,out int[] AttribsMasks,  out  List<FloatBuffer>[] Models, out List<IntegerBuffer>[] ModelsIndeces)
         {
             ///прочитать иерархию нодов 
 
             ///Словарь < маска атрибутов, Список Мешей с такими же параметрами>
 
-            Dictionary<int, FloatBuffer> AtrMaskPerMeshes = new Dictionary<int, FloatBuffer>();
+            Dictionary<int, List<FloatBuffer>> AtrMaskPerMeshes = new Dictionary<int, List<FloatBuffer>>();
 
-            Dictionary<int, IntegerBuffer> AtrMaskPerIndeses = new Dictionary<int, IntegerBuffer>();
+            Dictionary<int, List<IntegerBuffer>> AtrMaskPerIndeses = new Dictionary<int, List<IntegerBuffer>>();
 
             Dictionary<string, Material> Materials = new Dictionary<string, Material>();
 
@@ -250,62 +282,77 @@ namespace AhoraCore.Core.Models
                     continue;
                 }
                 #region если уже есть mesh  с таким набором атрибутов, то : 
-                if (AtrMaskPerMeshes.ContainsKey(AttribsMask[i]))
+               if (AtrMaskPerMeshes.ContainsKey(AttribsMask[i]))
                 {
-                    for (int v=0; v < a_mesh.VertexCount; v++)
-                    {
-                        FloatBuffer b = AtrMaskPerMeshes[AttribsMask[i]];
+                    FloatBuffer Vbuff = new FloatBuffer(AttribsByteSize[i] * a_mesh.Vertices.Count);
 
-                        for (int attribs=0; attribs< AttribsCount[i]; attribs++)
-                        {
-                            VDataSetters[attribs](a_mesh, ref b, v);
-                        }
+                    IntegerBuffer Ibuff = new IntegerBuffer(3 * a_mesh.FaceCount);
 
-                        AtrMaskPerMeshes[AttribsMask[i]] = b;
-                    }
-                    for (int idx = 0; idx < a_mesh.FaceCount; idx++)
-                    {
-                        AtrMaskPerIndeses[AttribsMask[i]].Put(a_mesh.Faces[idx].Indices[0]);
-                        AtrMaskPerIndeses[AttribsMask[i]].Put(a_mesh.Faces[idx].Indices[1]);
-                        AtrMaskPerIndeses[AttribsMask[i]].Put(a_mesh.Faces[idx].Indices[2]);
-                    }
-                }
-                #endregion
-                else
-                #region если нет mesh  с таким набором атрибутов, то : 
-                {
-                    AtrMaskPerMeshes.Add(AttribsMask[i], new FloatBuffer(AttribsByteSize[i] * a_mesh.Vertices.Count));
+                    Vbuff.BufferID = sName + "_vertices_data_" + i.ToString();
 
-                    AtrMaskPerIndeses.Add(AttribsMask[i], new IntegerBuffer(3 * a_mesh.FaceCount));
-
-                    AtrMaskPerMeshes[AttribsMask[i]].BufferID = sName+"_vertices_data_"+ i.ToString();
-
-                    AtrMaskPerIndeses[AttribsMask[i]].BufferID = sName + "_indeces_data_" + i.ToString();
+                    Ibuff.BufferID = sName + "_indeces_data_" + i.ToString();
 
                     for (int v = 0; v < a_mesh.VertexCount; v++)
                     {
-                        FloatBuffer b = AtrMaskPerMeshes[AttribsMask[i]];
-
                         for (int attribs = 0; attribs < AttribsCount[i]; attribs++)
                         {
-                            VDataSetters[attribs](a_mesh, ref b, v);
+                            VDataSetters[attribs](a_mesh, ref Vbuff, v);
                         }
-
-                        AtrMaskPerMeshes[AttribsMask[i]] = b;
                     }
+
                     for (int idx = 0; idx < a_mesh.FaceCount; idx++)
                     {
-                        AtrMaskPerIndeses[AttribsMask[i]].Put(a_mesh.Faces[idx].Indices[0]);
-                        AtrMaskPerIndeses[AttribsMask[i]].Put(a_mesh.Faces[idx].Indices[1]);
-                        AtrMaskPerIndeses[AttribsMask[i]].Put(a_mesh.Faces[idx].Indices[2]);
+                        Ibuff.Put(a_mesh.Faces[idx].Indices[0]);
+                        Ibuff.Put(a_mesh.Faces[idx].Indices[1]);
+                        Ibuff.Put(a_mesh.Faces[idx].Indices[2]);
                     }
+
+                    AtrMaskPerMeshes[AttribsMask[i]].Add(Vbuff);
+
+                    AtrMaskPerIndeses[AttribsMask[i]].Add(Ibuff);
+                }
+                #endregion
+                else 
+                #region если нет mesh  с таким набором атрибутов, то : 
+                {
+                    AtrMaskPerMeshes.Add(AttribsMask[i], new List<FloatBuffer>());
+
+                    AtrMaskPerIndeses.Add(AttribsMask[i], new List<IntegerBuffer>());
+
+                    FloatBuffer Vbuff = new FloatBuffer(AttribsByteSize[i] * a_mesh.Vertices.Count);
+
+                    IntegerBuffer Ibuff = new IntegerBuffer(3 * a_mesh.FaceCount);
+
+                    Vbuff.BufferID = sName+"_vertices_data_"+ i.ToString();
+
+                    Ibuff.BufferID = sName + "_indeces_data_" + i.ToString();
+
+                    for (int v = 0; v < a_mesh.VertexCount; v++)
+                    {
+                        for (int attribs = 0; attribs < AttribsCount[i]; attribs++)
+                        {
+                            VDataSetters[attribs](a_mesh, ref Vbuff, v);
+                        }
+                    }
+
+                    for (int idx = 0; idx < a_mesh.FaceCount; idx++)
+                    {
+                        Ibuff.Put(a_mesh.Faces[idx].Indices[0]);
+                        Ibuff.Put(a_mesh.Faces[idx].Indices[1]);
+                        Ibuff.Put(a_mesh.Faces[idx].Indices[2]);
+                    }
+
+                    AtrMaskPerMeshes[AttribsMask[i]].Add(Vbuff);
+
+                    AtrMaskPerIndeses[AttribsMask[i]].Add(Ibuff);
+
                 }
                 #endregion
                 i += 1;
             }
 
-            AttribsMasks = AtrMaskPerMeshes.Keys.ToArray();
-            Models = AtrMaskPerMeshes.Values.ToArray();
+            AttribsMasks =  AtrMaskPerMeshes.Keys.ToArray();
+            Models =        AtrMaskPerMeshes.Values.ToArray();
             ModelsIndeces = AtrMaskPerIndeses.Values.ToArray();
         }
 
@@ -313,7 +360,6 @@ namespace AhoraCore.Core.Models
         {
             
         }
-
 
         private static void GetAttributesMask(Assimp.Mesh a_mesh, out List<VertDataSetter> VDataSetters, out int attrMask, out int attrCount, out int attrByteCount)
         {
@@ -434,7 +480,6 @@ namespace AhoraCore.Core.Models
                 attrByteCount += 8;
             }
         }
-
 
         private static void ToEulerAngles(Assimp.Quaternion q, out Vector3 angles)
         {

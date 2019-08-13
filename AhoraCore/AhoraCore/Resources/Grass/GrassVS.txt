@@ -32,14 +32,14 @@ void main()
 
 	uvCoord = p_uv;
 	
-	normal = p_normal;
+	normal = p_normal.xzy;
 
 	
-    vec4 localPos = LocTransMatrix*vec4(p_position, 1);
+    vec4 localPos = LocTransMatrix*vec4(p_position.xzy, 1);
 	
 	float verticalShift = texture(heightMap,localPos.xz).r;
 	
-	localPos.y=localPos.y + verticalShift;
+	localPos.y=localPos.y*0.05 + verticalShift;
 
 	gl_Position = projectionMatrix * viewMatrix *WorldTransMatrix*(localPos);
 

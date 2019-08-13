@@ -32,6 +32,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         private delegate void renderer();
 
+        float t = 0;
+
+
         public float[] GeneratePath()
         {
             return new float[] {
