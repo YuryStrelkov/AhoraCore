@@ -21,7 +21,7 @@ namespace AhoraCore
 
             ShaderStorrage.Initilaze();
 
-            GeometryStorrageManager.Initialize();
+            GeometryStorageManager.Initialize();
 
             GameEntityStorrage.Initialize();
         }
@@ -34,7 +34,7 @@ namespace AhoraCore
 
             ShaderStorrage.Sahaders.DeleteStorrage();
 
-            GeometryStorrageManager.Data.DeleteManager();
+            GeometryStorageManager.Data.DeleteManager();
 
             GameEntityStorrage.Entities.DeleteStorrage();
 

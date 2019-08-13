@@ -87,7 +87,7 @@
     <Compile Include="Core\CES\ICES\IGameEntity.cs" />
     <Compile Include="Core\CES\Node.cs" />
     <Compile Include="Core\Constants.cs" />
-    <Compile Include="Core\DataManaging\GeometryStorrageManager.cs" />
+    <Compile Include="Core\DataManaging\GeometryStorageManager.cs" />
     <Compile Include="Core\Buffers\IBuffers\IAttribyteable.cs" />
     <Compile Include="Core\Buffers\IBuffers\IDataStorrage.cs" />
     <Compile Include="Core\DataManaging\AManager.cs" />
