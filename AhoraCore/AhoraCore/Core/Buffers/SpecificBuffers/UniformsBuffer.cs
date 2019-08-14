@@ -1,6 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.IBuffres;
 using AhoraCore.Core.Shaders;
 using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
 
 namespace AhoraCore.Core.Buffers.UniformsBuffer
@@ -25,9 +26,8 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
     {
         private Dictionary<KeyType, BufferIteam> bufferItemsMap;
 
-        private int mapSize = 0;
 
-        private int numberOfIteams;
+        private int mapSize = 0;
 
         public int Buff_binding_Point = 1;
 
@@ -44,8 +44,9 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
 
         public void LinkBufferToShder(AShader shader, string block_name)
         {
-            GL.BindBuffer(BufferTarget.UniformBuffer, ID);
+            GL.BindBuffer(BindingTarget, ID);
             Uniform_block_index = GL.GetUniformBlockIndex(shader.ShaderID, block_name);
+            Console.WriteLine(Uniform_block_index);
             GL.UniformBlockBinding(shader.ShaderID, Uniform_block_index, Buff_binding_Point);
             GL.BindBufferBase(BufferRangeTarget.UniformBuffer, Buff_binding_Point, ID);
         }
@@ -53,7 +54,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
         public void LinkBufferToShder(AShader shader, string block_name, int bindingPoint)
         {
             Buff_binding_Point = bindingPoint;
-            GL.BindBuffer(BufferTarget.UniformBuffer, ID);
+            GL.BindBuffer(BindingTarget, ID);
             Uniform_block_index = GL.GetUniformBlockIndex(shader.ShaderID, block_name);
             GL.UniformBlockBinding(shader.ShaderID, Uniform_block_index, bindingPoint);
             GL.BindBufferBase(BufferRangeTarget.UniformBuffer, bindingPoint, ID);
@@ -63,7 +64,12 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
         {
             LoadBufferSubdata(data, itemID * mapSize + bufferItemsMap[bufferItemName].Offset);
         }
-
+        public void Bind(AShader shader)
+        {
+            GL.BindBuffer(BindingTarget, ID);
+            GL.UniformBlockBinding(shader.ShaderID, Uniform_block_index, Buff_binding_Point);
+            GL.BindBufferBase(BufferRangeTarget.UniformBuffer, Buff_binding_Point, ID);
+        }
 
         public void UpdateBufferIteam(KeyType bufferItemName, float[] data)
         {

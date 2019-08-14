@@ -1,4 +1,5 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
+using AhoraCore.Core.Buffers.UniformsBuffer;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.ICES;
 using OpenTK;
@@ -13,9 +14,15 @@ namespace AhoraCore.Core.Shaders
 
     public abstract class AShader: ABindableObject<ShaderType>
     {
+        public string ShaderName { get; private set; }
+        
         private Dictionary<ShaderType, int> shaderPrograms;
 
         private Dictionary<string, int> uniforms;
+
+        protected UniformsBuffer<string> UniformBuffer;// { protected get; private set; }
+
+        public bool IsBuffered { get; private set; }
 
         public int ShaderID   { get;private set; }
 
@@ -92,10 +99,9 @@ namespace AhoraCore.Core.Shaders
 
         protected void AddUniform(string uniform)
         {
-
             int uniformLocation = GL.GetUniformLocation(ShaderID, uniform);
 
-            if (uniformLocation == 0xFFFFFFFF)
+            if (uniformLocation == -1)
             {
                 Console.WriteLine("ShderID "+ ShaderID + " Error: Could not find uniform: " + uniform);
             }
@@ -103,14 +109,62 @@ namespace AhoraCore.Core.Shaders
             uniforms.Add(uniform, uniformLocation);
         }
 
+
+        protected void EnableBuffering()
+        {
+            IsBuffered = true;
+            UniformBuffer = new UniformsBuffer<string>();
+        }
+
+        protected void MarkBuffer(string[] itemName, int[] itemLength)
+        {
+
+            /////
+            ////Добавлять элементы буфера строго в порядке следования ихв шедере    
+            /////
+            if (!IsBuffered)
+            {
+                Console.WriteLine("Buffering is off ...");
+                return;
+            }
+            for (int i=0;i< itemName.Length;i++)
+            {
+                UniformBuffer.addBufferItem(itemName[i], itemLength[i]);
+            }
+        }
+
+        protected void ConfirmBuffer()
+        {
+            if (!IsBuffered)
+            {
+                Console.WriteLine("Buffering is off ...");
+                return;
+            }
+            UniformBuffer.Create(1);
+           // GL.UseProgram(ShaderID);
+            UniformBuffer.LinkBufferToShder(this, "ShaderData",0);
+            //GL.UseProgram(0);
+            uniforms.Add("ShaderData", UniformBuffer.Uniform_block_index);
+        }
+
+        protected void AddUniformBuffred(string uniform, int size)
+        {
+            if (!IsBuffered)
+            {
+                Console.WriteLine("Buffering is off ...");
+                return;
+            }
+            UniformBuffer.addBufferItem(uniform, size);
+        }
+
         protected void AddUniformBlock(string uniform)
         {
             int uniformLocation = GL.GetUniformBlockIndex(ShaderID, uniform);
-            if (uniformLocation == 0xFFFFFFFF)
+           
+            if (uniformLocation == -1)
             {
                 Console.WriteLine("ShderID " + ShaderID + " Error: Could not find uniform: " + uniform);
             }
-
             uniforms.Add(uniform, uniformLocation);
         }
 
@@ -129,6 +183,11 @@ namespace AhoraCore.Core.Shaders
         public override void Bind()
         {
             GL.UseProgram(ShaderID);
+
+            if (IsBuffered)
+            {
+               UniformBuffer.Bind(this);
+            }
             UpdateUniforms();
         }
 
@@ -218,9 +277,9 @@ namespace AhoraCore.Core.Shaders
 
             code = includes.Replace(code, Properties.Resources.MaterialDefinition);
 
-            Console.Clear();
+            /*Console.Clear();
 
-            Console.Write(code);
+            Console.Write(code);*/
 
             shaderPrograms.Add(type, LoadShader(code, type));
       }

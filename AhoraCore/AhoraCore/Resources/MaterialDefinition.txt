@@ -13,7 +13,7 @@ vec2 offsetUV;
 vec4 multRGBA;
 };
 
-layout(std140) uniform MaterialData
+layout(std140)  uniform MaterialData
 {
 vec4 albedoColor;
 

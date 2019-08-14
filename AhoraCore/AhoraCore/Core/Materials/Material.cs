@@ -93,9 +93,7 @@ namespace AhoraCore.Core.Materials
                 materialUniformBuffer.addBufferItem("channel[" + j + "].offsetUV", 2);
                 materialUniformBuffer.addBufferItem("channel[" + j + "].multRGBA", 4);
             }
-            ///  materialUniformBuffer.packBuffer();
-
-
+            
             materialUniformBuffer.Create(1);///Создаёт один размеченный выше буфер для материала 
 
 

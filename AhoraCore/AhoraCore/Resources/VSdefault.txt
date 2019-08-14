@@ -1,20 +1,27 @@
-#version 330
+#version 430
+
 
 layout (location = 0) in vec3 p_position;
 layout (location = 1) in vec2 p_texcoord;
 layout (location = 2) in vec3 p_normal;
 
+layout(std140) uniform ShaderData
+{
+    mat4 localTransform;
+	mat4 worldTransform;
+  	mat4 projectionMatrix;
+	mat4 viewMatrix;
+};
+
 out vec3 v_Colour;
 out vec2 v_TexCoord;
 out vec3 v_normal;
 
-uniform mat4 transformationMatrix;
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+
 
 void main(){
 
-    mat4 viewTransform = viewMatrix * transformationMatrix ;
+    mat4 viewTransform = viewMatrix * worldTransform * localTransform ;
 	
 	gl_Position = projectionMatrix * viewTransform* vec4(p_position,1.0);
 

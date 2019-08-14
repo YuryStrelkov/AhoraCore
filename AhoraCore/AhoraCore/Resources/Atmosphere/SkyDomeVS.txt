@@ -9,17 +9,18 @@ out vec2 v_TexCoord;
 out vec3 v_normal;
 out vec3 skyColor;
 
-uniform mat4 transformationMatrix;
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+layout(std140) uniform ShaderData
+{
+    mat4 localTransform;
+	mat4 worldTransform;
+  	mat4 projectionMatrix;
+	mat4 viewMatrix;
+	vec4 DomeColor;
+};
 
-//uniform float domeRadius;
-
-//uniform vec3 baseColor;
-
-const vec3 baseColor=vec3(0.18,0.27,0.47);
+//const vec3 baseColor=vec3(0.18,0.27,0.47);
  
-vec3 atmosphereDescend(vec3 position, vec3 atm_color)
+vec3 atmosphereDescend(vec3 position, vec4 atm_color)
 {
 return vec3(-0.00022*(position.y-2000)+ atm_color.x,
 			-0.00025*(position.y-2000)+ atm_color.y,
@@ -29,14 +30,16 @@ return vec3(-0.00022*(position.y-2000)+ atm_color.x,
 void  main()
 {	
 	vec4 fragPosition;
+	
+	mat4 transformationMatrix = worldTransform*localTransform;
 
-    fragPosition       =    transformationMatrix*vec4(p_position,1);
+    fragPosition       =   transformationMatrix *vec4(p_position,1);
 	
 	v_TexCoord          =  p_texcoord;
 	
  	v_normal            =  normalize(mat3(viewMatrix*transformationMatrix)*p_normal);///normalMatrix*aNormals;
 
-	skyColor          =    atmosphereDescend(fragPosition.xyz,baseColor);
+	skyColor          =    atmosphereDescend(fragPosition.xyz,DomeColor);
 	
 	gl_Position       =    projectionMatrix*viewMatrix*fragPosition;
 }
