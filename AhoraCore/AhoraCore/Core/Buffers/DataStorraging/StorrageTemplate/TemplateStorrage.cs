@@ -201,10 +201,10 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
             DoAction(RootID, action);
         }
 
+
         public abstract void ClearIteamData(KeyType ID);
 
         public abstract void DeleteIteamData(KeyType ID);
-
-
+        
     }
 }
