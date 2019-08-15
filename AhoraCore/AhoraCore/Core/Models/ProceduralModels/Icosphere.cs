@@ -65,11 +65,11 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             GameEntityStorrage.Entities.GetItem("SkyDome").AddComponent("SkyDomeModel", new Model("SkyDomeModel", "AtmosphereMaterial", "AtmosphereShader"));
 
-            GameEntityStorrage.Entities.GetItem("SkyDome").GetWorldTransform().SetScaling(5000, 5000, 5000);
+            GameEntityStorrage.Entities.GetItem("SkyDome").SetWorldScale(5000, 5000, 5000);
 
             GameEntityStorrage.Entities.GetItem("SkyDome0").AddComponent("SkyDomeModel0", new Model("SkyDomeModel0", "AtmosphereMaterial", "AtmosphereShader"));
 
-            GameEntityStorrage.Entities.GetItem("SkyDome0").GetWorldTransform().SetScaling(50, 50, 50);
+            GameEntityStorrage.Entities.GetItem("SkyDome0").SetWorldScale(50, 50, 50);
 
         }
 

@@ -29,8 +29,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
             SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
-            SetUniform("WorldTransMatrix", e.GetWorldTransform().GetTransformMat());
-            SetUniform("LocTransMatrix", e.GetLocalTransform().GetTransformMat());
+            SetUniform("WorldTransMatrix", e.GetWorldTransMat());
+            SetUniform("LocTransMatrix", e.GetLocalTransMat());
         }
 
         protected override void BindAttributes()

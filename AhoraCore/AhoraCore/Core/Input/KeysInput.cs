@@ -81,7 +81,7 @@ namespace AhoraCore.Core.Input
 
             if (isResetPosition())
             {
-                CameraInstance.Get().GetWorldTransform().SetTranslation(new Vector3(0, 0, -1));
+                CameraInstance.Get().SetWorldTranslation(new Vector3(0, 0, -1));
                 isUpdated = true;    ///        CameraInstance.Get().updateCamera();
 
                 DragEnvoirmentModel(); return;

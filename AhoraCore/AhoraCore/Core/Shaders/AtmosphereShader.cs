@@ -11,13 +11,13 @@ namespace AhoraCore.Core.Shaders
         {
 
             EnableBuffering();
-            MarkBuffer(new string[]{"localTransform", "worldTransform", "projectionMatrix", "viewMatrix" , "DomeColor" },new int[]{ 16, 16, 16, 16 ,4});
+            MarkBuffer(new string[]{/*"localTransform", "worldTransform",*/ "projectionMatrix", "viewMatrix" , "DomeColor" },new int[]{ 16, 16, 16, 16 ,4});
             ConfirmBuffer();///Создаёт один размеченный выше буфер для материала 
 
 
             UniformBuffer.UpdateBufferIteam("viewMatrix",       MathUtils.ToArray(Matrix4.Identity));
-            UniformBuffer.UpdateBufferIteam("localTransform",   MathUtils.ToArray(Matrix4.Identity));
-            UniformBuffer.UpdateBufferIteam("worldTransform",   MathUtils.ToArray(Matrix4.Identity));
+         //   UniformBuffer.UpdateBufferIteam("localTransform",   MathUtils.ToArray(Matrix4.Identity));
+          //  UniformBuffer.UpdateBufferIteam("worldTransform",   MathUtils.ToArray(Matrix4.Identity));
             UniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(Matrix4.Identity));
             UniformBuffer.UpdateBufferIteam("DomeColor",        new float[4] { 0.18f, 0.27f, 0.47f ,1f});
         }
@@ -42,8 +42,9 @@ namespace AhoraCore.Core.Shaders
 
             UniformBuffer.UpdateBufferIteam("viewMatrix",       MathUtils.ToArray(Cameras.CameraInstance.Get().ViewMatrix));
        ///     UniformBuffer.UpdateBufferIteam("localTransform",   MathUtils.ToArray(Matrix4.Identity));
-            UniformBuffer.UpdateBufferIteam("worldTransform",   MathUtils.ToArray(e.GetWorldTransform().GetTransformMat()));
+       //     UniformBuffer.UpdateBufferIteam("worldTransform",   MathUtils.ToArray(e.GetWorldTransMat()));
             UniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(Cameras.CameraInstance.Get().PespectiveMatrix));
+            e.UpdateUniforms(this);
             //SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
             //SetUniform("transformationMatrix", e.GetWorldTransform().GetTransformMat());
             //SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);

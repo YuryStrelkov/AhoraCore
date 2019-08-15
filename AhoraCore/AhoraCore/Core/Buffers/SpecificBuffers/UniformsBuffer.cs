@@ -40,7 +40,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
             mapSize += dataLength;
 
             bufferItemsMap.Add(name, item);
-        }
+       }
 
         public void LinkBufferToShder(AShader shader, string block_name)
         {
@@ -94,7 +94,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
         {
             BindingTarget = BufferTarget.UniformBuffer;
             bufferItemsMap = new Dictionary<KeyType, BufferIteam>();
-           //Сперва разметит буфер, а потом уже создать 
+           //Сперва разметить буфер, а потом уже создать 
            //CreateBuffer(100);
         }
 

@@ -34,7 +34,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         float t = 0;
 
-
         public float[] GeneratePath()
         {
             return new float[] {
@@ -102,7 +101,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public override void Render()
         {
            drawTerrain();
-           drawGrass();
+       //    drawGrass();
          //   drawTrees();
         }
 
@@ -117,9 +116,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             TerrainShader.SetUniform("projectionMatrix", CameraInstance.Get().PespectiveMatrix);
 
+            TerrainShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldPos());
+            
             TerrainShader.SetUniformf("ScaleY", config.ScaleY);
-
-            TerrainShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldTransform().Position);
 
             TerrainShader.SetUniformf("tessellationFactor", config.TessellationFactor);
 
@@ -240,9 +239,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             NodePachModel = new PatchBuffer(GeneratePath(), 2);
 
-            GetWorldTransform().SetScaling(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
+            SetWorldScale(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
 
-            GetWorldTransform().SetTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
+            SetWorldTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
         }
     }
 }

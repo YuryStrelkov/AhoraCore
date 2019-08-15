@@ -181,17 +181,17 @@ namespace AhoraCore.Core.Models
 
             ToEulerAngles(rotation, out angles);
 
-            go.GetLocalTransform().SetRotation(angles);
-            go.GetLocalTransform().SetTranslation(translation[0], translation[1], translation[2]);
-            go.GetLocalTransform().SetScaling(scale[0], scale[1], scale[2]);
+            go.SetLocalRotation(angles);
+            go.SetLocalTranslation(translation[0], translation[1], translation[2]);
+            go.SetLocalScale(scale[0], scale[1], scale[2]);
 
             //go.transform.localScale = new Vector3(scale[0], scale[1], scale[2]);
             //go.transform.rotation = new Assimp.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W);
             //go.transform.position = new Vector3(translation[0], translation[1], translation[2]);
 
-            go.GetWorldTransform().SetRotation(parent.Rotation);
-            go.GetWorldTransform().SetTranslation(parent.Position);
-            go.GetWorldTransform().SetScaling(parent.Scale);
+            go.SetWorldRotation(parent.Rotation);
+            go.SetWorldTranslation(parent.Position);
+            go.SetWorldScale(parent.Scale);
 
             //go.transform.parent = parent;
 
@@ -201,7 +201,7 @@ namespace AhoraCore.Core.Models
             {
                 foreach (Assimp.Node child in node.Children)
                 {
-                    ProcessNodes(ref storrage, child, matrix, go.GetLocalTransform(), node.Name);
+                   // ProcessNodes(ref storrage, child, matrix, go.GetLocalTransform(), node.Name);
                 }
             }
         }

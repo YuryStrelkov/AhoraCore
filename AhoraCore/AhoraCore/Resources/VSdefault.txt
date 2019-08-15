@@ -1,15 +1,17 @@
 #version 430
-
-
 layout (location = 0) in vec3 p_position;
 layout (location = 1) in vec2 p_texcoord;
 layout (location = 2) in vec3 p_normal;
 
+layout(std140) uniform TransformData
+{
+	mat4 localTransform;
+	mat4 worldTransform;
+};
+
 layout(std140) uniform ShaderData
 {
-    mat4 localTransform;
-	mat4 worldTransform;
-  	mat4 projectionMatrix;
+    mat4 projectionMatrix;
 	mat4 viewMatrix;
 };
 

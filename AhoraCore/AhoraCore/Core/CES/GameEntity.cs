@@ -1,6 +1,8 @@
 ﻿using AhoraCore.Core.CES.ICES;
 using OpenTK;
 using System.Collections.Generic;
+using AhoraCore.Core.Shaders;
+using System;
 
 namespace AhoraCore.Core.CES
 {
@@ -102,6 +104,11 @@ namespace AhoraCore.Core.CES
                 components[k].Clear();
             }
             //   base.Delete();
+        }
+
+        public void UpdateUniforms(AShader shader)
+        {
+            transformUniformBuffer.Bind(shader);
         }
     }
 }

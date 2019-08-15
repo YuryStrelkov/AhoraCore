@@ -32,7 +32,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                 GetParent().TerrainShader.SetUniform("location", Location);
 
-                GetParent().TerrainShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransform().GetTransformMat());
+                GetParent().TerrainShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransMat());
 
                 GetParent().TerrainShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
 
@@ -63,7 +63,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                 GetParent().TerrainGrassShader.SetUniformf("gap", Gap);
 
-                GetParent().TerrainGrassShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransform().GetTransformMat());
+                GetParent().TerrainGrassShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransMat());
 
                 GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
 
@@ -87,13 +87,13 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public override void Update()
         {
-           if (CameraInstance.Get().GetWorldTransform().Position.Y > config.ScaleY)
+           if (CameraInstance.Get().GetWorldPos().Y > config.ScaleY)
             {
                 worldPosition.Y = config.ScaleY;
             }
             else
             {
-                worldPosition.Y = CameraInstance.Get().GetWorldTransform().Position.Y;
+                worldPosition.Y = CameraInstance.Get().GetWorldPos().Y;
             }
             UpdateChildsNodes();
         }

@@ -9,10 +9,14 @@ out vec2 v_TexCoord;
 out vec3 v_normal;
 out vec3 skyColor;
 
+layout(std140) uniform TransformData
+{
+	mat4 localTransform;
+	mat4 worldTransform;
+};
+
 layout(std140) uniform ShaderData
 {
-    mat4 localTransform;
-	mat4 worldTransform;
   	mat4 projectionMatrix;
 	mat4 viewMatrix;
 	vec4 DomeColor;

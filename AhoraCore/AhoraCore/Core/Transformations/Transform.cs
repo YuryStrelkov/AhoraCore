@@ -3,12 +3,15 @@ using System;
 
 namespace AhoraCore.Core.Transformations
 {
-    public class Transform
+    public class Transform///:UniformBufferedObject
     {
-        bool ischanged;
+         public bool IsChanged { get { return ischanged; } }
 
-      ///  bool ischangedLocal = false;
-        
+        public bool ischanged;
+
+
+        ///  bool ischangedLocal = false;
+
         /// <summary>
         /// Локальный вектор положения
         /// </summary>
@@ -99,9 +102,7 @@ namespace AhoraCore.Core.Transformations
                 ischanged = true;
             }
         }
-
-        //private Matrix4 worldTranformM;
-
+        
         public Transform(Vector3 position_)
         {
             position = position_;

@@ -31,7 +31,7 @@ namespace AhoraCore.Core.Shaders
         public override void UpdateUniforms(IGameEntity e)
         {
             SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
-            SetUniform("transformationMatrix", e.GetWorldTransform().GetTransformMat());
+            SetUniform("transformationMatrix", e.GetWorldTransMat());
             SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
         }
         
