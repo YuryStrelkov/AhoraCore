@@ -1,4 +1,7 @@
 #version 330 core
+
+#include MaterialDefinition;
+
 out vec4 out_Color;
 
 in vec3 v_Colour;
@@ -6,11 +9,12 @@ in vec2 v_TexCoord;
 in vec3 v_normal;
 in vec3 skyColor;
 
-#include MaterialDefinition;
 
 void main()
 { 
-	out_Color.rgb       =    mix(1.75*getDiffuse().rgb,skyColor,0.5);
+	vec4 color          =  getDiffuse(v_TexCoord);
+	
+	out_Color.rgb       =  mix(1.75*color.rgb,skyColor,0.5);
 					     
-    out_Color.a         =  getDiffuse().r;
+    out_Color.a         =  color.r;
 }

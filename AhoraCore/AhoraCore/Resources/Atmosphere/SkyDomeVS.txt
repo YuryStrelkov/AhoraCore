@@ -4,25 +4,18 @@ layout (location = 0) in vec3 p_position;
 layout (location = 1) in vec2 p_texcoord;
 layout (location = 2) in vec3 p_normal;
 
+
+#include CameraDefinition;
+
+#include TransformDefinition;
+
+
 out vec3 v_Colour;
 out vec2 v_TexCoord;
 out vec3 v_normal;
 out vec3 skyColor;
 
-layout(std140) uniform TransformData
-{
-	mat4 localTransform;
-	mat4 worldTransform;
-};
-
-layout(std140) uniform ShaderData
-{
-  	mat4 projectionMatrix;
-	mat4 viewMatrix;
-	vec4 DomeColor;
-};
-
-//const vec3 baseColor=vec3(0.18,0.27,0.47);
+uniform vec4 DomeColor;
  
 vec3 atmosphereDescend(vec3 position, vec4 atm_color)
 {

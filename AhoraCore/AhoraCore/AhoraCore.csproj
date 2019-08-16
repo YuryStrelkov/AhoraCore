@@ -81,6 +81,7 @@
     <Compile Include="Core\CES\GameEntity.cs" />
     <Compile Include="Core\CES\GameEntityStorrage.cs" />
     <Compile Include="Core\CES\ICES\IBehavoir.cs" />
+    <Compile Include="Core\CES\ICES\IUniformBufferedObject.cs" />
     <Compile Include="Core\CES\ICES\UniformBufferedObject.cs" />
     <Compile Include="Core\CES\ICES\IComponent.cs" />
     <Compile Include="Core\CES\ICES\IFrustumCulled.cs" />
@@ -137,6 +138,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ClassDiagram1.cd" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -219,6 +221,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Grass\GrassFS.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TransformDefinition.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

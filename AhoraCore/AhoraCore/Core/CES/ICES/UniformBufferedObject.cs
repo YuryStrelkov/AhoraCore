@@ -8,20 +8,20 @@ namespace AhoraCore.Core.CES.ICES
 {
     public enum UniformBindingsLocations
     {
-        SaderData = 0,
+        ShaderData = 0,
         MaterialData = 1,
         TransformData = 2,
         ComponentData = 3,
         GameEntityData = 4,
-        CameraData = 5,
-        LightData = 6
+        CameraData = 3,
+        LightData = 7
     }
 
-    public class UniformBufferedObject
+    public class UniformBufferedObject : IUniformBufferedObject
     {
         public  bool IsBuffered { get; protected set; }
 
-        public string BufferName { get; protected set; }
+        public string BufferName { get;  set; }
 
         public UniformsBuffer<string> UniformBuffer { get; protected set; }
 
@@ -29,7 +29,6 @@ namespace AhoraCore.Core.CES.ICES
         {
             UniformBuffer.UpdateBufferIteam(ItemName, data);
         }
-
 
         public void EnableBuffering(string bufferName)
         {
@@ -42,7 +41,7 @@ namespace AhoraCore.Core.CES.ICES
         {
 
             /////
-            ////Добавлять элементы буфера строго в порядке следования ихв шедере    
+            ////Добавлять элементы буфера строго в порядке следования их в шедере    
             /////
             if (!IsBuffered)
             {

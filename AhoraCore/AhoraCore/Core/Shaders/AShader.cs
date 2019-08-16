@@ -20,7 +20,7 @@ namespace AhoraCore.Core.Shaders
 
         private Dictionary<string, int> uniforms;
 
-        protected UniformsBuffer<string> UniformBuffer;// { protected get; private set; }
+ ///       protected UniformsBuffer<string> UniformBuffer;// { protected get; private set; }
 
         public bool IsBuffered { get; private set; }
 
@@ -109,14 +109,14 @@ namespace AhoraCore.Core.Shaders
             uniforms.Add(uniform, uniformLocation);
         }
 
-
+/*
         protected void EnableBuffering()
         {
             IsBuffered = true;
             UniformBuffer = new UniformsBuffer<string>();
         }
-
-        protected void MarkBuffer(string[] itemName, int[] itemLength)
+*/
+  /*      protected void MarkBuffer(string[] itemName, int[] itemLength)
         {
 
             /////
@@ -132,7 +132,8 @@ namespace AhoraCore.Core.Shaders
                 UniformBuffer.addBufferItem(itemName[i], itemLength[i]);
             }
         }
-
+        */
+        /*
         protected void ConfirmBuffer()
         {
             if (!IsBuffered)
@@ -146,8 +147,8 @@ namespace AhoraCore.Core.Shaders
             //GL.UseProgram(0);
             uniforms.Add("ShaderData", UniformBuffer.Uniform_block_index);
         }
-
-        protected void AddUniformBuffred(string uniform, int size)
+        */
+        /*protected void AddUniformBuffred(string uniform, int size)
         {
             if (!IsBuffered)
             {
@@ -156,7 +157,7 @@ namespace AhoraCore.Core.Shaders
             }
             UniformBuffer.addBufferItem(uniform, size);
         }
-
+        */
         protected void AddUniformBlock(string uniform)
         {
             int uniformLocation = GL.GetUniformBlockIndex(ShaderID, uniform);
@@ -183,11 +184,11 @@ namespace AhoraCore.Core.Shaders
         public override void Bind()
         {
             GL.UseProgram(ShaderID);
-
+            /*
             if (IsBuffered)
             {
                UniformBuffer.Bind(this);
-            }
+            }*/
             UpdateUniforms();
         }
 
@@ -277,9 +278,13 @@ namespace AhoraCore.Core.Shaders
 
             code = includes.Replace(code, Properties.Resources.MaterialDefinition);
 
-            /*Console.Clear();
 
-            Console.Write(code);*/
+            includes = new Regex(@"\w*#include TransformDefinition;\w*");
+
+            code = includes.Replace(code, Properties.Resources.TransformDefinition);
+            Console.Clear();
+
+            Console.Write(code);
 
             shaderPrograms.Add(type, LoadShader(code, type));
       }

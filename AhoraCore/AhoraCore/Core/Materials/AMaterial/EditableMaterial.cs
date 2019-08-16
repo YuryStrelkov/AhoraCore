@@ -3,6 +3,7 @@ using AhoraCore.Core.Shaders;
 using System.Collections.Generic;
 using AhoraCore.Core.Buffers.UniformsBuffer;
 using OpenTK.Graphics.OpenGL;
+using AhoraCore.Core.CES.ICES;
 
 namespace AhoraCore.Core.Materials.AMaterial
 {
@@ -70,7 +71,7 @@ namespace AhoraCore.Core.Materials.AMaterial
 
         public override void Bind(AShader bindTarget)
         {
-            materialUniformBuffer.LinkBufferToShder(bindTarget, "MaterialData",1);
+            materialUniformBuffer.LinkBufferToShder(bindTarget, "MaterialData");
             int i = 0;
             foreach (TextureChannels key in textures.Keys)
             {
@@ -86,6 +87,7 @@ namespace AhoraCore.Core.Materials.AMaterial
             textures = new Dictionary<TextureChannels, TextureChannel>();
             texturesChannelNames = new Dictionary<TextureChannels, string>();
             materialUniformBuffer = new UniformsBuffer<string>();
+            materialUniformBuffer.Buff_binding_Point = (int)UniformBindingsLocations.MaterialData;
         }
 
         public override void Clear()
@@ -105,6 +107,7 @@ namespace AhoraCore.Core.Materials.AMaterial
         public  EditableMaterial()
         {
             Create();
+
           ///  materialUniformBuffer = new UniformsBuffer<string>(8 * 6);
         }
     }

@@ -33,45 +33,41 @@ uniform sampler2D   heightMap;
 uniform sampler2D   reflectGlossMap;
 uniform sampler2D   transparencyMap;
 
-
- 
-vec3 getFromMap(sampler2D map, int t_channel)
+vec4 getFromMap(sampler2D map, vec2 v_TexCoord,int t_channel)
 {
 return	texture(map, (v_TexCoord + matChannels[t_channel].offsetUV)*
-                                    matChannels[t_channel].tileUV).xyz;
+                                   matChannels[t_channel].tileUV);
 }
 
 
-vec3 getNormal()
+vec3 getNormal( vec2 v_TexCoord)
 {
-	return	normalize(getFromMap(normalMap, NormalID).xyz*2.0-1.0);
+	return	normalize(getFromMap(normalMap, v_TexCoord,NormalID).xyz*2.0-1.0).xyz;
 }
 
-vec3 getDiffuse()
+vec4 getDiffuse( vec2 v_TexCoord)
 {
-	return	normalize(getFromMap(diffuseMap, DiffuseID));
+	return (getFromMap(diffuseMap, v_TexCoord, DiffuseID));
 }
 
-vec3 getSpecular()
+vec4 getSpecular( vec2 v_TexCoord)
 {
-	return	normalize(getFromMap(specularMap, SpecularID));
+	return	(getFromMap(specularMap, v_TexCoord, SpecularID));
 }
 
 
-vec3 getHeight()
+vec4 getHeight( vec2 v_TexCoord)
 {
-	return	normalize(getFromMap(heightMap, HeightID));
+	return	(getFromMap(heightMap, v_TexCoord, HeightID));
 }
 
 
-vec3 getReflectGloss()
+vec4 getReflectGloss( vec2 v_TexCoord)
 {
-	return	normalize(getFromMap(reflectGlossMap, ReflectGlossID));
+	return	(getFromMap(reflectGlossMap, v_TexCoord, ReflectGlossID));
 }
 
-vec3 getTransparency()
+vec4 getTransparency( vec2 v_TexCoord)
 {
-	return	normalize(getFromMap(transparencyMap, TransparencyID));
+	return	(getFromMap(transparencyMap, v_TexCoord, TransparencyID));
 }
-
-

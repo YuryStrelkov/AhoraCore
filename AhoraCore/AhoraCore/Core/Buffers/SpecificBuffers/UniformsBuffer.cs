@@ -46,7 +46,8 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
         {
             GL.BindBuffer(BindingTarget, ID);
             Uniform_block_index = GL.GetUniformBlockIndex(shader.ShaderID, block_name);
-            Console.WriteLine(Uniform_block_index);
+            Console.WriteLine(GL.GetError());
+            Console.WriteLine(block_name+"  "+Uniform_block_index);
             GL.UniformBlockBinding(shader.ShaderID, Uniform_block_index, Buff_binding_Point);
             GL.BindBufferBase(BufferRangeTarget.UniformBuffer, Buff_binding_Point, ID);
         }

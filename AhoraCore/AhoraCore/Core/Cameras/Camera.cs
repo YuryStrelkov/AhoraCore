@@ -1,4 +1,7 @@
 ﻿using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.ICES;
+using AhoraCore.Core.Shaders;
+using AhoraCore.Core.Utils;
 using OpenTK;
 using System;
 using System.Runtime.CompilerServices;
@@ -40,7 +43,22 @@ namespace AhoraCore.Core.Cameras
         public bool IsUpdated { get;  set;}
 
         public float MouseSensitivity;
-      
+
+        public void UseBuffering()
+        {
+            uniformBuffer.EnableBuffering("CameraData");
+     //       uniformBuffer.MarkBuffer(new string[5] { "viewMatrix", "projectionMatrix", "tiltMatix", "FOV","Aspect" }, new int[5] { 16, 16, 16,1,1 });
+            uniformBuffer.MarkBuffer(new string[] { "viewMatrix", "projectionMatrix", "tiltMatix"}, new int[] { 16, 16, 16});
+
+            uniformBuffer.ConfirmBuffer();
+            uniformBuffer.SetBindigLocation(UniformBindingsLocations.CameraData);
+            uniformBuffer.UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
+            uniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(PespectiveMatrix));
+            uniformBuffer.UpdateBufferIteam("tiltMatix", MathUtils.ToArray(TiltM));
+            //uniformBuffer.UpdateBufferIteam("FOV", new float[] {FOV});
+            //uniformBuffer.UpdateBufferIteam("Aspect", new float[] {Aspect});
+        }
+        
         public Camera(float sensitivity, float speed, float aspect) : base()
         {
             Tilt = 0;/// -MathHelper.Pi;
@@ -53,6 +71,7 @@ namespace AhoraCore.Core.Cameras
             LookAt = new Vector3(0, 0, 1);
             ViewMatrix = Matrix4.LookAt(GetWorldPos(), GetWorldPos() + LookAt, Vector3.UnitY);
             IsUpdated = true;
+            UseBuffering();
         }
 
         public Camera() : base()
@@ -68,9 +87,11 @@ namespace AhoraCore.Core.Cameras
             LookAt = new Vector3(0, 0, 1);
             ViewMatrix = Matrix4.LookAt(GetWorldPos(), GetWorldPos()+ LookAt, Vector3.UnitY);
             IsUpdated = true;
+            UseBuffering();
+
         }
-        
-            
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
         public void SwitchToFace(int faceIndex)
@@ -111,6 +132,8 @@ namespace AhoraCore.Core.Cameras
                     break;
             }
             ViewMatrix = Matrix4.LookAt(GetWorldPos(), target, up);
+            uniformBuffer.UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
+
         }
 
         public void TiltCamera(float tiltAngle)
@@ -135,6 +158,8 @@ namespace AhoraCore.Core.Cameras
             SetWorldTranslation(GetWorldPos() + 100*offset);
             ViewMatrix = Matrix4.LookAt(GetWorldPos(), GetWorldPos() + LookAt, Vector3.UnitY);
             ViewMatrix.Transpose();
+            uniformBuffer.UniformBuffer.Bind();
+            uniformBuffer.UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
             IsUpdated = true;
         }
 
@@ -154,9 +179,20 @@ namespace AhoraCore.Core.Cameras
                                  (float)(Math.Cos(GetWorldRot().X) * Math.Cos(GetWorldRot().Y)));
       
                 ViewMatrix = Matrix4.LookAt(GetWorldPos(), GetWorldPos() + LookAt, Vector3.UnitY);
-                ViewMatrix.Transpose();
-                IsUpdated = true;
+            ViewMatrix.Transpose();
+            uniformBuffer.UniformBuffer.Bind();
+            uniformBuffer.UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
+
+            IsUpdated = true;
         }
-       
+
+        public new void UpdateUniforms(AShader shader)
+        {
+            ////transformUniformBuffer.Bind(shader);
+         //   if (IsBuffered)
+            //{
+                uniformBuffer.Bind(shader);
+           // }
+        }
     }
 }

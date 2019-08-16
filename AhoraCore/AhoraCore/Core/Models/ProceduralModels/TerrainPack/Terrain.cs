@@ -8,6 +8,7 @@ using AhoraCore.Core.Materials;
 using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
 
 using System;
+using AhoraCore.Core.Shaders;
 
 namespace AhoraCore.Core.Models.ProceduralModels
 {
@@ -87,6 +88,15 @@ namespace AhoraCore.Core.Models.ProceduralModels
             {
                   base.Update();
             }
+        }
+
+        public new void UpdateUniforms(AShader shader)
+        {/*
+            transformUniformBuffer.Bind(shader);
+            if (IsBuffered)
+            {
+                uniformBuffer.Bind(shader);
+            }*/
         }
     }
 }

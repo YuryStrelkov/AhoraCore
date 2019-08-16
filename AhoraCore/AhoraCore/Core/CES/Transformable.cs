@@ -14,33 +14,98 @@ namespace AhoraCore.Core.CES
 
         protected UniformBufferedObject transformUniformBuffer;
 
+        public string WorldTransformKey { get; protected set; }
+
+        public string LocalTransformKey { get; protected set; }
+
         public Transformable( Vector3 worldPos, Vector3 localPos)
         {
             transformUniformBuffer = new UniformBufferedObject();
-            transformUniformBuffer.EnableBuffering("TransformData");
-            transformUniformBuffer.MarkBuffer(new string[2] { "localTransform" , "worldTransform" }, new int[2] {16, 16});
+ 
+                transformUniformBuffer.EnableBuffering("TransformData");
+                WorldTransformKey = "worldTransform";
+                LocalTransformKey = "localTransform";
+       
+
+            transformUniformBuffer.MarkBuffer(new string[2] { LocalTransformKey, WorldTransformKey }, new int[2] { 16, 16 });
             transformUniformBuffer.ConfirmBuffer();
             transformUniformBuffer.SetBindigLocation(UniformBindingsLocations.TransformData);
 
             WorldTransform = new Transform(worldPos.X, worldPos.Y, worldPos.Z);
             LocalTransform = new Transform(localPos.X, localPos.Y, localPos.Z);
 
-            transformUniformBuffer.UpdateBufferIteam("localTransform", MathUtils.ToArray(LocalTransform.GetTransformMat()));
-            transformUniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(WorldTransform.GetTransformMat()));
+            transformUniformBuffer.UpdateBufferIteam(LocalTransformKey, MathUtils.ToArray(LocalTransform.GetTransformMat()));
+            transformUniformBuffer.UpdateBufferIteam(WorldTransformKey, MathUtils.ToArray(WorldTransform.GetTransformMat()));
+        }
+
+        public Transformable(string prefix, Vector3 worldPos, Vector3 localPos)
+        {
+            transformUniformBuffer = new UniformBufferedObject();
+            if (prefix.Length == 0)
+            {
+                transformUniformBuffer.EnableBuffering(prefix + "TransformData");
+                WorldTransformKey = "world"+  prefix + "Transform";
+                LocalTransformKey = "local" + prefix + "Transform";
+            }
+            else
+            {
+                transformUniformBuffer.EnableBuffering("TransformData");
+                WorldTransformKey = "worldTransform";
+                LocalTransformKey = "localTransform";
+            }
+
+            transformUniformBuffer.MarkBuffer(new string[2] { LocalTransformKey , WorldTransformKey }, new int[2] {16, 16});
+            transformUniformBuffer.ConfirmBuffer();
+            transformUniformBuffer.SetBindigLocation(UniformBindingsLocations.TransformData);
+
+            WorldTransform = new Transform(worldPos.X, worldPos.Y, worldPos.Z);
+            LocalTransform = new Transform(localPos.X, localPos.Y, localPos.Z);
+
+            transformUniformBuffer.UpdateBufferIteam(LocalTransformKey, MathUtils.ToArray(LocalTransform.GetTransformMat()));
+            transformUniformBuffer.UpdateBufferIteam(WorldTransformKey, MathUtils.ToArray(WorldTransform.GetTransformMat()));
+        }
+
+        public Transformable(string prefix)
+        {
+            transformUniformBuffer = new UniformBufferedObject();
+            if (prefix.Length == 0)
+            {
+                transformUniformBuffer.EnableBuffering(prefix + "TransformData");
+                WorldTransformKey = "world" + prefix + "Transform";
+                LocalTransformKey = "local" + prefix + "Transform";
+            }
+            else
+            {
+                transformUniformBuffer.EnableBuffering("TransformData");
+                WorldTransformKey = "worldTransform";
+                LocalTransformKey = "localTransform";
+            }
+
+            transformUniformBuffer.MarkBuffer(new string[2] { LocalTransformKey, WorldTransformKey }, new int[2] { 16, 16 });
+            transformUniformBuffer.ConfirmBuffer();
+            transformUniformBuffer.SetBindigLocation(UniformBindingsLocations.TransformData);
+
+            WorldTransform = new Transform(0,0,0);
+            LocalTransform = new Transform(0,0,0);
+
+            transformUniformBuffer.UpdateBufferIteam(LocalTransformKey, MathUtils.ToArray(LocalTransform.GetTransformMat()));
+            transformUniformBuffer.UpdateBufferIteam(WorldTransformKey, MathUtils.ToArray(WorldTransform.GetTransformMat()));
         }
 
         public Transformable()
         {
             transformUniformBuffer = new UniformBufferedObject();
             transformUniformBuffer.EnableBuffering("TransformData");
-            transformUniformBuffer.MarkBuffer(new string[2] { "localTransform", "worldTransform" }, new int[2] { 16, 16 });
+            WorldTransformKey = "worldTransform";
+            LocalTransformKey = "localTransform";
+            transformUniformBuffer.MarkBuffer(new string[2] { LocalTransformKey, WorldTransformKey }, new int[2] { 16, 16 });
             transformUniformBuffer.ConfirmBuffer();
             transformUniformBuffer.SetBindigLocation(UniformBindingsLocations.TransformData);
             WorldTransform = new Transform(0, 0, 0);
             LocalTransform = new Transform(0, 0, 0);
 
-            transformUniformBuffer.UpdateBufferIteam("localTransform", MathUtils.ToArray(Matrix4.Identity));
-            transformUniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(Matrix4.Identity));
+            transformUniformBuffer.UpdateBufferIteam(LocalTransformKey, MathUtils.ToArray(Matrix4.Identity));
+            transformUniformBuffer.UpdateBufferIteam(WorldTransformKey, MathUtils.ToArray(Matrix4.Identity));
 
         }
 
@@ -56,81 +121,81 @@ namespace AhoraCore.Core.CES
         public void SetLocalTranslation(float x, float y, float z)
         {
             LocalTransform.SetTranslation(x, y, z);
-            UpdateTransformBuffer(ref LocalTransform, "localTransform");
+            UpdateTransformBuffer(ref LocalTransform, LocalTransformKey);
         }
 
         public void SetWorldTranslation(float x, float y, float z)
         {
             WorldTransform.SetTranslation(x, y, z);
-            UpdateTransformBuffer(ref WorldTransform, "worldTransform");
+            UpdateTransformBuffer(ref WorldTransform, WorldTransformKey);
 
         }
 
         public void SetLocalTranslation(Vector3 translation)
         {
             LocalTransform.SetTranslation(translation);
-            UpdateTransformBuffer(ref LocalTransform, "localTransform");
+            UpdateTransformBuffer(ref LocalTransform, LocalTransformKey);
         }
 
         public void SetWorldTranslation(Vector3 translation)
         {
             WorldTransform.SetTranslation(translation);
-            UpdateTransformBuffer(ref WorldTransform, "worldTransform");
+            UpdateTransformBuffer(ref WorldTransform, WorldTransformKey);
 
         }
 
         public void SetLocalScale(float x, float y, float z)
         {
             LocalTransform.SetScaling(x, y, z);
-            UpdateTransformBuffer(ref LocalTransform, "localTransform");
+            UpdateTransformBuffer(ref LocalTransform, LocalTransformKey);
 
         }
 
         public void SetWorldScale(float x, float y, float z)
         {
             WorldTransform.SetScaling(x, y, z);
-            UpdateTransformBuffer(ref WorldTransform, "worldTransform");
+            UpdateTransformBuffer(ref WorldTransform, WorldTransformKey);
 
         }
 
         public void SetLocalScale(Vector3 scale)
         {
             LocalTransform.SetScaling(scale);
-            UpdateTransformBuffer(ref LocalTransform, "localTransform");
+            UpdateTransformBuffer(ref LocalTransform, LocalTransformKey);
         }
 
         public void SetWorldScale(Vector3 scale)
         {
             WorldTransform.SetScaling(scale);
-            UpdateTransformBuffer(ref WorldTransform, "worldTransform");
+            UpdateTransformBuffer(ref WorldTransform, WorldTransformKey);
 
         }
 
         public void SetLocalRotation(float x, float y, float z)
         {
             LocalTransform.SetRotation(x, y, z);
-            UpdateTransformBuffer(ref LocalTransform, "localTransform");
+            UpdateTransformBuffer(ref LocalTransform, LocalTransformKey);
 
         }
 
         public void SetWorldRotation(float x, float y, float z)
         {
             WorldTransform.SetRotation(x, y, z);
-            UpdateTransformBuffer(ref WorldTransform, "worldTransform");
+            UpdateTransformBuffer(ref WorldTransform, WorldTransformKey);
 
         }
 
         public void SetLocalRotation(Vector3 rotation)
         {
             LocalTransform.SetRotation(rotation);
-            UpdateTransformBuffer(ref LocalTransform, "localTransform");
+            UpdateTransformBuffer(ref LocalTransform, LocalTransformKey);
 
         }
 
         public void SetWorldRotation(Vector3 rotation)
         {
             WorldTransform.SetRotation(rotation);
-            UpdateTransformBuffer(ref WorldTransform, "worldTransform");
+            UpdateTransformBuffer(ref WorldTransform, WorldTransformKey);
 
         }
 

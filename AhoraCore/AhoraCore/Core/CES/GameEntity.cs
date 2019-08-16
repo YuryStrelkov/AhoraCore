@@ -2,19 +2,41 @@
 using OpenTK;
 using System.Collections.Generic;
 using AhoraCore.Core.Shaders;
-using System;
 
 namespace AhoraCore.Core.CES
 {
-    public class GameEntity : Node, IGameEntity
+    public class GameEntity : Node, IGameEntity, IUniformBufferedObject
     {
         private Dictionary<string, AComponent<IGameEntity>> components;
+
+        protected UniformBufferedObject uniformBuffer;
+
+        public string BufferName
+        {
+            get
+            {
+                return uniformBuffer.BufferName;
+            }
+        }
+
+        public bool IsBuffered
+        {
+            get
+            {
+                return uniformBuffer.IsBuffered;
+            }
+        }
 
         public GameEntity() : base()
         {
             components = new Dictionary<string, AComponent<IGameEntity>>();
+            uniformBuffer = new UniformBufferedObject();
         }
-
+        public GameEntity(string  prefix) : base()
+        {
+            components = new Dictionary<string, AComponent<IGameEntity>>();
+            uniformBuffer = new UniformBufferedObject();
+        }
         public GameEntity(Vector3 wordPos, Vector3 wordOrient) : base()
         {
             WorldTransform.SetRotation(wordOrient);
@@ -22,6 +44,9 @@ namespace AhoraCore.Core.CES
             WorldTransform.SetTranslation(wordPos);
 
             components = new Dictionary<string, AComponent<IGameEntity>>();
+
+            uniformBuffer = new UniformBufferedObject();
+
         }
 
         public void AddComponent(string Key, AComponent<IGameEntity> component)
@@ -58,7 +83,6 @@ namespace AhoraCore.Core.CES
             //    base.Input();
         }
 
-
         public void Enable()
         {
             foreach (string k in components.Keys)
@@ -86,7 +110,6 @@ namespace AhoraCore.Core.CES
             //   base.Disable();
         }
 
-
         public void Delete()
         {
             foreach (string k in components.Keys)
@@ -95,7 +118,6 @@ namespace AhoraCore.Core.CES
             }
             //   base.Delete();
         }
-
 
         public void Clear()
         {
@@ -109,6 +131,45 @@ namespace AhoraCore.Core.CES
         public void UpdateUniforms(AShader shader)
         {
             transformUniformBuffer.Bind(shader);
+            if (IsBuffered)
+            {
+              uniformBuffer.Bind(shader);
+            }
+        }
+
+        public void ConfirmBuffer()
+        {
+            uniformBuffer.ConfirmBuffer();
+        }
+
+        public void ConfirmBuffer(int capacity)
+        {
+            uniformBuffer.ConfirmBuffer(capacity);
+        }
+
+        public void EnableBuffering(string bufferName)
+        {
+            uniformBuffer.EnableBuffering(bufferName);
+        }
+
+        public void MarkBuffer(string[] itemNames, int[] itemLengths)
+        {
+            uniformBuffer.MarkBuffer(itemNames, itemLengths);
+        }
+
+        public void MarkBufferItem(string itemName, int itemLength)
+        {
+            uniformBuffer.MarkBufferItem(itemName, itemLength);
+        }
+
+        public void SetBindigLocation(UniformBindingsLocations location)
+        {
+            uniformBuffer.SetBindigLocation(location);
+        }
+
+        public void UpdateBufferIteam(string ItemName, float[] data)
+        {
+            uniformBuffer.UpdateBufferIteam(ItemName, data);
         }
     }
 }

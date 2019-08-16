@@ -20,7 +20,7 @@ namespace AhoraCore.Core.CES
                 frustumR = value;
             }
         }
-
+        
         public Node() : base()
         {
         }

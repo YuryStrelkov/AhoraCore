@@ -9,45 +9,24 @@ namespace AhoraCore.Core.Shaders
         public AtmosphereShader() 
             : base(Properties.Resources.SkyDomeVS, Properties.Resources.SkyDomeFS, false)
         {
-
-            EnableBuffering();
-            MarkBuffer(new string[]{/*"localTransform", "worldTransform",*/ "projectionMatrix", "viewMatrix" , "DomeColor" },new int[]{ 16, 16, 16, 16 ,4});
-            ConfirmBuffer();///Создаёт один размеченный выше буфер для материала 
-
-
-            UniformBuffer.UpdateBufferIteam("viewMatrix",       MathUtils.ToArray(Matrix4.Identity));
-         //   UniformBuffer.UpdateBufferIteam("localTransform",   MathUtils.ToArray(Matrix4.Identity));
-          //  UniformBuffer.UpdateBufferIteam("worldTransform",   MathUtils.ToArray(Matrix4.Identity));
-            UniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(Matrix4.Identity));
-            UniformBuffer.UpdateBufferIteam("DomeColor",        new float[4] { 0.18f, 0.27f, 0.47f ,1f});
         }
 
 
 
 
 
-           public override void UpdateUniforms()
-        { 
-            UniformBuffer.UpdateBufferIteam("viewMatrix",      MathUtils.ToArray(Cameras.CameraInstance.Get().ViewMatrix));
-          //  UniformBuffer.UpdateBufferIteam("localTransform",   MathUtils.ToArray(Matrix4.Identity));
-           // UniformBuffer.UpdateBufferIteam("worldTransform",   MathUtils.ToArray(Matrix4.Identity));
-            UniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(Cameras.CameraInstance.Get().PespectiveMatrix));
-            //SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
-            //SetUniform("transformationMatrix", Matrix4.Identity);
-            //SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
+        public override void UpdateUniforms()
+        {
+
+            Cameras.CameraInstance.Get().UpdateUniforms(this);
         }
 
         public override void UpdateUniforms(IGameEntity e)
         {
 
-            UniformBuffer.UpdateBufferIteam("viewMatrix",       MathUtils.ToArray(Cameras.CameraInstance.Get().ViewMatrix));
-       ///     UniformBuffer.UpdateBufferIteam("localTransform",   MathUtils.ToArray(Matrix4.Identity));
-       //     UniformBuffer.UpdateBufferIteam("worldTransform",   MathUtils.ToArray(e.GetWorldTransMat()));
-            UniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(Cameras.CameraInstance.Get().PespectiveMatrix));
+            SetUniform("DomeColor",new Vector4(0.18f, 0.27f, 0.47f, 1f));
             e.UpdateUniforms(this);
-            //SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
-            //SetUniform("transformationMatrix", e.GetWorldTransform().GetTransformMat());
-            //SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
+            Cameras.CameraInstance.Get().UpdateUniforms(this);
         }
 
         protected override void BindAttributes()
@@ -59,13 +38,7 @@ namespace AhoraCore.Core.Shaders
 
         protected override void BindUniforms()
         {
-            /*
-            AddUniform("transformationMatrix");
-            AddUniform("projectionMatrix");
-            AddUniform("viewMatrix");
-            */
-      ///   AddUniform("defTexture");
-
+            AddUniform("DomeColor");
             AddUniform("diffuseMap");
             AddUniform("normalMap");
             AddUniform("specularMap");
