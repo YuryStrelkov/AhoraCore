@@ -6,9 +6,7 @@ using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Materials;
 using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
-
 using System;
-using AhoraCore.Core.Shaders;
 
 namespace AhoraCore.Core.Models.ProceduralModels
 {
@@ -52,9 +50,14 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             int[] AttribsMasks;
 
-            ModelLoader.LoadModel("E:\\GitHub\\AhoraCore\\AhoraCore\\AhoraCore\\Resources\\grass_lods.obj", out AttribsMasks, out vbuffers, out ibuffers);
 
-            GeometryStorageManager.Data.AddGeometrySet(AttribsMasks[0], new string[]{ "grass_lod_0", "grass_lod_1" , "grass_lod_2" }, vbuffers, ibuffers); 
+            ModelLoader.LoadModel("D:\\GitHub\\AhoraCore\\AhoraCore\\AhoraCore\\Resources\\grass_lods.obj", out AttribsMasks, out vbuffers, out ibuffers);
+
+            GeometryStorageManager.Data.AddGeometrySet(AttribsMasks[0], new string[] { "grass_lod_0", "grass_lod_1", "grass_lod_2"}, vbuffers, ibuffers);
+
+            //ModelLoader.LoadModel("D:\\GitHub\\AhoraCore\\AhoraCore\\AhoraCore\\Resources\\grass_lods_.obj", out AttribsMasks, out vbuffers, out ibuffers);
+
+            //GeometryStorageManager.Data.AddGeometrySet(AttribsMasks[0], new string[]{ "grass_lod_0", "grass_lod_1" , "grass_lod_2", "grass_lod_3", "grass_lod_4" }, vbuffers, ibuffers); 
 
         }
 
@@ -90,13 +93,6 @@ namespace AhoraCore.Core.Models.ProceduralModels
             }
         }
 
-        public new void UpdateUniforms(AShader shader)
-        {/*
-            transformUniformBuffer.Bind(shader);
-            if (IsBuffered)
-            {
-                uniformBuffer.Bind(shader);
-            }*/
-        }
+        
     }
 }

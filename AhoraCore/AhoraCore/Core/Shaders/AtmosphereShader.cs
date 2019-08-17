@@ -1,6 +1,5 @@
 ﻿using OpenTK;
 using AhoraCore.Core.CES.ICES;
-using AhoraCore.Core.Utils;
 
 namespace AhoraCore.Core.Shaders
 {
@@ -11,22 +10,14 @@ namespace AhoraCore.Core.Shaders
         {
         }
 
-
-
-
-
         public override void UpdateUniforms()
         {
-
-            Cameras.CameraInstance.Get().UpdateUniforms(this);
         }
 
         public override void UpdateUniforms(IGameEntity e)
         {
-
             SetUniform("DomeColor",new Vector4(0.18f, 0.27f, 0.47f, 1f));
             e.UpdateUniforms(this);
-            Cameras.CameraInstance.Get().UpdateUniforms(this);
         }
 
         protected override void BindAttributes()

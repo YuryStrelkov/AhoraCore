@@ -130,7 +130,10 @@ namespace AhoraCore.Core.CES
 
         public void UpdateUniforms(AShader shader)
         {
+            Cameras.CameraInstance.Get().uniformBuffer.Bind(shader);
+
             transformUniformBuffer.Bind(shader);
+
             if (IsBuffered)
             {
               uniformBuffer.Bind(shader);

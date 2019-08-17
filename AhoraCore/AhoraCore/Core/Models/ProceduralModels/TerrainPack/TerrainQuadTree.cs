@@ -101,7 +101,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public override void Render()
         {
            drawTerrain();
-       //    drawGrass();
+           drawGrass();
          //   drawTrees();
         }
 
@@ -110,14 +110,15 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             TerrainShader.Bind();
 
-            ///   TerrainMaterial.Bind(TerrainShader);
 
-            TerrainShader.SetUniform("viewMatrix", CameraInstance.Get().ViewMatrix);
+         ///   GetParent().UpdateUniforms(TerrainGrassShader);
+
+             TerrainShader.SetUniform("viewMatrix", CameraInstance.Get().ViewMatrix);
 
             TerrainShader.SetUniform("projectionMatrix", CameraInstance.Get().PespectiveMatrix);
 
             TerrainShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldPos());
-            
+
             TerrainShader.SetUniformf("ScaleY", config.ScaleY);
 
             TerrainShader.SetUniformf("tessellationFactor", config.TessellationFactor);
@@ -161,15 +162,11 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             TerrainGrassShader.Bind();
 
-            TerrainGrassShader.SetUniform("viewMatrix", CameraInstance.Get().ViewMatrix);
-
-            TerrainGrassShader.SetUniform("projectionMatrix", CameraInstance.Get().PespectiveMatrix);
+            GetParent().UpdateUniforms(TerrainGrassShader);
 
             TerrainGrassShader.SetUniformf("ScaleY", config.ScaleY);
 
-
             TerrainGrassShader.SetUniformf("ScaleXZ", config.ScaleXZ);
-            //    TerrainGrassShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldTransform().Position);
 
             GL.ActiveTexture(TextureUnit.Texture0);
 

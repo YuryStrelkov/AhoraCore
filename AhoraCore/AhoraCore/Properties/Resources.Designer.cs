@@ -61,23 +61,12 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на layout(std140) uniform Camera
+        ///   Ищет локализованную строку, похожую на layout(std140) uniform CameraData
         ///{
-        ///	mat4 ViewM;
-        ///	mat4 ProjectionM;
-        ///	float FOV;
-        ///	float Aspect;
-        ///};
-        ///
-        ///vec3 cameraPos()
-        ///{
-        ///return ViewM*vec4(0,0,0,1).xyz;
-        ///}
-        ///
-        ///vec3 cameraLookAt()
-        ///{
-        ///return ViewM*vec4(0,0,1,0).xyz;
-        ///}.
+        ///	mat4 viewMatrix;
+        ///	mat4 projectionMatrix;
+        ///	mat4 tiltMatix;
+        ///};.
         /// </summary>
         internal static string CameraDefinition {
             get {
@@ -130,7 +119,7 @@ namespace AhoraCore.Properties {
         ///
         ///void main(void){
         ///
-        ///	out_Color = vec4(v_Colour*texture(defTexture,v_TexCoord).xyz+albedoColor.xyz*getNormal(),1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
+        ///	out_Color = vec4(v_Colour*texture(defTexture,v_TexCoord).xyz+albedoColor.xyz*getNormal(v_TexCoord),1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
         ///
         ///}.
         /// </summary>
@@ -342,6 +331,9 @@ namespace AhoraCore.Properties {
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330 core
+        ///
+        ///#include MaterialDefinition;
+        ///
         ///out vec4 out_Color;
         ///
         ///in vec3 v_Colour;
@@ -349,13 +341,14 @@ namespace AhoraCore.Properties {
         ///in vec3 v_normal;
         ///in vec3 skyColor;
         ///
-        ///#include MaterialDefinition;
         ///
         ///void main()
         ///{ 
-        ///	out_Color.rgb       =    mix(1.75*getDiffuse().rgb,skyColor,0.5);
+        ///	vec4 color          =  getDiffuse(v_TexCoord);
+        ///	
+        ///	out_Color.rgb       =  mix(1.75*color.rgb,skyColor,0.5);
         ///					     
-        ///    out_Color.a         =  getDiffuse().r;
+        ///    out_Color.a         =  color.r;
         ///}.
         /// </summary>
         internal static string SkyDomeFS {
@@ -371,29 +364,24 @@ namespace AhoraCore.Properties {
         ///layout (location = 1) in vec2 p_texcoord;
         ///layout (location = 2) in vec3 p_normal;
         ///
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///#include TransformDefinition;
+        ///
+        ///
         ///out vec3 v_Colour;
         ///out vec2 v_TexCoord;
         ///out vec3 v_normal;
         ///out vec3 skyColor;
         ///
-        ///layout(std140) uniform TransformData
-        ///{
-        ///	mat4 localTransform;
-        ///	mat4 worldTransform;
-        ///};
-        ///
-        ///#include cameraDefinition;
-        ///
-        ///layout(std140) uniform ShaderData
-        ///{
-        ///  	mat4 projectionMatrix;
-        ///	mat4 viewMatrix;
-        ///	vec4 DomeColor;
-        ///};
-        ///
-        /////const vec3 baseColor=vec3(0.18,0.27,0.47);
+        ///uniform vec4 DomeColor;
         /// 
-        ///vec [остаток строки не уместился]&quot;;.
+        ///vec3 atmosphereDescend(vec3 position, vec4 atm_color)
+        ///{
+        ///return vec3(-0.00022*(position.y-2000)+ atm_color.x,
+        ///			-0.00025*(position.y-2000)+ atm_color.y,
+        ///			-0.00019*(position.y-2000)+  [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string SkyDomeVS {
             get {
@@ -633,21 +621,11 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на layout(std140) uniform TransformData
+        ///   Ищет локализованную строку, похожую на layout(std140)TransformData
         ///{
-        ///	mat4 localTransform;
-        ///	mat4 worldTransform;
-        ///};
-        ///
-        ///vec4 getLocalPos()
-        ///{
-        ///return localTransform*vec4(0,0,0,1);
-        ///}
-        ///
-        ///vec4 getWorldPos()
-        ///{
-        ///return worldTransform*vec4(0,0,0,1);
-        ///}.
+        ///mat4 localTransform;
+        ///mat4 worldTransform;
+        ///}ж.
         /// </summary>
         internal static string TransformDefinition {
             get {

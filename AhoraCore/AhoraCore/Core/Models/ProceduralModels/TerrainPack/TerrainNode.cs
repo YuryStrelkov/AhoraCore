@@ -55,7 +55,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public void RenderGrass()
         {
-
+            //if (lod<3)
+            //{
+            //    return;
+            //}
             if (isLeaf)
             {
 
@@ -63,11 +66,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                 GetParent().TerrainGrassShader.SetUniformf("gap", Gap);
 
-                GetParent().TerrainGrassShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransMat());
-
                 GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
-
-
+                
                 GeometryStorageManager.Data.RenderIteam(grassLodName);
             }
             else
@@ -121,8 +121,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public TerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index) : base(config, location, lod, index)
         {
+
+           /// grassLodName = "grass_lod_" + (lod - 3);
             grassLodName= lod == 6? "grass_lod_0" : "grass_lod_2";
-            grassLodName = lod == 5 ? "grass_lod_1" : "grass_lod_2";
+           grassLodName = lod == 5 ? "grass_lod_1" : "grass_lod_2";
         }
 
     }

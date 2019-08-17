@@ -27,6 +27,7 @@ namespace AhoraCore.Core.CES.ICES
 
         public void UpdateBufferIteam(string ItemName, float[]data)
         {
+            UniformBuffer.Bind();
             UniformBuffer.UpdateBufferIteam(ItemName, data);
         }
 

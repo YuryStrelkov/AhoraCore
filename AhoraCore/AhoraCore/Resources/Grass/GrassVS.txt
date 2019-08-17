@@ -4,15 +4,13 @@ layout(location = 0)in vec3 p_position;
 layout(location = 1)in vec2 p_uv;
 layout(location = 2)in vec3 p_normal;
 
-uniform sampler2D heightMap;
+#include CameraDefinition;
+
+#include TransformDefinition;
 
 uniform mat4 LocTransMatrix;
 
-uniform mat4 WorldTransMatrix;
-
-uniform mat4 projectionMatrix;
-
-uniform mat4 viewMatrix;
+uniform sampler2D heightMap;
 
 uniform  float ScaleY;
 
@@ -29,7 +27,6 @@ out vec3 normal;
 
 void main()
 {	
-
 	uvCoord = p_uv;
 	
 	normal = p_normal.xzy;
@@ -41,6 +38,5 @@ void main()
 	
 	localPos.y=localPos.y*0.05 + verticalShift;
 
-	gl_Position = projectionMatrix * viewMatrix *WorldTransMatrix*(localPos);
-
+	gl_Position = projectionMatrix * viewMatrix *worldTransform*(localPos);
 }

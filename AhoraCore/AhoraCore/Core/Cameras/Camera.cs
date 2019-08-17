@@ -158,7 +158,6 @@ namespace AhoraCore.Core.Cameras
             SetWorldTranslation(GetWorldPos() + 100*offset);
             ViewMatrix = Matrix4.LookAt(GetWorldPos(), GetWorldPos() + LookAt, Vector3.UnitY);
             ViewMatrix.Transpose();
-            uniformBuffer.UniformBuffer.Bind();
             uniformBuffer.UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
             IsUpdated = true;
         }
@@ -178,21 +177,12 @@ namespace AhoraCore.Core.Cameras
                                  (float) Math.Sin(GetWorldRot().Y),
                                  (float)(Math.Cos(GetWorldRot().X) * Math.Cos(GetWorldRot().Y)));
       
-                ViewMatrix = Matrix4.LookAt(GetWorldPos(), GetWorldPos() + LookAt, Vector3.UnitY);
+            ViewMatrix = Matrix4.LookAt(GetWorldPos(), GetWorldPos() + LookAt, Vector3.UnitY);
             ViewMatrix.Transpose();
-            uniformBuffer.UniformBuffer.Bind();
+           
             uniformBuffer.UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
 
             IsUpdated = true;
         }
-
-        public new void UpdateUniforms(AShader shader)
-        {
-            ////transformUniformBuffer.Bind(shader);
-         //   if (IsBuffered)
-            //{
-                uniformBuffer.Bind(shader);
-           // }
-        }
-    }
+     }
 }
