@@ -5,9 +5,9 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
 {
     public abstract class AStandartBuffer<T>
     {
-        int bufferCapasity = 0;//сколько можно добавить
+        int bufferCapasity = 0; // сколько можно добавить
 
-        int bufferFillness = 0; //насколько буфер заполнен
+        int bufferFillness = 0; // насколько буфер заполнен
 
         public string BufferID;
 
