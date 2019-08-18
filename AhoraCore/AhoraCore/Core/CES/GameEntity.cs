@@ -1,55 +1,29 @@
 ﻿using AhoraCore.Core.CES.ICES;
 using OpenTK;
 using System.Collections.Generic;
-using AhoraCore.Core.Shaders;
+using AhoraCore.Core.CES.Components;
+using AhoraCore.Core.Transformations;
 
 namespace AhoraCore.Core.CES
 {
-    public class GameEntity : Node, IGameEntity, IUniformBufferedObject
+    public class GameEntity : Node, IGameEntity
     {
-        private Dictionary<string, AComponent<IGameEntity>> components;
-
-        protected UniformBufferedObject uniformBuffer;
-
-        public string BufferName
-        {
-            get
-            {
-                return uniformBuffer.BufferName;
-            }
-        }
-
-        public bool IsBuffered
-        {
-            get
-            {
-                return uniformBuffer.IsBuffered;
-            }
-        }
+        private Dictionary<ComponentsTypes, AComponent<IGameEntity>> components;
 
         public GameEntity() : base()
         {
-            components = new Dictionary<string, AComponent<IGameEntity>>();
-            uniformBuffer = new UniformBufferedObject();
-        }
-        public GameEntity(string  prefix) : base()
-        {
-            components = new Dictionary<string, AComponent<IGameEntity>>();
-            uniformBuffer = new UniformBufferedObject();
-        }
-        public GameEntity(Vector3 wordPos, Vector3 wordOrient) : base()
-        {
-            WorldTransform.SetRotation(wordOrient);
+            components = new Dictionary<ComponentsTypes, AComponent<IGameEntity>>();
 
-            WorldTransform.SetTranslation(wordPos);
+            AddComponent(ComponentsTypes.ShaderComponent,new ShaderComponent("DefaultShader"));
 
-            components = new Dictionary<string, AComponent<IGameEntity>>();
+            AddComponent(ComponentsTypes.TransformComponent, new TransformComponent());
 
-            uniformBuffer = new UniformBufferedObject();
+            AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("DefaultMaterial"));
 
+            AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("DefaultModel"));
         }
 
-        public void AddComponent(string Key, AComponent<IGameEntity> component)
+        public void AddComponent(ComponentsTypes Key, AComponent<IGameEntity> component)
         {
             if (!components.ContainsKey(Key))
             {
@@ -67,7 +41,7 @@ namespace AhoraCore.Core.CES
 
         public void Update()
         {
-            foreach (string k in components.Keys)
+            foreach (ComponentsTypes k in components.Keys)
             {
                 components[k].Update();
             }
@@ -76,7 +50,7 @@ namespace AhoraCore.Core.CES
 
         public void Input()
         {
-            foreach (string k in components.Keys)
+            foreach (ComponentsTypes k in components.Keys)
             {
                 components[k].Input();
             }
@@ -85,7 +59,7 @@ namespace AhoraCore.Core.CES
 
         public void Enable()
         {
-            foreach (string k in components.Keys)
+            foreach (ComponentsTypes k in components.Keys)
             {
                 components[k].Enable();
             }
@@ -94,7 +68,7 @@ namespace AhoraCore.Core.CES
 
         public void Render()
         {
-            foreach (string k in components.Keys)
+            foreach (ComponentsTypes k in components.Keys)
             {
                 components[k].Render();
             }
@@ -103,7 +77,7 @@ namespace AhoraCore.Core.CES
 
         public void Disable()
         {
-            foreach (string k in components.Keys)
+            foreach (ComponentsTypes k in components.Keys)
             {
                 components[k].Disable();
             }
@@ -112,7 +86,7 @@ namespace AhoraCore.Core.CES
 
         public void Delete()
         {
-            foreach (string k in components.Keys)
+            foreach (ComponentsTypes k in components.Keys)
             {
                 components[k].Delete();
             }
@@ -121,58 +95,136 @@ namespace AhoraCore.Core.CES
 
         public void Clear()
         {
-            foreach (string k in components.Keys)
+            foreach (ComponentsTypes k in components.Keys)
             {
                 components[k].Clear();
             }
             //   base.Delete();
         }
 
-        public void UpdateUniforms(AShader shader)
+         
+
+        public AComponent<IGameEntity> GetComponent(ComponentsTypes Key)
         {
-            Cameras.CameraInstance.Get().uniformBuffer.Bind(shader);
-
-            transformUniformBuffer.Bind(shader);
-
-            if (IsBuffered)
-            {
-              uniformBuffer.Bind(shader);
-            }
+            return components[Key];
         }
 
-        public void ConfirmBuffer()
+        public T GetComponent<T>(ComponentsTypes Key) where T : AComponent<IGameEntity>
         {
-            uniformBuffer.ConfirmBuffer();
+           return (T)components[Key];
         }
 
-        public void ConfirmBuffer(int capacity)
+        public Transform GetLocalTransform()
         {
-            uniformBuffer.ConfirmBuffer(capacity);
+           return GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).LocalTransform;
         }
 
-        public void EnableBuffering(string bufferName)
+        public Transform GetWorldTransform()
         {
-            uniformBuffer.EnableBuffering(bufferName);
+            return GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).WorldTransform;
         }
 
-        public void MarkBuffer(string[] itemNames, int[] itemLengths)
+        public void SetLocalTranslation(float x, float y, float z)
         {
-            uniformBuffer.MarkBuffer(itemNames, itemLengths);
+            GetLocalTransform().SetTranslation(x, y, z);
         }
 
-        public void MarkBufferItem(string itemName, int itemLength)
+        public void SetWorldTranslation(float x, float y, float z)
         {
-            uniformBuffer.MarkBufferItem(itemName, itemLength);
+            GetWorldTransform().SetTranslation(x, y, z);
         }
 
-        public void SetBindigLocation(UniformBindingsLocations location)
+        public void SetLocalTranslation(Vector3 translation)
         {
-            uniformBuffer.SetBindigLocation(location);
+            GetLocalTransform().SetTranslation(translation);
         }
 
-        public void UpdateBufferIteam(string ItemName, float[] data)
+        public void SetWorldTranslation(Vector3 translation)
         {
-            uniformBuffer.UpdateBufferIteam(ItemName, data);
+            GetWorldTransform().SetTranslation(translation);
         }
+        public void SetLocalScale(float x, float y, float z)
+        {
+            GetLocalTransform().SetScaling(x, y, z);
+        }
+
+        public void SetWorldScale(float x, float y, float z)
+        {
+            GetWorldTransform().SetScaling(x, y, z);
+        }
+
+        public void SetLocalScale(Vector3 scale)
+        {
+            GetLocalTransform().SetScaling(scale);
+        }
+
+        public void SetWorldScale(Vector3 scale)
+        {
+            GetWorldTransform().SetScaling(scale);
+        }
+
+        public void SetLocalRotation(float x, float y, float z)
+        {
+            GetLocalTransform().SetRotation(x, y, z);
+        }
+
+        public void SetWorldRotation(float x, float y, float z)
+        {
+            GetWorldTransform().SetRotation(x, y, z);
+        }
+
+        public void SetLocalRotation(Vector3 rotation)
+        {
+            GetLocalTransform().SetRotation(rotation);
+        }
+
+        public void SetWorldRotation(Vector3 rotation)
+        {
+            GetWorldTransform().SetRotation(rotation);
+
+        }
+
+        public Matrix4 GetLocalTransMat()
+        {
+            return GetLocalTransform().GetTransformMat();
+        }
+
+        public Matrix4 GetWorldTransMat()
+        {
+            return GetWorldTransform().GetTransformMat();
+
+        }
+
+        public Vector3 GetLocalPos()
+        {
+            return GetLocalTransform().Position;
+
+        }
+
+        public Vector3 GetWorldPos()
+        {
+            return GetWorldTransform().Position;
+        }
+
+        public Vector3 GetWorldScl()
+        {
+            return GetWorldTransform().Scale;
+        }
+
+        public Vector3 GetLocalScl()
+        {
+            return GetLocalTransform().Scale;
+        }
+
+        public Vector3 GetWorldRot()
+        {
+            return GetWorldTransform().Rotation;
+        }
+
+        public Vector3 GetLocalRot()
+        {
+            return GetLocalTransform().Rotation;
+        }
+
     }
 }

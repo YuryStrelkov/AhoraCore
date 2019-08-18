@@ -1,5 +1,6 @@
 ﻿using AhoraCore.Core.Buffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
+using AhoraCore.Core.Models.ProceduralModels;
 using AhoraProject.Ahora.Core.IRender;
 using System;
 
@@ -14,6 +15,14 @@ namespace AhoraCore.Core.DataManaging
         public static void Initialize()
         {
             geometryData = new GeometryStorageManager();
+
+            FloatBuffer vIco; IntegerBuffer iIco;
+
+            int AttributesMask;
+
+            Icosphere.Create(3, 1, out vIco, out iIco, out AttributesMask);
+
+            Data.AddGeometry(AttributesMask, "DefaultModel", vIco, iIco);
         }
 
         private GeometryStorageManager() : base()

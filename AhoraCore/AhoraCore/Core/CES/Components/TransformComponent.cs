@@ -1,0 +1,207 @@
+﻿using AhoraCore.Core.CES.ICES;
+using AhoraCore.Core.Transformations;
+using AhoraCore.Core.Utils;
+using OpenTK;
+using System;
+
+namespace AhoraCore.Core.CES.Components
+{
+    public class TransformComponent : AComponent<IGameEntity>
+    {
+        public Transform WorldTransform { get; protected set; }
+
+        public Transform LocalTransform { get; protected set; }
+
+        public override void Clear()
+        {
+            UniformBuffer.Clear();
+        }
+
+        public override void Delete()
+        {
+            UniformBuffer.Delete();
+        }
+
+        public override void Disable()
+        {
+            UniformBuffer.Unbind();
+        }
+
+        public override void Enable()
+        {
+            UniformBuffer.Bind();
+        }
+
+        public override void Input()
+        {
+          
+        }
+
+        public override void Render()
+        {
+           Bind(GetParent().GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader);
+        }
+
+        public override void Update()
+        {
+             
+        }
+
+        private void updateLocal()
+        {
+            Enable();
+            UniformBuffer.UpdateBufferIteam("localTransform", MathUtils.ToArray(LocalTransform.GetTransformMat()));
+        }
+
+        private void updateWorld()
+        {
+            Enable();
+            UniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(WorldTransform.GetTransformMat()));
+        }
+
+
+
+        public void SetLocalTranslation(float x, float y, float z)
+        {
+            LocalTransform.SetTranslation(x, y, z);
+            updateLocal();
+        }
+
+        public void SetWorldTranslation(float x, float y, float z)
+        {
+            WorldTransform.SetTranslation(x, y, z);
+            updateWorld();
+        }
+
+        public void SetLocalTranslation(Vector3 translation)
+        {
+            LocalTransform.SetTranslation(translation);
+            updateLocal();
+
+        }
+
+        public void SetWorldTranslation(Vector3 translation)
+        {
+            WorldTransform.SetTranslation(translation);
+            updateWorld();
+
+        }
+
+        public void SetLocalScale(float x, float y, float z)
+        {
+            LocalTransform.SetScaling(x,y,z);
+            updateLocal();
+
+        }
+
+        public void SetWorldScale(float x, float y, float z)
+        {
+            WorldTransform.SetScaling(x,y,z);
+            updateWorld();
+
+        }
+
+        public void SetLocalScale(Vector3 scale)
+        {
+            LocalTransform.SetScaling(scale);
+            updateLocal();
+
+        }
+
+        public void SetWorldScale(Vector3 scale)
+        {
+            WorldTransform.SetScaling(scale);
+            updateWorld();
+
+        }
+
+        public void SetLocalRotation(float x, float y, float z)
+        {
+            LocalTransform.SetRotation(x,y,z);
+            updateLocal();
+
+        }
+
+        public void SetWorldRotation(float x, float y, float z)
+        {
+            WorldTransform.SetRotation(x, y, z);
+            updateWorld();
+
+        }
+
+        public void SetLocalRotation(Vector3 rotation)
+        {
+            LocalTransform.SetRotation(rotation);
+            updateLocal();
+
+        }
+
+        public void SetWorldRotation(Vector3 rotation)
+        {
+            WorldTransform.SetRotation(rotation);
+            updateWorld();
+
+        }
+
+        public Matrix4 GetLocalTransMat()
+        {
+            return LocalTransform.GetTransformMat();
+        }
+
+        public Matrix4 GetWorldTransMat()
+        {
+            return WorldTransform.GetTransformMat();
+        }
+
+        public Vector3 GetLocalPos()
+        {
+            return LocalTransform.Position;
+        }
+
+        public Vector3 GetWorldPos()
+        {
+            return WorldTransform.Position;
+        }
+
+        public Vector3 GetWorldScl()
+        {
+            return WorldTransform.Scale;
+        }
+
+        public Vector3 GetLocalScl()
+        {
+            return LocalTransform.Scale;
+        }
+
+        public Vector3 GetWorldRot()
+        {
+            return WorldTransform.Rotation;
+        }
+
+        public Vector3 GetLocalRot()
+        {
+            return LocalTransform.Rotation;
+        }
+
+
+        public TransformComponent():base()
+        {
+            EnableBuffering("TransformData");
+         
+            MarkBuffer(new string[2] { "localTransform", "worldTransform" }, new int[2] { 16, 16 });
+
+            ConfirmBuffer();
+
+            SetBindigLocation(UniformBindingsLocations.TransformData);
+
+            WorldTransform = new Transform(0, 0, 0);
+
+            LocalTransform = new Transform(0, 0, 0);
+
+            Enable();
+            UniformBuffer.UpdateBufferIteam("localTransform", MathUtils.ToArray(LocalTransform.GetTransformMat()));
+            UniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(WorldTransform.GetTransformMat()));
+            Disable();
+        }
+    }
+}

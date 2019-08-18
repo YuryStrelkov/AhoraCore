@@ -15,9 +15,9 @@ namespace AhoraCore.Core.Shaders
         
          public override void UpdateUniforms()
         {
-            SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
-            SetUniform("transformationMatrix", Matrix4.Identity);
-            SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
+            //SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
+            //SetUniform("transformationMatrix", Matrix4.Identity);
+            //SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
         }
 
         protected override void BindAttributes()
@@ -30,19 +30,19 @@ namespace AhoraCore.Core.Shaders
 
         public override void UpdateUniforms(IGameEntity e)
         {
-            SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
-            SetUniform("transformationMatrix", e.GetWorldTransMat());
-            SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
+       //     SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
+       //     SetUniform("transformationMatrix", e.GetWorldTransMat());
+       //     SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
         }
         
         protected override void BindUniforms()
         {
             
-            AddUniform("transformationMatrix");
-            AddUniform("projectionMatrix");
-            AddUniform("viewMatrix");
+            //AddUniform("transformationMatrix");
+            //AddUniform("projectionMatrix");
+            //AddUniform("viewMatrix");
 
-            AddUniform("defTexture");
+          ///  AddUniform("defTexture");
             AddUniform("diffuseMap");
             AddUniform("normalMap");
             AddUniform("specularMap");

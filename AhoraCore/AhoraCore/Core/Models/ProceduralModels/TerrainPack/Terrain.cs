@@ -82,7 +82,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             CreateGrassLods();
 
-            AddComponent("terrain_qt",new TerrainQuadTree(this,configuration));
+            AddComponent(ComponentsTypes.NodeComponent,new TerrainQuadTree(this,configuration));
         }
 
         public new void Update()

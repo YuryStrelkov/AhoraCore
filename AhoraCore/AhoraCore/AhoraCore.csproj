@@ -78,6 +78,11 @@
     <Compile Include="Core\Cameras\Camera.cs" />
     <Compile Include="Core\Cameras\CameraInstance.cs" />
     <Compile Include="Core\CES\AComponent.cs" />
+    <Compile Include="Core\CES\Components\CameraComponent.cs" />
+    <Compile Include="Core\CES\Components\GeometryComponent.cs" />
+    <Compile Include="Core\CES\Components\MaterialComponent.cs" />
+    <Compile Include="Core\CES\Components\ShaderComponent.cs" />
+    <Compile Include="Core\CES\Components\TransformComponent.cs" />
     <Compile Include="Core\CES\GameEntity.cs" />
     <Compile Include="Core\CES\GameEntityStorrage.cs" />
     <Compile Include="Core\CES\ICES\IBehavoir.cs" />
@@ -224,6 +229,7 @@
   <ItemGroup>
     <None Include="Resources\TransformDefinition.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

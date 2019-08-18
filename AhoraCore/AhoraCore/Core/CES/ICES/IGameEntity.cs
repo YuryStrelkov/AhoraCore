@@ -4,7 +4,9 @@ namespace AhoraCore.Core.CES.ICES
 {
     public interface IGameEntity : IBehavoir, ITransformable
     {
-        void AddComponent(string Key, AComponent<IGameEntity> component);
-        void UpdateUniforms(AShader shader);
+        void AddComponent(ComponentsTypes Key, AComponent<IGameEntity> component);
+        AComponent<IGameEntity> GetComponent(ComponentsTypes Key);
+        T GetComponent<T>(ComponentsTypes Key) where T : AComponent<IGameEntity> ;
+      ///  void UpdateUniforms(AShader shader);
     }
 }

@@ -2,6 +2,7 @@
 using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Shaders;
 using System;
@@ -38,21 +39,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
             Create(3, 1, out vIco, out iIco, out AttributesMask);
 
             GeometryStorageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel", vIco, iIco);
-
-            Create(2, 1, out vIco, out iIco, out AttributesMask);
-
-            GeometryStorageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel0", vIco, iIco);
-
-            Create(1, 1, out vIco, out iIco, out AttributesMask);
-
-            GeometryStorageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel1", vIco, iIco);
-
-
-
-            GameEntityStorrage.Entities.AddItem("SkyDome", new GameEntity());
-
-            GameEntityStorrage.Entities.AddItem("SkyDome0", new GameEntity());
-
+            
             MaterialStorrage.Materials.AddItem("AtmosphereMaterial", new Materials.Material());
 
             TextureStorrage.Textures.AddItem("Clouds", new Materials.Texture(Properties.Resources.Clouds1));
@@ -63,13 +50,17 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetSpecular("Clouds");
 
-            GameEntityStorrage.Entities.GetItem("SkyDome").AddComponent("SkyDomeModel", new Model("SkyDomeModel", "AtmosphereMaterial", "AtmosphereShader"));
+            GameEntity skydome = new GameEntity();
 
-            GameEntityStorrage.Entities.GetItem("SkyDome").SetWorldScale(5000, 5000, 5000);
+            skydome.AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("SkyDomeModel"));
 
-          //  GameEntityStorrage.Entities.GetItem("SkyDome0").AddComponent("SkyDomeModel0", new Model("SkyDomeModel0", "AtmosphereMaterial", "AtmosphereShader"));
+            skydome.AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("AtmosphereMaterial"));
 
-            //GameEntityStorrage.Entities.GetItem("SkyDome0").SetWorldScale(50, 50, 50);
+            skydome.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("AtmosphereShader"));
+
+            skydome.GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).SetWorldScale(5000, 5000, 5000);
+
+            GameEntityStorrage.Entities.AddItem("SkyDome", skydome);
 
         }
 

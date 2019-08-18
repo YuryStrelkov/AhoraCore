@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-    public abstract class ATerrainNode : AComponent<TerrainQuadTree>, IFrustumCulled
+    public abstract class ATerrainNode : AComponent<IGameEntity>, IFrustumCulled
     {
         protected List<TerrainNode> childsNodes;
 

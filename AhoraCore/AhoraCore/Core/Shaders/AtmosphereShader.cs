@@ -12,12 +12,12 @@ namespace AhoraCore.Core.Shaders
 
         public override void UpdateUniforms()
         {
+            SetUniform("DomeColor", new Vector4(0.18f, 0.27f, 0.47f, 1f));
         }
 
         public override void UpdateUniforms(IGameEntity e)
         {
             SetUniform("DomeColor",new Vector4(0.18f, 0.27f, 0.47f, 1f));
-            e.UpdateUniforms(this);
         }
 
         protected override void BindAttributes()

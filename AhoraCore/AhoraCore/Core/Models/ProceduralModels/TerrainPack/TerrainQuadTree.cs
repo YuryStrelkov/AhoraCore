@@ -162,7 +162,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             TerrainGrassShader.Bind();
 
-            GetParent().UpdateUniforms(TerrainGrassShader);
+            ///GetParent().UpdateUniforms(TerrainGrassShader);
 
             TerrainGrassShader.SetUniformf("ScaleY", config.ScaleY);
 
@@ -214,31 +214,31 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public TerrainQuadTree(IGameEntity parent, TerrainConfig config) : base()
         {
 
-            this.config = config;
-            SetParent(parent);
+            //this.config = config;
+            //SetParent(parent);
 
-            TerrainMaterial = MaterialStorrage.Materials.GetItem("DefaultMaterial");
+            //TerrainMaterial = MaterialStorrage.Materials.GetItem("DefaultMaterial");
 
-            TerrainShader = ShaderStorrage.Sahaders.GetItem("TerrainShader");
+            //TerrainShader = ShaderStorrage.Sahaders.GetItem("TerrainShader");
 
-            TerrainGrassShader = ShaderStorrage.Sahaders.GetItem("TerrainGrassShader");
+            //TerrainGrassShader = ShaderStorrage.Sahaders.GetItem("TerrainGrassShader");
 
-            terrainNodes = new List<TerrainNode>(rootNodes * rootNodes);
+            //terrainNodes = new List<TerrainNode>(rootNodes * rootNodes);
 
-            for (int i = 0; i < rootNodes; i++)
-            {
-                for (int j = 0; j < rootNodes; j++)
-                {
-                    terrainNodes.Add(new TerrainNode(config, new Vector2(i * 1.0f / rootNodes, j * 1.0f / rootNodes), 0, new Vector2(i, j)));
-                    terrainNodes[i * rootNodes + j].SetParent(this);
-                }
-            }
+            //for (int i = 0; i < rootNodes; i++)
+            //{
+            //    for (int j = 0; j < rootNodes; j++)
+            //    {
+            //        terrainNodes.Add(new TerrainNode(config, new Vector2(i * 1.0f / rootNodes, j * 1.0f / rootNodes), 0, new Vector2(i, j)));
+            //        terrainNodes[i * rootNodes + j].SetParent(this);
+            //    }
+            //}
 
-            NodePachModel = new PatchBuffer(GeneratePath(), 2);
+            //NodePachModel = new PatchBuffer(GeneratePath(), 2);
 
-            SetWorldScale(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
+            //SetWorldScale(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
 
-            SetWorldTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
+            //SetWorldTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
         }
     }
 }
