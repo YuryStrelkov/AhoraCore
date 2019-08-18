@@ -31,23 +31,23 @@ namespace AhoraCore.Core.Models.ProceduralModels
         {
             Vector3 n;
 
-            n = crossProduct(U,V*2);
+            n = crossProduct(U, V * 2);
 
             n.NormalizeFast();
 
-            buffer.PutDirect(p1 + N_OFFSET, buffer.Pop(p1 + N_OFFSET) -n.X);
-            buffer.PutDirect(p1 + N_OFFSET + 1, buffer.Pop(p1 + N_OFFSET+1) -n.Y);
-            buffer.PutDirect(p1 + N_OFFSET + 2, buffer.Pop(p1 + N_OFFSET+2) -n.Z);
+            buffer.PutDirect(p1 + N_OFFSET,     buffer.Pop(p1 + N_OFFSET) - n.X);
+            buffer.PutDirect(p1 + N_OFFSET + 1, buffer.Pop(p1 + N_OFFSET + 1) - n.Y);
+            buffer.PutDirect(p1 + N_OFFSET + 2, buffer.Pop(p1 + N_OFFSET + 2) - n.Z);
             NormalizeNormal(ref buffer, p1 + N_OFFSET);
 
-            buffer.PutDirect(p2 + N_OFFSET,     buffer.Pop(p2 + N_OFFSET)- n.X);
-            buffer.PutDirect(p2 + N_OFFSET + 1, buffer.Pop(p2 + N_OFFSET+1) - n.Y);
-            buffer.PutDirect(p2 + N_OFFSET + 2, buffer.Pop(p2 + N_OFFSET+2) - n.Z);
+            buffer.PutDirect(p2 + N_OFFSET,     buffer.Pop(p2 + N_OFFSET) - n.X);
+            buffer.PutDirect(p2 + N_OFFSET + 1, buffer.Pop(p2 + N_OFFSET + 1) - n.Y);
+            buffer.PutDirect(p2 + N_OFFSET + 2, buffer.Pop(p2 + N_OFFSET + 2) - n.Z);
             NormalizeNormal(ref buffer, p2 + N_OFFSET);
 
-            buffer.PutDirect(p3 + N_OFFSET, buffer.Pop(p3 + N_OFFSET) -n.X);
-            buffer.PutDirect(p3 + N_OFFSET + 1 ,buffer.Pop(p3 + N_OFFSET+1)  -n.Y);
-            buffer.PutDirect(p3 + N_OFFSET + 2, buffer.Pop(p3 + N_OFFSET+2) -n.Z);
+            buffer.PutDirect(p3 + N_OFFSET,     buffer.Pop(p3 + N_OFFSET) - n.X);
+            buffer.PutDirect(p3 + N_OFFSET + 1, buffer.Pop(p3 + N_OFFSET + 1) - n.Y);
+            buffer.PutDirect(p3 + N_OFFSET + 2, buffer.Pop(p3 + N_OFFSET + 2) - n.Z);
             NormalizeNormal(ref buffer, p3 + N_OFFSET);
         }
 

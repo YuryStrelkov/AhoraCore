@@ -8,7 +8,7 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
         {
             if (Fillnes >= Capacity)
             {
-                EnhanceBuffer((int)(Capacity + 1));
+                EnhanceBuffer(Capacity + 1);
             }
             BufferData[Fillnes] = data;
             Fillnes++;
