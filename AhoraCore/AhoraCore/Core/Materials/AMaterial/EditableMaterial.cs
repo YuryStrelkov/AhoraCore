@@ -71,7 +71,9 @@ namespace AhoraCore.Core.Materials.AMaterial
 
         public override void Bind(AShader bindTarget)
         {
-            materialUniformBuffer.LinkBufferToShder(bindTarget, "MaterialData");
+            materialUniformBuffer.Bind();
+            bindTarget.SetUniformBlock("MaterialData",materialUniformBuffer);
+           /// materialUniformBuffer.LinkBufferToShder(bindTarget, "MaterialData");
             int i = 0;
             foreach (TextureChannels key in textures.Keys)
             {

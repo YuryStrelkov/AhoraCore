@@ -186,6 +186,9 @@ namespace AhoraCore.Core.CES.Components
 
         public TransformComponent():base()
         {
+
+            Component = "TransformData";
+
             EnableBuffering("TransformData");
          
             MarkBuffer(new string[2] { "localTransform", "worldTransform" }, new int[2] { 16, 16 });

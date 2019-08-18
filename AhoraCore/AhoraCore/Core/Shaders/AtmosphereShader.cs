@@ -29,6 +29,11 @@ namespace AhoraCore.Core.Shaders
 
         protected override void BindUniforms()
         {
+
+            AddUniformBlock("CameraData");
+            AddUniformBlock("MaterialData");
+            AddUniformBlock("TransformData");
+
             AddUniform("DomeColor");
             AddUniform("diffuseMap");
             AddUniform("normalMap");

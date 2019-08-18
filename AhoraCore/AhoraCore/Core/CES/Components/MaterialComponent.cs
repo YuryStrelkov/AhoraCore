@@ -46,7 +46,6 @@ namespace AhoraCore.Core.CES.Components
         public override void Render()
         {
             MateriaL.Bind(GetParent().GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader);
-            ///Console.WriteLine("3");
         }
 
         public override void Update()
@@ -55,6 +54,7 @@ namespace AhoraCore.Core.CES.Components
 
         public MaterialComponent(string MaterialID)
         {
+            Component = "MaterialData";
             this.MaterialID = MaterialID;
         }
     }

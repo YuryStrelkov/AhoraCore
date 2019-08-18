@@ -109,62 +109,13 @@ namespace AhoraCore.Core.Shaders
             uniforms.Add(uniform, uniformLocation);
         }
 
-/*
-        protected void EnableBuffering()
-        {
-            IsBuffered = true;
-            UniformBuffer = new UniformsBuffer<string>();
-        }
-*/
-  /*      protected void MarkBuffer(string[] itemName, int[] itemLength)
-        {
-
-            /////
-            ////Добавлять элементы буфера строго в порядке следования ихв шедере    
-            /////
-            if (!IsBuffered)
-            {
-                Console.WriteLine("Buffering is off ...");
-                return;
-            }
-            for (int i=0;i< itemName.Length;i++)
-            {
-                UniformBuffer.addBufferItem(itemName[i], itemLength[i]);
-            }
-        }
-        */
-        /*
-        protected void ConfirmBuffer()
-        {
-            if (!IsBuffered)
-            {
-                Console.WriteLine("Buffering is off ...");
-                return;
-            }
-            UniformBuffer.Create(1);
-           // GL.UseProgram(ShaderID);
-            UniformBuffer.LinkBufferToShder(this, "ShaderData",0);
-            //GL.UseProgram(0);
-            uniforms.Add("ShaderData", UniformBuffer.Uniform_block_index);
-        }
-        */
-        /*protected void AddUniformBuffred(string uniform, int size)
-        {
-            if (!IsBuffered)
-            {
-                Console.WriteLine("Buffering is off ...");
-                return;
-            }
-            UniformBuffer.addBufferItem(uniform, size);
-        }
-        */
         protected void AddUniformBlock(string uniform)
         {
             int uniformLocation = GL.GetUniformBlockIndex(ShaderID, uniform);
            
             if (uniformLocation == -1)
             {
-                Console.WriteLine("ShderID " + ShaderID + " Error: Could not find uniform: " + uniform);
+                Console.WriteLine("ShderID " + ShaderID + " Warrning: Could not find uniform: " + uniform);
             }
             uniforms.Add(uniform, uniformLocation);
         }
@@ -172,9 +123,9 @@ namespace AhoraCore.Core.Shaders
         protected void AddAttribyte(string uniform)
         {
             int uniformLocation = GL.GetAttribLocation(ShaderID, uniform);
-            if (uniformLocation == 0xFFFFFFFF)
+            if (uniformLocation == -1)
             {
-                Console.WriteLine("ShderID " + ShaderID + " Error: Could not find uniform: " + uniform);
+                Console.WriteLine("ShderID " + ShaderID + " Warrning: Could not find attribute: " + uniform);
             }
 
             uniforms.Add(uniform, uniformLocation);
@@ -184,11 +135,6 @@ namespace AhoraCore.Core.Shaders
         public override void Bind()
         {
             GL.UseProgram(ShaderID);
-            /*
-            if (IsBuffered)
-            {
-               UniformBuffer.Bind(this);
-            }*/
             UpdateUniforms();
         }
 
@@ -288,8 +234,7 @@ namespace AhoraCore.Core.Shaders
 
             shaderPrograms.Add(type, LoadShader(code, type));
       }
-
-      
+              
         private int LoadShader(string code, ShaderType type)
         {
             int status_code;
@@ -315,7 +260,15 @@ namespace AhoraCore.Core.Shaders
 
             return programID;
         }
-        
+
+        public void SetUniformBlock(string uniformBlockName, UniformsBuffer<string> block)
+        {
+            block.Bind();
+            GL.Uniform1(uniforms[uniformBlockName], block.Buff_binding_Point);
+            GL.UniformBlockBinding(ShaderID, uniforms[uniformBlockName], block.Buff_binding_Point);
+            GL.BindBufferBase(BufferRangeTarget.UniformBuffer, block.Buff_binding_Point, block.ID);
+        }
+
         public void SetUniformi(string uniformName, int value)
         {
             GL.Uniform1(uniforms[uniformName], value);
@@ -350,7 +303,6 @@ namespace AhoraCore.Core.Shaders
         {
             GL.UniformBlockBinding(ShaderID, uniforms[uniformBlockName], uniformBlockBinding);
         }
-
 
         public AShader()
         {

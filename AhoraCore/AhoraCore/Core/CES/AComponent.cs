@@ -22,6 +22,10 @@ namespace AhoraCore.Core.CES
 
     public abstract class AComponent<ParentType> : UniformBufferedObject,  IBehavoir where ParentType : IGameEntity
     {
+
+
+        public string Component { get; protected set; }
+
         protected ParentType parent;
 
         public abstract void Delete();

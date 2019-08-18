@@ -61,6 +61,7 @@ namespace AhoraCore.Core.CES.Components
 
         public ShaderComponent(string ShaderID) :base()
         {
+            Component = "ShaderData";
             this.ShaderID = ShaderID;
         }
     }

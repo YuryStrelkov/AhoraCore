@@ -1,7 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.IBuffres;
 using AhoraCore.Core.Shaders;
 using OpenTK.Graphics.OpenGL;
-using System;
 using System.Collections.Generic;
 
 namespace AhoraCore.Core.Buffers.UniformsBuffer
@@ -41,23 +40,6 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
 
             bufferItemsMap.Add(name, item);
        }
-
-        public void LinkBufferToShder(AShader shader, string block_name)
-        {
-            GL.BindBuffer(BindingTarget, ID);
-            Uniform_block_index = GL.GetUniformBlockIndex(shader.ShaderID, block_name);
-            GL.UniformBlockBinding(shader.ShaderID, Uniform_block_index, Buff_binding_Point);
-            GL.BindBufferBase(BufferRangeTarget.UniformBuffer, Buff_binding_Point, ID);
-        }
-
-        public void LinkBufferToShder(AShader shader, string block_name, int bindingPoint)
-        {
-            Buff_binding_Point = bindingPoint;
-            GL.BindBuffer(BindingTarget, ID);
-            Uniform_block_index = GL.GetUniformBlockIndex(shader.ShaderID, block_name);
-            GL.UniformBlockBinding(shader.ShaderID, Uniform_block_index, bindingPoint);
-            GL.BindBufferBase(BufferRangeTarget.UniformBuffer, bindingPoint, ID);
-        }
 
         public void UpdateBufferIteam(KeyType bufferItemName, int itemID, float[] data)
         {

@@ -1,5 +1,4 @@
-﻿using AhoraCore.Core.Buffers.IBuffers.BindableObject;
-using AhoraCore.Core.Buffers.UniformsBuffer;
+﻿using AhoraCore.Core.Buffers.UniformsBuffer;
 using AhoraCore.Core.Shaders;
 using System;
 
@@ -100,7 +99,7 @@ namespace AhoraCore.Core.CES.ICES
 
         public void Bind(AShader bindingTarget)
         {
-            UniformBuffer.LinkBufferToShder(bindingTarget, BufferName);
+            bindingTarget.SetUniformBlock(BufferName, UniformBuffer);/// UniformBuffer.LinkBufferToShder(bindingTarget, BufferName);
         }
 
         public UniformBufferedObject()

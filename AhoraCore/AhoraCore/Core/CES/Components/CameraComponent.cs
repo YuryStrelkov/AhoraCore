@@ -7,6 +7,7 @@ namespace AhoraCore.Core.CES.Components
 {
     class CameraComponent : AComponent<IGameEntity>
     {
+       
         public Matrix4 ViewMatrix { get; private set;}
 
         public Matrix4 PespectiveMatrix { get; private set; }
@@ -167,8 +168,9 @@ namespace AhoraCore.Core.CES.Components
             IsUpdated = true;
         }
 
-        public CameraComponent():base()
+        public CameraComponent() : base()
         {
+            Component = "CameraData";
 
             EnableBuffering("CameraData");
 

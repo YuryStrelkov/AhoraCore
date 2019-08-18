@@ -58,7 +58,7 @@ namespace AhoraCore.Core.Cameras
 
         public void Bind(AShader sdr)
         {
-            GetComponent<CameraComponent>(ComponentsTypes.CameraComponent).Bind(sdr);
+            cam.Bind(sdr);
         }
         public void AddRotation(float x, float y)
         {

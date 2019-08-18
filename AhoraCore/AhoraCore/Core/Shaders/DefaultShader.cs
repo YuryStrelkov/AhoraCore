@@ -37,12 +37,18 @@ namespace AhoraCore.Core.Shaders
         
         protected override void BindUniforms()
         {
-            
+
             //AddUniform("transformationMatrix");
             //AddUniform("projectionMatrix");
             //AddUniform("viewMatrix");
 
-          ///  AddUniform("defTexture");
+            ///  AddUniform("defTexture");
+            ///  
+
+            AddUniformBlock("CameraData");
+            AddUniformBlock("MaterialData");
+            AddUniformBlock("TransformData");
+
             AddUniform("diffuseMap");
             AddUniform("normalMap");
             AddUniform("specularMap");
