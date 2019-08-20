@@ -34,7 +34,7 @@ namespace AhoraCore.Core.CES.Components
         public override void Render()
         {
             GeometryStorageManager.Data.RenderIteam(ModelID);
-       }
+        }
 
         public override void Update()
         {

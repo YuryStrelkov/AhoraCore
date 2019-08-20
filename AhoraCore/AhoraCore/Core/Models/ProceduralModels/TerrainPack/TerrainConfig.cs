@@ -35,7 +35,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public float ScaleXZ { get; private set; }
 
-        public int[] LodRanges = new int[8];
+        public float[] LodRanges = new float[8];
 
         public int[] LodMorphingArea = new int[8];
 
@@ -71,9 +71,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             TMaterial = new TerrainMaterial();
 
-            foreach (string line in lines)
+            int i = 0;
+            for (i = 0; i< lines.Length; i++ )
             {
-                string[] lineTokens = line.Split(' ');
+                string[] lineTokens = lines[i].Split(' ');
 
                 if (lineTokens.Length==0)
                 {
@@ -94,10 +95,12 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                     case "TBNRange": TBNRange = float.Parse(lineTokens[1]); break;
 
-                    case "material":;break;
+                    case "material":
+                        i = i + TMaterial.ReadMaterial(i,ref lines); break;
 
-               //     case "texture": TextureStorrage.Textures.AddItem(lineTokens[1], new Texture(lineTokens[2]));//TessellationShift = float.Parse(lineTokens[1]);
-                 ///       break;
+                    case "texture":
+                        TextureStorrage.Textures.AddItem(lineTokens[1], new Texture(lineTokens[2]));//TessellationShift = float.Parse(lineTokens[1]);
+                          break;
 
                     case "HeigthMap":
                         if (lineTokens[1].Equals("true"))
@@ -106,7 +109,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                         }
                         else
                         {
-                            HeightMap = new Texture(Properties.Resources.hm2);
+                            HeightMap = new Texture(Properties.Resources.hm0);
                         }
                         HeightMap.Bind();
                         HeightMap.BilinearFilter();
@@ -117,17 +120,17 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                         ; break;
 
                     case "LodRanges":
-                        for (int i = 0; i < 8; i++)
+                        for (int k = 0; k < 8; k++)
                         {
-                            int val = (int)( float.Parse(lineTokens[i + 1]));
+                            int val = (int)( float.Parse(lineTokens[k + 1]));
                             if (val == 0)
                             {
-                                LodRanges[i] = 0;
-                                LodMorphingArea[i] = 0;
+                                LodRanges[k] = 0;
+                                LodMorphingArea[k] = 0;
                             }
                             else
                             {
-                                setLodRange(i, val);
+                                setLodRange(k, val);
                             }
 
                         }

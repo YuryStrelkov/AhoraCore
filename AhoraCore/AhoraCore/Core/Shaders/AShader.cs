@@ -228,6 +228,12 @@ namespace AhoraCore.Core.Shaders
             includes = new Regex(@"\w*#include TransformDefinition;\w*");
 
             code = includes.Replace(code, Properties.Resources.TransformDefinition);
+
+
+            includes = new Regex(@"\w*#include TerrainSettings;\w*");
+
+            code = includes.Replace(code, Properties.Resources.TerrainDefinition);
+
             Console.Clear();
 
             Console.Write(code);

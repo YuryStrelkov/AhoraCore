@@ -8,7 +8,9 @@ out vec2 mapCoord_GS;
 
 uniform sampler2D heightMap;
 
-uniform  float ScaleY;
+#include TerrainSettings;
+
+//uniform  float ScaleY;
 
 void main()
 {

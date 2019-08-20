@@ -3,6 +3,7 @@ using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Materials;
 using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
@@ -12,7 +13,6 @@ namespace AhoraCore.Core.Models.ProceduralModels
 {
     public class Terrain:GameEntity
     {
-
         private TerrainConfig configuration;
 
         public static void CreateTerrain()
@@ -27,7 +27,6 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             GameEntityStorrage.Entities.AddItem("terrain", t);
         }
-
 
         private Terrain():base()
         {
@@ -79,20 +78,31 @@ namespace AhoraCore.Core.Models.ProceduralModels
             ShaderStorrage.Sahaders.AddItem("TerrainGrassShader", new TerrainGrassShader());
 
             TextureStorrage.Textures.AddItem("GrassTexture", new Texture(Properties.Resources.grass));
-
+          
+            
+            
+             
+            AddComponent(ComponentsTypes.TerrainShader, new ShaderComponent("TerrainShader"));
+            AddComponent(ComponentsTypes.TerrainFloraShader, new ShaderComponent("TerrainGrassShader"));
+            AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("DefaultMaterial"));
+            AddComponent(ComponentsTypes.NodeComponent, new TerrainQuadTree(this, configuration));
+            RemoveComponent(ComponentsTypes.GeometryComponent);
             CreateGrassLods();
 
-            AddComponent(ComponentsTypes.NodeComponent,new TerrainQuadTree(this,configuration));
+
         }
 
         public new void Update()
         {           
              if (CameraInstance.Get().IsUpdated)///only when moved
             {
-                  base.Update();
+                GetComponent(ComponentsTypes.NodeComponent).Update();
             }
         }
-
         
+        public new void Render()
+        {
+            GetComponent(ComponentsTypes.NodeComponent).Render();
+        }
     }
 }

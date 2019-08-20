@@ -84,7 +84,7 @@ namespace AhoraCore
 
             Icosphere.CreateSkyDome(2);
 
-         //   Terrain.CreateTerrain();
+            Terrain.CreateTerrain();
 
             FrameDisplay.Run();
 

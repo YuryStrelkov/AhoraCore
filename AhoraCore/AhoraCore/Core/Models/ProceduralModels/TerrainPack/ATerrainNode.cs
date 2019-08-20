@@ -1,7 +1,6 @@
 ﻿using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.ICES;
-using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
 using AhoraCore.Core.Transformations;
 using OpenTK;
 using System;
@@ -10,7 +9,7 @@ using System.Collections.Generic;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-    public abstract class ATerrainNode : AComponent<IGameEntity>, IFrustumCulled
+    public abstract class ATerrainNode : AComponent<TerrainQuadTree>, IFrustumCulled
     {
         protected List<TerrainNode> childsNodes;
 

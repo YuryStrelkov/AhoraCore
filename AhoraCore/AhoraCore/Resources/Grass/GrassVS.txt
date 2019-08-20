@@ -8,13 +8,11 @@ layout(location = 2)in vec3 p_normal;
 
 #include TransformDefinition;
 
+#include TerrainSettings;
+
 uniform mat4 LocTransMatrix;
 
 uniform sampler2D heightMap;
-
-uniform  float ScaleY;
-
-uniform  float ScaleXZ;
 
 uniform  int lod;
 
@@ -24,13 +22,11 @@ out vec2 uvCoord;
 
 out vec3 normal;
 
-
 void main()
 {	
 	uvCoord = p_uv;
 	
 	normal = p_normal.xzy;
-
 	
     vec4 localPos = LocTransMatrix*vec4(p_position.xzy, 1);
 	

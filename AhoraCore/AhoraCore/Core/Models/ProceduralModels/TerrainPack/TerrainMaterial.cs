@@ -11,19 +11,19 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public void SetGroundDiffuse(string TextID)
         {
             textures.Add(TextureChannels.GroundDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "groundDiffuse");
+            texturesChannelNames.Add(TextureChannels.GroundDiffuse, "groundDiffuse");
         }
 
         public void SetGroundNormal(string TextID)
         {
             textures.Add(TextureChannels.GroundNormal, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "groundNormal");
+            texturesChannelNames.Add(TextureChannels.GroundNormal, "groundNormal");
         }
 
         public void SetGroundDisplacemnt(string TextID)
         {
             textures.Add(TextureChannels.GroundDisplacement, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "groundDisplacement");
+            texturesChannelNames.Add(TextureChannels.GroundDisplacement, "groundDisplacement");
         }
 
 
@@ -31,47 +31,47 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public void SetGrassDiffuse(string TextID)
         {
             textures.Add(TextureChannels.GrassDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "grassDiffuse");
+            texturesChannelNames.Add(TextureChannels.GrassDiffuse, "grassDiffuse");
         }
 
         public void SetGrassNormal(string TextID)
         {
             textures.Add(TextureChannels.GrassNormal, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "grassNormal");
+            texturesChannelNames.Add(TextureChannels.GrassNormal, "grassNormal");
         }
 
         public void SetGrassDisplacemnt(string TextID)
         {
             textures.Add(TextureChannels.GrassDisplacement, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "grassDisplacement");
+            texturesChannelNames.Add(TextureChannels.GrassDisplacement, "grassDisplacement");
         }
 
 
         public void SetRockDiffuse(string TextID)
         {
             textures.Add(TextureChannels.RockDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "rockDiffuse");
+            texturesChannelNames.Add(TextureChannels.RockDiffuse, "rockDiffuse");
         }
 
         public void SetRockNormal(string TextID)
         {
             textures.Add(TextureChannels.RockNormal, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "rockNormal");
+            texturesChannelNames.Add(TextureChannels.RockNormal, "rockNormal");
         }
 
         public void SetRockDisplacemnt(string TextID)
         {
             textures.Add(TextureChannels.RockDisplacement, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "rockDisplacement");
+            texturesChannelNames.Add(TextureChannels.RockDisplacement, "rockDisplacement");
         }
 
 
 
-        private int ReadMaterial(int startLine, ref string[] lines)
+        public int ReadMaterial(int startLine, ref string[] lines)
         {
              float hor_scale = 1, ver_scale = 1;
 
-            if (!lines[startLine + 1].Equals("{"))
+            if (!lines[startLine + 1].Equals("{\r"))
             {
                 Console.WriteLine("Wrong material definition");
                 return startLine + 1;
@@ -109,18 +109,18 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
 
                     case "rockDiffuse":
-                        SetGrassDiffuse(tokens[1]);
+                        SetRockDiffuse(tokens[1]);
                         Textures[TextureChannels.RockDiffuse].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockDiffuse].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
                     case "rockNormal":
-                        SetGrassNormal(tokens[1]);
+                        SetRockNormal(tokens[1]);
                         Textures[TextureChannels.RockNormal].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockNormal].SetMultiply(1, 1, 1, ver_scale);
                         break;
                     case "rockDisplacemnt":
-                        SetGrassDisplacemnt(tokens[1]);
+                        SetRockDisplacemnt(tokens[1]);
                         Textures[TextureChannels.RockDisplacement].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockDisplacement].SetMultiply(1, 1, 1, ver_scale);
                         break;
@@ -128,18 +128,18 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
 
                     case "groundDiffuse":
-                        SetGrassDiffuse(tokens[1]);
+                        SetGroundDiffuse(tokens[1]);
                         Textures[TextureChannels.GroundDiffuse].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundDiffuse].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
                     case "groundNormal":
-                        SetGrassNormal(tokens[1]);
+                        SetGroundNormal(tokens[1]);
                         Textures[TextureChannels.GroundNormal].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundNormal].SetMultiply(1, 1, 1, ver_scale);
                         break;
                     case "groundDisplacemnt":
-                        SetGrassDisplacemnt(tokens[1]);
+                        SetGroundDisplacemnt(tokens[1]);
                         Textures[TextureChannels.GroundDisplacement].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundDisplacement].SetMultiply(1, 1, 1, ver_scale);
                         break;

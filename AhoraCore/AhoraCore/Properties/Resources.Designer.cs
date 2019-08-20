@@ -61,12 +61,16 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на layout(std140) uniform CameraData
+        ///   Ищет локализованную строку, похожую на layout(std140, row_major) uniform CameraData
         ///{
         ///	mat4 viewMatrix;
         ///	mat4 projectionMatrix;
         ///	mat4 tiltMatix;
-        ///};.
+        ///};
+        ///vec3 camPosition()
+        ///{
+        ///return -(transpose(viewMatrix)*vec4(0,0,0,1)).xyz;
+        ///}.
         /// </summary>
         internal static string CameraDefinition {
             get {
@@ -119,7 +123,7 @@ namespace AhoraCore.Properties {
         ///
         ///void main(void){
         ///
-        ///	out_Color = vec4(v_Colour*texture(defTexture,v_TexCoord).xyz+albedoColor.xyz*getNormal(v_TexCoord),1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
+        ///	out_Color = vec4(v_Colour*texture(diffuseMap,v_TexCoord).xyz+albedoColor.xyz*getNormal(v_TexCoord),1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
         ///
         ///}.
         /// </summary>
@@ -188,15 +192,13 @@ namespace AhoraCore.Properties {
         ///layout(location = 1)in vec2 p_uv;
         ///layout(location = 2)in vec3 p_normal;
         ///
-        ///uniform sampler2D heightMap;
+        ///#include CameraDefinition;
+        ///
+        ///#include TransformDefinition;
         ///
         ///uniform mat4 LocTransMatrix;
         ///
-        ///uniform mat4 WorldTransMatrix;
-        ///
-        ///uniform mat4 projectionMatrix;
-        ///
-        ///uniform mat4 viewMatrix;
+        ///uniform sampler2D heightMap;
         ///
         ///uniform  float ScaleY;
         ///
@@ -213,13 +215,12 @@ namespace AhoraCore.Properties {
         ///
         ///void main()
         ///{	
-        ///
         ///	uvCoord = p_uv;
         ///	
         ///	normal = p_normal.xzy;
         ///
         ///	
-        ///    vec4  [остаток строки не уместился]&quot;;.
+        ///    vec4 localPos = LocTransMatrix*vec4(p_po [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string GrassVS {
             get {
@@ -386,6 +387,15 @@ namespace AhoraCore.Properties {
         internal static string SkyDomeVS {
             get {
                 return ResourceManager.GetString("SkyDomeVS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на .
+        /// </summary>
+        internal static string TerrainDefinition {
+            get {
+                return ResourceManager.GetString("TerrainDefinition", resourceCulture);
             }
         }
         
@@ -621,11 +631,11 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на layout(std140)TransformData
+        ///   Ищет локализованную строку, похожую на layout(std140) uniform TransformData
         ///{
         ///mat4 localTransform;
         ///mat4 worldTransform;
-        ///}ж.
+        ///};.
         /// </summary>
         internal static string TransformDefinition {
             get {
@@ -639,29 +649,26 @@ namespace AhoraCore.Properties {
         ///layout (location = 1) in vec2 p_texcoord;
         ///layout (location = 2) in vec3 p_normal;
         ///
-        ///layout(std140) uniform TransformData
-        ///{
-        ///	mat4 localTransform;
-        ///	mat4 worldTransform;
-        ///};
         ///
-        ///layout(std140) uniform ShaderData
-        ///{
-        ///    mat4 projectionMatrix;
-        ///	mat4 viewMatrix;
-        ///};
+        ///#include CameraDefinition;
+        ///
+        ///#include TransformDefinition;
+        ///
         ///
         ///out vec3 v_Colour;
         ///out vec2 v_TexCoord;
         ///out vec3 v_normal;
         ///
         ///
-        ///
         ///void main(){
         ///
         ///    mat4 viewTransform = viewMatrix * worldTransform * localTransform ;
         ///	
-        ///	gl_Position = projection [остаток строки не уместился]&quot;;.
+        ///	gl_Position = projectionMatrix * viewTransform* vec4(p_position,1.0);
+        ///
+        ///	v_normal = (viewTransform*vec4(p_normal,1.0)).xyz;
+        ///
+        ///	 v_TexCoord =  [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string VSdefault {
             get {
