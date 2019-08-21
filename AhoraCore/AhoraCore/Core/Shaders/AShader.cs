@@ -103,7 +103,8 @@ namespace AhoraCore.Core.Shaders
 
             if (uniformLocation == -1)
             {
-                Console.WriteLine("ShderID "+ ShaderID + " Error: Could not find uniform: " + uniform);
+                Console.WriteLine("ShderID "+ ShaderID + " Warrning: Could not find uniform: " + uniform);
+                return;
             }
 
             uniforms.Add(uniform, uniformLocation);
@@ -116,6 +117,7 @@ namespace AhoraCore.Core.Shaders
             if (uniformLocation == -1)
             {
                 Console.WriteLine("ShderID " + ShaderID + " Warrning: Could not find uniform: " + uniform);
+                return;
             }
             uniforms.Add(uniform, uniformLocation);
         }
@@ -126,6 +128,7 @@ namespace AhoraCore.Core.Shaders
             if (uniformLocation == -1)
             {
                 Console.WriteLine("ShderID " + ShaderID + " Warrning: Could not find attribute: " + uniform);
+                return;
             }
 
             uniforms.Add(uniform, uniformLocation);
