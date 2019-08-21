@@ -17,7 +17,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
     // Сделать компонентом
     public class TerrainQuadTree : AComponent<IGameEntity>
     {
-        public Material TerrainMaterial { get; private set; }
+        public TerrainMaterial Terrain_Material { get; private set; }
 
         public AShader TerrainShader { get; private set; }
 
@@ -117,7 +117,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             Bind(TerrainShader);
 
-            TerrainMaterial.Bind(TerrainShader);
+            Terrain_Material.Bind(TerrainShader);
 
             ParentTransform.Bind(TerrainShader);
 
@@ -261,7 +261,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             SetParent(parent);
 
-            TerrainMaterial = GetParent().GetComponent<MaterialComponent>(ComponentsTypes.MaterialComponent).MateriaL;
+            ///Terrain_Material = GetParent().GetComponent<MaterialComponent>(ComponentsTypes.MaterialComponent).MateriaL;
 
             TerrainShader = GetParent().GetComponent<ShaderComponent>(ComponentsTypes.TerrainShader).Shader;
 

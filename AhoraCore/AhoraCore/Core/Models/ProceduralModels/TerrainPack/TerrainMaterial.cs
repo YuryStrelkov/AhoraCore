@@ -4,7 +4,7 @@ using System;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-    class TerrainMaterial:EditableMaterial
+  public   class TerrainMaterial:EditableMaterial
     {
         public static int MAX_TEXTURE_CHANNELS_NUMBER = (int)TextureChannels.TerrainChannelsCount;
 
@@ -26,8 +26,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             texturesChannelNames.Add(TextureChannels.GroundDisplacement, "groundDisplacement");
         }
 
-
-
         public void SetGrassDiffuse(string TextID)
         {
             textures.Add(TextureChannels.GrassDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
@@ -46,7 +44,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             texturesChannelNames.Add(TextureChannels.GrassDisplacement, "grassDisplacement");
         }
 
-
         public void SetRockDiffuse(string TextID)
         {
             textures.Add(TextureChannels.RockDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
@@ -64,8 +61,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             textures.Add(TextureChannels.RockDisplacement, new TextureChannel(0, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.RockDisplacement, "rockDisplacement");
         }
-
-
 
         public int ReadMaterial(int startLine, ref string[] lines)
         {
@@ -154,9 +149,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         }
 
-
-
-
         public TerrainMaterial() : base()
         {
             
@@ -175,8 +167,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 materialUniformBuffer.addBufferItem("channel[" + j + "].offsetUV", 2);
                 materialUniformBuffer.addBufferItem("channel[" + j + "].multRGBA", 4);
             }
-            ///  materialUniformBuffer.packBuffer();
-
 
             materialUniformBuffer.Create(1);///Создаёт один размеченный выше буфер для материала 
 
@@ -185,13 +175,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             materialUniformBuffer.UpdateBufferIteam("ambientColor", DefColor);
             materialUniformBuffer.UpdateBufferIteam("reflectionColor", BlackColor);
 
-            /// TextureChannelData.UpdateBufferIteam("Channel[" + ChannelOffset + "].multRGBA", ChannelOffset * 8 + 4, new float[] { R_mull, G_mull, B_mull, A_mull });//  ("Channel[" + (int)channel + "].multRGBA", );
-            //materialUniformBuffer.UpdateBufferIteam("reflectivity", 0);
-            //materialUniformBuffer.UpdateBufferIteam("metallness", 0);
-            //materialUniformBuffer.UpdateBufferIteam("roughness", 0);
-            //materialUniformBuffer.UpdateBufferIteam("transparency", 0);
-
-            for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
+           for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
             {
                 materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].tileUV", DefUV);
                 materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].offsetUV", DefOffs);

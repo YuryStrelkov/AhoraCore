@@ -34,6 +34,10 @@ namespace AhoraCore.Core.Materials.AMaterial
 
         TerrainChannelsCount = 12
     }
+
+    /// <summary>
+    /// TODO придумать общий интерфейс, который использоваь в качестве способа хранения материала 
+    /// </summary>
     public class EditableMaterial: ABindableObject<AShader>
     {
 
@@ -72,9 +76,11 @@ namespace AhoraCore.Core.Materials.AMaterial
         public override void Bind(AShader bindTarget)
         {
             materialUniformBuffer.Bind();
+
             bindTarget.SetUniformBlock("MaterialData",materialUniformBuffer);
            /// materialUniformBuffer.LinkBufferToShder(bindTarget, "MaterialData");
             int i = 0;
+
             foreach (TextureChannels key in textures.Keys)
             {
                 GL.ActiveTexture(TextureUnit.Texture0 + i);
@@ -109,8 +115,6 @@ namespace AhoraCore.Core.Materials.AMaterial
         public  EditableMaterial()
         {
             Create();
-
-          ///  materialUniformBuffer = new UniformsBuffer<string>(8 * 6);
-        }
+         }
     }
 }

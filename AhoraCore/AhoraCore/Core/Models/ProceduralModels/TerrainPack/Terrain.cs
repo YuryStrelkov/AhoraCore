@@ -78,13 +78,13 @@ namespace AhoraCore.Core.Models.ProceduralModels
             ShaderStorrage.Sahaders.AddItem("TerrainGrassShader", new TerrainGrassShader());
 
             TextureStorrage.Textures.AddItem("GrassTexture", new Texture(Properties.Resources.grass));
-          
-            
+
+            ///MaterialStorrage.Materials.AddItem("TerrainMaterial", new TerrainMaterial());
             
              
             AddComponent(ComponentsTypes.TerrainShader, new ShaderComponent("TerrainShader"));
             AddComponent(ComponentsTypes.TerrainFloraShader, new ShaderComponent("TerrainGrassShader"));
-            AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("DefaultMaterial"));
+            AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("TerrainMaterial"));
             AddComponent(ComponentsTypes.NodeComponent, new TerrainQuadTree(this, configuration));
             RemoveComponent(ComponentsTypes.GeometryComponent);
             CreateGrassLods();

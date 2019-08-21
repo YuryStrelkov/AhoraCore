@@ -19,7 +19,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         private NormalMapRendererShader normalMapRendererShader;
 
-        TerrainMaterial TMaterial;
+        ////TerrainMaterial TMaterial;
         
         private int N;
 
@@ -69,7 +69,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         private void LoadConfig(string[] lines)
         {
 
-            TMaterial = new TerrainMaterial();
+           
 
             int i = 0;
             for (i = 0; i< lines.Length; i++ )
@@ -96,7 +96,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                     case "TBNRange": TBNRange = float.Parse(lineTokens[1]); break;
 
                     case "material":
-                        i = i + TMaterial.ReadMaterial(i,ref lines); break;
+                        TerrainMaterial TMaterial = new TerrainMaterial();
+                        i = i + TMaterial.ReadMaterial(i,ref lines);
+                        ///MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);
+                        break;
 
                     case "texture":
                         TextureStorrage.Textures.AddItem(lineTokens[1], new Texture(lineTokens[2]));//TessellationShift = float.Parse(lineTokens[1]);

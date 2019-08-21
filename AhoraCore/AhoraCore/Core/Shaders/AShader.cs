@@ -234,6 +234,10 @@ namespace AhoraCore.Core.Shaders
 
             code = includes.Replace(code, Properties.Resources.TerrainDefinition);
 
+            includes = new Regex(@"\w*#include TerrainMaterialData;\w*");
+
+            code = includes.Replace(code, Properties.Resources.TerrainMaterialDefinition);
+
             Console.Clear();
 
             Console.Write(code);
