@@ -23,18 +23,11 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public override void UpdateUniforms()
         {
-          /*SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
-            SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
-            SetUniform("WorldTransMatrix", Matrix4.Identity);
-            SetUniform("LocTransMatrix", Matrix4.Identity);*/
+            SetUniform("cameraPosition", Cameras.CameraInstance.Get().GetWorldPos());
         }
 
         public override void UpdateUniforms(IGameEntity e)
         {
-            SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
-            SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
-            SetUniform("WorldTransMatrix", e.GetWorldTransMat());
-            SetUniform("LocTransMatrix", e.GetLocalTransMat());
         }
 
         protected override void BindAttributes()
@@ -44,13 +37,13 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         protected override void BindUniforms()
         {
+
+            AddUniformBlock("CameraData");
+            AddUniformBlock("MaterialData");
+            AddUniformBlock("TransformData");
+            AddUniformBlock("TerrainSettings");
+
             AddUniform("LocTransMatrix");
-
-            AddUniform("WorldTransMatrix");
-
-            AddUniform("projectionMatrix");
-
-            AddUniform("viewMatrix");
 
             AddUniform("index");//gap location ScaleY  index lod_morph_area cameraPosition
 
@@ -60,29 +53,25 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             AddUniform("location");
 
-            AddUniform("ScaleY");
-
-            AddUniform("lod_morph_area");
-
             AddUniform("cameraPosition");
 
-            AddUniform("tessellationFactor");
-
-            AddUniform("tessellationSlope");
-
-            AddUniform("tessellationShift");
-   
-            for (int i = 0; i < 8 ;i++)
-            {
-                AddUniform("lod_morph_area[" + i + "]");
-            }
-
-            AddUniform("diffuseMap");
-            AddUniform("normalMap");
-            AddUniform("specularMap");
             AddUniform("heightMap");
-            AddUniform("reflectGlossMap");
-            AddUniform("transparencyMap");
+            
+            AddUniform("grassDiff");
+            AddUniform("grassNormal");
+            AddUniform("grassDisp");
+            AddUniform("grassSpec");
+
+
+            AddUniform("groundDiff");
+            AddUniform("groundNormal");
+            AddUniform("groundDisp");
+            AddUniform("groundSpec");
+
+            AddUniform("rockDiff");
+            AddUniform("rockNormal");
+            AddUniform("rockDisp");
+            AddUniform("rockSpec");
         }
     }
 }

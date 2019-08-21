@@ -39,6 +39,12 @@ namespace AhoraCore.Core.CES
             }
         }
 
+
+        public void RemoveComponent(ComponentsTypes Key)
+        {
+            components.Remove(Key);
+        }
+
         public void Update()
         {
             foreach (ComponentsTypes k in components.Keys)
@@ -114,116 +120,116 @@ namespace AhoraCore.Core.CES
            return (T)components[Key];
         }
 
-        public Transform GetLocalTransform()
+        public TransformComponent GetLocalTransform()
         {
-           return GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).LocalTransform;
+           return GetComponent<TransformComponent>(ComponentsTypes.TransformComponent);
         }
 
-        public Transform GetWorldTransform()
+        public TransformComponent GetWorldTransform()
         {
-            return GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).WorldTransform;
+            return GetComponent<TransformComponent>(ComponentsTypes.TransformComponent);
         }
 
         public void SetLocalTranslation(float x, float y, float z)
         {
-            GetLocalTransform().SetTranslation(x, y, z);
+            GetLocalTransform().SetLocalTranslation(x, y, z);
         }
 
         public void SetWorldTranslation(float x, float y, float z)
         {
-            GetWorldTransform().SetTranslation(x, y, z);
+            GetWorldTransform().SetWorldTranslation(x, y, z);
         }
 
         public void SetLocalTranslation(Vector3 translation)
         {
-            GetLocalTransform().SetTranslation(translation);
+            GetLocalTransform().SetLocalTranslation(translation);
         }
 
         public void SetWorldTranslation(Vector3 translation)
         {
-            GetWorldTransform().SetTranslation(translation);
+            GetWorldTransform().SetWorldTranslation(translation);
         }
         public void SetLocalScale(float x, float y, float z)
         {
-            GetLocalTransform().SetScaling(x, y, z);
+            GetLocalTransform().SetLocalScale(x, y, z);
         }
 
         public void SetWorldScale(float x, float y, float z)
         {
-            GetWorldTransform().SetScaling(x, y, z);
+            GetWorldTransform().SetWorldScale(x, y, z);
         }
 
         public void SetLocalScale(Vector3 scale)
         {
-            GetLocalTransform().SetScaling(scale);
+            GetLocalTransform().SetLocalScale(scale);
         }
 
         public void SetWorldScale(Vector3 scale)
         {
-            GetWorldTransform().SetScaling(scale);
+            GetWorldTransform().SetWorldScale(scale);
         }
 
         public void SetLocalRotation(float x, float y, float z)
         {
-            GetLocalTransform().SetRotation(x, y, z);
+            GetLocalTransform().SetLocalRotation(x, y, z);
         }
 
         public void SetWorldRotation(float x, float y, float z)
         {
-            GetWorldTransform().SetRotation(x, y, z);
+            GetWorldTransform().SetWorldRotation(x, y, z);
         }
 
         public void SetLocalRotation(Vector3 rotation)
         {
-            GetLocalTransform().SetRotation(rotation);
+            GetLocalTransform().SetLocalRotation(rotation);
         }
 
         public void SetWorldRotation(Vector3 rotation)
         {
-            GetWorldTransform().SetRotation(rotation);
+            GetWorldTransform().SetWorldRotation(rotation);
 
         }
 
         public Matrix4 GetLocalTransMat()
         {
-            return GetLocalTransform().GetTransformMat();
+            return GetLocalTransform().GetLocalTransMat();
         }
 
         public Matrix4 GetWorldTransMat()
         {
-            return GetWorldTransform().GetTransformMat();
+            return GetWorldTransform().GetWorldTransMat();
 
         }
 
         public Vector3 GetLocalPos()
         {
-            return GetLocalTransform().Position;
+            return GetLocalTransform().GetLocalPos();
 
         }
 
         public Vector3 GetWorldPos()
         {
-            return GetWorldTransform().Position;
+            return GetWorldTransform().GetWorldPos();
         }
 
         public Vector3 GetWorldScl()
         {
-            return GetWorldTransform().Scale;
+            return GetWorldTransform().GetWorldScl();
         }
 
         public Vector3 GetLocalScl()
         {
-            return GetLocalTransform().Scale;
+            return GetLocalTransform().GetLocalScl();
         }
 
         public Vector3 GetWorldRot()
         {
-            return GetWorldTransform().Rotation;
+            return GetWorldTransform().GetWorldRot();
         }
 
         public Vector3 GetLocalRot()
         {
-            return GetLocalTransform().Rotation;
+            return GetLocalTransform().GetLocalRot();
         }
 
     }

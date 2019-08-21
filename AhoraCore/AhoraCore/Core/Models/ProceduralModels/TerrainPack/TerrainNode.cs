@@ -24,19 +24,19 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             if (isLeaf)
             {
 
-                //GetParent().TerrainShader.SetUniform("index", Index);
+                 GetParent().TerrainShader.SetUniform("index", Index);
 
-                //GetParent().TerrainShader.SetUniformf("gap", Gap);
+                 GetParent().TerrainShader.SetUniformf("gap", Gap);
 
-                //GetParent().TerrainShader.SetUniformi("lod", Lod);
+                 GetParent().TerrainShader.SetUniformi("lod", Lod);
 
-                //GetParent().TerrainShader.SetUniform("location", Location);
+                 GetParent().TerrainShader.SetUniform("location", Location);
 
-                //GetParent().TerrainShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransMat());
+                /// GetParent().TerrainShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransMat());
 
-                //GetParent().TerrainShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
+                 GetParent().TerrainShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
 
-                //GL.DrawArrays(PrimitiveType.Patches, 0, GetParent().NodePachModel.VerticesNumber);
+                 GL.DrawArrays(PrimitiveType.Patches, 0, GetParent().NodePachModel.VerticesNumber);
             }
             else
             {
@@ -62,11 +62,11 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             if (isLeaf)
             {
 
-                //GetParent().TerrainGrassShader.SetUniformi("lod", Lod);
+                GetParent().TerrainGrassShader.SetUniformi("lod", Lod);
 
-                //GetParent().TerrainGrassShader.SetUniformf("gap", Gap);
+                GetParent().TerrainGrassShader.SetUniformf("gap", Gap);
 
-                //GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
+                GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
                 
                 GeometryStorageManager.Data.RenderIteam(grassLodName);
             }

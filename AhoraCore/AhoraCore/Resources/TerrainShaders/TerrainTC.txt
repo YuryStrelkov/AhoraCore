@@ -6,6 +6,10 @@ in vec2 mapCoord_TC[];
 
 out vec2 mapCoord_TE[];
 
+
+#include TerrainSettings;
+
+
 const int AB=2;
 
 const int BC=3;
@@ -15,11 +19,12 @@ const int CD=0;
 const int DA=1;
 
 
-uniform float tessellationFactor;
+//uniform float tessellationFactor;
 
-uniform float tessellationSlope;
+//uniform float tessellationSlope;
 
-uniform float tessellationShift;
+//uniform float tessellationShift;
+
 
 const int Max_Tess_level=16;
 

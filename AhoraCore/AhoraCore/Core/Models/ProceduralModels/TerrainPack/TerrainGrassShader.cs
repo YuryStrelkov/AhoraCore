@@ -27,10 +27,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public override void UpdateUniforms(IGameEntity e)
         {
-            SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
-            SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
-            SetUniform("WorldTransMatrix", e.GetWorldTransMat());
-            SetUniform("LocTransMatrix", e.GetLocalTransMat());
+       ///     SetUniform("viewMatrix", Cameras.CameraInstance.Get().ViewMatrix);
+         ///   SetUniform("projectionMatrix", Cameras.CameraInstance.Get().PespectiveMatrix);
+          //  SetUniform("WorldTransMatrix", e.GetWorldTransMat());
+        ///    SetUniform("LocTransMatrix", e.GetLocalTransMat());
         }
 
         protected override void BindAttributes()
@@ -43,21 +43,36 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         protected override void BindUniforms()
         {
+
+            AddUniformBlock("CameraData");
+
+            AddUniformBlock("MaterialData");
+
+            AddUniformBlock("TransformData");
+
+            AddUniformBlock("TerrainSettings");
+
+
             AddUniform("LocTransMatrix");
+            //AddUniform("WorldTransMatrix");
 
-            AddUniform("WorldTransMatrix");
+            //AddUniform("projectionMatrix");
 
-            AddUniform("projectionMatrix");
+            //AddUniform("viewMatrix");
 
-            AddUniform("viewMatrix");
+            //AddUniform("ScaleY");
 
-            AddUniform("ScaleY");
+            //AddUniform("ScaleXZ");
 
-            AddUniform("ScaleXZ");
+            AddUniform("index");//gap location ScaleY  index lod_morph_area cameraPosition
+
+            AddUniform("gap");
 
             AddUniform("lod");
 
-            AddUniform("gap");
+            AddUniform("location"); 
+
+            AddUniform("cameraPosition");
 
             AddUniform("diffuseMap");
 

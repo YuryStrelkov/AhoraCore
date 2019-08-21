@@ -1,6 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.SpecificBuffers;
 using System;
 using OpenTK.Graphics.OpenGL;
+using AhoraCore.Core.Buffers.IBuffres;
 
 namespace AhoraCore.Core.Buffers
 {
@@ -72,19 +73,32 @@ namespace AhoraCore.Core.Buffers
         }
 
 
-        public static float[] getBufferDataVBO(ArrayBuffer buffer)
+
+
+
+        public static float[] getBufferData(ArrayBuffer buffer)
         {
             float[] b_data = new float[buffer.VBO.Fillnes];
             buffer.Bind();
             ///buffer.VBO.BindBuffer();
-            GL.GetBufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, buffer.VBO.Fillnes * sizeof(float), b_data);
+            GL.GetBufferSubData(buffer.BindingTarget, (IntPtr)0, buffer.VBO.Fillnes * sizeof(float), b_data);
             return b_data;
 
         }
 
-        public static void displayBufferDataVBO(ArrayBuffer buffer)
+
+        public static void displayBufferData(ABuffer Buffer)
         {
-            float[] data = getBufferDataVBO(buffer);
+            float[] b_data = new float[Buffer.Fillnes];
+            Buffer.Bind();
+            GL.GetBufferSubData(Buffer.BindingTarget, (IntPtr)0, Buffer.Fillnes * sizeof(float), b_data);
+            foreach (float e in b_data) Console.WriteLine(e + " ");
+        }
+
+
+        public static void displayBufferData(ArrayBuffer buffer)
+        {
+            float[] data = getBufferData(buffer);
             foreach (float e in data) Console.WriteLine(e + " ");
         }
 
@@ -93,7 +107,7 @@ namespace AhoraCore.Core.Buffers
             int[] b_data = new int[buffer.IBO.Fillnes];
             buffer.Bind();
             buffer.IBO.Bind();
-            GL.GetBufferSubData(BufferTarget.ElementArrayBuffer, (IntPtr)0, buffer.IBO.Fillnes * sizeof(int), b_data);
+            GL.GetBufferSubData(buffer.BindingTarget, (IntPtr)0, buffer.IBO.Fillnes * sizeof(int), b_data);
             return b_data;
 
         }

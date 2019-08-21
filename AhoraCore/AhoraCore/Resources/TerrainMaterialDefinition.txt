@@ -1,0 +1,126 @@
+////Textures
+const int   GrassDiffID = 0,
+	    	GrassNormalID = 1,
+     		GrassDispID = 2,
+			GrassSpecID = 3,
+			
+			GroundDiffID = 4,
+	    	GroundNormalID = 5,
+     		GroundDispID = 6,
+			GroundSpecID = 7,
+			
+			RockDiffID = 8,
+	    	RockNormalID = 9,
+     		RockDispID = 10,
+			RockSpecID = 11;
+
+struct  channel
+{
+	vec2 tileUV;
+	vec2 offsetUV;
+	vec4 multRGBA;
+};
+
+layout(std140)  uniform MaterialData
+{
+vec4 albedoColor;
+
+vec4 ambientColor;
+
+vec4 reflectionColor;
+
+float reflectivity, metallness, roughness, transparency;
+
+channel[12] matChannels;
+
+};
+
+uniform sampler2D   grassDiff;
+uniform sampler2D   grassNormal;
+uniform sampler2D   grassDisp;
+uniform sampler2D   grassSpec;
+
+
+uniform sampler2D   groundDiff;
+uniform sampler2D   groundNormal;
+uniform sampler2D   groundDisp;
+uniform sampler2D   groundSpec;
+
+
+uniform sampler2D   rockDiff;
+uniform sampler2D   rockNormal;
+uniform sampler2D   rockDisp;
+uniform sampler2D   rockSpec;
+
+vec4 getFromMap(sampler2D map, vec2 v_TexCoord,int t_channel)
+{
+return	texture(map, (v_TexCoord + matChannels[t_channel].offsetUV)*
+                                   matChannels[t_channel].tileUV);
+}
+
+///Grass;
+
+vec3 getGrassNorm( vec2 v_TexCoord)
+{
+	return	normalize(getFromMap(grassNormal, v_TexCoord,GrassNormalID).xyz*2.0-1.0).xyz;
+}
+
+vec4 getGrassDiff( vec2 v_TexCoord)
+{
+	return (getFromMap(grassDiff, v_TexCoord, GrassDiffID));
+}
+
+vec4 getGrassSpec( vec2 v_TexCoord)
+{
+	return	(getFromMap(grassSpec, v_TexCoord, GrassSpecID));
+}
+
+
+vec4 getGrassDisp( vec2 v_TexCoord)
+{
+	return	(getFromMap(grassDisp, v_TexCoord, GrassDispID));
+}
+
+///Ground
+
+vec3 getGroundNorm( vec2 v_TexCoord)
+{
+	return	normalize(getFromMap(groundNormal, v_TexCoord,GroundNormalID).xyz*2.0-1.0).xyz;
+}
+
+vec4 getGroundDiff( vec2 v_TexCoord)
+{
+	return (getFromMap(groundDiff, v_TexCoord, GroundDiffID));
+}
+
+vec4 getGroundSpec( vec2 v_TexCoord)
+{
+	return	(getFromMap(groundSpec, v_TexCoord, GroundSpecID));
+}
+
+vec4 getGroundDisp( vec2 v_TexCoord)
+{
+	return	(getFromMap(groundDisp, v_TexCoord, GroundDispID));
+}
+
+///Rock
+
+vec3 getRockNorm( vec2 v_TexCoord)
+{
+	return	normalize(getFromMap(rockNormal, v_TexCoord,RockNormalID).xyz*2.0-1.0).xyz;
+}
+
+vec4 getRockDiff( vec2 v_TexCoord)
+{
+	return (getFromMap(rockDiff, v_TexCoord, RockDiffID));
+}
+
+vec4 getRockSpec( vec2 v_TexCoord)
+{
+	return	(getFromMap(rockSpec, v_TexCoord, RockSpecID));
+}
+
+vec4 getRockDisp( vec2 v_TexCoord)
+{
+	return	(getFromMap(rockDisp, v_TexCoord, RockDispID));
+}

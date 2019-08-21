@@ -1,14 +1,18 @@
 #version 430
 
+#include TransformDefinition;
+
+#include TerrainSettings;
+
 layout(location = 0)in vec2 p_position;
 
 out vec2 mapCoord_TC;
 
 uniform mat4 LocTransMatrix;
 
-uniform mat4 WorldTransMatrix;
+//uniform mat4 WorldTransMatrix;
 
-uniform  float ScaleY;
+//uniform  float ScaleY;
 
 uniform int lod;
 
@@ -18,7 +22,7 @@ uniform vec2 location;
 
 uniform vec2 index;
 
-uniform int lod_morph_area[8];
+//uniform int lod_morph_area[8];
 
 uniform vec3 cameraPosition;
 
@@ -77,7 +81,7 @@ float morphLongitude(vec2 position) {
 	}
 	return 0;
 }
-vec2 Morphing(vec2 localPosition, int morph_area){
+vec2 Morphing(vec2 localPosition, float morph_area){
 	
 	vec2 morphing = vec2(0,0);
 	
@@ -114,9 +118,9 @@ vec2 Morphing(vec2 localPosition, int morph_area){
 		planarFactor = cameraPosition.y/ abs(ScaleY);
 	}
 		
-	distLatitude = length(cameraPosition - (WorldTransMatrix * 
+	distLatitude = length(cameraPosition - (worldTransform * 
 					vec4(fixPointLatitude.x,planarFactor,fixPointLatitude.y,1)).xyz);
-	distLongitude = length(cameraPosition - (WorldTransMatrix * 
+	distLongitude = length(cameraPosition - (worldTransform * 
 					vec4(fixPointLongitude.x,planarFactor,fixPointLongitude.y,1)).xyz);
 					
 	if (distLatitude > morph_area)
@@ -130,13 +134,23 @@ vec2 Morphing(vec2 localPosition, int morph_area){
 
 void main()
 {
+	
+	float [8] lods;
+	lods[0]= 1750;
+	lods[1]= 874;
+	lods[2]=386;
+	lods[3]= 192;
+	lods[4]= 100;
+	lods[5]= 50;
+	lods[6]= 0;
+	lods[7]=0; 
 	vec2 localPos = (LocTransMatrix*vec4(p_position.x, 0 , p_position.y, 1)).xz;	
 
 	if(lod > 0)
 	{
-	 localPos += Morphing(localPos, lod_morph_area[lod-1]);
+	 localPos += Morphing(localPos,lods[lod-1]);////lod_morph_area[lod-1]);
 	}
 	mapCoord_TC = localPos;
 	
-	gl_Position =  WorldTransMatrix * vec4(localPos.x, texture(heightMap,localPos).r,  localPos.y, 1);
+	gl_Position =  worldTransform * vec4(localPos.x, texture(heightMap,localPos).r,  localPos.y, 1);
 }

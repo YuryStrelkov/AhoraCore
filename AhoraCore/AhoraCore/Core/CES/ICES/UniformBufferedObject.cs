@@ -12,8 +12,9 @@ namespace AhoraCore.Core.CES.ICES
         TransformData = 2,
         ComponentData = 3,
         GameEntityData = 4,
-        CameraData = 3,
-        LightData = 7
+        CameraData = 5,
+        LightData = 7,
+        TerrainSettings = 8
     }
 
     public class UniformBufferedObject : IUniformBufferedObject

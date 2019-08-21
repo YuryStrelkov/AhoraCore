@@ -2,6 +2,7 @@
 using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Materials;
@@ -16,13 +17,15 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
     // Сделать компонентом
     public class TerrainQuadTree : AComponent<IGameEntity>
     {
-        public Material TerrainMaterial { get; private set; }
+        public TerrainMaterial Terrain_Material { get; private set; }
 
         public AShader TerrainShader { get; private set; }
 
         public AShader TerrainGrassShader { get; private set; }
 
         public PatchBuffer NodePachModel { get; private set; }
+
+        TransformComponent ParentTransform;
 
         private static int rootNodes = 8;
 
@@ -101,8 +104,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public override void Render()
         {
            drawTerrain();
-           drawGrass();
-         //   drawTrees();
+           //drawGrass();
+           drawTrees();
         }
 
 
@@ -110,32 +113,15 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             TerrainShader.Bind();
 
+            CameraInstance.Get().Bind(TerrainShader);
 
-         ///   GetParent().UpdateUniforms(TerrainGrassShader);
+            Bind(TerrainShader);
 
-             TerrainShader.SetUniform("viewMatrix", CameraInstance.Get().ViewMatrix);
+            Terrain_Material.Bind(TerrainShader);
 
-            TerrainShader.SetUniform("projectionMatrix", CameraInstance.Get().PespectiveMatrix);
+            ParentTransform.Bind(TerrainShader);
 
             TerrainShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldPos());
-
-            TerrainShader.SetUniformf("ScaleY", config.ScaleY);
-
-            TerrainShader.SetUniformf("tessellationFactor", config.TessellationFactor);
-
-            TerrainShader.SetUniformf("tessellationSlope", config.TessellationSlope);
-
-            TerrainShader.SetUniformf("tessellationShift", config.TessellationShift);
-
-
-            TerrainShader.SetUniformi("lod_morph_area[" + 0 + "]", config.LodRanges[0]);
-            TerrainShader.SetUniformi("lod_morph_area[" + 1 + "]", config.LodRanges[1]);
-            TerrainShader.SetUniformi("lod_morph_area[" + 2 + "]", config.LodRanges[2]);
-            TerrainShader.SetUniformi("lod_morph_area[" + 3 + "]", config.LodRanges[3]);
-            TerrainShader.SetUniformi("lod_morph_area[" + 4 + "]", config.LodRanges[4]);
-            TerrainShader.SetUniformi("lod_morph_area[" + 5 + "]", config.LodRanges[5]);
-            TerrainShader.SetUniformi("lod_morph_area[" + 6 + "]", config.LodRanges[6]);
-            TerrainShader.SetUniformi("lod_morph_area[" + 7 + "]", config.LodRanges[7]);
 
             GL.ActiveTexture(TextureUnit.Texture0);
             config.HeightMap.Bind();
@@ -160,13 +146,17 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         private void drawGrass()
         {
+
             TerrainGrassShader.Bind();
 
-            ///GetParent().UpdateUniforms(TerrainGrassShader);
+            Bind(TerrainGrassShader);
 
-            TerrainGrassShader.SetUniformf("ScaleY", config.ScaleY);
+            CameraInstance.Get().Bind(TerrainGrassShader);
 
-            TerrainGrassShader.SetUniformf("ScaleXZ", config.ScaleXZ);
+            ParentTransform.Bind(TerrainGrassShader);
+
+            // TerrainMaterial.Bind(TerrainGrassShader);
+
 
             GL.ActiveTexture(TextureUnit.Texture0);
 
@@ -213,32 +203,91 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public TerrainQuadTree(IGameEntity parent, TerrainConfig config) : base()
         {
+            Component = "TerrainQTree";
+            
+            #region Terrain settings unifrom buffer
+            EnableBuffering("TerrainSettings");
+   
+            MarkBufferItem("ScaleY", 1);
+            MarkBufferItem("ScaleXZ", 1);
+            MarkBufferItem("tessellationFactor", 1);
+            MarkBufferItem("tessellationSlope", 1);
+            MarkBufferItem("tessellationShift", 1);
+            MarkBufferItem("TBNrange", 1);
+            MarkBufferItem("lod_morph_area", 8);
+            //MarkBufferItem("lod_morph_area[" + 0 + "]", 1);
+            //MarkBufferItem("lod_morph_area[" + 1 + "]", 1);
+            //MarkBufferItem("lod_morph_area[" + 2 + "]", 1);
+            //MarkBufferItem("lod_morph_area[" + 3 + "]", 1);
+            //MarkBufferItem("lod_morph_area[" + 4 + "]", 1);
+            //MarkBufferItem("lod_morph_area[" + 5 + "]", 1);
+            //MarkBufferItem("lod_morph_area[" + 6 + "]", 1);
+            //MarkBufferItem("lod_morph_area[" + 7 + "]", 1);
 
-            //this.config = config;
-            //SetParent(parent);
+            ConfirmBuffer();
 
-            //TerrainMaterial = MaterialStorrage.Materials.GetItem("DefaultMaterial");
+            SetBindigLocation(UniformBindingsLocations.TerrainSettings);
 
-            //TerrainShader = ShaderStorrage.Sahaders.GetItem("TerrainShader");
+            UniformBuffer.Bind();
 
-            //TerrainGrassShader = ShaderStorrage.Sahaders.GetItem("TerrainGrassShader");
+            UniformBuffer.UpdateBufferIteam("ScaleY",  config.ScaleY);
 
-            //terrainNodes = new List<TerrainNode>(rootNodes * rootNodes);
+            UniformBuffer.UpdateBufferIteam("ScaleXZ", config.ScaleXZ);
 
-            //for (int i = 0; i < rootNodes; i++)
-            //{
-            //    for (int j = 0; j < rootNodes; j++)
-            //    {
-            //        terrainNodes.Add(new TerrainNode(config, new Vector2(i * 1.0f / rootNodes, j * 1.0f / rootNodes), 0, new Vector2(i, j)));
-            //        terrainNodes[i * rootNodes + j].SetParent(this);
-            //    }
-            //}
+            UniformBuffer.UpdateBufferIteam("tessellationFactor", config.TessellationFactor);
 
-            //NodePachModel = new PatchBuffer(GeneratePath(), 2);
+            UniformBuffer.UpdateBufferIteam("tessellationSlope",  config.TessellationSlope);
 
-            //SetWorldScale(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
+            UniformBuffer.UpdateBufferIteam("tessellationShift",  config.TessellationShift);
 
-            //SetWorldTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
+            UniformBuffer.UpdateBufferIteam("TBNrange", config.TBNRange);
+
+            UniformBuffer.UpdateBufferIteam("lod_morph_area", config.LodRanges);
+
+            //DebugBuffers.displayBufferData(UniformBuffer);
+            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 0 + "]", config.LodRanges[0]);
+            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 1 + "]", config.LodRanges[1]);
+            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 2 + "]", config.LodRanges[2]);
+            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 3 + "]", config.LodRanges[3]);
+            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 4 + "]", config.LodRanges[4]);
+            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 5 + "]", config.LodRanges[5]);
+            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 6 + "]", config.LodRanges[6]);
+            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 7 + "]", config.LodRanges[7]);
+            UniformBuffer.Unbind();
+
+            #endregion
+
+            this.config = config;
+
+            SetParent(parent);
+
+            ///Terrain_Material = GetParent().GetComponent<MaterialComponent>(ComponentsTypes.MaterialComponent).MateriaL;
+
+            TerrainShader = GetParent().GetComponent<ShaderComponent>(ComponentsTypes.TerrainShader).Shader;
+
+            TerrainGrassShader = GetParent().GetComponent<ShaderComponent>(ComponentsTypes.TerrainFloraShader).Shader;
+
+            ParentTransform = GetParent().GetComponent<TransformComponent>(ComponentsTypes.TransformComponent);
+
+
+            terrainNodes = new List<TerrainNode>(rootNodes * rootNodes);
+
+            for (int i = 0; i < rootNodes; i++)
+            {
+                for (int j = 0; j < rootNodes; j++)
+                {
+                    terrainNodes.Add(new TerrainNode(config, new Vector2(i * 1.0f / rootNodes, j * 1.0f / rootNodes), 0, new Vector2(i, j)));
+                    terrainNodes[i * rootNodes + j].SetParent(this);
+                }
+            }
+
+            NodePachModel = new PatchBuffer(GeneratePath(), 2);
+
+            GetParent().SetWorldScale(config.ScaleXZ, config.ScaleY, config.ScaleXZ);
+
+            GetParent().SetWorldTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
+
+       
         }
     }
 }
