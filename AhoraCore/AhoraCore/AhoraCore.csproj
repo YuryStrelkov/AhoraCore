@@ -101,8 +101,8 @@
     <Compile Include="Core\DataManaging\AManager.cs" />
     <Compile Include="Core\Input\KeysInput.cs" />
     <Compile Include="Core\Input\MouseInput.cs" />
-    <Compile Include="Core\Materials\AMaterial\EditableMaterial.cs" />
-    <Compile Include="Core\Materials\AMaterial\ATextureChannel.cs" />
+    <Compile Include="Core\Materials\AbstractMaterial\AMaterial.cs" />
+    <Compile Include="Core\Materials\AbstractMaterial\ATextureChannel.cs" />
     <Compile Include="Core\Materials\GpuGpu\NormalMapRendererShader.cs" />
     <Compile Include="Core\Materials\Material.cs" />
     <Compile Include="Core\Materials\Texture.cs" />

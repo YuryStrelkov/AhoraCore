@@ -1,7 +1,6 @@
-﻿using AhoraCore.Core.Materials.AMaterial;
-using AhoraCore.Core.Buffers.UniformsBuffer;
+﻿using AhoraCore.Core.Buffers.UniformsBuffer;
 
-namespace AhoraCore.Core.Materials
+namespace AhoraCore.Core.Materials.AbstractMaterial
 {
     public class TextureChannel : ATextureChannel<string>
     {

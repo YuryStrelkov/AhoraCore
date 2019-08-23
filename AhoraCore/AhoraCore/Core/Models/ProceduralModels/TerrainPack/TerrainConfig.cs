@@ -4,7 +4,6 @@ using System.IO;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.Materials.GpuGpu;
 using AhoraCore.Core.Buffers.DataStorraging;
-using AhoraCore.Core.Materials.AMaterial;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {

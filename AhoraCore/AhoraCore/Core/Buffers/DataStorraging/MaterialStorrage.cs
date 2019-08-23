@@ -1,5 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
 using AhoraCore.Core.Materials;
+using AhoraCore.Core.Materials.AbstractMaterial;
 
 namespace AhoraCore.Core.Buffers.DataStorraging
 {
@@ -22,9 +23,9 @@ namespace AhoraCore.Core.Buffers.DataStorraging
         private MaterialStorrage():base()
         {
             AddItem("DefaultMaterial", new Material());
-            GetItem("DefaultMaterial").SetDiffuse("DefaultTexture");
-            GetItem("DefaultMaterial").SetNormals("DefaultTexture");
-            GetItem("DefaultMaterial").SetSpecular("DefaultTexture");
+            GetItem("DefaultMaterial").AssignTexture2Channel("DefaultTexture",TextureChannels.Diffuse);//   SetDiffuse();
+            GetItem("DefaultMaterial").AssignTexture2Channel("DefaultTexture", TextureChannels.Normal); ;
+            GetItem("DefaultMaterial").AssignTexture2Channel("DefaultTexture", TextureChannels.Specular); ;
         }
 
         public override void ClearIteamData(string ID)

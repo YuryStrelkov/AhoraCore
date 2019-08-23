@@ -4,6 +4,7 @@ using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.DataManaging;
+using AhoraCore.Core.Materials.AbstractMaterial;
 using AhoraCore.Core.Shaders;
 using System;
 using System.Collections.Generic;
@@ -44,11 +45,11 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             TextureStorrage.Textures.AddItem("Clouds", new Materials.Texture(Properties.Resources.Clouds1));
 
-            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetDiffuse("Clouds");
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").AssignTexture2Channel("Clouds", TextureChannels.Diffuse);
 
-            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetNormals("Clouds");
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").AssignTexture2Channel("Clouds", TextureChannels.Normal);
 
-            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").SetSpecular("Clouds");
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").AssignTexture2Channel("Clouds", TextureChannels.Specular);
 
             GameEntity skydome = new GameEntity();
 

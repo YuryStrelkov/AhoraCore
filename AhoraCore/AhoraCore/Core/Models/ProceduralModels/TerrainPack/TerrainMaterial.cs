@@ -1,14 +1,14 @@
 ﻿using AhoraCore.Core.Materials;
-using AhoraCore.Core.Materials.AMaterial;
+using AhoraCore.Core.Materials.AbstractMaterial;
 using System;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-  public   class TerrainMaterial:EditableMaterial
+  public   class TerrainMaterial:AMaterial
     {
         public static int MAX_TEXTURE_CHANNELS_NUMBER = (int)TextureChannels.TerrainChannelsCount;
 
-        public void SetGroundDiffuse(string TextID)
+        /*public void SetGroundDiffuse(string TextID)
         {
             textures.Add(TextureChannels.GroundDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.GroundDiffuse, "groundDiffuse");
@@ -60,9 +60,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             textures.Add(TextureChannels.RockDisplacement, new TextureChannel(0, TextID, ref materialUniformBuffer));
             texturesChannelNames.Add(TextureChannels.RockDisplacement, "rockDisplacement");
-        }
+        }*/
 
-        public int ReadMaterial(int startLine, ref string[] lines)
+        public override int ReadMaterial(int startLine, ref string[] lines)
         {
              float hor_scale = 1, ver_scale = 1;
 
@@ -86,36 +86,36 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
 
                     case "grassDiffuse":
-                        SetGrassDiffuse(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.GrassDiffuse);
                         Textures[TextureChannels.GrassDiffuse].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GrassDiffuse].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
                     case "grassNormal":
-                        SetGrassNormal(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.GrassNormal);
                         Textures[TextureChannels.GrassNormal].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GrassNormal].SetMultiply(1, 1, 1, ver_scale);
                         break;
                     case "grassDisplacemnt":
-                        SetGrassDisplacemnt(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.GrassDisplacement);
                         Textures[TextureChannels.GrassDisplacement].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GrassDisplacement].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
 
                     case "rockDiffuse":
-                        SetRockDiffuse(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.RockDiffuse);
                         Textures[TextureChannels.RockDiffuse].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockDiffuse].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
                     case "rockNormal":
-                        SetRockNormal(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.RockNormal);
                         Textures[TextureChannels.RockNormal].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockNormal].SetMultiply(1, 1, 1, ver_scale);
                         break;
                     case "rockDisplacemnt":
-                        SetRockDisplacemnt(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.RockDisplacement);
                         Textures[TextureChannels.RockDisplacement].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockDisplacement].SetMultiply(1, 1, 1, ver_scale);
                         break;
@@ -123,18 +123,18 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
 
                     case "groundDiffuse":
-                        SetGroundDiffuse(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.GroundDiffuse);
                         Textures[TextureChannels.GroundDiffuse].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundDiffuse].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
                     case "groundNormal":
-                        SetGroundNormal(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.GroundNormal);
                         Textures[TextureChannels.GroundNormal].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundNormal].SetMultiply(1, 1, 1, ver_scale);
                         break;
                     case "groundDisplacemnt":
-                        SetGroundDisplacemnt(tokens[1]);
+                        AssignTexture2Channel(tokens[1], TextureChannels.GroundDisplacement);
                         Textures[TextureChannels.GroundDisplacement].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundDisplacement].SetMultiply(1, 1, 1, ver_scale);
                         break;
@@ -148,10 +148,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             return i + 2;
 
         }
-
-        public TerrainMaterial() : base()
+ 
+        public override void InitMaterial()
         {
-            
             materialUniformBuffer.addBufferItem("albedoColor", 4);
             materialUniformBuffer.addBufferItem("ambientColor", 4);
             materialUniformBuffer.addBufferItem("reflectionColor", 4);
@@ -175,12 +174,13 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             materialUniformBuffer.UpdateBufferIteam("ambientColor", DefColor);
             materialUniformBuffer.UpdateBufferIteam("reflectionColor", BlackColor);
 
-           for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
+            for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
             {
                 materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].tileUV", DefUV);
                 materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].offsetUV", DefOffs);
                 materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].multRGBA", DefMult);
             }
         }
+ 
     }
 }
