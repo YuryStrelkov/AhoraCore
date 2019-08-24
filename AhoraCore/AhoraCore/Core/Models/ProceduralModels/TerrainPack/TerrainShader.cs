@@ -1,6 +1,7 @@
 ﻿using AhoraCore.Core.Shaders;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.CES.ICES;
+using AhoraCore.Core.Materials.AbstractMaterial;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
@@ -56,22 +57,25 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             AddUniform("cameraPosition");
 
             AddUniform("heightMap");
-            
-            AddUniform("grassDiff");
-            AddUniform("grassNormal");
-            AddUniform("grassDisp");
-            AddUniform("grassSpec");
+
+            AddUniform("normalMap");
+
+            AddUniform(TextureShaderChannels.GroundDiffuse);
+            AddUniform(TextureShaderChannels.GroundNormal);
+            AddUniform(TextureShaderChannels.GroundDisplacement);
+            AddUniform(TextureShaderChannels.GroundReflectGloss);
+
+            AddUniform(TextureShaderChannels.RockDiffuse);
+            AddUniform(TextureShaderChannels.RockNormal);
+            AddUniform(TextureShaderChannels.RockDisplacement);
+            AddUniform(TextureShaderChannels.RockReflectGloss);
 
 
-            AddUniform("groundDiff");
-            AddUniform("groundNormal");
-            AddUniform("groundDisp");
-            AddUniform("groundSpec");
+            AddUniform(TextureShaderChannels.GrassDiffuse);
+            AddUniform(TextureShaderChannels.GrassNormal);
+            AddUniform(TextureShaderChannels.GrassDisplacement);
+            AddUniform(TextureShaderChannels.GrassReflectGloss);
 
-            AddUniform("rockDiff");
-            AddUniform("rockNormal");
-            AddUniform("rockDisp");
-            AddUniform("rockSpec");
         }
     }
 }

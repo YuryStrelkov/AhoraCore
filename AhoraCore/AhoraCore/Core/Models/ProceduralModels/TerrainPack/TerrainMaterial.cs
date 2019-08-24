@@ -1,5 +1,4 @@
-﻿using AhoraCore.Core.Materials;
-using AhoraCore.Core.Materials.AbstractMaterial;
+﻿using AhoraCore.Core.Materials.AbstractMaterial;
 using System;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
@@ -62,6 +61,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             texturesChannelNames.Add(TextureChannels.RockDisplacement, "rockDisplacement");
         }*/
 
+
         public override int ReadMaterial(int startLine, ref string[] lines)
         {
              float hor_scale = 1, ver_scale = 1;
@@ -86,36 +86,36 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
 
                     case "grassDiffuse":
-                        AssignTexture2Channel(tokens[1], TextureChannels.GrassDiffuse);
+                        AssignTexture2Channel(TextureShaderChannels.GrassDiffuse, TextureChannels.GrassDiffuse);
                         Textures[TextureChannels.GrassDiffuse].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GrassDiffuse].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
                     case "grassNormal":
-                        AssignTexture2Channel(tokens[1], TextureChannels.GrassNormal);
+                        AssignTexture2Channel(TextureShaderChannels.GrassNormal, TextureChannels.GrassNormal);
                         Textures[TextureChannels.GrassNormal].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GrassNormal].SetMultiply(1, 1, 1, ver_scale);
                         break;
                     case "grassDisplacemnt":
-                        AssignTexture2Channel(tokens[1], TextureChannels.GrassDisplacement);
+                        AssignTexture2Channel(TextureShaderChannels.GrassDisplacement, TextureChannels.GrassDisplacement);
                         Textures[TextureChannels.GrassDisplacement].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GrassDisplacement].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
 
                     case "rockDiffuse":
-                        AssignTexture2Channel(tokens[1], TextureChannels.RockDiffuse);
+                        AssignTexture2Channel(TextureShaderChannels.RockDiffuse, TextureChannels.RockDiffuse);
                         Textures[TextureChannels.RockDiffuse].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockDiffuse].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
                     case "rockNormal":
-                        AssignTexture2Channel(tokens[1], TextureChannels.RockNormal);
+                        AssignTexture2Channel(TextureShaderChannels.RockNormal, TextureChannels.RockNormal);
                         Textures[TextureChannels.RockNormal].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockNormal].SetMultiply(1, 1, 1, ver_scale);
                         break;
                     case "rockDisplacemnt":
-                        AssignTexture2Channel(tokens[1], TextureChannels.RockDisplacement);
+                        AssignTexture2Channel(TextureShaderChannels.RockDisplacement, TextureChannels.RockDisplacement);
                         Textures[TextureChannels.RockDisplacement].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.RockDisplacement].SetMultiply(1, 1, 1, ver_scale);
                         break;
@@ -123,18 +123,18 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
 
                     case "groundDiffuse":
-                        AssignTexture2Channel(tokens[1], TextureChannels.GroundDiffuse);
+                        AssignTexture2Channel(TextureShaderChannels.GroundDiffuse,TextureChannels.GroundDiffuse);
                         Textures[TextureChannels.GroundDiffuse].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundDiffuse].SetMultiply(1, 1, 1, ver_scale);
                         break;
 
                     case "groundNormal":
-                        AssignTexture2Channel(tokens[1], TextureChannels.GroundNormal);
+                        AssignTexture2Channel(TextureShaderChannels.GroundNormal, TextureChannels.GroundNormal);
                         Textures[TextureChannels.GroundNormal].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundNormal].SetMultiply(1, 1, 1, ver_scale);
                         break;
                     case "groundDisplacemnt":
-                        AssignTexture2Channel(tokens[1], TextureChannels.GroundDisplacement);
+                        AssignTexture2Channel(TextureShaderChannels.GroundDisplacement, TextureChannels.GroundDisplacement);
                         Textures[TextureChannels.GroundDisplacement].SetTile(hor_scale, hor_scale);
                         Textures[TextureChannels.GroundDisplacement].SetMultiply(1, 1, 1, ver_scale);
                         break;
@@ -143,7 +143,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 i++;
             }
 
-            while (!lines[i + 1].Equals("}"));
+            while (!lines[i].Equals("}"));
 
             return i + 2;
 

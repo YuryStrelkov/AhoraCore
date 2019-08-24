@@ -281,40 +281,44 @@ namespace AhoraCore.Core.Shaders
             GL.UniformBlockBinding(ShaderID, uniforms[uniformBlockName], block.Buff_binding_Point);
             GL.BindBufferBase(BufferRangeTarget.UniformBuffer, block.Buff_binding_Point, block.ID);
         }
+        private int UniformAdress(string uniformName) 
+        {
+            return uniforms.ContainsKey(uniformName) ? uniforms [uniformName] : -1;
+        }
 
         public void SetUniformi(string uniformName, int value)
         {
-            GL.Uniform1(uniforms[uniformName], value);
+            GL.Uniform1(UniformAdress(uniformName), value);
         }
 
         public void SetUniformf(string uniformName, float value)
         {
-            GL.Uniform1(uniforms[uniformName], value);
+            GL.Uniform1(UniformAdress(uniformName), value);
         }
 
         public void SetUniform(string uniformName, Vector2 value)
         {
-            GL.Uniform2(uniforms[uniformName], value.X, value.Y);
+            GL.Uniform2(UniformAdress(uniformName), value.X, value.Y);
         }
 
         public void SetUniform(string uniformName, Vector3 value)
         {
-            GL.Uniform3(uniforms[uniformName], value.X, value.Y, value.Z);
+            GL.Uniform3(UniformAdress(uniformName), value.X, value.Y, value.Z);
         }
 
         public void SetUniform(string uniformName, Vector4 value)
         {
-            GL.Uniform4(uniforms[uniformName], value.X, value.Y, value.Z, value.W);
+            GL.Uniform4(UniformAdress(uniformName), value.X, value.Y, value.Z, value.W);
         }
 
         public void SetUniform(string uniformName, Matrix4 value)
         {
-           GL.UniformMatrix4(uniforms[uniformName], true, ref value);
+           GL.UniformMatrix4(UniformAdress(uniformName), true, ref value);
         }
 
         public void BndUniformBlock(string uniformBlockName, int uniformBlockBinding)
         {
-            GL.UniformBlockBinding(ShaderID, uniforms[uniformBlockName], uniformBlockBinding);
+            GL.UniformBlockBinding(ShaderID, UniformAdress(uniformBlockName), uniformBlockBinding);
         }
 
         public AShader()

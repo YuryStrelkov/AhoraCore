@@ -5,6 +5,7 @@ using AhoraCore.Core.Shaders;
 using AhoraCore.Core.Materials;
 using AhoraCore.Core.CES.ICES;
 using System;
+using AhoraCore.Core.Materials.AbstractMaterial;
 
 namespace AhoraCore.Core.Models
 {
@@ -18,7 +19,7 @@ namespace AhoraCore.Core.Models
 
         private AShader modelShader;
 
-        private Material modelMaterial;
+        private AMaterial modelMaterial;
 
         public override void Delete()
         {

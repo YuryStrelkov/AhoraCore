@@ -18,15 +18,15 @@ LodRanges 1750 874 386 192 100 50 0 0
 
 texture grassDiffuse D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_DIF.jpg
 texture grassNormal D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_NRM.jpg
-texture grassDisplacemnt D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_DISP.jpg
+texture grassDisplacement D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_DISP.jpg
 
 texture rockDiffuse D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\Ground_21_DIF.jpg
 texture rockNormal D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\Ground_21_NRM.jpg
-texture rockDisplacemnt D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\Ground_21_DISP.jpg
+texture rockDisplacement D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\Ground_21_DISP.jpg
 
 texture groundDiffuse D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\Ground_11_DIF.jpg
 texture groundNormal D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\Ground_11_NRM.jpg
-texture groundDisplacemnt D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\Ground_11_DISP.jpg
+texture groundDisplacement D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\Ground_11_DISP.jpg
 
 material 
 {
@@ -34,17 +34,17 @@ verticalScale 0,4
 horizontalScale 400 
 grassDiffuse grassDiffuse
 grassNormal grassNormal
-grassDisplacemnt grassDisplacemnt
+grassDisplacement grassDisplacement
 
 verticalScale 0,4
 horizontalScale 400 
 rockDiffuse rockDiffuse
 rockNormal rockNormal
-rockDisplacemnt rockDisplacemnt
+rockDisplacement rockDisplacement
 
 verticalScale 1,2
 horizontalScale 200 
 groundDiffuse groundDiffuse
 groundNormal groundNormal
-groundDisplacemnt groundDisplacemnt
+groundDisplacement groundDisplacement
 }

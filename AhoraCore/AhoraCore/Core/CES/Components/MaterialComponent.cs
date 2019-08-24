@@ -1,7 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.CES.ICES;
-using AhoraCore.Core.Materials;
-using System;
+using AhoraCore.Core.Materials.AbstractMaterial;
 
 namespace AhoraCore.Core.CES.Components
 {
@@ -21,7 +20,7 @@ namespace AhoraCore.Core.CES.Components
             }
         }
 
-        public Material MateriaL { get; private set; }
+        public AMaterial MateriaL { get; private set; }
 
         public override void Clear()
         {

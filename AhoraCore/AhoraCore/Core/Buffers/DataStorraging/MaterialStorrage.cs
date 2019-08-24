@@ -4,7 +4,7 @@ using AhoraCore.Core.Materials.AbstractMaterial;
 
 namespace AhoraCore.Core.Buffers.DataStorraging
 {
-    public class MaterialStorrage : TemplateStorrage<string, Material>
+    public class MaterialStorrage : TemplateStorrage<string, AMaterial>
     {
         private static MaterialStorrage materials_;
 

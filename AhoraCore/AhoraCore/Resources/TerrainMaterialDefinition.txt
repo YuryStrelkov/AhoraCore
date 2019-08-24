@@ -1,18 +1,18 @@
 ////Textures
-const int   GrassDiffID = 0,
+const int   grassDiffuseID = 0,
 	    	GrassNormalID = 1,
-     		GrassDispID = 2,
-			GrassSpecID = 3,
+     		grassDisplacementID = 2,
+			grassReflectGlossID = 3,
 			
-			GroundDiffID = 4,
+			groundDiffuseID = 4,
 	    	GroundNormalID = 5,
-     		GroundDispID = 6,
-			GroundSpecID = 7,
+     		groundDisplacementID = 6,
+			groundReflectGlossID = 7,
 			
-			RockDiffID = 8,
+			rockDiffuseID = 8,
 	    	RockNormalID = 9,
-     		RockDispID = 10,
-			RockSpecID = 11;
+     		rockDisplacementID = 10,
+			rockReflectGlossID = 11;
 
 struct  channel
 {
@@ -35,22 +35,22 @@ channel[12] matChannels;
 
 };
 
-uniform sampler2D   grassDiff;
+uniform sampler2D   grassDiffuse;
 uniform sampler2D   grassNormal;
-uniform sampler2D   grassDisp;
-uniform sampler2D   grassSpec;
+uniform sampler2D   grassDisplacement;
+uniform sampler2D   grassReflectGloss;
 
 
-uniform sampler2D   groundDiff;
+uniform sampler2D   groundDiffuse;
 uniform sampler2D   groundNormal;
-uniform sampler2D   groundDisp;
-uniform sampler2D   groundSpec;
+uniform sampler2D   groundDisplacement;
+uniform sampler2D   groundReflectGloss;
 
 
-uniform sampler2D   rockDiff;
+uniform sampler2D   rockDiffuse;
 uniform sampler2D   rockNormal;
-uniform sampler2D   rockDisp;
-uniform sampler2D   rockSpec;
+uniform sampler2D   rockDisplacement;
+uniform sampler2D   rockReflectGloss;
 
 vec4 getFromMap(sampler2D map, vec2 v_TexCoord,int t_channel)
 {
@@ -65,20 +65,20 @@ vec3 getGrassNorm( vec2 v_TexCoord)
 	return	normalize(getFromMap(grassNormal, v_TexCoord,GrassNormalID).xyz*2.0-1.0).xyz;
 }
 
-vec4 getGrassDiff( vec2 v_TexCoord)
+vec4 getgrassDiffuse( vec2 v_TexCoord)
 {
-	return (getFromMap(grassDiff, v_TexCoord, GrassDiffID));
+	return (getFromMap(grassDiffuse, v_TexCoord, grassDiffuseID));
 }
 
-vec4 getGrassSpec( vec2 v_TexCoord)
+vec4 getgrassReflectGloss( vec2 v_TexCoord)
 {
-	return	(getFromMap(grassSpec, v_TexCoord, GrassSpecID));
+	return	(getFromMap(grassReflectGloss, v_TexCoord, grassReflectGlossID));
 }
 
 
-vec4 getGrassDisp( vec2 v_TexCoord)
+vec4 getgrassDisplacement( vec2 v_TexCoord)
 {
-	return	(getFromMap(grassDisp, v_TexCoord, GrassDispID));
+	return	(getFromMap(grassDisplacement, v_TexCoord, grassDisplacementID));
 }
 
 ///Ground
@@ -88,19 +88,19 @@ vec3 getGroundNorm( vec2 v_TexCoord)
 	return	normalize(getFromMap(groundNormal, v_TexCoord,GroundNormalID).xyz*2.0-1.0).xyz;
 }
 
-vec4 getGroundDiff( vec2 v_TexCoord)
+vec4 getgroundDiffuse( vec2 v_TexCoord)
 {
-	return (getFromMap(groundDiff, v_TexCoord, GroundDiffID));
+	return (getFromMap(groundDiffuse, v_TexCoord, groundDiffuseID));
 }
 
-vec4 getGroundSpec( vec2 v_TexCoord)
+vec4 getgroundReflectGloss( vec2 v_TexCoord)
 {
-	return	(getFromMap(groundSpec, v_TexCoord, GroundSpecID));
+	return	(getFromMap(groundReflectGloss, v_TexCoord, groundReflectGlossID));
 }
 
-vec4 getGroundDisp( vec2 v_TexCoord)
+vec4 getgroundDisplacement( vec2 v_TexCoord)
 {
-	return	(getFromMap(groundDisp, v_TexCoord, GroundDispID));
+	return	(getFromMap(groundDisplacement, v_TexCoord, groundDisplacementID));
 }
 
 ///Rock
@@ -110,17 +110,17 @@ vec3 getRockNorm( vec2 v_TexCoord)
 	return	normalize(getFromMap(rockNormal, v_TexCoord,RockNormalID).xyz*2.0-1.0).xyz;
 }
 
-vec4 getRockDiff( vec2 v_TexCoord)
+vec4 getrockDiffuse( vec2 v_TexCoord)
 {
-	return (getFromMap(rockDiff, v_TexCoord, RockDiffID));
+	return (getFromMap(rockDiffuse, v_TexCoord, rockDiffuseID));
 }
 
-vec4 getRockSpec( vec2 v_TexCoord)
+vec4 getrockReflectGloss( vec2 v_TexCoord)
 {
-	return	(getFromMap(rockSpec, v_TexCoord, RockSpecID));
+	return	(getFromMap(rockReflectGloss, v_TexCoord, rockReflectGlossID));
 }
 
-vec4 getRockDisp( vec2 v_TexCoord)
+vec4 getrockDisplacement( vec2 v_TexCoord)
 {
-	return	(getFromMap(rockDisp, v_TexCoord, RockDispID));
+	return	(getFromMap(rockDisplacement, v_TexCoord, rockDisplacementID));
 }

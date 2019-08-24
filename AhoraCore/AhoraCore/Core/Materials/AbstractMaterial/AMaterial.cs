@@ -34,6 +34,7 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
 
         TerrainChannelsCount = 12
     }
+
     public static class TextureShaderChannels
     {
         public static string Diffuse = "diffuseMap";

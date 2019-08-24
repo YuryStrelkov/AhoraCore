@@ -97,7 +97,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                     case "material":
                         TerrainMaterial TMaterial = new TerrainMaterial();
                         i = i + TMaterial.ReadMaterial(i,ref lines);
-                        ///MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);
+                        MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);
                         break;
 
                     case "texture":
