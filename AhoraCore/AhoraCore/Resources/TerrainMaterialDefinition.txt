@@ -1,18 +1,12 @@
-////Textures
-const int   grassDiffuseID = 0,
-	    	GrassNormalID = 1,
-     		grassDisplacementID = 2,
-			grassReflectGlossID = 3,
-			
-			groundDiffuseID = 4,
-	    	GroundNormalID = 5,
-     		groundDisplacementID = 6,
-			groundReflectGlossID = 7,
-			
-			rockDiffuseID = 8,
-	    	RockNormalID = 9,
-     		rockDisplacementID = 10,
-			rockReflectGlossID = 11;
+const int MAX_TEXTURE_CHANNELS = 6;
+const int MAX_MATERIALS = 3;
+
+const int   DiffuseID = 0,
+	    	NormalID = 1,
+     		SpecularID = 2,
+			HeightID = 3,
+			ReflectGlossID = 4,
+			TransparencyID =5;
 
 struct  channel
 {
@@ -21,7 +15,7 @@ struct  channel
 	vec4 multRGBA;
 };
 
-layout(std140)  uniform MaterialData
+struct MaterialSettings
 {
 vec4 albedoColor;
 
@@ -29,98 +23,22 @@ vec4 ambientColor;
 
 vec4 reflectionColor;
 
-float reflectivity, metallness, roughness, transparency;
-
-channel[12] matChannels;
-
+channel[MAX_TEXTURE_CHANNELS] matChannels;
 };
 
-uniform sampler2D   grassDiffuse;
-uniform sampler2D   grassNormal;
-uniform sampler2D   grassDisplacement;
-uniform sampler2D   grassReflectGloss;
-
-
-uniform sampler2D   groundDiffuse;
-uniform sampler2D   groundNormal;
-uniform sampler2D   groundDisplacement;
-uniform sampler2D   groundReflectGloss;
-
-
-uniform sampler2D   rockDiffuse;
-uniform sampler2D   rockNormal;
-uniform sampler2D   rockDisplacement;
-uniform sampler2D   rockReflectGloss;
-
-vec4 getFromMap(sampler2D map, vec2 v_TexCoord,int t_channel)
+layout(std140) uniform MaterialData
 {
-return	texture(map, (v_TexCoord + matChannels[t_channel].offsetUV)*
-                                   matChannels[t_channel].tileUV);
-}
+MaterialSettings settings[MAX_MATERIALS];
+};
 
-///Grass;
-
-vec3 getGrassNorm( vec2 v_TexCoord)
+struct Material
 {
-	return	normalize(getFromMap(grassNormal, v_TexCoord,GrassNormalID).xyz*2.0-1.0).xyz;
-}
+	sampler2D   diffuseMap;
+	sampler2D   normalMap;
+	sampler2D   specularMap;
+	sampler2D   heightMap;
+	sampler2D   reflectGlossMap;
+	sampler2D   transparencyMap;
+} ;
 
-vec4 getgrassDiffuse( vec2 v_TexCoord)
-{
-	return (getFromMap(grassDiffuse, v_TexCoord, grassDiffuseID));
-}
-
-vec4 getgrassReflectGloss( vec2 v_TexCoord)
-{
-	return	(getFromMap(grassReflectGloss, v_TexCoord, grassReflectGlossID));
-}
-
-
-vec4 getgrassDisplacement( vec2 v_TexCoord)
-{
-	return	(getFromMap(grassDisplacement, v_TexCoord, grassDisplacementID));
-}
-
-///Ground
-
-vec3 getGroundNorm( vec2 v_TexCoord)
-{
-	return	normalize(getFromMap(groundNormal, v_TexCoord,GroundNormalID).xyz*2.0-1.0).xyz;
-}
-
-vec4 getgroundDiffuse( vec2 v_TexCoord)
-{
-	return (getFromMap(groundDiffuse, v_TexCoord, groundDiffuseID));
-}
-
-vec4 getgroundReflectGloss( vec2 v_TexCoord)
-{
-	return	(getFromMap(groundReflectGloss, v_TexCoord, groundReflectGlossID));
-}
-
-vec4 getgroundDisplacement( vec2 v_TexCoord)
-{
-	return	(getFromMap(groundDisplacement, v_TexCoord, groundDisplacementID));
-}
-
-///Rock
-
-vec3 getRockNorm( vec2 v_TexCoord)
-{
-	return	normalize(getFromMap(rockNormal, v_TexCoord,RockNormalID).xyz*2.0-1.0).xyz;
-}
-
-vec4 getrockDiffuse( vec2 v_TexCoord)
-{
-	return (getFromMap(rockDiffuse, v_TexCoord, rockDiffuseID));
-}
-
-vec4 getrockReflectGloss( vec2 v_TexCoord)
-{
-	return	(getFromMap(rockReflectGloss, v_TexCoord, rockReflectGlossID));
-}
-
-vec4 getrockDisplacement( vec2 v_TexCoord)
-{
-	return	(getFromMap(rockDisplacement, v_TexCoord, rockDisplacementID));
-}
+uniform Material materials[MAX_MATERIALS];

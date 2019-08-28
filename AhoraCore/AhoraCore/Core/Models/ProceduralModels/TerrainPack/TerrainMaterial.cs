@@ -6,77 +6,17 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
   public   class TerrainMaterial:AMaterial
     {
         public static int MAX_TEXTURE_CHANNELS_NUMBER = (int)TextureChannels.TerrainChannelsCount;
-
-        /*public void SetGroundDiffuse(string TextID)
+        
+        private void readSubMat(int submatN, ref int startLine, ref string[] lines)
         {
-            textures.Add(TextureChannels.GroundDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.GroundDiffuse, "groundDiffuse");
-        }
-
-        public void SetGroundNormal(string TextID)
-        {
-            textures.Add(TextureChannels.GroundNormal, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.GroundNormal, "groundNormal");
-        }
-
-        public void SetGroundDisplacemnt(string TextID)
-        {
-            textures.Add(TextureChannels.GroundDisplacement, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.GroundDisplacement, "groundDisplacement");
-        }
-
-        public void SetGrassDiffuse(string TextID)
-        {
-            textures.Add(TextureChannels.GrassDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.GrassDiffuse, "grassDiffuse");
-        }
-
-        public void SetGrassNormal(string TextID)
-        {
-            textures.Add(TextureChannels.GrassNormal, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.GrassNormal, "grassNormal");
-        }
-
-        public void SetGrassDisplacemnt(string TextID)
-        {
-            textures.Add(TextureChannels.GrassDisplacement, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.GrassDisplacement, "grassDisplacement");
-        }
-
-        public void SetRockDiffuse(string TextID)
-        {
-            textures.Add(TextureChannels.RockDiffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.RockDiffuse, "rockDiffuse");
-        }
-
-        public void SetRockNormal(string TextID)
-        {
-            textures.Add(TextureChannels.RockNormal, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.RockNormal, "rockNormal");
-        }
-
-        public void SetRockDisplacemnt(string TextID)
-        {
-            textures.Add(TextureChannels.RockDisplacement, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.RockDisplacement, "rockDisplacement");
-        }*/
-
-
-        public override int ReadMaterial(int startLine, ref string[] lines)
-        {
-             float hor_scale = 1, ver_scale = 1;
-
-            if (!lines[startLine + 1].Equals("{\r"))
-            {
-                Console.WriteLine("Wrong material definition");
-                return startLine + 1;
-            }
-
-            int i = startLine + 2;
-
+            ///int i = startLine;
+            string[] tokens;
+            float hor_scale = 1;
+            float ver_scale = 1;
+            TextureChannels ID;
             do
             {
-                string[] tokens = lines[i].Split(' ');
+                tokens = lines[startLine].Split(' ');
 
                 switch (tokens[0])
                 {
@@ -84,102 +24,161 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                     case "horizontalScale": ver_scale = float.Parse(tokens[1]); break;
 
+                    case "diffuseMap":
+                        ID = (TextureChannels)((int)TextureChannels.Diffuse + submatN * (int)TextureChannels.ChannelsCount);
+                        AssignTexture2Channel("materials["+ submatN + "].diffuseMap", "settings[" + submatN + "].channel[", ID);
+                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                    break;
 
-                    case "grassDiffuse":
-                        AssignTexture2Channel(TextureShaderChannels.GrassDiffuse, TextureChannels.GrassDiffuse);
-                        Textures[TextureChannels.GrassDiffuse].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.GrassDiffuse].SetMultiply(1, 1, 1, ver_scale);
-                        break;
+                    case "normalMap":
+                        ID = (TextureChannels)((int)TextureChannels.Normal + submatN * (int)TextureChannels.ChannelsCount);
+                        AssignTexture2Channel("materials[" + submatN + "].normalMap", "settings[" + submatN + "].channel[", ID);
+                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                    break;
 
-                    case "grassNormal":
-                        AssignTexture2Channel(TextureShaderChannels.GrassNormal, TextureChannels.GrassNormal);
-                        Textures[TextureChannels.GrassNormal].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.GrassNormal].SetMultiply(1, 1, 1, ver_scale);
-                        break;
-                    case "grassDisplacemnt":
-                        AssignTexture2Channel(TextureShaderChannels.GrassDisplacement, TextureChannels.GrassDisplacement);
-                        Textures[TextureChannels.GrassDisplacement].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.GrassDisplacement].SetMultiply(1, 1, 1, ver_scale);
-                        break;
+                    case "specularMap":
+                        ID = (TextureChannels)((int)TextureChannels.Specular + submatN * (int)TextureChannels.ChannelsCount);
+                        AssignTexture2Channel("materials[" + submatN + "].specularMap", "settings[" + submatN + "].channel[", ID);
+                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                    break;
 
+                    case "heightMap":
+                        ID = (TextureChannels)((int)TextureChannels.Height + submatN * (int)TextureChannels.ChannelsCount);
+                        AssignTexture2Channel("materials[" + submatN + "].heightMap", "settings[" + submatN + "].channel[", ID);
+                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                    break;
 
-                    case "rockDiffuse":
-                        AssignTexture2Channel(TextureShaderChannels.RockDiffuse, TextureChannels.RockDiffuse);
-                        Textures[TextureChannels.RockDiffuse].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.RockDiffuse].SetMultiply(1, 1, 1, ver_scale);
-                        break;
+                    case "reflectGlossMap":
+                        ID = (TextureChannels)((int)TextureChannels.ReflectGloss + submatN * (int)TextureChannels.ChannelsCount);
+                        AssignTexture2Channel("materials[" + submatN + "].reflectGlossMap", "settings[" + submatN + "].channel[", ID);
+                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                    break;
 
-                    case "rockNormal":
-                        AssignTexture2Channel(TextureShaderChannels.RockNormal, TextureChannels.RockNormal);
-                        Textures[TextureChannels.RockNormal].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.RockNormal].SetMultiply(1, 1, 1, ver_scale);
-                        break;
-                    case "rockDisplacemnt":
-                        AssignTexture2Channel(TextureShaderChannels.RockDisplacement, TextureChannels.RockDisplacement);
-                        Textures[TextureChannels.RockDisplacement].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.RockDisplacement].SetMultiply(1, 1, 1, ver_scale);
-                        break;
-
-
-
-                    case "groundDiffuse":
-                        AssignTexture2Channel(TextureShaderChannels.GroundDiffuse,TextureChannels.GroundDiffuse);
-                        Textures[TextureChannels.GroundDiffuse].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.GroundDiffuse].SetMultiply(1, 1, 1, ver_scale);
-                        break;
-
-                    case "groundNormal":
-                        AssignTexture2Channel(TextureShaderChannels.GroundNormal, TextureChannels.GroundNormal);
-                        Textures[TextureChannels.GroundNormal].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.GroundNormal].SetMultiply(1, 1, 1, ver_scale);
-                        break;
-                    case "groundDisplacemnt":
-                        AssignTexture2Channel(TextureShaderChannels.GroundDisplacement, TextureChannels.GroundDisplacement);
-                        Textures[TextureChannels.GroundDisplacement].SetTile(hor_scale, hor_scale);
-                        Textures[TextureChannels.GroundDisplacement].SetMultiply(1, 1, 1, ver_scale);
-                        break;
+                    case "transparencyMap":
+                        ID = (TextureChannels)((int)TextureChannels.Transparency + submatN * (int)TextureChannels.ChannelsCount);
+                        AssignTexture2Channel("materials[" + submatN + "].transparencyMap", "settings[" + submatN + "].channel[", ID);
+                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                   break;
 
                 }
-                i++;
+                startLine++;
+
+            } while(!lines[startLine].Equals("}"));
+
+            startLine +=1;
+        }
+
+
+        public override int ReadMaterial(int startLine, ref string[] lines)
+        {
+            if (!lines[startLine + 1].Equals("{\r"))
+            {
+                Console.WriteLine("Wrong material definition");
+                return startLine + 1;
+            }
+            
+            int i = startLine + 2;
+
+            string[] tokens = lines[i].Split(' ');
+
+            if (!tokens[0].Equals("count"))
+            {
+                Console.WriteLine("Wrong material definition");
+                return i + 1;
             }
 
-            while (!lines[i].Equals("}"));
+            int subMaterialsNumber = int.Parse(tokens[1]);
 
-            return i + 2;
+            InitMaterial(subMaterialsNumber);
+
+            i+=1;
+
+            int submatIDX = 0;
+            do
+            {
+                tokens = lines[i].Split(' ');
+
+                if (tokens[0].Equals("{\r"))
+                {
+                    readSubMat(submatIDX, ref i, ref lines);
+                    submatIDX += 1;
+                }
+                else
+                {
+                    i += 1;
+                }
+
+            } while (!lines[i].Equals("}"));
+
+            return i + 1;
 
         }
- 
-        public override void InitMaterial()
+
+        public void InitMaterial(int MAX_MATERIALS)
         {
-            materialUniformBuffer.addBufferItem("albedoColor", 4);
-            materialUniformBuffer.addBufferItem("ambientColor", 4);
-            materialUniformBuffer.addBufferItem("reflectionColor", 4);
-
-            //materialUniformBuffer.addBufferItem("reflectivity", 1);
-            //materialUniformBuffer.addBufferItem("metallness", 1);
-            //materialUniformBuffer.addBufferItem("roughness", 1);
-            //materialUniformBuffer.addBufferItem("transparency", 1);
-
-            for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
+            for (int i = 0; i < MAX_MATERIALS; i++)
             {
-                materialUniformBuffer.addBufferItem("channel[" + j + "].tileUV", 2);
-                materialUniformBuffer.addBufferItem("channel[" + j + "].offsetUV", 2);
-                materialUniformBuffer.addBufferItem("channel[" + j + "].multRGBA", 4);
+                materialUniformBuffer.addBufferItem("settings[" + i + "].albedoColor", 4);
+                materialUniformBuffer.addBufferItem("settings[" + i + "].ambientColor", 4);
+                materialUniformBuffer.addBufferItem("settings[" + i + "].reflectionColor", 4);
+
+                for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
+                {
+                    materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].tileUV", 2);
+                    materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].offsetUV", 2);
+                    materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].multRGBA", 4);
+                }
             }
 
             materialUniformBuffer.Create(1);///Создаёт один размеченный выше буфер для материала 
 
-
-            materialUniformBuffer.UpdateBufferIteam("albedoColor", DefColor);
-            materialUniformBuffer.UpdateBufferIteam("ambientColor", DefColor);
-            materialUniformBuffer.UpdateBufferIteam("reflectionColor", BlackColor);
-
-            for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
+            for (int i = 0; i < MAX_MATERIALS; i++)
             {
-                materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].tileUV", DefUV);
-                materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].offsetUV", DefOffs);
-                materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].multRGBA", DefMult);
+                materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].albedoColor", DefColor);
+                materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].ambientColor", DefColor);
+                materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].reflectionColor", BlackColor);
+
+                for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
+                {
+                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].tileUV", DefUV);
+                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].offsetUV", DefOffs);
+                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].multRGBA", DefMult);
+                }
             }
+        }
+
+
+        public override void InitMaterial()
+        {
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    materialUniformBuffer.addBufferItem("settings[" + i + "].albedoColor", 4);
+            //    materialUniformBuffer.addBufferItem("settings[" + i + "].ambientColor", 4);
+            //    materialUniformBuffer.addBufferItem("settings[" + i + "].reflectionColor", 4);
+
+            //    for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
+            //    {
+            //        materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].tileUV", 2);
+            //        materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].offsetUV", 2);
+            //        materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].multRGBA", 4);
+            //    }
+            //}
+
+            //materialUniformBuffer.Create(1);///Создаёт один размеченный выше буфер для материала 
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].albedoColor", DefColor);
+            //    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].ambientColor", DefColor);
+            //    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].reflectionColor", BlackColor);
+
+            //    for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
+            //    {
+            //        materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].tileUV", DefUV);
+            //        materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].offsetUV", DefOffs);
+            //        materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].multRGBA", DefMult);
+            //    }
+            //}
         }
  
     }

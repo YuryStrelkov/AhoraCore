@@ -185,9 +185,17 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
         public void AssignTexture2Channel(string tName, TextureChannels ChannelID)
         {
             textures.Add(ChannelID, new TextureChannel(channelOffset, tName, ref materialUniformBuffer));
-            texturesChannelNames.Add(ChannelID, TextureShaderChannels.GetName(ChannelID ));
+            texturesChannelNames.Add(ChannelID, TextureShaderChannels.GetName(ChannelID));
             channelOffset++;
         }
+
+        public void AssignTexture2Channel(string tName, string channel, TextureChannels ChannelID)
+        {
+            textures.Add(ChannelID, new TextureChannel(channelOffset, channel, tName,  ref materialUniformBuffer));
+            texturesChannelNames.Add(ChannelID, channel);
+            channelOffset++;
+        }
+
 
         public bool HasChannel(TextureChannels ChannelID)
         {
