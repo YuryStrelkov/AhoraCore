@@ -118,6 +118,8 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
 
         protected UniformsBuffer<string> materialUniformBuffer;
 
+        protected Dictionary<string, string> TexturesIDs;/// Texture ID per Texture name in shader
+
         protected Dictionary<TextureChannels, TextureChannel> textures;
 
         protected Dictionary<TextureChannels, string> texturesChannelNames;
@@ -149,7 +151,7 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
             foreach (TextureChannels key in textures.Keys)
             {
                 GL.ActiveTexture(TextureUnit.Texture0 + i);
-                GL.BindTexture(textures[key].Texture.BindingTarget, textures[key].Texture.ID);
+                textures[key].Texture.Bind();
                 bindTarget.SetUniformi(texturesChannelNames[key], i);
                 i++;
             }
