@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using AhoraCore.Core.Buffers.UniformsBuffer;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.CES.ICES;
+using AhoraCore.Core.Buffers.DataStorraging;
 
 namespace AhoraCore.Core.Materials.AbstractMaterial
 {
-    public enum TextureChannels
+   public enum TextureChannels
     {
         Diffuse = 0,
         Normal = 1,
@@ -33,68 +34,7 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
         RockReflectGloss = 18,
 
         TerrainChannelsCount = 12
-    }
-
-    public static class TextureShaderChannels
-    {
-        public static string Diffuse = "diffuseMap";
-        public static string Normal = "normalMap";
-        public static string Specular = "specularMap";
-        public static string Height = "heightMap";
-        public static string ReflectGloss = "reflectGlossMap";
-        public static string Transparency = "transparencyMap";
-   
-        public static string GroundDiffuse = "groundDiffuse";
-        public static string GroundNormal = "groundNormal";
-        public static string GroundDisplacement = "groundDisplacement";
-        public static string GroundReflectGloss = "groundReflectGloss";
-
-        public static string GrassDiffuse = "grassDiffuse";
-        public static string GrassNormal = "grassNormal";
-        public static string GrassDisplacement = "grassDisplacement";
-        public static string GrassReflectGloss = "grassReflectGloss";
-
-        public static string RockDiffuse = "rockDiffuse";
-        public static string RockNormal = "rockNormal";
-        public static string RockDisplacement = "rockDisplacement";
-        public static string RockReflectGloss = "rockReflectGloss";
-
-        private static Dictionary<TextureChannels, string> ChannelShaderNames;
-
-        private static void init()
-        {
-            ChannelShaderNames = new Dictionary<TextureChannels, string>();
-            ChannelShaderNames.Add(TextureChannels.Diffuse, Diffuse);
-            ChannelShaderNames.Add(TextureChannels.Normal, Normal);
-            ChannelShaderNames.Add(TextureChannels.Specular, Specular);
-            ChannelShaderNames.Add(TextureChannels.Height, Height);
-            ChannelShaderNames.Add(TextureChannels.ReflectGloss, ReflectGloss);
-            ChannelShaderNames.Add(TextureChannels.Transparency, Transparency);
-            ChannelShaderNames.Add(TextureChannels.GrassDiffuse, GrassDiffuse);
-            ChannelShaderNames.Add(TextureChannels.GrassNormal, GrassNormal);
-            ChannelShaderNames.Add(TextureChannels.GrassDisplacement, GrassDisplacement);
-            ChannelShaderNames.Add(TextureChannels.GrassReflectGloss, GrassReflectGloss);
-            ChannelShaderNames.Add(TextureChannels.GroundDiffuse, GroundDiffuse);
-            ChannelShaderNames.Add(TextureChannels.GroundNormal, GroundNormal);
-            ChannelShaderNames.Add(TextureChannels.GroundDisplacement, GroundDisplacement);
-            ChannelShaderNames.Add(TextureChannels.GroundReflectGloss, GroundReflectGloss);
-            ChannelShaderNames.Add(TextureChannels.RockDiffuse, RockDiffuse);
-            ChannelShaderNames.Add(TextureChannels.RockNormal, RockNormal);
-            ChannelShaderNames.Add(TextureChannels.RockDisplacement, RockDisplacement);
-            ChannelShaderNames.Add(TextureChannels.RockReflectGloss, RockReflectGloss);
-       
-        }
-
-        public static string GetName(TextureChannels ID)
-        {
-            if (ChannelShaderNames == null)
-            {
-                init();
-            }
-            return ChannelShaderNames.ContainsKey(ID) ? ChannelShaderNames[ID]:"";
-
-        }
-    }
+    } 
 
 
     /// <summary>
@@ -102,7 +42,7 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
     /// </summary>
     public abstract  class AMaterial: ABindableObject<AShader>
     {
-        public static Dictionary<TextureChannels, string> ChannelsShaderNames = new Dictionary<TextureChannels, string>();
+////        public static Dictionary<TextureChannels, string> ChannelsShaderNames = new Dictionary<TextureChannels, string>();
 
         private int channelOffset = 0;
 
@@ -118,13 +58,15 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
 
         protected UniformsBuffer<string> materialUniformBuffer;
 
-        protected Dictionary<string, string> TexturesIDs;/// Texture ID per Texture name in shader
+      //  protected Dictionary< string, TextureChannel> textures;
 
-        protected Dictionary<TextureChannels, TextureChannel> textures;
+        protected Dictionary<string, string> textures;//<textureID,textureInShderName>
 
-        protected Dictionary<TextureChannels, string> texturesChannelNames;
-
-        public Dictionary<TextureChannels, TextureChannel> Textures
+        // protected Dictionary<TextureChannels, string> texturesChannelNames;
+        /// 
+        /// 
+        /// 
+        public Dictionary<string, string> Textures
         {
             get
             {
@@ -148,19 +90,18 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
            /// materialUniformBuffer.LinkBufferToShder(bindTarget, "MaterialData");
             int i = 0;
 
-            foreach (TextureChannels key in textures.Keys)
+            foreach (string key in textures.Keys)
             {
                 GL.ActiveTexture(TextureUnit.Texture0 + i);
-                textures[key].Texture.Bind();
-                bindTarget.SetUniformi(texturesChannelNames[key], i);
+                TextureStorrage.Textures.GetItem(textures[key]).Bind();
+                bindTarget.SetUniformi(key, i);
                 i++;
             }
         }
 
         public override void Create()
         {
-            textures = new Dictionary<TextureChannels, TextureChannel>();
-            texturesChannelNames = new Dictionary<TextureChannels, string>();
+            textures = new Dictionary<string, string>();
             materialUniformBuffer = new UniformsBuffer<string>();
             materialUniformBuffer.Buff_binding_Point = (int)UniformBindingsLocations.MaterialData;
         }
@@ -179,27 +120,23 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
         {
         }
 
-        //public void AssignTexture2Channel(Texture t, TextureChannels ChannelID)
-        //{
-            
-        //}
-
-        public void AssignTexture2Channel(string tName, TextureChannels ChannelID)
+        public void Texture2ChannelAssign(string TextureID, string TextureNameInShader)
         {
-            textures.Add(ChannelID, new TextureChannel(channelOffset, tName, ref materialUniformBuffer));
-            texturesChannelNames.Add(ChannelID, TextureShaderChannels.GetName(ChannelID));
-            channelOffset++;
+            if (TextureStorrage.Textures.Iteams.ContainsKey(TextureID))
+            {
+                textures.Add(TextureNameInShader, TextureID);
+                channelOffset++;
+            }
+            else
+            {
+                textures.Add( TextureNameInShader, "DefaultTexture");
+                channelOffset++;
+            }
+
+           
         }
 
-        public void AssignTexture2Channel(string tName, string channel, TextureChannels ChannelID)
-        {
-            textures.Add(ChannelID, new TextureChannel(channelOffset, channel, tName,  ref materialUniformBuffer));
-            texturesChannelNames.Add(ChannelID, channel);
-            channelOffset++;
-        }
-
-
-        public bool HasChannel(TextureChannels ChannelID)
+        public bool HasChannel(string ChannelID)
         {
             return textures.ContainsKey(ChannelID);
         }

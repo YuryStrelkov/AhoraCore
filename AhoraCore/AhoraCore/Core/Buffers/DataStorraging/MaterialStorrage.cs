@@ -23,9 +23,9 @@ namespace AhoraCore.Core.Buffers.DataStorraging
         private MaterialStorrage():base()
         {
             AddItem("DefaultMaterial", new Material());
-            GetItem("DefaultMaterial").AssignTexture2Channel("DefaultTexture",TextureChannels.Diffuse);//   SetDiffuse();
-            GetItem("DefaultMaterial").AssignTexture2Channel("DefaultTexture", TextureChannels.Normal); ;
-            GetItem("DefaultMaterial").AssignTexture2Channel("DefaultTexture", TextureChannels.Specular); ;
+            GetItem("DefaultMaterial").Texture2ChannelAssign("DefaultTexture", "diffuseMap");//   SetDiffuse();
+            GetItem("DefaultMaterial").Texture2ChannelAssign("DefaultTexture", "normalMap"); ;
+            GetItem("DefaultMaterial").Texture2ChannelAssign("DefaultTexture", "specularMap"); ;
         }
 
         public override void ClearIteamData(string ID)

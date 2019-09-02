@@ -60,21 +60,21 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             AddUniform("normalMap");
 
-            AddUniform(TextureShaderChannels.GroundDiffuse);
-            AddUniform(TextureShaderChannels.GroundNormal);
-            AddUniform(TextureShaderChannels.GroundDisplacement);
-            AddUniform(TextureShaderChannels.GroundReflectGloss);
+            AddUniform("materials[0].diffuseMap");
+            AddUniform("materials[0].normalMap");
+            AddUniform("materials[0].specularMap");
+            AddUniform("materials[0].heightMap");
 
-            AddUniform(TextureShaderChannels.RockDiffuse);
-            AddUniform(TextureShaderChannels.RockNormal);
-            AddUniform(TextureShaderChannels.RockDisplacement);
-            AddUniform(TextureShaderChannels.RockReflectGloss);
+            AddUniform("materials[1].diffuseMap");
+            AddUniform("materials[1].normalMap");
+            AddUniform("materials[1].specularMap");
+            AddUniform("materials[1].heightMap");
 
 
-            AddUniform(TextureShaderChannels.GrassDiffuse);
-            AddUniform(TextureShaderChannels.GrassNormal);
-            AddUniform(TextureShaderChannels.GrassDisplacement);
-            AddUniform(TextureShaderChannels.GrassReflectGloss);
+            AddUniform("materials[2].diffuseMap");
+            AddUniform("materials[2].normalMap");
+            AddUniform("materials[2].specularMap");
+            AddUniform("materials[2].heightMap");
 
         }
     }

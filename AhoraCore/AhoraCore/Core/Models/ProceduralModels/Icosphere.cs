@@ -45,11 +45,11 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             TextureStorrage.Textures.AddItem("Clouds", new Materials.Texture(Properties.Resources.Clouds1));
 
-            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").AssignTexture2Channel("Clouds", TextureChannels.Diffuse);
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").Texture2ChannelAssign("Clouds", "diffuseMap");//AssignTexture2Channel("Clouds", TextureChannels.Diffuse);
 
-            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").AssignTexture2Channel("Clouds", TextureChannels.Normal);
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").Texture2ChannelAssign("Clouds", "normalMap");
 
-            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").AssignTexture2Channel("Clouds", TextureChannels.Specular);
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").Texture2ChannelAssign("Clouds", "specularMap");
 
             GameEntity skydome = new GameEntity();
 

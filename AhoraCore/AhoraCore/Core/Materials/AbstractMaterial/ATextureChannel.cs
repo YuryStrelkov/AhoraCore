@@ -7,12 +7,12 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
     {
         public static int NUMBER_OF_PARAMETRS = 8;
 
+        public string ChannelInShderName { get; protected set; }
+
         protected int ChannelOffset = 0;
 
         public string TextureID { get; protected set; }
         
-        public string ShaderAccsessString { get; protected set; }
-
         protected UniformsBuffer<T> TextureChannelData;
 
         public Texture Texture

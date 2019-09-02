@@ -13,7 +13,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             string[] tokens;
             float hor_scale = 1;
             float ver_scale = 1;
-            TextureChannels ID;
+     //       TextureChannels ID;
             do
             {
                 tokens = lines[startLine].Split(' ');
@@ -25,45 +25,39 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                     case "horizontalScale": ver_scale = float.Parse(tokens[1]); break;
 
                     case "diffuseMap":
-                        ID = (TextureChannels)((int)TextureChannels.Diffuse + submatN * (int)TextureChannels.ChannelsCount);
-                        AssignTexture2Channel("materials["+ submatN + "].diffuseMap", "settings[" + submatN + "].channel[", ID);
-                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                        Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].diffuseMap");
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 0 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "normalMap":
-                        ID = (TextureChannels)((int)TextureChannels.Normal + submatN * (int)TextureChannels.ChannelsCount);
-                        AssignTexture2Channel("materials[" + submatN + "].normalMap", "settings[" + submatN + "].channel[", ID);
-                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                        Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].normalMap");
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 1 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "specularMap":
-                        ID = (TextureChannels)((int)TextureChannels.Specular + submatN * (int)TextureChannels.ChannelsCount);
-                        AssignTexture2Channel("materials[" + submatN + "].specularMap", "settings[" + submatN + "].channel[", ID);
-                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                        Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].specularMap");
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 2 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "heightMap":
-                        ID = (TextureChannels)((int)TextureChannels.Height + submatN * (int)TextureChannels.ChannelsCount);
-                        AssignTexture2Channel("materials[" + submatN + "].heightMap", "settings[" + submatN + "].channel[", ID);
-                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                        Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].heightMap");
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 3 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "reflectGlossMap":
-                        ID = (TextureChannels)((int)TextureChannels.ReflectGloss + submatN * (int)TextureChannels.ChannelsCount);
-                        AssignTexture2Channel("materials[" + submatN + "].reflectGlossMap", "settings[" + submatN + "].channel[", ID);
-                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
+                        Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].reflectGlossMap");
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 4 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "transparencyMap":
-                        ID = (TextureChannels)((int)TextureChannels.Transparency + submatN * (int)TextureChannels.ChannelsCount);
-                        AssignTexture2Channel("materials[" + submatN + "].transparencyMap", "settings[" + submatN + "].channel[", ID);
-                        Textures[ID].SetMultiply(hor_scale, ver_scale, 1, 1);
-                   break;
+                        Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].transparencyMap");
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 5 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
+                    break;
 
                 }
                 startLine++;
 
-            } while(!lines[startLine].Equals("}"));
+            } while(!lines[startLine].Equals("}\r"));
 
             startLine +=1;
         }
@@ -102,6 +96,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 {
                     readSubMat(submatIDX, ref i, ref lines);
                     submatIDX += 1;
+                    Console.WriteLine(submatIDX);
                 }
                 else
                 {
