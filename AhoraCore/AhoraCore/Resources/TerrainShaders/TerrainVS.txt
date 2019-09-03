@@ -10,10 +10,6 @@ out vec2 mapCoord_TC;
 
 uniform mat4 LocTransMatrix;
 
-//uniform mat4 WorldTransMatrix;
-
-//uniform  float ScaleY;
-
 uniform int lod;
 
 uniform  float gap;

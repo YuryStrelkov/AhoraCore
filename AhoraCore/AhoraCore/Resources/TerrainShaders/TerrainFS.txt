@@ -4,11 +4,19 @@ layout(location = 0) out vec4 outColor;
 
 in vec2 mapCoord_FS;
 
+in vec3 position_FS;
+
+in vec3 tangent_FS;
+
 #include TerrainMaterialData;
+
+#include TerrainSettings;
 
 uniform sampler2D normalMap;
 
 uniform sampler2D heightMap;
+
+uniform vec3 cameraPosition;
 
 const vec3 direction = vec3(0.333,0.333,0.333);
 
@@ -16,32 +24,60 @@ const float intensity = 1.2;
 
 float diffuse(vec3 dir, vec3 n, float i)
 {
-	return max(0.01, dot(n,dir) * i);
+	return max(0.04, dot(n,dir) * i);
 }
-
-
-vec3 mixColor(float h)
-{
- vec3 color1 = texture(materials[0].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
- vec3 color2 = texture(materials[1].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
- vec3 color3 = texture(materials[2].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
- return (color1 * smoothstep(h,0.2,0.0) + 
-		 color2 *(smoothstep(h,0.0,0.2) - smoothstep(h,0.5,0.6))+
-		 color3 * smoothstep(h,0.5,0.6));
-} 
 
 void main()
 {
-	float height = texture(heightMap, mapCoord_FS).r;
+	float dist = length(cameraPosition - position_FS);
+
+	float height = position_FS.y;
+
+	vec3 normal = texture(normalMap,mapCoord_FS).xyz;
 	
+    vec3 color0 = texture(materials[0].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
 
+	vec3 color1 = texture(materials[1].diffuseMap, mapCoord_FS*(settings[1].channels[0].multRGBA).y).rgb;
 
-
-
-    vec3 color = texture(materials[1].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
-
+	float [2] materialAlpha = float[](0,0);
+	
+	if(normal.y>0.5)
+		{
+			materialAlpha[1]=1;
+		}
+		else
+		{
+			materialAlpha[0]=1;
+		}
+	
+	if(dist<TBNrange)
+	{
+		float attenuation =clamp(-dist/(TBNrange-50)+1,0.0,1.0);
+	
+		vec3 biTangent = normalize(cross(tangent_FS,normal));
+	
+    	mat3 TBN =mat3(biTangent,normal,tangent_FS);
+		
+		vec3 bumpNormal=vec3(0,0,0);
+		
+		for (int i=0;i<2;i++)
+		{
+		bumpNormal += (2*(texture(materials[i].normalMap, mapCoord_FS * settings[i].channels[1].multRGBA.y)).rgb - 1)*materialAlpha[i] ;
+		}		
+		
+		bumpNormal=normalize(bumpNormal);
+		
+		bumpNormal.xz *= attenuation;
+		
+		normal = normalize(TBN*bumpNormal);
+	}
+	
+	vec3 fragmentColor =  color0*materialAlpha[0]+color1*materialAlpha[1];
+	
 	float diffuse = diffuse(direction, texture(normalMap, mapCoord_FS).rgb, intensity);
 
-	outColor = vec4(mixColor(height),1.0) * diffuse;
+	fragmentColor*=diffuse;
+	
+	outColor = vec4(fragmentColor,1.0) * diffuse;
 
 }

@@ -276,6 +276,10 @@ namespace AhoraCore.Core.Shaders
 
         public void SetUniformBlock(string uniformBlockName, UniformsBuffer<string> block)
         {
+            /*if (!uniforms.ContainsKey(uniformBlockName))
+            {
+                return;
+            }*/
             block.Bind();
             GL.Uniform1(uniforms[uniformBlockName], block.Buff_binding_Point);
             GL.UniformBlockBinding(ShaderID, uniforms[uniformBlockName], block.Buff_binding_Point);
