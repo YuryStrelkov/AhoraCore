@@ -26,32 +26,32 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                     case "diffuseMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].diffuseMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 0 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 0 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "normalMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].normalMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 1 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 1 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "specularMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].specularMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 2 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 2 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "heightMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].heightMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 3 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 3 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "reflectGlossMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].reflectGlossMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 4 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 4 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "transparencyMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].transparencyMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channel[" + 5 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
+                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 5 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                 }
@@ -119,9 +119,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                 for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
                 {
-                    materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].tileUV", 2);
-                    materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].offsetUV", 2);
-                    materialUniformBuffer.addBufferItem("settings[" + i + "].channel[" + j + "].multRGBA", 4);
+                    materialUniformBuffer.addBufferItem("settings[" + i + "].channels[" + j + "].tileUV", 2);
+                    materialUniformBuffer.addBufferItem("settings[" + i + "].channels[" + j + "].offsetUV", 2);
+                    materialUniformBuffer.addBufferItem("settings[" + i + "].channels[" + j + "].multRGBA", 4);
                 }
             }
 
@@ -135,9 +135,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
                 for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
                 {
-                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].tileUV", DefUV);
-                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].offsetUV", DefOffs);
-                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channel[" + j + "].multRGBA", DefMult);
+                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channels[" + j + "].tileUV", DefUV);
+                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channels[" + j + "].offsetUV", DefOffs);
+                    materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channels[" + j + "].multRGBA", DefMult);
                 }
             }
         }

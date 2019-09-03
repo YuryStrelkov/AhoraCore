@@ -8,7 +8,7 @@ const int   DiffuseID = 0,
 			ReflectGlossID = 4,
 			TransparencyID =5;
 
-struct  channel
+struct  Channel
 {
 	vec2 tileUV;
 	vec2 offsetUV;
@@ -23,7 +23,7 @@ vec4 ambientColor;
 
 vec4 reflectionColor;
 
-channel[MAX_TEXTURE_CHANNELS] matChannels;
+Channel[MAX_TEXTURE_CHANNELS] channels;
 };
 
 layout(std140) uniform MaterialData
@@ -42,3 +42,5 @@ struct Material
 } ;
 
 uniform Material materials[MAX_MATERIALS];
+
+

@@ -19,12 +19,29 @@ float diffuse(vec3 dir, vec3 n, float i)
 	return max(0.01, dot(n,dir) * i);
 }
 
+
+vec3 mixColor(float h)
+{
+ vec3 color1 = texture(materials[0].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
+ vec3 color2 = texture(materials[1].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
+ vec3 color3 = texture(materials[2].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
+ return (color1 * smoothstep(h,0.2,0.0) + 
+		 color2 *(smoothstep(h,0.0,0.2) - smoothstep(h,0.5,0.6))+
+		 color3 * smoothstep(h,0.5,0.6));
+} 
+
 void main()
 {
-	///vec3 normal = ;
+	float height = texture(heightMap, mapCoord_FS).r;
+	
+
+
+
+
+    vec3 color = texture(materials[1].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
 
 	float diffuse = diffuse(direction, texture(normalMap, mapCoord_FS).rgb, intensity);
 
-	outColor = vec4(vec3(0.1,1.0,0.1)*(1-texture(heightMap, mapCoord_FS).rgb),1.0) * diffuse;
+	outColor = vec4(mixColor(height),1.0) * diffuse;
 
 }

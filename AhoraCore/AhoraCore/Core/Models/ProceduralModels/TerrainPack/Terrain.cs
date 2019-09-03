@@ -50,7 +50,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
             int[] AttribsMasks;
 
 
-            ModelLoader.LoadModel("E:\\GitHub\\AhoraCore\\AhoraCore\\AhoraCore\\Resources\\grass_lods.obj", out AttribsMasks, out vbuffers, out ibuffers);
+            ModelLoader.LoadModel("D:\\GitHub\\AhoraCore\\AhoraCore\\AhoraCore\\Resources\\grass_lods.obj", out AttribsMasks, out vbuffers, out ibuffers);
 
             GeometryStorageManager.Data.AddGeometrySet(AttribsMasks[0], new string[] { "grass_lod_0", "grass_lod_1", "grass_lod_2"}, vbuffers, ibuffers);
 
