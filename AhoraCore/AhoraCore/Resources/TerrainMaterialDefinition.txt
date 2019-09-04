@@ -8,23 +8,17 @@ const int   DiffuseID = 0,
 			ReflectGlossID = 4,
 			TransparencyID =5;
 
-struct  Channel
-{
-	vec2 tileUV;
-	vec2 offsetUV;
-	vec4 multRGBA;
-};
-
 struct MaterialSettings
 {
+vec4 scaling;
+
 vec4 albedoColor;
 
 vec4 ambientColor;
 
 vec4 reflectionColor;
-
-Channel[MAX_TEXTURE_CHANNELS] channels;
 };
+
 
 layout(std140) uniform MaterialData
 {

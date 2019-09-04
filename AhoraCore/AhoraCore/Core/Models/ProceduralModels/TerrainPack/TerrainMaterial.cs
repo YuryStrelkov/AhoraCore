@@ -13,48 +13,47 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             string[] tokens;
             float hor_scale = 1;
             float ver_scale = 1;
-     //       TextureChannels ID;
+         
             do
             {
                 tokens = lines[startLine].Split(' ');
 
                 switch (tokens[0])
                 {
-                    case "verticalScale": hor_scale = float.Parse(tokens[1]); break;
+                    case "verticalScale":
+                        ver_scale = float.Parse(tokens[1]);
+                    break;
 
-                    case "horizontalScale": ver_scale = float.Parse(tokens[1]); break;
-
+                    case "horizontalScale":
+                        hor_scale = float.Parse(tokens[1]);
+                    break;
                     case "diffuseMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].diffuseMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 0 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "normalMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].normalMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 1 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "specularMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].specularMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 2 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "heightMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].heightMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 3 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "reflectGlossMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].reflectGlossMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 4 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                     case "transparencyMap":
                         Texture2ChannelAssign(tokens[1], "materials[" + submatN + "].transparencyMap");
-                        materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].channels[" + 5 + "].multRGBA", new float[] { hor_scale, ver_scale, 1, 1 });
                     break;
 
                 }
+                materialUniformBuffer.UpdateBufferIteam("settings[" + submatN + "].scaling", new float[2] { hor_scale, ver_scale });
+
                 startLine++;
 
             } while(!lines[startLine].Equals("}\r"));
@@ -113,32 +112,35 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             for (int i = 0; i < MAX_MATERIALS; i++)
             {
+                
+                materialUniformBuffer.addBufferItem("settings[" + i + "].scaling", 4);
                 materialUniformBuffer.addBufferItem("settings[" + i + "].albedoColor", 4);
                 materialUniformBuffer.addBufferItem("settings[" + i + "].ambientColor", 4);
                 materialUniformBuffer.addBufferItem("settings[" + i + "].reflectionColor", 4);
-
+                /*
                 for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
                 {
                     materialUniformBuffer.addBufferItem("settings[" + i + "].channels[" + j + "].tileUV", 2);
                     materialUniformBuffer.addBufferItem("settings[" + i + "].channels[" + j + "].offsetUV", 2);
                     materialUniformBuffer.addBufferItem("settings[" + i + "].channels[" + j + "].multRGBA", 4);
-                }
+                }*/
             }
 
             materialUniformBuffer.Create(1);///Создаёт один размеченный выше буфер для материала 
 
             for (int i = 0; i < MAX_MATERIALS; i++)
             {
+                materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].scaling", new float[2] { 1, 1 });
                 materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].albedoColor", DefColor);
                 materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].ambientColor", DefColor);
                 materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].reflectionColor", BlackColor);
-
+                /*
                 for (int j = 0; j < (int)TextureChannels.TerrainChannelsCount; j++)
                 {
                     materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channels[" + j + "].tileUV", DefUV);
                     materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channels[" + j + "].offsetUV", DefOffs);
                     materialUniformBuffer.UpdateBufferIteam("settings[" + i + "].channels[" + j + "].multRGBA", DefMult);
-                }
+                }*/
             }
         }
 

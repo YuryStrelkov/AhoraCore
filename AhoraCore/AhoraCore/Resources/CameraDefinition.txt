@@ -4,7 +4,4 @@ layout(std140, row_major) uniform CameraData
 	mat4 projectionMatrix;
 	mat4 tiltMatix;
 };
-vec3 camPosition()
-{
-return -(transpose(viewMatrix)*vec4(0,0,0,1)).xyz;
-}
+ 

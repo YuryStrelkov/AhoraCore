@@ -2,15 +2,15 @@
 
 layout(location = 0) out vec4 outColor;
 
+#include TerrainMaterialData;
+
+#include TerrainSettings;
+
 in vec2 mapCoord_FS;
 
 in vec3 position_FS;
 
 in vec3 tangent_FS;
-
-#include TerrainMaterialData;
-
-#include TerrainSettings;
 
 uniform sampler2D normalMap;
 
@@ -35,22 +35,22 @@ void main()
 
 	vec3 normal = texture(normalMap,mapCoord_FS).xyz;
 	
-    vec3 color0 = texture(materials[0].diffuseMap, mapCoord_FS*(settings[0].channels[0].multRGBA).y).rgb;
+    vec3 color0 = texture(materials[0].diffuseMap, mapCoord_FS*settings[0].scaling.x).rgb;
 
-	vec3 color1 = texture(materials[1].diffuseMap, mapCoord_FS*(settings[1].channels[0].multRGBA).y).rgb;
+	vec3 color1 = texture(materials[1].diffuseMap, mapCoord_FS*settings[1].scaling.x).rgb;
 
 	float [2] materialAlpha = float[](0,0);
 	
 	if(normal.y>0.5)
 		{
-			materialAlpha[1]=1;
+			materialAlpha[1] = 1;
 		}
 		else
 		{
-			materialAlpha[0]=1;
+			materialAlpha[0] = 1;
 		}
 	
-	if(dist<TBNrange)
+	if(dist < TBNrange - 50)
 	{
 		float attenuation =clamp(-dist/(TBNrange-50)+1,0.0,1.0);
 	
@@ -62,9 +62,8 @@ void main()
 		
 		for (int i=0;i<2;i++)
 		{
-		bumpNormal += (2*(texture(materials[i].normalMap, mapCoord_FS * settings[i].channels[1].multRGBA.y)).rgb - 1)*materialAlpha[i] ;
+		bumpNormal += ((2*texture(materials[i].normalMap, mapCoord_FS *settings[i].scaling.x).rgb - 1)*materialAlpha[i]) ;
 		}		
-		
 		bumpNormal=normalize(bumpNormal);
 		
 		bumpNormal.xz *= attenuation;
@@ -74,10 +73,10 @@ void main()
 	
 	vec3 fragmentColor =  color0*materialAlpha[0]+color1*materialAlpha[1];
 	
-	float diffuse = diffuse(direction, texture(normalMap, mapCoord_FS).rgb, intensity);
+	float diffuse = diffuse(direction, normal, intensity);
 
-	fragmentColor*=diffuse;
+	fragmentColor *= diffuse;
 	
-	outColor = vec4(fragmentColor,1.0) * diffuse;
+	outColor = vec4(fragmentColor,1.0);
 
 }

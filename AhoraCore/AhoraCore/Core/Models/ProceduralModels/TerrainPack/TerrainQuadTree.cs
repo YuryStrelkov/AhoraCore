@@ -124,13 +124,13 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             TerrainShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldPos());
 
-            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.ActiveTexture(TextureUnit.Texture0 + Terrain_Material.Textures.Count);
             config.HeightMap.Bind();
-            TerrainShader.SetUniformi("heightMap", 0);
+            TerrainShader.SetUniformi("heightMap", Terrain_Material.Textures.Count);
 
-            GL.ActiveTexture(TextureUnit.Texture1);
+            GL.ActiveTexture(TextureUnit.Texture1 + Terrain_Material.Textures.Count);
             config.NormalMap.Bind();
-            TerrainShader.SetUniformi("normalMap", 1);
+            TerrainShader.SetUniformi("normalMap", Terrain_Material.Textures.Count + 1);
 
             GL.BindVertexArray(NodePachModel.ID);
             NodePachModel.EnableAttribytes();

@@ -1,18 +1,18 @@
 #terrain settings
 
-ScaleXZ 6000
+ScaleXZ 6000 
 
-ScaleY 600
+ScaleY 600 
 
-HeigthMap false hm1
+HeigthMap false hm1 
 
-TessellationFactor 600
+TessellationFactor 600 
 
-TessellationSlope 0,9
+TessellationSlope 0,9 
 
-TessellationShift 0,3
+TessellationShift 0,3 
 
-TBNRange 300
+TBNRange 300 
 
 LodRanges 1750 874 386 192 100 50 0 0
 
@@ -32,24 +32,24 @@ material
 {
 count 3 
 {
-verticalScale 0,4
-horizontalScale 400 
+verticalScale 0,4 
+horizontalScale 400  
 diffuseMap grassDiffuse 
 normalMap grassNormal 
 heightMap grassDisplacement 
 }
 
 {
-verticalScale 0,4
-horizontalScale 400 
+verticalScale 0,4 
+horizontalScale 400  
 diffuseMap rockDiffuse 
 normalMap rockNormal 
 heightMap rockDisplacement 
 }
 
 {
-verticalScale 1,2
-horizontalScale 200 
+verticalScale 1,2 
+horizontalScale 200  
 diffuseMap groundDiffuse 
 normalMap groundNormal 
 heightMap groundDisplacement 
