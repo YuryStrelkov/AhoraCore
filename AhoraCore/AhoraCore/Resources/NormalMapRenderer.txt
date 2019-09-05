@@ -39,6 +39,6 @@ void main(void)
 	normal.y = z0 + 2*z1 + z2 - z5 - 2*z6 - z7;
 
 	normal=normalize(normal);
-	imageStore(normalmap, x, vec4((normalize(normal)+1)/2,1));
+	imageStore(normalmap, x, vec4(normalize(normal),1));
 
 }

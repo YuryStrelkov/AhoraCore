@@ -14,12 +14,18 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public Texture NormalMap { get; private set; }
 
+        public Texture BlendingMap { get; private set; }
+
         public float TBNRange { get; private set; }
 
         private NormalMapRendererShader normalMapRendererShader;
 
+        private SplatMapRendererShader BlendMapRendererShader;
+
+
+
         ////TerrainMaterial TMaterial;
-        
+
         private int N;
 
         private float Strength;
@@ -47,6 +53,22 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         {
             LodRanges[index] = range;
             LodMorphingArea[index] = range - UpdateMorphingArea(index + 1);
+        }
+
+        private void RenderSplatMap()
+        {
+            BlendingMap = new Texture();
+            BlendingMap.Bind();
+            BlendingMap.BilinearFilter();
+            GL.TexStorage2D(TextureTarget2d.Texture2D, (int)(Math.Log(N) / Math.Log(2)), SizedInternalFormat.Rgba16, N, N);
+            BlendMapRendererShader.Bind();
+            BlendMapRendererShader.UpdateUniforms(NormalMap, N);
+            GL.BindImageTexture(0, BlendingMap.ID, 0, false, 0, TextureAccess.WriteOnly, SizedInternalFormat.Rgba16);
+            GL.DispatchCompute(N / 16, N / 16, 1);
+            GL.Finish();
+            BlendingMap.Bind();
+            BlendingMap.BilinearFilter();
+
         }
 
         private void RenderNormalMap()
@@ -118,8 +140,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                         Strength = 60;
                         N = HeightMap.Width;
                         RenderNormalMap();
-
-                        ; break;
+                        RenderSplatMap();
+                       ; break;
 
                     case "LodRanges":
                         for (int k = 0; k < 8; k++)
@@ -167,6 +189,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public TerrainConfig()
         {
             normalMapRendererShader = NormalMapRendererShader.getInstance();
+
+            BlendMapRendererShader = SplatMapRendererShader.getInstance();
         }
 
     }

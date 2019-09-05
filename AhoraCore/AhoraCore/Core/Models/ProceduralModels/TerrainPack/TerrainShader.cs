@@ -60,6 +60,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             AddUniform("normalMap");
 
+            AddUniform("blendMap");
+
             AddUniform("materials[0].diffuseMap");
             AddUniform("materials[0].normalMap");
             AddUniform("materials[0].specularMap");

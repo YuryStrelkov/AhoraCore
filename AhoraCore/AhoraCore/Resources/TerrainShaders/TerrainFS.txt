@@ -16,15 +16,17 @@ uniform sampler2D normalMap;
 
 uniform sampler2D heightMap;
 
+uniform sampler2D blendMap;
+
 uniform vec3 cameraPosition;
 
-const vec3 direction = vec3(0.333,0.333,0.333);
+const vec3 direction = vec3(0.0,1,0.0);
 
-const float intensity = 1.2;
+const float intensity = 2.2;
 
 float diffuse(vec3 dir, vec3 n, float i)
 {
-	return max(0.04, dot(n,dir) * i);
+	return max(0.1, dot(n,dir) * i);
 }
 
 void main()
@@ -33,22 +35,12 @@ void main()
 
 	float height = position_FS.y;
 
-	vec3 normal = texture(normalMap,mapCoord_FS).xyz;
+	vec3 normal = normalize( texture(normalMap,mapCoord_FS).rbg);
 	
-    vec3 color0 = texture(materials[0].diffuseMap, mapCoord_FS*settings[0].scaling.x).rgb;
-
-	vec3 color1 = texture(materials[1].diffuseMap, mapCoord_FS*settings[1].scaling.x).rgb;
-
-	float [2] materialAlpha = float[](0,0);
-	
-	if(normal.y>0.5)
-		{
-			materialAlpha[1] = 1;
-		}
-		else
-		{
-			materialAlpha[0] = 1;
-		}
+    vec4 blendValues = texture(blendMap,mapCoord_FS).rgba;
+    
+	float [4] blendValsArray = float[](blendValues.r,blendValues.g,blendValues.b,blendValues.a);
+				
 	
 	if(dist < TBNrange - 50)
 	{
@@ -56,13 +48,13 @@ void main()
 	
 		vec3 biTangent = normalize(cross(tangent_FS,normal));
 	
-    	mat3 TBN =mat3(biTangent,normal,tangent_FS);
+    	mat3 TBN =mat3(tangent_FS,normal,biTangent);
 		
 		vec3 bumpNormal=vec3(0,0,0);
 		
-		for (int i=0;i<2;i++)
+		for (int i=0;i<3;i++)
 		{
-		bumpNormal += ((2*texture(materials[i].normalMap, mapCoord_FS *settings[i].scaling.x).rgb - 1)*materialAlpha[i]) ;
+		bumpNormal += (2*(texture(materials[i].normalMap, mapCoord_FS * settings[i].scaling.x).rbg) - 1) * blendValsArray[i];
 		}		
 		bumpNormal=normalize(bumpNormal);
 		
@@ -71,11 +63,16 @@ void main()
 		normal = normalize(TBN*bumpNormal);
 	}
 	
-	vec3 fragmentColor =  color0*materialAlpha[0]+color1*materialAlpha[1];
+	vec3 fragmentColor =  vec3(0,0,0);
 	
-	float diffuse = diffuse(direction, normal, intensity);
+	for(int i=0; i < 3; i++ )
+	{
+	fragmentColor+= texture(materials[i].diffuseMap,mapCoord_FS*settings[i].scaling.x).rgb* blendValsArray[i]; 
+	}
+	
+	float diffColor = diffuse(direction, normal, intensity);
 
-	fragmentColor *= diffuse;
+	fragmentColor *= diffColor;
 	
 	outColor = vec4(fragmentColor,1.0);
 

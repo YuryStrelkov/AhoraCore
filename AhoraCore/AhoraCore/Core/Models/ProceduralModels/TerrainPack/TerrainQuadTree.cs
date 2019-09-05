@@ -132,6 +132,11 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             config.NormalMap.Bind();
             TerrainShader.SetUniformi("normalMap", Terrain_Material.Textures.Count + 1);
 
+            GL.ActiveTexture(TextureUnit.Texture2 + Terrain_Material.Textures.Count);
+            config.BlendingMap.Bind();
+            TerrainShader.SetUniformi("blendMap", Terrain_Material.Textures.Count + 2);
+
+
             GL.BindVertexArray(NodePachModel.ID);
             NodePachModel.EnableAttribytes();
 

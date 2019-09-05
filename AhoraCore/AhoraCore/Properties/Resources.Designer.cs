@@ -67,10 +67,7 @@ namespace AhoraCore.Properties {
         ///	mat4 projectionMatrix;
         ///	mat4 tiltMatix;
         ///};
-        ///vec3 camPosition()
-        ///{
-        ///return -(transpose(viewMatrix)*vec4(0,0,0,1)).xyz;
-        ///}.
+        /// .
         /// </summary>
         internal static string CameraDefinition {
             get {
@@ -389,6 +386,16 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430;
+        ///layout();.
+        /// </summary>
+        internal static string SplatMapRenderer {
+            get {
+                return ResourceManager.GetString("SplatMapRenderer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на layout(std140) uniform TerrainSettings
         ///{
         ///	float ScaleY;
@@ -411,30 +418,34 @@ namespace AhoraCore.Properties {
         ///
         ///layout(location = 0) out vec4 outColor;
         ///
+        ///#include TerrainMaterialData;
+        ///
+        ///#include TerrainSettings;
+        ///
         ///in vec2 mapCoord_FS;
         ///
-        ///#include TerrainMaterialData;
+        ///in vec3 position_FS;
+        ///
+        ///in vec3 tangent_FS;
         ///
         ///uniform sampler2D normalMap;
         ///
         ///uniform sampler2D heightMap;
         ///
-        ///const vec3 direction = vec3(0.333,0.333,0.333);
+        ///uniform vec3 cameraPosition;
         ///
-        ///const float intensity = 1.2;
+        ///const vec3 direction = vec3(0.0,1,0.0);
+        ///
+        ///const float intensity = 2.2;
         ///
         ///float diffuse(vec3 dir, vec3 n, float i)
         ///{
-        ///	return max(0.01, dot(n,dir) * i);
+        ///	return max(0.1, dot(n,dir) * i);
         ///}
         ///
         ///void main()
         ///{
-        ///	///vec3 normal = ;
-        ///
-        ///	float diffuse = diffuse(direction, texture(normalMap, mapCoord_FS).rgb, intensity);
-        ///
-        ///	outColor = vec4(vec3(0.1,1.0,0.1)*( [остаток строки не уместился]&quot;;.
+        ///	float dist = length(cameraPosition - position_F [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainFS {
             get {
@@ -447,36 +458,37 @@ namespace AhoraCore.Properties {
         ///
         ///layout(triangles) in;
         ///
-        ///#include CameraDefinition;
+        ///#include CameraDefinition; ///10
         ///
+        ///#include TerrainMaterialData; //47
+        ///
+        ///#include TerrainSettings; //10
         ///
         ///// layout( line_strip, max_vertices = 4 )out;
         ///layout( triangle_strip, max_vertices = 3 )out;
         ///
-        ///in vec2 mapCoord_GS[];
         ///
         ///out vec2 mapCoord_FS;
         ///
+        ///out vec3 position_FS;
         ///
-        /////uniform mat4 projectionMatrix;
+        ///out vec3 tangent_FS;
         ///
-        /////uniform mat4 viewMatrix;
+        ///////////////////
         ///
-        ///void main()
+        ///in vec2 mapCoord_GS[];
+        ///
+        ///uniform sampler2D normalMap;
+        /// 
+        ///uniform vec3 cameraPosition;
+        ///  
+        ///
+        ///
+        ///  
+        ///vec3 calcTangent()
         ///{
-        ///	vec4 pos;
-        ///	
-        ///	mat4   vpm = projectionMatrix*viewMatrix;
-        ///	
-        ///	for (int i=0;i&lt;gl_in.length();i++)
-        ///	{
-        ///		pos = gl_in[i].gl_Position;
-        ///		
-        ///		gl_Position = vpm *pos;
-        ///		
-        ///		mapCoord_FS=mapCoord_GS[i];
-        ///		
-        ///		E [остаток строки не уместился]&quot;;.
+        ///
+        ///vec3 e1 = gl_in[1].gl_Position.xyz - gl_in[0 [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainGS {
             get {
@@ -485,38 +497,38 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на ////Textures
-        ///const int   GrassDiffID = 0,
-        ///	    	GrassNormalID = 1,
-        ///     		GrassDispID = 2,
-        ///			GrassSpecID = 3,
-        ///			
-        ///			GroundDiffID = 4,
-        ///	    	GroundNormalID = 5,
-        ///     		GroundDispID = 6,
-        ///			GroundSpecID = 7,
-        ///			
-        ///			RockDiffID = 8,
-        ///	    	RockNormalID = 9,
-        ///     		RockDispID = 10,
-        ///			RockSpecID = 11;
+        ///   Ищет локализованную строку, похожую на const int MAX_TEXTURE_CHANNELS = 6;
+        ///const int MAX_MATERIALS = 3;
         ///
-        ///struct  channel
-        ///{
-        ///	vec2 tileUV;
-        ///	vec2 offsetUV;
-        ///	vec4 multRGBA;
-        ///};
+        ///const int   DiffuseID = 0,
+        ///	    	NormalID = 1,
+        ///     		SpecularID = 2,
+        ///			HeightID = 3,
+        ///			ReflectGlossID = 4,
+        ///			TransparencyID =5;
         ///
-        ///layout(std140)  uniform TerrainMaterialData
+        ///struct MaterialSettings
         ///{
+        ///vec4 scaling;
+        ///
         ///vec4 albedoColor;
         ///
         ///vec4 ambientColor;
         ///
         ///vec4 reflectionColor;
+        ///};
         ///
-        ///float [остаток строки не уместился]&quot;;.
+        ///
+        ///layout(std140) uniform MaterialData
+        ///{
+        ///MaterialSettings settings[MAX_MATERIALS];
+        ///};
+        ///
+        ///struct Material
+        ///{
+        ///	sampler2D   diffuseMap;
+        ///	sampler2D   normalMap;
+        ///	sampler2D   specularMap [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainMaterialDefinition {
             get {
@@ -527,25 +539,25 @@ namespace AhoraCore.Properties {
         /// <summary>
         ///   Ищет локализованную строку, похожую на #terrain settings
         ///
-        ///ScaleXZ 6000
+        ///ScaleXZ 6000 
         ///
-        ///ScaleY 600
+        ///ScaleY 600 
         ///
-        ///HeigthMap false hm1
+        ///HeigthMap false hm1 
         ///
-        ///TessellationFactor 600
+        ///TessellationFactor 600 
         ///
-        ///TessellationSlope 0,9
+        ///TessellationSlope 0,9 
         ///
-        ///TessellationShift 0,3
+        ///TessellationShift 0,3 
         ///
-        ///TBNRange 300
+        ///TBNRange 300 
         ///
         ///LodRanges 1750 874 386 192 100 50 0 0
         ///
-        ///texture grassDiffuse D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_DIF.jpg
-        ///texture grassNormal D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_NRM.jpg
-        ///texture grassDisplacemnt D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0 [остаток строки не уместился]&quot;;.
+        ///texture grassDiffuse E:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_DIF.jpg
+        ///texture grassNormal E:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_NRM.jpg
+        ///texture grassDisplacement E:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrai [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainSettings {
             get {
@@ -643,10 +655,6 @@ namespace AhoraCore.Properties {
         ///
         ///uniform mat4 LocTransMatrix;
         ///
-        /////uniform mat4 WorldTransMatrix;
-        ///
-        /////uniform  float ScaleY;
-        ///
         ///uniform int lod;
         ///
         ///uniform  float gap;
@@ -664,7 +672,10 @@ namespace AhoraCore.Properties {
         ///float morphLatitude(vec2 position) {
         ///	
         ///	vec2 frac = position - location;
-        ///	        /// [остаток строки не уместился]&quot;;.
+        ///	
+        ///	if (index == vec2(0,0)){
+        ///		float morph = frac.x - frac.y;
+        ///		 [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainVS {
             get {

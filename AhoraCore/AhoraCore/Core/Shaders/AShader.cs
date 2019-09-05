@@ -1,6 +1,5 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.UniformsBuffer;
-using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.ICES;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;

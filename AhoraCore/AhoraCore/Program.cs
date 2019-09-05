@@ -13,7 +13,7 @@ namespace AhoraCore
 
         private static void Begin()
         {
-            FrameDisplay = new DisplayDevice(1024, 840);
+            FrameDisplay = new DisplayDevice(1920, 1080);
 
             TextureStorrage.Initilaze();
 
