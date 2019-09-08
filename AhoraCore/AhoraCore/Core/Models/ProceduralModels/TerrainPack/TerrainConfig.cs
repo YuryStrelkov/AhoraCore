@@ -136,7 +136,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                             HeightMap = new Texture(Properties.Resources.hm0);
                         }
                         HeightMap.Bind();
-                        HeightMap.BilinearFilter();
+                        HeightMap.TrilinearFilter();
                         Strength = 60;
                         N = HeightMap.Width;
                         RenderNormalMap();

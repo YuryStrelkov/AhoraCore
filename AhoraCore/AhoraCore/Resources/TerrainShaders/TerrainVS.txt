@@ -4,6 +4,8 @@
 
 #include TerrainSettings;
 
+#include CameraDefinition;
+
 layout(location = 0)in vec2 p_position;
 
 out vec2 mapCoord_TC;
@@ -17,10 +19,6 @@ uniform  float gap;
 uniform vec2 location;
 
 uniform vec2 index;
-
-//uniform int lod_morph_area[8];
-
-uniform vec3 cameraPosition;
 
 uniform sampler2D heightMap;
 
@@ -77,6 +75,7 @@ float morphLongitude(vec2 position) {
 	}
 	return 0;
 }
+
 vec2 Morphing(vec2 localPosition, float morph_area){
 	
 	vec2 morphing = vec2(0,0);
@@ -114,9 +113,9 @@ vec2 Morphing(vec2 localPosition, float morph_area){
 		planarFactor = cameraPosition.y/ abs(ScaleY);
 	}
 		
-	distLatitude = length(cameraPosition - (worldTransform * 
+	distLatitude = length(cameraPosition.xyz - (worldTransform * 
 					vec4(fixPointLatitude.x,planarFactor,fixPointLatitude.y,1)).xyz);
-	distLongitude = length(cameraPosition - (worldTransform * 
+	distLongitude = length(cameraPosition.xyz - (worldTransform * 
 					vec4(fixPointLongitude.x,planarFactor,fixPointLongitude.y,1)).xyz);
 					
 	if (distLatitude > morph_area)
@@ -130,21 +129,14 @@ vec2 Morphing(vec2 localPosition, float morph_area){
 
 void main()
 {
-	
-	float [8] lods;
-	lods[0]= 1750;
-	lods[1]= 874;
-	lods[2]=386;
-	lods[3]= 192;
-	lods[4]= 100;
-	lods[5]= 50;
-	lods[6]= 0;
-	lods[7]=0; 
 	vec2 localPos = (LocTransMatrix*vec4(p_position.x, 0 , p_position.y, 1)).xz;	
+	
+	float [8]morphAreas = float[](morphAreas0.x, morphAreas0.y, morphAreas0.z, morphAreas0.w,
+								  morphAreas1.x, morphAreas1.y, morphAreas1.z, morphAreas1.w);
 
 	if(lod > 0)
 	{
-	 localPos += Morphing(localPos,lods[lod-1]);////lod_morph_area[lod-1]);
+	 localPos += Morphing(localPos,morphAreas[lod-1]);
 	}
 	mapCoord_TC = localPos;
 	

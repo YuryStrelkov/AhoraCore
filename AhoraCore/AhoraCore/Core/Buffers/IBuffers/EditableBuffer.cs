@@ -91,7 +91,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
                 throw new Exception("Unnable to load data to buffer:not enought of space");
             }*/
                 GL.BufferSubData(BindingTarget, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
-                Fillnes += data.Length;
+                Fillnes = startIdx + data.Length > Fillnes? startIdx + data.Length : Fillnes;
         }
         /// <summary>
         /// включает буфер

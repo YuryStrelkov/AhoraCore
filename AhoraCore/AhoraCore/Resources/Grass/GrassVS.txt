@@ -1,38 +1,24 @@
-#version 330
-
-layout(location = 0)in vec3 p_position;
-layout(location = 1)in vec2 p_uv;
-layout(location = 2)in vec3 p_normal;
-
-#include CameraDefinition;
+#version 430
 
 #include TransformDefinition;
 
 #include TerrainSettings;
 
+#include CameraDefinition;
+
+layout(location = 0)in vec2 p_position;
+
+out vec2 mapCoord_TC;
+
 uniform mat4 LocTransMatrix;
 
 uniform sampler2D heightMap;
 
-uniform  int lod;
-
-uniform  float gap;
-
-out vec2 uvCoord;
-
-out vec3 normal;
-
 void main()
-{	
-	uvCoord = p_uv;
+{
+	vec2 localPos = (LocTransMatrix*vec4(p_position.x, 0 , p_position.y, 1)).xz;	
 	
-	normal = p_normal.xzy;
+	mapCoord_TC = localPos;
 	
-    vec4 localPos = LocTransMatrix*vec4(p_position.xzy, 1);
-	
-	float verticalShift = texture(heightMap,localPos.xz).r;
-	
-	localPos.y=localPos.y*0.05 + verticalShift;
-
-	gl_Position = projectionMatrix * viewMatrix *worldTransform*(localPos);
+	gl_Position =  worldTransform * vec4(localPos.x, texture(heightMap,localPos).r,  localPos.y, 1);
 }

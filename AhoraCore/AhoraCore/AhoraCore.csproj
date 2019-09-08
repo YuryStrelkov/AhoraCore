@@ -95,6 +95,7 @@
     <Compile Include="Core\CES\Node.cs" />
     <Compile Include="Core\CES\Transformable.cs" />
     <Compile Include="Core\Constants.cs" />
+    <Compile Include="Core\Context\MainContext.cs" />
     <Compile Include="Core\DataManaging\GeometryStorageManager.cs" />
     <Compile Include="Core\Buffers\IBuffers\IAttribyteable.cs" />
     <Compile Include="Core\Buffers\IBuffers\IDataStorrage.cs" />
@@ -238,6 +239,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SplatMapRenderer.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grass\GrassTC.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grass\GrassTE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grass\GrassGS.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

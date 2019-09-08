@@ -6,5 +6,6 @@ layout(std140) uniform TerrainSettings
 	float tessellationSlope;
 	float tessellationShift;
 	float TBNrange;
-	float[8] lod_morph_area;
+	vec4 morphAreas0;
+	vec4 morphAreas1;
 };

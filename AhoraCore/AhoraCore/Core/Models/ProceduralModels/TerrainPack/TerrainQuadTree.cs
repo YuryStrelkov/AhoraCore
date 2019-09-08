@@ -105,8 +105,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public override void Render()
         {
            drawTerrain();
-           //drawGrass();
-           drawTrees();
+        //   drawGrass();
+          // drawTrees();
         }
 
 
@@ -219,16 +219,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             MarkBufferItem("tessellationFactor", 1);
             MarkBufferItem("tessellationSlope", 1);
             MarkBufferItem("tessellationShift", 1);
-            MarkBufferItem("TBNrange", 1);
-            MarkBufferItem("lod_morph_area", 8);
-            //MarkBufferItem("lod_morph_area[" + 0 + "]", 1);
-            //MarkBufferItem("lod_morph_area[" + 1 + "]", 1);
-            //MarkBufferItem("lod_morph_area[" + 2 + "]", 1);
-            //MarkBufferItem("lod_morph_area[" + 3 + "]", 1);
-            //MarkBufferItem("lod_morph_area[" + 4 + "]", 1);
-            //MarkBufferItem("lod_morph_area[" + 5 + "]", 1);
-            //MarkBufferItem("lod_morph_area[" + 6 + "]", 1);
-            //MarkBufferItem("lod_morph_area[" + 7 + "]", 1);
+            MarkBufferItem("TBNrange", 3);
+            MarkBufferItem("morphAreas0", 4);
+            MarkBufferItem("morphAreas1", 4);
 
             ConfirmBuffer();
 
@@ -247,20 +240,12 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             UniformBuffer.UpdateBufferIteam("tessellationShift",  config.TessellationShift);
 
             UniformBuffer.UpdateBufferIteam("TBNrange", config.TBNRange);
+            
+            UniformBuffer.UpdateBufferIteam("morphAreas0", new float[] { config.LodRanges [0], config.LodRanges [1], config.LodRanges [2], config.LodRanges [3]});
 
-            UniformBuffer.UpdateBufferIteam("lod_morph_area", config.LodRanges);
+            UniformBuffer.UpdateBufferIteam("morphAreas1", new float[] { config.LodRanges[4], config.LodRanges[5], config.LodRanges[6], config.LodRanges[7] });
 
-            //DebugBuffers.displayBufferData(UniformBuffer);
-            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 0 + "]", config.LodRanges[0]);
-            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 1 + "]", config.LodRanges[1]);
-            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 2 + "]", config.LodRanges[2]);
-            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 3 + "]", config.LodRanges[3]);
-            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 4 + "]", config.LodRanges[4]);
-            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 5 + "]", config.LodRanges[5]);
-            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 6 + "]", config.LodRanges[6]);
-            //UniformBuffer.UpdateBufferIteam("lod_morph_area[" + 7 + "]", config.LodRanges[7]);
             UniformBuffer.Unbind();
-
             #endregion
 
             this.config = config;

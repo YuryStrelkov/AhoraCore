@@ -2,7 +2,7 @@
 
 ScaleXZ 6000 
 
-ScaleY 600 
+ScaleY 800 
 
 HeigthMap false hm1 
 
@@ -12,7 +12,7 @@ TessellationSlope 0,9
 
 TessellationShift 0,3 
 
-TBNRange 300 
+TBNRange 900 
 
 LodRanges 1750 874 386 192 100 50 0 0
 
@@ -40,7 +40,7 @@ heightMap grassDisplacement
 }
 
 {
-verticalScale 2,0 
+verticalScale 1,5 
 horizontalScale 200  
 diffuseMap groundDiffuse 
 normalMap groundNormal 
@@ -48,8 +48,8 @@ heightMap groundDisplacement
 }
 
 {
-verticalScale 5,4 
-horizontalScale 100  
+verticalScale 25
+horizontalScale 40  
 diffuseMap rockDiffuse 
 normalMap rockNormal 
 heightMap rockDisplacement 

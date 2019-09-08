@@ -196,4 +196,13 @@
   <data name="SplatMapRenderer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SplatMapRenderer.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="GrassGS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Grass\GrassGS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GrassTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Grass\GrassTC.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GrassTE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Grass\GrassTE.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
 </root>

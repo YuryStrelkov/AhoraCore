@@ -87,7 +87,7 @@ namespace AhoraCore.Core.Input
                 DragEnvoirmentModel(); return;
             }
 
-            if (Keyboard.GetState()[Key.R])
+           /* if (Keyboard.GetState()[Key.R])
             {
                 CameraInstance.Get().TiltCamera(-MathHelper.Pi / 36);
                 isUpdated = true;
@@ -100,7 +100,7 @@ namespace AhoraCore.Core.Input
                 CameraInstance.Get().TiltCamera(MathHelper.Pi / 36);
                 isUpdated = true;
                 return;
-            }
+            }*/
             CameraInstance.Get().IsUpdated = false;
             if (isOne())
             {

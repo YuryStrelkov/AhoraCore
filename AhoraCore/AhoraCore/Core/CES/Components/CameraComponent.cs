@@ -1,4 +1,5 @@
 ﻿using AhoraCore.Core.CES.ICES;
+using AhoraCore.Core.Context;
 using AhoraCore.Core.Utils;
 using OpenTK;
 using System;
@@ -10,16 +11,15 @@ namespace AhoraCore.Core.CES.Components
        
         public Matrix4 ViewMatrix { get; private set;}
 
-        public Matrix4 PespectiveMatrix { get; private set; }
-
-        public Matrix4 TiltMatrix { get; private set; }
-
+        public Matrix4 ProjectionMatrix { get; private set; }
+        
         public Vector3 LookAt { get; protected set; }
 
         public Vector3 Right { get; protected set; }
 
         public Vector3 Up { get; protected set; }
-        
+
+        public Vector4[]FrustumPlanes { get; protected set; }
 
         public float FOV = MathHelper.DegreesToRadians(70);
 
@@ -35,10 +35,12 @@ namespace AhoraCore.Core.CES.Components
 
         public override void Clear()
         {
+            UniformBuffer.Clear();
         }
 
         public override void Delete()
         {
+            UniformBuffer.Delete();
         }
 
         public override void Disable()
@@ -62,24 +64,100 @@ namespace AhoraCore.Core.CES.Components
         }
 
 
+        private void InitfrustumPlanes()
+        {
+            // ax * bx * cx +  d = 0; store a,b,c,d
+            FrustumPlanes = new Vector4[6];
+            //left plane
+            Vector4 leftPlane = new Vector4(
+                   ProjectionMatrix.M41 +ProjectionMatrix.M11
+                        * (float)((Math.Tan(MathUtils.ToRads(FOV/ 2))
+                        * ((double)MainContext.ScreenWidth
+                         / (double)MainContext.ScreenHeight))),
+                   ProjectionMatrix.M42 +ProjectionMatrix.M12,
+                   ProjectionMatrix.M43 +ProjectionMatrix.M13,
+                   ProjectionMatrix.M44 +ProjectionMatrix.M14);
+
+            FrustumPlanes[0] = MathUtils.NormalizePlane(leftPlane);
+
+            //right plane
+            Vector4 rightPlane = new Vector4(
+                   ProjectionMatrix.M41 -ProjectionMatrix.M11
+                        * (float)((Math.Tan(MathUtils.ToRads(FOV/ 2))
+                        * ((double)MainContext.ScreenWidth
+                        / (double)MainContext.ScreenHeight))),
+                   ProjectionMatrix.M42 -ProjectionMatrix.M12,
+                   ProjectionMatrix.M43 -ProjectionMatrix.M13,
+                   ProjectionMatrix.M44 -ProjectionMatrix.M14);
+
+            FrustumPlanes[1] = MathUtils.NormalizePlane(rightPlane);
+
+            //bot plane
+            Vector4 botPlane = new Vector4(
+                   ProjectionMatrix.M41 +ProjectionMatrix.M21,
+                   ProjectionMatrix.M42 +ProjectionMatrix.M22
+                        * (float)Math.Tan(MathUtils.ToRads(FOV/ 2)),
+                   ProjectionMatrix.M43 +ProjectionMatrix.M23,
+                   ProjectionMatrix.M44 +ProjectionMatrix.M24);
+
+            FrustumPlanes[2] = MathUtils.NormalizePlane(botPlane);
+
+            //top plane
+            Vector4 topPlane = new Vector4(
+                   ProjectionMatrix.M41 -ProjectionMatrix.M21,
+                   ProjectionMatrix.M42 -ProjectionMatrix.M22
+                        * (float)Math.Tan(MathUtils.ToRads(FOV/ 2)),
+                   ProjectionMatrix.M43 -ProjectionMatrix.M23,
+                   ProjectionMatrix.M44 -ProjectionMatrix.M24);
+
+            FrustumPlanes[3] = MathUtils.NormalizePlane(topPlane);
+
+            //near plane
+            Vector4 nearPlane = new Vector4(
+                   ProjectionMatrix.M41 +ProjectionMatrix.M31,
+                   ProjectionMatrix.M42 +ProjectionMatrix.M32,
+                   ProjectionMatrix.M43 +ProjectionMatrix.M33,
+                   ProjectionMatrix.M44 +ProjectionMatrix.M34);
+
+            FrustumPlanes[4] = MathUtils.NormalizePlane(nearPlane);
+
+            //far plane
+            Vector4 farPlane = new Vector4(
+           ProjectionMatrix.M41 -ProjectionMatrix.M31,
+           ProjectionMatrix.M42 -ProjectionMatrix.M32,
+           ProjectionMatrix.M43 -ProjectionMatrix.M33,
+           ProjectionMatrix.M44 -ProjectionMatrix.M34);
+
+            FrustumPlanes[5] = MathUtils.NormalizePlane(farPlane);
+        }
+
+
+
+
         public void UpdateView()
         {
+            UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
 
+            UpdateBufferIteam("cameraLookAt", MathUtils.ToArray(LookAt));
+
+            IsUpdated = true;
         }
 
         public void UpdateProj()
         {
-
-        }
-
-        public void TiltCamera(float tiltAngle)
-        {
-            TiltAngle += tiltAngle;
-            TiltMatrix  = Matrix4.CreateRotationZ(TiltAngle);
-            UpdateBufferIteam("tiltMatix", MathUtils.ToArray(TiltMatrix));
+            UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(ProjectionMatrix));
             IsUpdated = true;
         }
 
+        public void UpdatePosition()
+        {
+            UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
+
+            UpdateBufferIteam("cameraPosition", MathUtils.ToArray(GetParent().GetWorldPos()));
+
+            IsUpdated = true;
+        }
+        
         public void SwitchToFace(int faceIndex)
         {
             Vector3 target, up;
@@ -118,8 +196,9 @@ namespace AhoraCore.Core.CES.Components
                     break;
             }
             ViewMatrix = Matrix4.LookAt(GetParent().GetWorldPos(), target, up);
-            ViewMatrix.Transpose();
-            UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
+
+            UpdateView();
+
         }
 
         public void RotateCam(float x, float y)
@@ -138,9 +217,7 @@ namespace AhoraCore.Core.CES.Components
 
             ViewMatrix = Matrix4.LookAt(GetParent().GetWorldPos(), GetParent().GetWorldPos() + LookAt, Vector3.UnitY);
 
-            UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
-
-            IsUpdated = true;
+            UpdateView();
         }
 
         public void MoveCam(float x, float y, float z)
@@ -163,9 +240,7 @@ namespace AhoraCore.Core.CES.Components
 
             ViewMatrix = Matrix4.LookAt(GetParent().GetWorldPos(), GetParent().GetWorldPos() + LookAt, Vector3.UnitY);
 
-            UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
-
-            IsUpdated = true;
+            UpdatePosition();
         }
 
         public CameraComponent() : base()
@@ -174,38 +249,42 @@ namespace AhoraCore.Core.CES.Components
 
             EnableBuffering("CameraData");
 
-            MarkBuffer(new string[] { "viewMatrix", "projectionMatrix", "tiltMatix" }, new int[] { 16, 16, 16 });
+            MarkBuffer(new string[] { "viewMatrix", "projectionMatrix", "frustumPlanes", "cameraPosition", "cameraLookAt" }, new int[] { 16, 16,4*6, 4,4 });
 
             ConfirmBuffer();
 
             SetBindigLocation(UniformBindingsLocations.CameraData);
             
-            TiltMatrix = Matrix4.Identity;
-
             FOV = MathHelper.DegreesToRadians(70);
 
             MoveSpeed = 0.1f;
 
             MouseSensitivity = 0.05f;
 
-            Aspect = 1;
+            Aspect = MainContext.ScreenAspectRatio;
 
             FOV = MathHelper.DegreesToRadians(70.0f);
 
-            PespectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(FOV, 1.4f, 0.5f, 50000);
+            ProjectionMatrix = Matrix4.CreatePerspectiveFieldOfView(FOV, Aspect, 0.5f, 50000);
 
             LookAt = new Vector3(0, 0, 1);
 
             ViewMatrix = Matrix4.LookAt(Vector3.Zero, Vector3.Zero + LookAt, Vector3.UnitY);
-           
+
+            InitfrustumPlanes();
+
             UniformBuffer.Bind();
         
             UniformBuffer.UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
 
-            UniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(PespectiveMatrix));
+            UniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(ProjectionMatrix));
 
-            UniformBuffer.UpdateBufferIteam("tiltMatix", MathUtils.ToArray(TiltMatrix));
+            UniformBuffer.UpdateBufferIteam("frustumPlanes", MathUtils.ToArray(FrustumPlanes));
 
+            UniformBuffer.UpdateBufferIteam("cameraPosition", new float[] { 0, 0, 0, 1 });
+
+            UniformBuffer.UpdateBufferIteam("cameraLookAt", new float[] { 0, 0, -1, 0 });
+            
             UniformBuffer.Unbind();
 
             IsUpdated = true;

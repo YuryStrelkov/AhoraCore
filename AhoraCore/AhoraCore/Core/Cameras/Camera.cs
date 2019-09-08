@@ -10,10 +10,11 @@ namespace AhoraCore.Core.Cameras
     {
         private CameraComponent cam;
         
-        public Matrix4 PespectiveMatrix{
+        public Matrix4 ProjectionMatrix
+        {
             get
             {
-                return cam.PespectiveMatrix;
+                return cam.ProjectionMatrix;
             }
         }
 
@@ -34,18 +35,11 @@ namespace AhoraCore.Core.Cameras
             cam = GetComponent<CameraComponent>(ComponentsTypes.CameraComponent);
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
         public void SwitchToFace(int faceIndex)
         {
             cam.SwitchToFace(faceIndex);
-            IsUpdated = true;
-        }
-
-        public void TiltCamera(float tiltAngle)
-        {
-            cam.TiltCamera(tiltAngle);
             IsUpdated = true;
         }
 
@@ -60,6 +54,7 @@ namespace AhoraCore.Core.Cameras
         {
             cam.Bind(sdr);
         }
+
         public void AddRotation(float x, float y)
         {
             cam.RotateCam(x, y);

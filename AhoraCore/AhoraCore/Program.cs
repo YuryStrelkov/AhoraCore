@@ -1,5 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.Context;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Models.ProceduralModels;
 using AhoraProject.Ahora.Core.Display;
@@ -9,42 +10,12 @@ namespace AhoraCore
 {
     class Program
     {
-        private static DisplayDevice FrameDisplay;
-
-        private static void Begin()
-        {
-            FrameDisplay = new DisplayDevice(1900, 1000);
-
-            TextureStorrage.Initilaze();
-
-            MaterialStorrage.Initilaze();
-
-            ShaderStorrage.Initilaze();
-
-            GeometryStorageManager.Initialize();
-
-            GameEntityStorrage.Initialize();
-        }
-
-        private static void End()
-        {
-            TextureStorrage.Textures.DeleteStorrage();
-
-            MaterialStorrage.Materials.DeleteStorrage();
-
-            ShaderStorrage.Sahaders.DeleteStorrage();
-
-            GeometryStorageManager.Data.DeleteManager();
-
-            GameEntityStorrage.Entities.DeleteStorrage();
-
-            FrameDisplay.Dispose();
-        }
 
         [STAThread]
         static void Main(string[] args)
         {
-            Begin();
+            MainContext.InitMainContext();
+
             float[] vertices = {
                 -0.5f, 0.5f, 0f,//v0
 				-0.5f, -0.5f, 0f,//v1
@@ -86,9 +57,9 @@ namespace AhoraCore
 
             Terrain.CreateTerrain();
 
-            FrameDisplay.Run();
+            MainContext.RunContext();
 
-            End();
+            MainContext.DisposeMainContext();
 
             Console.ReadKey();
         }
