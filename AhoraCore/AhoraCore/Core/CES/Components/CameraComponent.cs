@@ -122,7 +122,7 @@ namespace AhoraCore.Core.CES.Components
             FrustumPlanes[4] = MathUtils.NormalizePlane(nearPlane);
 
             //far plane
-            Vector4 farPlane = new Vector4(
+           Vector4 farPlane = new Vector4(
            ProjectionMatrix.M41 -ProjectionMatrix.M31,
            ProjectionMatrix.M42 -ProjectionMatrix.M32,
            ProjectionMatrix.M43 -ProjectionMatrix.M33,
@@ -133,6 +133,13 @@ namespace AhoraCore.Core.CES.Components
 
 
 
+
+        public void UpdateFrustumPlanes()
+        {
+            UpdateBufferIteam("frustumPlanes", MathUtils.ToArray(FrustumPlanes));
+            
+            IsUpdated = true;
+        }
 
         public void UpdateView()
         {
