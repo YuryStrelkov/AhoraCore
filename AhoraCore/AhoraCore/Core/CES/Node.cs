@@ -1,4 +1,5 @@
 ﻿using AhoraCore.Core.Cameras;
+using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.CES.ICES;
 using OpenTK;
 
@@ -31,7 +32,7 @@ namespace AhoraCore.Core.CES
 
         public bool FrustumCulled(Camera frustumcam)
         {
-            return true;// Vector3.Dot(WorldTransform.Position - frustumcam.WorldTransform.Position, -frustumcam.LookAt) > 0;
+            return false;/// frustumcam.GetComponent<CameraComponent>(ComponentsTypes.CameraComponent).IsSphereInFrustum(, radius);// Vector3.Dot(WorldTransform.Position - frustumcam.WorldTransform.Position, -frustumcam.LookAt) > 0;
         }
 
        
