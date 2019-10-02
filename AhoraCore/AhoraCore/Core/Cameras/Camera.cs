@@ -35,7 +35,17 @@ namespace AhoraCore.Core.Cameras
             cam = GetComponent<CameraComponent>(ComponentsTypes.CameraComponent);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool IsPointInFrustum(Vector3 point)
+        {
+            return cam.IsPointInFrustum(point);
+        }
+
+        public bool IsSphereInFrustum(Vector3 center, float radius)
+        {
+            return cam.IsSphereInFrustum(center, radius);
+        }
+
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
         public void SwitchToFace(int faceIndex)
         {

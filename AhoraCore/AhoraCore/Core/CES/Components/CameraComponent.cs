@@ -12,7 +12,7 @@ namespace AhoraCore.Core.CES.Components
         public Matrix4 ViewMatrix { get; private set;}
 
         public Matrix4 ProjectionMatrix { get; private set; }
-        
+ 
         public Vector3 LookAt { get; protected set; }
 
         public Vector3 Right { get; protected set; }
@@ -70,63 +70,63 @@ namespace AhoraCore.Core.CES.Components
             FrustumPlanes = new Vector4[6];
             //left plane
             Vector4 leftPlane = new Vector4(
-                   ProjectionMatrix.M41 +ProjectionMatrix.M11
+                   ProjectionMatrix.M41 + ProjectionMatrix.M11
                         * (float)((Math.Tan(MathUtils.ToRads(FOV/ 2))
                         * ((double)MainContext.ScreenWidth
                          / (double)MainContext.ScreenHeight))),
-                   ProjectionMatrix.M42 +ProjectionMatrix.M12,
-                   ProjectionMatrix.M43 +ProjectionMatrix.M13,
-                   ProjectionMatrix.M44 +ProjectionMatrix.M14);
+                   ProjectionMatrix.M42 + ProjectionMatrix.M12,
+                   ProjectionMatrix.M43 + ProjectionMatrix.M13,
+                   ProjectionMatrix.M44 + ProjectionMatrix.M14);
 
             FrustumPlanes[0] = MathUtils.NormalizePlane(leftPlane);
 
             //right plane
             Vector4 rightPlane = new Vector4(
-                   ProjectionMatrix.M41 -ProjectionMatrix.M11
+                   ProjectionMatrix.M41 - ProjectionMatrix.M11
                         * (float)((Math.Tan(MathUtils.ToRads(FOV/ 2))
                         * ((double)MainContext.ScreenWidth
                         / (double)MainContext.ScreenHeight))),
-                   ProjectionMatrix.M42 -ProjectionMatrix.M12,
-                   ProjectionMatrix.M43 -ProjectionMatrix.M13,
-                   ProjectionMatrix.M44 -ProjectionMatrix.M14);
+                   ProjectionMatrix.M42 - ProjectionMatrix.M12,
+                   ProjectionMatrix.M43 - ProjectionMatrix.M13,
+                   ProjectionMatrix.M44 - ProjectionMatrix.M14);
 
             FrustumPlanes[1] = MathUtils.NormalizePlane(rightPlane);
 
             //bot plane
             Vector4 botPlane = new Vector4(
-                   ProjectionMatrix.M41 +ProjectionMatrix.M21,
-                   ProjectionMatrix.M42 +ProjectionMatrix.M22
+                   ProjectionMatrix.M41 + ProjectionMatrix.M21,
+                   ProjectionMatrix.M42 + ProjectionMatrix.M22
                         * (float)Math.Tan(MathUtils.ToRads(FOV/ 2)),
-                   ProjectionMatrix.M43 +ProjectionMatrix.M23,
-                   ProjectionMatrix.M44 +ProjectionMatrix.M24);
+                   ProjectionMatrix.M43 + ProjectionMatrix.M23,
+                   ProjectionMatrix.M44 + ProjectionMatrix.M24);
 
             FrustumPlanes[2] = MathUtils.NormalizePlane(botPlane);
 
             //top plane
             Vector4 topPlane = new Vector4(
-                   ProjectionMatrix.M41 -ProjectionMatrix.M21,
-                   ProjectionMatrix.M42 -ProjectionMatrix.M22
+                   ProjectionMatrix.M41 - ProjectionMatrix.M21,
+                   ProjectionMatrix.M42 - ProjectionMatrix.M22
                         * (float)Math.Tan(MathUtils.ToRads(FOV/ 2)),
-                   ProjectionMatrix.M43 -ProjectionMatrix.M23,
-                   ProjectionMatrix.M44 -ProjectionMatrix.M24);
+                   ProjectionMatrix.M43 - ProjectionMatrix.M23,
+                   ProjectionMatrix.M44 - ProjectionMatrix.M24);
 
             FrustumPlanes[3] = MathUtils.NormalizePlane(topPlane);
 
             //near plane
             Vector4 nearPlane = new Vector4(
-                   ProjectionMatrix.M41 +ProjectionMatrix.M31,
-                   ProjectionMatrix.M42 +ProjectionMatrix.M32,
-                   ProjectionMatrix.M43 +ProjectionMatrix.M33,
-                   ProjectionMatrix.M44 +ProjectionMatrix.M34);
+                   ProjectionMatrix.M41 + ProjectionMatrix.M31,
+                   ProjectionMatrix.M42 + ProjectionMatrix.M32,
+                   ProjectionMatrix.M43 + ProjectionMatrix.M33,
+                   ProjectionMatrix.M44 + ProjectionMatrix.M34);
 
             FrustumPlanes[4] = MathUtils.NormalizePlane(nearPlane);
 
             //far plane
            Vector4 farPlane = new Vector4(
-           ProjectionMatrix.M41 -ProjectionMatrix.M31,
-           ProjectionMatrix.M42 -ProjectionMatrix.M32,
-           ProjectionMatrix.M43 -ProjectionMatrix.M33,
-           ProjectionMatrix.M44 -ProjectionMatrix.M34);
+           ProjectionMatrix.M41 - ProjectionMatrix.M31,
+           ProjectionMatrix.M42 - ProjectionMatrix.M32,
+           ProjectionMatrix.M43 - ProjectionMatrix.M33,
+           ProjectionMatrix.M44 - ProjectionMatrix.M34);
 
             FrustumPlanes[5] = MathUtils.NormalizePlane(farPlane);
         }
@@ -136,13 +136,14 @@ namespace AhoraCore.Core.CES.Components
 
         public void UpdateFrustumPlanes()
         {
-            UpdateBufferIteam("frustumPlanes", MathUtils.ToArray(FrustumPlanes));
+           UpdateBufferIteam("frustumPlanes", MathUtils.ToArray(FrustumPlanes));
             
             IsUpdated = true;
         }
 
         public void UpdateView()
         {
+       
             UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
 
             UpdateBufferIteam("cameraLookAt", MathUtils.ToArray(LookAt));
@@ -153,6 +154,7 @@ namespace AhoraCore.Core.CES.Components
         public void UpdateProj()
         {
             UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(ProjectionMatrix));
+
             IsUpdated = true;
         }
 
@@ -164,7 +166,7 @@ namespace AhoraCore.Core.CES.Components
 
             IsUpdated = true;
         }
-        
+
         public void SwitchToFace(int faceIndex)
         {
             Vector3 target, up;
@@ -208,6 +210,39 @@ namespace AhoraCore.Core.CES.Components
 
         }
 
+        public bool IsPointInFrustum(Vector3 point)
+        {
+            Vector4 centr_ = ViewMatrix * new Vector4(point.X, point.Y, point.Z, 1);
+            for (int i = 0; i < 6; i++)
+            {
+                if (FrustumPlanes[i].X * centr_.X + FrustumPlanes[i].Y * centr_.Y + FrustumPlanes[i].Z * centr_.Z + FrustumPlanes[i].W <= 0)
+                {
+                    return false;
+                }
+            }
+           return true;
+        }
+
+        public bool IsSphereInFrustum(Vector3 center, float radius)
+        {
+            Vector4 centr_ = ViewMatrix * new Vector4(center.X, center.Y, center.Z, 1); 
+            for (int i = 0; i < 6; i++)
+            {
+
+                if (FrustumPlanes[i].X * center.X + FrustumPlanes[i].Y * center.Y + FrustumPlanes[i].Z * center.Z + FrustumPlanes[i].W <= -radius)
+                {
+                    return false;
+                }
+            }
+            // Иначе сфера внутри
+            return true;
+        }
+
+        public bool IsAABBInFrustum(Vector3 minBound, Vector3 maxBound)
+        {
+            return false;
+        }
+
         public void RotateCam(float x, float y)
         {
             x = x * MouseSensitivity;
@@ -223,7 +258,7 @@ namespace AhoraCore.Core.CES.Components
                                  (float)(Math.Cos(GetParent().GetWorldRot().X) * Math.Cos(GetParent().GetWorldRot().Y)));
 
             ViewMatrix = Matrix4.LookAt(GetParent().GetWorldPos(), GetParent().GetWorldPos() + LookAt, Vector3.UnitY);
-
+           
             UpdateView();
         }
 
@@ -246,8 +281,8 @@ namespace AhoraCore.Core.CES.Components
             GetParent().SetWorldTranslation(GetParent().GetWorldPos() +  50*offset);
 
             ViewMatrix = Matrix4.LookAt(GetParent().GetWorldPos(), GetParent().GetWorldPos() + LookAt, Vector3.UnitY);
-
-            UpdatePosition();
+ 
+             UpdatePosition();
         }
 
         public CameraComponent() : base()
