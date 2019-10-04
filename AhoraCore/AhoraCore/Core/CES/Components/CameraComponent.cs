@@ -212,28 +212,28 @@ namespace AhoraCore.Core.CES.Components
 
         public bool IsPointInFrustum(Vector3 point)
         {
-            Vector4 centr_ = ViewMatrix * new Vector4(point.X, point.Y, point.Z, 1);
-            for (int i = 0; i < 6; i++)
-            {
-                if (FrustumPlanes[i].X * centr_.X + FrustumPlanes[i].Y * centr_.Y + FrustumPlanes[i].Z * centr_.Z + FrustumPlanes[i].W <= 0)
-                {
-                    return false;
-                }
-            }
+            //Vector4 centr_ = ViewMatrix * new Vector4(point.X, point.Y, point.Z, 1);
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    if (FrustumPlanes[i].X * centr_.X + FrustumPlanes[i].Y * centr_.Y + FrustumPlanes[i].Z * centr_.Z + FrustumPlanes[i].W <= 0)
+            //    {
+            //        return false;
+            //    }
+            //}
            return true;
         }
 
         public bool IsSphereInFrustum(Vector3 center, float radius)
         {
-            Vector4 centr_ = ViewMatrix * new Vector4(center.X, center.Y, center.Z, 1); 
-            for (int i = 0; i < 6; i++)
-            {
+            //Vector4 centr_ = ViewMatrix * new Vector4(center.X, center.Y, center.Z, 1); 
+            //for (int i = 0; i < 6; i++)
+            //{
 
-                if (FrustumPlanes[i].X * center.X + FrustumPlanes[i].Y * center.Y + FrustumPlanes[i].Z * center.Z + FrustumPlanes[i].W <= -radius)
-                {
-                    return false;
-                }
-            }
+            //    if (FrustumPlanes[i].X * center.X + FrustumPlanes[i].Y * center.Y + FrustumPlanes[i].Z * center.Z + FrustumPlanes[i].W <= -radius)
+            //    {
+            //        return false;
+            //    }
+            //}
             // Иначе сфера внутри
             return true;
         }
