@@ -68,7 +68,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             GL.Finish();
             BlendingMap.Bind();
             BlendingMap.BilinearFilter();
-
         }
 
         private void RenderNormalMap()
@@ -84,7 +83,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             GL.Finish();
             NormalMap.Bind();
             NormalMap.BilinearFilter();
-
         }
 
         private void LoadConfig(string[] lines)
