@@ -21,11 +21,17 @@ namespace AhoraCore.Core.CES.Components
 
         public Vector4[]FrustumPlanes { get; protected set; }
 
+        public Vector4[] LocalFrustumPlanes { get; protected set; }
+
         public float FOV = MathHelper.DegreesToRadians(70);
 
-        public float Aspect = 1;
+        public float Aspect { get; set; }
 
         public float MoveSpeed;
+
+        public float ZFar { get; set;}
+
+        public float ZNear { get; set; }
 
         public bool IsUpdated { get; set; }
 
@@ -106,7 +112,7 @@ namespace AhoraCore.Core.CES.Components
             Vector4 topPlane = new Vector4(
                    ProjectionMatrix.M41 - ProjectionMatrix.M21,
                    ProjectionMatrix.M42 - ProjectionMatrix.M22
-                        * (float)Math.Tan(MathUtils.ToRads(FOV/ 2)),
+                        * (float)Math.Tan(FOV/ 2),
                    ProjectionMatrix.M43 - ProjectionMatrix.M23,
                    ProjectionMatrix.M44 - ProjectionMatrix.M24);
 
@@ -134,16 +140,19 @@ namespace AhoraCore.Core.CES.Components
 
 
 
-        public void UpdateFrustumPlanes()
+        private void UpdateFrustumPlanes()
         {
-           UpdateBufferIteam("frustumPlanes", MathUtils.ToArray(FrustumPlanes));
+            TransformFrustum2CamSpace();
+
+            UpdateBufferIteam("frustumPlanes", MathUtils.ToArray(LocalFrustumPlanes));
             
             IsUpdated = true;
         }
 
         public void UpdateView()
         {
-       
+            UpdateFrustumPlanes();
+
             UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
 
             UpdateBufferIteam("cameraLookAt", MathUtils.ToArray(LookAt));
@@ -153,6 +162,12 @@ namespace AhoraCore.Core.CES.Components
 
         public void UpdateProj()
         {
+            ProjectionMatrix = Matrix4.CreatePerspectiveFieldOfView(FOV, Aspect, ZNear, ZFar);
+
+            InitLocalFrustumPlanes();
+
+            UpdateFrustumPlanes();
+
             UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(ProjectionMatrix));
 
             IsUpdated = true;
@@ -160,6 +175,8 @@ namespace AhoraCore.Core.CES.Components
 
         public void UpdatePosition()
         {
+            UpdateFrustumPlanes();
+
             UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
 
             UpdateBufferIteam("cameraPosition", MathUtils.ToArray(GetParent().GetWorldPos()));
@@ -212,28 +229,26 @@ namespace AhoraCore.Core.CES.Components
 
         public bool IsPointInFrustum(Vector3 point)
         {
-            //Vector4 centr_ = ViewMatrix * new Vector4(point.X, point.Y, point.Z, 1);
-            //for (int i = 0; i < 6; i++)
-            //{
-            //    if (FrustumPlanes[i].X * centr_.X + FrustumPlanes[i].Y * centr_.Y + FrustumPlanes[i].Z * centr_.Z + FrustumPlanes[i].W <= 0)
-            //    {
-            //        return false;
-            //    }
-            //}
-           return true;
+            for (int i = 0; i < 2; i++)
+            {
+                if (LocalFrustumPlanes[i].X * point.X + LocalFrustumPlanes[i].Y * point.Y + LocalFrustumPlanes[i].Z * point.Z - LocalFrustumPlanes[i].W <= 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public bool IsSphereInFrustum(Vector3 center, float radius)
         {
-            //Vector4 centr_ = ViewMatrix * new Vector4(center.X, center.Y, center.Z, 1); 
-            //for (int i = 0; i < 6; i++)
-            //{
+            for (int i = 0; i < 2; i++)
+            {
 
-            //    if (FrustumPlanes[i].X * center.X + FrustumPlanes[i].Y * center.Y + FrustumPlanes[i].Z * center.Z + FrustumPlanes[i].W <= -radius)
-            //    {
-            //        return false;
-            //    }
-            //}
+                if (LocalFrustumPlanes[i].X * center.X + LocalFrustumPlanes[i].Y * center.Y + LocalFrustumPlanes[i].Z * center.Z + LocalFrustumPlanes[i].W <= radius)
+                {
+                    return false;
+                }
+            }
             // Иначе сфера внутри
             return true;
         }
@@ -282,11 +297,80 @@ namespace AhoraCore.Core.CES.Components
 
             ViewMatrix = Matrix4.LookAt(GetParent().GetWorldPos(), GetParent().GetWorldPos() + LookAt, Vector3.UnitY);
  
-             UpdatePosition();
+            UpdatePosition();
         }
+
+        private void InitLocalFrustumPlanes()
+        {
+            float normalizer = 1,semiFOV = FOV/2f;
+
+            FrustumPlanes = new Vector4[6];
+
+            FrustumPlanes[0] = new Vector4(0, 0,-1, ZFar);
+
+            FrustumPlanes[1] = new Vector4(0, 0, 1, -ZNear);
+
+
+            FrustumPlanes[2] = new Vector4(0, -1, ZFar, 0);
+
+            normalizer = (float)Math.Sqrt(FrustumPlanes[2].Y * FrustumPlanes[2].Y + FrustumPlanes[2].Z * FrustumPlanes[2].Z);
+
+            FrustumPlanes[2].Y /= normalizer;
+
+            FrustumPlanes[2].Z /= normalizer;
+
+            FrustumPlanes[3] = new Vector4(0, 1, ZFar, 0);
+
+            FrustumPlanes[3].Y /= normalizer;
+
+            FrustumPlanes[3].Z /= normalizer;
+
+            semiFOV = (float)Math.Atan2(1 / Math.Tan(semiFOV), Aspect);
+
+            FrustumPlanes[4] = new Vector4((float)(-Math.Sin(semiFOV) * Math.Cos(semiFOV)), 0, (float)Math.Cos(semiFOV), 0);
+
+            normalizer = (float)Math.Sqrt(FrustumPlanes[4].Y * FrustumPlanes[4].Y + FrustumPlanes[4].Z * FrustumPlanes[4].Z);
+
+            FrustumPlanes[4].X /= normalizer;
+
+            FrustumPlanes[4].Z /= normalizer;
+
+            FrustumPlanes[5] = new Vector4((float)(Math.Sin(semiFOV) * Math.Cos(semiFOV)), 0, (float)Math.Cos(semiFOV), 0);
+
+            FrustumPlanes[5].X /= normalizer;
+
+            FrustumPlanes[5].Z /= normalizer;
+
+            LocalFrustumPlanes = FrustumPlanes;
+        }
+
+
+        private void TransformFrustum2CamSpace()
+        {
+            ///m.M11, m.M21, m.M31, m.M41,
+            ///m.M12, m.M22, m.M32, m.M42,
+            ///m.M13, m.M23, m.M33, m.M43,
+            ///m.M14, m.M24, m.M34, m.M44
+
+            ///// for colomn major matrices
+            for (int i = 0; i < 2; i++)
+            {
+                LocalFrustumPlanes[i].X = FrustumPlanes[i].X * ViewMatrix.M11 + FrustumPlanes[i].Y * ViewMatrix.M21 + FrustumPlanes[i].Z * ViewMatrix.M31;
+                LocalFrustumPlanes[i].Y = FrustumPlanes[i].X * ViewMatrix.M12 + FrustumPlanes[i].Y * ViewMatrix.M22 + FrustumPlanes[i].Z * ViewMatrix.M32;
+                LocalFrustumPlanes[i].Z = FrustumPlanes[i].X * ViewMatrix.M13 + FrustumPlanes[i].Y * ViewMatrix.M23 + FrustumPlanes[i].Z * ViewMatrix.M33;
+                LocalFrustumPlanes[i].W = FrustumPlanes[i].W  + FrustumPlanes[i].X * ViewMatrix.M14 + FrustumPlanes[i].Y *
+                                                                ViewMatrix.M24 + FrustumPlanes[i].Z * ViewMatrix.M34;
+            }
+        }
+
 
         public CameraComponent() : base()
         {
+
+            ZFar = MainContext.ZFar;
+
+            ZNear = MainContext.ZNear;
+
             Component = "CameraData";
 
             EnableBuffering("CameraData");
@@ -297,8 +381,6 @@ namespace AhoraCore.Core.CES.Components
 
             SetBindigLocation(UniformBindingsLocations.CameraData);
             
-            FOV = MathHelper.DegreesToRadians(70);
-
             MoveSpeed = 0.1f;
 
             MouseSensitivity = 0.05f;
@@ -307,28 +389,30 @@ namespace AhoraCore.Core.CES.Components
 
             FOV = MathHelper.DegreesToRadians(70.0f);
 
-            ProjectionMatrix = Matrix4.CreatePerspectiveFieldOfView(FOV, Aspect, 0.5f, 50000);
+            ProjectionMatrix = Matrix4.CreatePerspectiveFieldOfView(FOV, Aspect, ZNear, ZFar);
 
             LookAt = new Vector3(0, 0, 1);
 
             ViewMatrix = Matrix4.LookAt(Vector3.Zero, Vector3.Zero + LookAt, Vector3.UnitY);
-
-            InitfrustumPlanes();
-
+            
             UniformBuffer.Bind();
         
             UniformBuffer.UpdateBufferIteam("viewMatrix", MathUtils.ToArray(ViewMatrix));
 
             UniformBuffer.UpdateBufferIteam("projectionMatrix", MathUtils.ToArray(ProjectionMatrix));
 
-            UniformBuffer.UpdateBufferIteam("frustumPlanes", MathUtils.ToArray(FrustumPlanes));
+            InitLocalFrustumPlanes();
+
+           /// TransformFrustum2CamSpace();
+
+            UniformBuffer.UpdateBufferIteam("frustumPlanes", MathUtils.ToArray(LocalFrustumPlanes));
 
             UniformBuffer.UpdateBufferIteam("cameraPosition", new float[] { 0, 0, 0, 1 });
 
             UniformBuffer.UpdateBufferIteam("cameraLookAt", new float[] { 0, 0, -1, 0 });
             
             UniformBuffer.Unbind();
-
+            
             IsUpdated = true;
         }
 

@@ -199,21 +199,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public bool FrustumCulled(Camera frustumcam)
         {
-
-           /* float distance = (worldPosition - frustumcam.GetWorldTransform().Position).Length;
-
-            if (distance < frustumR)
-            {
-                return true;
-            }
-
-
-            if (distance > frustumR)
-            {
-                return (worldPosition - distance * frustumcam.LookAt).Length < frustumR;
-            }
-             
-            return false;*/
             return frustumcam.IsPointInFrustum(worldPosition);
         }
 

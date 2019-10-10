@@ -272,8 +272,11 @@ namespace AhoraCore.Core.Models.ProceduralModels
         private static void AddVertex(ref FloatBuffer buffer, float x,float y, float z)
         {
             buffer.EnhanceBuffer(v_offset + v_offset_stp);
+
             buffer.PutDirect(v_offset, x); buffer.PutDirect(v_offset + 1, y); buffer.PutDirect(v_offset + 2,z);
+
             _index++;
+
             v_offset += v_offset_stp;
           
         }

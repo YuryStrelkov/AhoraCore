@@ -9,7 +9,13 @@ namespace AhoraCore.Core.Context
     public static class MainContext
     {
         private static DisplayDevice FrameDisplay;
-        
+
+        private static float zfar  =15000, znear = 0.5f;
+
+        public static float ZFar { get { return zfar; } set { if (value > znear) { zfar = value; } } }
+
+        public static float ZNear { get { return znear; } set { if (value < zfar) { znear = value; } } }
+
         public static int ScreenWidth
         {
             get { return FrameDisplay.Width; }
@@ -27,6 +33,8 @@ namespace AhoraCore.Core.Context
 
         public static void InitMainContext()
         {
+           
+
             FrameDisplay = new DisplayDevice(1900, 1000);
 
             TextureStorrage.Initilaze();
