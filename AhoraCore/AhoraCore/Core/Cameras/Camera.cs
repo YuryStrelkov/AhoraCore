@@ -2,7 +2,6 @@
 using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.Shaders;
 using OpenTK;
-using System.Runtime.CompilerServices;
 namespace AhoraCore.Core.Cameras
 {
 
