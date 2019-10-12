@@ -78,10 +78,6 @@ namespace AhoraCore.Core.Models
             {
                 Console.WriteLine("Unnable to open or found file : "+ filename);
             }
-            //finally
-            //{
-            //    AttribsMasks = null; Models = null; ModelsIndeces = null;
-            //}
 
         
         }

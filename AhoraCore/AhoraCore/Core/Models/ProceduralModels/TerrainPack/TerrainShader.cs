@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.Materials.AbstractMaterial;
+using AhoraCore.Core.Context;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
@@ -9,12 +10,24 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
     {
         public TerrainShader() : base()
         {
-            LoadShaderFromstring(Properties.Resources.TerrainVS, ShaderType.VertexShader);
-            LoadShaderFromstring(Properties.Resources.TerrainFS, ShaderType.FragmentShader);
-            LoadShaderFromstring(Properties.Resources.TerrainTC, ShaderType.TessControlShader);
-            LoadShaderFromstring(Properties.Resources.TerrainGS, ShaderType.GeometryShader);
-            LoadShaderFromstring(Properties.Resources.TerrainTE, ShaderType.TessEvaluationShader);
 
+            if (MainContext.GetRenderMethod() == Rendering.RenderMethods.Forward)
+            {
+                LoadShaderFromstring(Properties.Resources.TerrainVS, ShaderType.VertexShader);
+                LoadShaderFromstring(Properties.Resources.TerrainFS, ShaderType.FragmentShader);
+                LoadShaderFromstring(Properties.Resources.TerrainTC, ShaderType.TessControlShader);
+                LoadShaderFromstring(Properties.Resources.TerrainGS, ShaderType.GeometryShader);
+                LoadShaderFromstring(Properties.Resources.TerrainTE, ShaderType.TessEvaluationShader);
+            }
+
+            if (MainContext.GetRenderMethod() == Rendering.RenderMethods.Deffered)
+            {
+                LoadShaderFromstring(Properties.Resources.DefferedTerrainVS, ShaderType.VertexShader);
+                LoadShaderFromstring(Properties.Resources.DefferedTerrainFS, ShaderType.FragmentShader);
+                LoadShaderFromstring(Properties.Resources.DefferedTerrainTC, ShaderType.TessControlShader);
+                LoadShaderFromstring(Properties.Resources.DefferedTerrainGS, ShaderType.GeometryShader);
+                LoadShaderFromstring(Properties.Resources.DefferedTerrainTE, ShaderType.TessEvaluationShader);
+            }
             Link();
             Validate();
             BindAttributes();

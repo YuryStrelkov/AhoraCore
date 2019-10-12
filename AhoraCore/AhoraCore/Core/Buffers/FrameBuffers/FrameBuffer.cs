@@ -58,8 +58,11 @@ namespace AhoraCore.Core.Buffers.FrameBuffers
         public override void Create()
         {
             ID = GL.GenFramebuffer();
+
             Bind(FramebufferTarget.DrawFramebuffer);
+
             GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
+
             Unbind();
 
             if (hasDepthBuffer)
@@ -182,6 +185,76 @@ namespace AhoraCore.Core.Buffers.FrameBuffers
                 Unbind();
             }
         }
+
+
+        public FrameBuffer()
+        {
+            Width = 1024;
+
+            Height = 1024;
+            //attachments = new List<DrawBuffersEnum>();
+            bufferLayers = new Dictionary<string, LayerData>();
+
+            attachments = new List<DrawBuffersEnum>();
+
+            hasDepthBuffer = true;
+
+            ID = GL.GenFramebuffer();
+
+            Bind();
+                GL.GenRenderbuffers(1, out DepthBufferID);
+                GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, DepthBufferID);
+                GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent, Width, Height);
+                GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, DepthBufferID);
+            Unbind();
+
+            if (DebugBuffers.DisplayFrameBufferErrors("emptyBuffer", GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer))
+                != FramebufferErrorCode.FramebufferComplete)
+            {
+                throw new Exception("frameBuffer creation faild");
+            }
+            else
+            {
+                Unbind();
+            }
+        }
+
+
+
+        public FrameBuffer(int width,int height)
+        {
+            Width = width;
+
+            Height = height;
+            //attachments = new List<DrawBuffersEnum>();
+            bufferLayers = new Dictionary<string, LayerData>();
+
+            attachments = new List<DrawBuffersEnum>();
+
+            hasDepthBuffer = true;
+
+            ID = GL.GenFramebuffer();
+
+            Bind();
+                GL.GenRenderbuffers(1, out DepthBufferID);
+                GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, DepthBufferID);
+                GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent, Width, Height);
+                GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, DepthBufferID);
+            Unbind();
+
+            if (DebugBuffers.DisplayFrameBufferErrors("emptyBuffer", GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer))
+                != FramebufferErrorCode.FramebufferComplete)
+            {
+                throw new Exception("frameBuffer creation faild");
+            }
+            else
+            {
+                Unbind();
+            }
+        }
+
+
+
 
         public void ActivateBufferLayerAsTexture(int channelTarget, string layerNameInShader, AShader shader)
         {

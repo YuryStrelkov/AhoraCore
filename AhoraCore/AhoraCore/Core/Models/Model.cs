@@ -59,7 +59,10 @@ namespace AhoraCore.Core.Models
             /// throw new NotImplementedException();
         }
 
- 
+        public override void Render(AShader shader)
+        {
+            throw new NotImplementedException();
+        }
 
         public Model(string ModelID) :base()
         {

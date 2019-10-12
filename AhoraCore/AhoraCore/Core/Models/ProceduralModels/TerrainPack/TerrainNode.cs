@@ -1,9 +1,7 @@
 ﻿using AhoraCore.Core.Cameras;
-using AhoraCore.Core.DataManaging;
-using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
+using AhoraCore.Core.Shaders;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
@@ -20,65 +18,36 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public override void Render()
         {
-           
-            if (isLeaf)
-            {
-
-                 GetParent().TerrainShader.SetUniform("index", Index);
-
-                 GetParent().TerrainShader.SetUniformf("gap", Gap);
-
-                 GetParent().TerrainShader.SetUniformi("lod", Lod);
-
-                 GetParent().TerrainShader.SetUniform("location", Location);
-
-                /// GetParent().TerrainShader.SetUniform("WorldTransMatrix", GetParent().GetWorldTransMat());
-
-                 GetParent().TerrainShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
-
-                 GL.DrawArrays(PrimitiveType.Patches, 0, GetParent().NodePachModel.VerticesNumber);
-            }
-            else
-            {
-
-                if (FrustumCulled(CameraInstance.Get()))
-                {
-                    childsNodes[0].Render();
-                    childsNodes[1].Render();
-                    childsNodes[2].Render();
-                    childsNodes[3].Render();
-                }
-
-              
-            }
+            Render(GetParent().TerrainShader);
         }
 
-        public void RenderGrass()
+        public override void Render(AShader shader)
         {
-            //if (lod<3)
-            //{
-            //    return;
-            //}
+
             if (isLeaf)
             {
 
-                GetParent().TerrainGrassShader.SetUniformi("lod", Lod);
+                shader.SetUniform("index", Index);
 
-                GetParent().TerrainGrassShader.SetUniformf("gap", Gap);
+                shader.SetUniformf("gap", Gap);
 
-                GetParent().TerrainGrassShader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
-                
-                GeometryStorageManager.Data.RenderIteam(grassLodName);
+                shader.SetUniformi("lod", Lod);
+
+                shader.SetUniform("location", Location);
+
+                shader.SetUniform("LocTransMatrix", GetNodeLoclTrans().GetTransformMat());
+
+                GL.DrawArrays(PrimitiveType.Patches, 0, GetParent().NodePachModel.VerticesNumber);
             }
             else
             {
 
-                if (FrustumCulled(CameraInstance.Get()))
+                if (IsRenderable)
                 {
-                    childsNodes[0].RenderGrass();
-                    childsNodes[1].RenderGrass();
-                    childsNodes[2].RenderGrass();
-                    childsNodes[3].RenderGrass();
+                    childsNodes[0].Render(shader);
+                    childsNodes[1].Render(shader);
+                    childsNodes[2].Render(shader);
+                    childsNodes[3].Render(shader);
                 }
 
 
@@ -87,6 +56,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public override void Update()
         {
+         
+            IsRenderable = FrustumCulled(CameraInstance.Get())?true: false;
+
            if (CameraInstance.Get().GetWorldPos().Y > config.ScaleY)
             {
                 worldPosition.Y = config.ScaleY;
@@ -95,6 +67,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             {
                 worldPosition.Y = CameraInstance.Get().GetWorldPos().Y;
             }
+
             UpdateChildsNodes();
         }
 
@@ -121,10 +94,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public TerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index) : base(config, location, lod, index)
         {
-
-           /// grassLodName = "grass_lod_" + (lod - 3);
-            grassLodName= lod == 6? "grass_lod_0" : "grass_lod_2";
-           grassLodName = lod == 5 ? "grass_lod_1" : "grass_lod_2";
+            
         }
 
     }

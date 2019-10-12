@@ -3,6 +3,7 @@ using AhoraCore.Core.Context;
 using AhoraCore.Core.Utils;
 using OpenTK;
 using System;
+using AhoraCore.Core.Shaders;
 
 namespace AhoraCore.Core.CES.Components
 {
@@ -160,13 +161,7 @@ namespace AhoraCore.Core.CES.Components
 
         public bool IsPointInFrustum(Vector3 point)
         {
-            //float x = point.X * ViewMatrix.M11 + point.Y * ViewMatrix.M21 + point.Z * ViewMatrix.M31 + ViewMatrix.M41;
-
-            //float y = point.X * ViewMatrix.M12 + point.Y * ViewMatrix.M22 + point.Z * ViewMatrix.M32 + ViewMatrix.M42;
-
-            //float z = point.X * ViewMatrix.M13 + point.Y * ViewMatrix.M23 + point.Z * ViewMatrix.M33 + ViewMatrix.M43;
-            
-            for (   int i = 4; i < 6; i++)
+            for (   int i = 0; i < 6; i++)
             {
                 if (LocalFrustumPlanes[i].X * point.X + LocalFrustumPlanes[i].Y * point.Y + LocalFrustumPlanes[i].Z * point.Z + LocalFrustumPlanes[i].W <= 0)
                 {
@@ -178,16 +173,15 @@ namespace AhoraCore.Core.CES.Components
 
         public bool IsSphereInFrustum(Vector3 center, float radius)
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 1; i < 6; i++)
             {
-
-                if (LocalFrustumPlanes[i].X * center.X + LocalFrustumPlanes[i].Y * center.Y + LocalFrustumPlanes[i].Z * center.Z + LocalFrustumPlanes[i].W <= radius)
+                if (LocalFrustumPlanes[i].X * center.X + LocalFrustumPlanes[i].Y * center.Y + LocalFrustumPlanes[i].Z * center.Z + LocalFrustumPlanes[i].W <= -radius)
                 {
-                    return true;
+                    return false;
                 }
             }
             // Иначе сфера внутри
-            return false;
+            return true;
         }
 
         public bool IsAABBInFrustum(Vector3 minBound, Vector3 maxBound)
@@ -217,7 +211,9 @@ namespace AhoraCore.Core.CES.Components
         public void MoveCam(float x, float y, float z)
         {
             Vector3 offset = new Vector3();
+
             Vector3 forward = new Vector3((float)Math.Sin(GetParent().GetWorldRot().X), 0, (float)Math.Cos(GetParent().GetWorldRot().X));
+
             Vector3 right = new Vector3(-forward.Z, 0, forward.X);
 
             offset += x * right;
@@ -241,55 +237,55 @@ namespace AhoraCore.Core.CES.Components
         {
             FrustumPlanes = new Vector4[6];
 
-            float an = FOV / 6; // * (3.141592653589f / 180.0f);
+            float an = FOV / 2; // * (3.141592653589f / 180.0f);
 
             float si = (float)Math.Sin(an);
 
             float co = (float)Math.Cos(an);
 
-            FrustumPlanes[0] = new Vector4(0.0f,-co,si, 0.0f);
-            FrustumPlanes[1] = new Vector4(0.0f, co, si, 0.0f);
+            FrustumPlanes[0] = new Vector4(co,  0.0f, -Aspect * si, 0.0f);
+            FrustumPlanes[1] = new Vector4(-co, 0.0f, -Aspect * si, 0.0f);
 
-            FrustumPlanes[2] = new Vector4( co, 0.0f, Aspect * si, 0.0f);
-            FrustumPlanes[3] = new Vector4(-co, 0.0f, Aspect * si, 0.0f);
+            FrustumPlanes[0].Normalize();
+            FrustumPlanes[1].Normalize();
 
-            FrustumPlanes[2].Normalize();
-            FrustumPlanes[3].Normalize();
+            FrustumPlanes[2] = new Vector4(0.0f, 0.0f, 1, ZFar);
+            FrustumPlanes[3] = new Vector4(0.0f, 0.0f,-1,-ZNear);
 
-            FrustumPlanes[4] = new Vector4(0.0f, 0.0f, 1, ZFar);
-            FrustumPlanes[5] = new Vector4(0.0f, 0.0f, -1, -ZNear);
+            FrustumPlanes[4] = new Vector4(0, co, -si, 0.0f);
+            FrustumPlanes[5] = new Vector4(0, -co,-si, 0.0f);
 
-            LocalFrustumPlanes = new Vector4[6];;
+            FrustumPlanes[4].Normalize();
+            FrustumPlanes[5].Normalize();
+
+ 
+
+            LocalFrustumPlanes = new Vector4[6]; 
         }
-
 
         private void TransformFrustum2CamSpace()
         {
-
-            Console.WriteLine(ViewMatrix.M41+ " " + ViewMatrix.M42 + " " + ViewMatrix.M43);
-            ///m.M11, m.M21, m.M31, m.M41,
-            ///m.M12, m.M22, m.M32, m.M42,
-            ///m.M13, m.M23, m.M33, m.M43,
-            ///m.M14, m.M24, m.M34, m.M44
-
-            /// for colomn major matrices
             for (int i = 0; i < 6; i++)
             {
-                LocalFrustumPlanes[i].X = FrustumPlanes[i].X * ViewMatrix.M11 + FrustumPlanes[i].Y * ViewMatrix.M21 + FrustumPlanes[i].Z * ViewMatrix.M31;
-                LocalFrustumPlanes[i].Y = FrustumPlanes[i].X * ViewMatrix.M12 + FrustumPlanes[i].Y * ViewMatrix.M22 + FrustumPlanes[i].Z * ViewMatrix.M32;
-                LocalFrustumPlanes[i].Z = FrustumPlanes[i].X * ViewMatrix.M13 + FrustumPlanes[i].Y * ViewMatrix.M23 + FrustumPlanes[i].Z * ViewMatrix.M33;
-                LocalFrustumPlanes[i].W = FrustumPlanes[i].W - FrustumPlanes[i].X * ViewMatrix.M41 - FrustumPlanes[i].Y *
-                                                                ViewMatrix.M42 - FrustumPlanes[i].Z * ViewMatrix.M43;
+                LocalFrustumPlanes[i].X = FrustumPlanes[i].X * ViewMatrix.M11 + FrustumPlanes[i].Y * ViewMatrix.M12 + FrustumPlanes[i].Z * ViewMatrix.M13;
+                LocalFrustumPlanes[i].Y = FrustumPlanes[i].X * ViewMatrix.M21 + FrustumPlanes[i].Y * ViewMatrix.M22 + FrustumPlanes[i].Z * ViewMatrix.M23;
+                LocalFrustumPlanes[i].Z = FrustumPlanes[i].X * ViewMatrix.M31 + FrustumPlanes[i].Y * ViewMatrix.M32 + FrustumPlanes[i].Z * ViewMatrix.M33;
+                LocalFrustumPlanes[i].W = FrustumPlanes[i].W + FrustumPlanes[i].X * ViewMatrix.M41 + FrustumPlanes[i].Y *
+                                                                ViewMatrix.M42 + FrustumPlanes[i].Z * ViewMatrix.M43;
             }
         }
 
+        public override void Render(AShader shader)
+        {
+            throw new NotImplementedException();
+        }
 
         public CameraComponent() : base()
         {
 
-            ZFar = 1000;// MainContext.ZFar;
+            ZFar =  MainContext.ZFar;
 
-            ZNear = 10;/// MainContext.ZNear;
+            ZNear = MainContext.ZNear;
 
             Component = "CameraData";
 

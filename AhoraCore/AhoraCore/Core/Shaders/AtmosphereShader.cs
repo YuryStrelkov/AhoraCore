@@ -1,13 +1,30 @@
 ﻿using OpenTK;
 using AhoraCore.Core.CES.ICES;
+using AhoraCore.Core.Context;
+using OpenTK.Graphics.OpenGL;
 
 namespace AhoraCore.Core.Shaders
 {
     public class AtmosphereShader : AShader
     {
-        public AtmosphereShader() 
-            : base(Properties.Resources.SkyDomeVS, Properties.Resources.SkyDomeFS, false)
+        public AtmosphereShader(): base()
         {
+            if (MainContext.GetRenderMethod()==Rendering.RenderMethods.Forward)
+            {
+                LoadShaderFromstring(Properties.Resources.SkyDomeVS, ShaderType.VertexShader);
+                LoadShaderFromstring(Properties.Resources.SkyDomeFS, ShaderType.FragmentShader);
+            }
+
+            if (MainContext.GetRenderMethod() == Rendering.RenderMethods.Deffered)
+            {
+                LoadShaderFromstring(Properties.Resources.DefferedSkyDomeVS, ShaderType.VertexShader);
+                LoadShaderFromstring(Properties.Resources.DefferedSkyDomeFS, ShaderType.FragmentShader);
+            }
+
+            Link();
+            Validate();
+            BindAttributes();
+            BindUniforms();
         }
 
         public override void UpdateUniforms()

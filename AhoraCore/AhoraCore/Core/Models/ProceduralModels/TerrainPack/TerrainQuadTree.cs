@@ -36,7 +36,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         private delegate void renderer();
 
-        float t = 0;
+       /// float t = 0;
 
         public float[] GeneratePath()
         {
@@ -105,8 +105,11 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public override void Render()
         {
            drawTerrain();
-        //   drawGrass();
-          // drawTrees();
+           drawGrass();
+        }
+
+        public override void Render(AShader shder)
+        {
         }
 
 
@@ -138,21 +141,23 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
 
             GL.BindVertexArray(NodePachModel.ID);
+
             NodePachModel.EnableAttribytes();
 
             for (int i = 0; i < terrainNodes.Count; i++)
             {
-                terrainNodes[i].Render();
+                terrainNodes[i].Render(TerrainShader);
             }
 
             NodePachModel.DisableAttribytes();
+
             GL.BindVertexArray(0);
+
             TerrainShader.Unbind();
         }
 
         private void drawGrass()
         {
-
             TerrainGrassShader.Bind();
 
             Bind(TerrainGrassShader);
@@ -161,27 +166,46 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             ParentTransform.Bind(TerrainGrassShader);
 
-            // TerrainMaterial.Bind(TerrainGrassShader);
+            TerrainGrassShader.SetUniform("cameraPosition", CameraInstance.Get().GetWorldPos());
 
-
+            /// Height map
             GL.ActiveTexture(TextureUnit.Texture0);
 
             config.HeightMap.Bind();
 
             TerrainGrassShader.SetUniformi("heightMap", 0);
-
-
+            /// Blend map
             GL.ActiveTexture(TextureUnit.Texture1);
 
-            TextureStorrage.Textures.GetItem("GrassTexture").Bind();
+            config.BlendingMap.Bind();
 
-            TerrainGrassShader.SetUniformi("grassMap", 1);
+            TerrainGrassShader.SetUniformi("blendMap", 1);
+
+            GL.ActiveTexture(TextureUnit.Texture2);
+
+            TextureStorrage.Textures.GetItem("grassMap").Bind();
+
+            TerrainGrassShader.SetUniformi("grassMap", 2);
+
+            GL.BindVertexArray(NodePachModel.ID);
+
+            NodePachModel.EnableAttribytes();
+
+            GL.Enable(EnableCap.Blend);
+
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
 
             for (int i = 0; i < terrainNodes.Count; i++)
             {
-                terrainNodes[i].RenderGrass();
+                terrainNodes[i].Render(TerrainGrassShader);
             }
+
+            GL.Disable(EnableCap.Blend);
+
+            NodePachModel.DisableAttribytes();
+
+            GL.BindVertexArray(0);
 
             TerrainGrassShader.Unbind();
         }

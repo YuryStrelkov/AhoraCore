@@ -1,6 +1,8 @@
-﻿using AhoraCore.Core.Buffers.DataStorraging;
+﻿using System;
+using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.Materials.AbstractMaterial;
+using AhoraCore.Core.Shaders;
 
 namespace AhoraCore.Core.CES.Components
 {
@@ -49,6 +51,11 @@ namespace AhoraCore.Core.CES.Components
 
         public override void Update()
         {
+        }
+
+        public override void Render(AShader shader)
+        {
+            throw new NotImplementedException();
         }
 
         public MaterialComponent(string MaterialID)

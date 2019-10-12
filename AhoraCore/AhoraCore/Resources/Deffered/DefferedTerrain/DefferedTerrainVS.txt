@@ -1,0 +1,144 @@
+#version 430
+
+#include TransformDefinition;
+
+#include TerrainSettings;
+
+#include CameraDefinition;
+
+layout(location = 0)in vec2 p_position;
+
+out vec2 mapCoord_TC;
+
+uniform mat4 LocTransMatrix;
+
+uniform int lod;
+
+uniform  float gap;
+
+uniform vec2 location;
+
+uniform vec2 index;
+
+uniform sampler2D heightMap;
+
+float morphLatitude(vec2 position) {
+	
+	vec2 frac = position - location;
+	
+	if (index == vec2(0,0)){
+		float morph = frac.x - frac.y;
+		if (morph > 0)
+			return morph;
+	}
+	if (index == vec2(1,0)){
+		float morph = gap - frac.x - frac.y;
+		if (morph > 0)
+			return morph;
+	}
+	if (index == vec2(0,1)){
+		float morph = frac.x + frac.y - gap;
+		if (morph > 0)
+			return -morph;
+	}
+	if (index == vec2(1,1)){
+		float morph = frac.y - frac.x;
+		if (morph > 0)
+			return -morph;
+	}
+	return 0;
+}
+
+float morphLongitude(vec2 position) {
+	
+	vec2 frac = position - location;
+	
+	if (index == vec2(0,0)){
+		float morph = frac.y - frac.x;
+		if (morph > 0)
+			return -morph;
+	}
+	if (index == vec2(1,0)){
+		float morph = frac.y - (gap - frac.x);
+		if (morph > 0)
+			return morph;
+	}
+	if (index == vec2(0,1)){
+		float morph = gap - frac.y - frac.x;
+		if (morph > 0)
+			return -morph;
+	}
+	if (index == vec2(1,1)){
+		float morph = frac.x - frac.y;
+		if (morph > 0)
+			return morph;
+	}
+	return 0;
+}
+
+vec2 Morphing(vec2 localPosition, float morph_area){
+	
+	vec2 morphing = vec2(0,0);
+	
+	vec2 fixPointLatitude = vec2(0,0);
+	vec2 fixPointLongitude = vec2(0,0);
+	float distLatitude;
+	float distLongitude;
+	
+	if (index == vec2(0,0)) {
+		fixPointLatitude  = location + vec2(gap,0);
+		fixPointLongitude = location + vec2(0,gap);
+	}
+	else if (index == vec2(1,0)) {
+		fixPointLatitude  = location;
+		fixPointLongitude = location + vec2(gap,gap);
+	}
+	else if (index == vec2(0,1)) {
+		fixPointLatitude  = location + vec2(gap,gap);
+		fixPointLongitude = location;
+	}
+	else if (index == vec2(1,1)) {
+		fixPointLatitude  = location + vec2(0,gap);
+		fixPointLongitude = location + vec2(gap,0);
+	}
+	
+	float planarFactor = 0;
+
+	if (cameraPosition.y > abs(ScaleY))
+	{
+		planarFactor = 1;
+	}
+	else
+	{
+		planarFactor = cameraPosition.y/ abs(ScaleY);
+	}
+		
+	distLatitude = length(cameraPosition.xyz - (worldTransform * 
+					vec4(fixPointLatitude.x,planarFactor,fixPointLatitude.y,1)).xyz);
+	distLongitude = length(cameraPosition.xyz - (worldTransform * 
+					vec4(fixPointLongitude.x,planarFactor,fixPointLongitude.y,1)).xyz);
+					
+	if (distLatitude > morph_area)
+		morphing.x = morphLatitude(localPosition.xy);
+	if (distLongitude > morph_area)
+		morphing.y = morphLongitude(localPosition.xy);
+		
+	return morphing;
+}
+
+
+void main()
+{
+	vec2 localPos = (LocTransMatrix*vec4(p_position.x, 0 , p_position.y, 1)).xz;	
+	
+	float [8]morphAreas = float[](morphAreas0.x, morphAreas0.y, morphAreas0.z, morphAreas0.w,
+								  morphAreas1.x, morphAreas1.y, morphAreas1.z, morphAreas1.w);
+
+	if(lod > 0)
+	{
+	 localPos += Morphing(localPos,morphAreas[lod-1]);
+	}
+	mapCoord_TC = localPos;
+	
+	gl_Position =  worldTransform * vec4(localPos.x, texture(heightMap,localPos).r,  localPos.y, 1);
+}

@@ -3,6 +3,7 @@ using AhoraCore.Core.Transformations;
 using AhoraCore.Core.Utils;
 using OpenTK;
 using System;
+using AhoraCore.Core.Shaders;
 
 namespace AhoraCore.Core.CES.Components
 {
@@ -183,6 +184,10 @@ namespace AhoraCore.Core.CES.Components
             return LocalTransform.Rotation;
         }
 
+        public override void Render(AShader shader)
+        {
+            throw new NotImplementedException();
+        }
 
         public TransformComponent():base()
         {

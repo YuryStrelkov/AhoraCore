@@ -199,7 +199,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         public bool FrustumCulled(Camera frustumcam)
         {
-            return frustumcam.IsPointInFrustum(worldPosition);
+            return frustumcam.IsSphereInFrustum(worldPosition,frustumR);
         }
 
         public ATerrainNode(TerrainConfig config, Vector2 location, int lod, Vector2 index)
@@ -222,8 +222,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             GetNodeLoclTrans().SetScaling(gap, 1, gap);
 
-            frustumR = gap / 2 * config.ScaleXZ * (float)Math.Sqrt(2);
-
+            frustumR =(float)Math.Sqrt(gap * gap / 4 * config.ScaleXZ * config.ScaleXZ + config.ScaleY*config.ScaleY);// gap / 2 * config.ScaleXZ * (float)Math.Sqrt(2);
+            
             ComputeWorldPosition();
         }
     }

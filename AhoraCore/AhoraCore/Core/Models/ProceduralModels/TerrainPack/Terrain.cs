@@ -1,10 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
-using AhoraCore.Core.Buffers.IBuffers;
-using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.Components;
-using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Materials;
 using AhoraCore.Core.Models.ProceduralModels.TerrainPack;
 using System;
@@ -41,25 +38,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
             }
         }
 
-        private void CreateGrassLods()
-        {
-            FloatBuffer []vbuffers ;
-
-            IntegerBuffer []ibuffers;
-
-            int[] AttribsMasks;
-
-
-            ModelLoader.LoadModel("E:\\GitHub\\AhoraCore\\AhoraCore\\AhoraCore\\Resources\\grass_lods.obj", out AttribsMasks, out vbuffers, out ibuffers);
-
-            GeometryStorageManager.Data.AddGeometrySet(AttribsMasks[0], new string[] { "grass_lod_0", "grass_lod_1", "grass_lod_2"}, vbuffers, ibuffers);
-
-            //ModelLoader.LoadModel("D:\\GitHub\\AhoraCore\\AhoraCore\\AhoraCore\\Resources\\grass_lods_.obj", out AttribsMasks, out vbuffers, out ibuffers);
-
-            //GeometryStorageManager.Data.AddGeometrySet(AttribsMasks[0], new string[]{ "grass_lod_0", "grass_lod_1" , "grass_lod_2", "grass_lod_3", "grass_lod_4" }, vbuffers, ibuffers); 
-
-        }
-
+     
         public void Init(string config, bool fromfile = true)
         {
             configuration = new TerrainConfig();
@@ -84,10 +63,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
             AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("TerrainMaterial"));
             AddComponent(ComponentsTypes.NodeComponent, new TerrainQuadTree(this, configuration));
             RemoveComponent(ComponentsTypes.GeometryComponent);
-            CreateGrassLods();
-
-
-        }
+         }
 
         public new void Update()
         {           

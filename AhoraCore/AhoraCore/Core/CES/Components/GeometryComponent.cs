@@ -1,6 +1,7 @@
 ﻿using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.DataManaging;
 using System;
+using AhoraCore.Core.Shaders;
 
 namespace AhoraCore.Core.CES.Components
 {
@@ -40,6 +41,12 @@ namespace AhoraCore.Core.CES.Components
         {
 
         }
+
+        public override void Render(AShader shader)
+        {
+            throw new NotImplementedException();
+        }
+
         public GeometryComponent(string ModelID)
         {
             Component = "GeometryData";

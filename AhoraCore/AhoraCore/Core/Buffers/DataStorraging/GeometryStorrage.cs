@@ -19,8 +19,6 @@ namespace AhoraCore.Core.Buffers
     {
         private delegate void renderMethod(string ID);
 
-       
-
         private IndexedList<string> VerticesIndeces;
 
         private IndexedList<string> FacesIndeces;

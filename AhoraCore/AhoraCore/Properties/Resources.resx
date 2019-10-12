@@ -178,9 +178,6 @@
   <data name="GrassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Grass\GrassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-  <data name="GrassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Grass\GrassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
-  </data>
   <data name="grass" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\grass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -205,4 +202,45 @@
   <data name="GrassTE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Grass\GrassTE.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+
+
+  <data name="DefferedGrassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedGrass\DefferedGrassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedGrassTE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedGrass\DefferedGrassTE.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedGrassTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedGrass\DefferedGrassTC.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedGrassGS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedGrass\DefferedGrassGS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+
+
+
+  <data name="DefferedTerrainFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedTerrain\DefferedTerrainFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedTerrainVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedTerrain\DefferedTerrainVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedTerrainTE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedTerrain\DefferedTerrainTE.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedTerrainTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedTerrain\DefferedTerrainTC.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedTerrainGS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedTerrain\DefferedTerrainGS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+
+
+  <data name="DefferedSkyDomeFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedSkydome\DefferedSkyDomeFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedSkyDomeVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedSkydome\DefferedSkyDomeVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  
 </root>

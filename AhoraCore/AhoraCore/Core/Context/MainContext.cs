@@ -1,6 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
+using AhoraCore.Core.Rendering;
 using AhoraProject.Ahora.Core.Display;
 
 
@@ -9,6 +10,23 @@ namespace AhoraCore.Core.Context
     public static class MainContext
     {
         private static DisplayDevice FrameDisplay;
+
+        private static RenderMethods renderPipeline;
+
+        public static void UseForwardRenderer()
+        {
+            renderPipeline = RenderMethods.Forward;
+        }
+
+        public static void UseDefferedRenderer()
+        {
+            renderPipeline = RenderMethods.Deffered;
+        }
+
+        public static RenderMethods GetRenderMethod()
+        {
+            return renderPipeline;
+        }
 
         private static float zfar  =15000, znear = 0.5f;
 
@@ -33,7 +51,7 @@ namespace AhoraCore.Core.Context
 
         public static void InitMainContext()
         {
-           
+            UseForwardRenderer();
 
             FrameDisplay = new DisplayDevice(1900, 1000);
 

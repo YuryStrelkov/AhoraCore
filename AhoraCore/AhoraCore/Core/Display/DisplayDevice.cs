@@ -1,10 +1,9 @@
-﻿using AhoraCore.Core.Buffers.DataStorraging;
-using AhoraCore.Core.CES;
+﻿using AhoraCore.Core.CES;
+using AhoraCore.Core.Context;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Input;
-using AhoraCore.Core.Shaders;
+using AhoraCore.Core.Rendering;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using System;
 
 
@@ -13,10 +12,21 @@ namespace AhoraProject.Ahora.Core.Display
 {
     public class DisplayDevice: GameWindow
     {
+
+        private RederPipeline renderer;
+
          public DisplayDevice(int w, int h):base(w,h)
         {
- 
+            if (MainContext.GetRenderMethod() == RenderMethods.Deffered)
+            {
+                renderer = new DefferedRenderer();
+            }
+            else
+            {
+                renderer = new ForwardRenderer();
+            }
         }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -28,26 +38,16 @@ namespace AhoraProject.Ahora.Core.Display
             base.OnUpdateFrame(e);
             KeysInput.UpdateKeysStatment();
             MouseInput.UpdateMouseStatment();
-           // CameraInstance.Get().UpdateCamera();
+            GameEntityStorrage.Entities.Update(GameEntityStorrage.Entities.RootID);
         }
 
-        private void cleanUpFrame()
-        {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-            GL.ClearColor(0.5f, 0.5f, 0.5f, 1);
-
-            GL.Enable(EnableCap.DepthTest);
-        }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             
             base.OnRenderFrame(e);
-            cleanUpFrame();
-            GameEntityStorrage.Entities.Update(GameEntityStorrage.Entities.RootID);
-            GameEntityStorrage.Entities.Render(GameEntityStorrage.Entities.RootID);
-            this.SwapBuffers();
+            renderer.Render();  
+            SwapBuffers();
         }
 
 

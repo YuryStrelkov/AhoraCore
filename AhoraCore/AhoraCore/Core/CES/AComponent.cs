@@ -1,5 +1,5 @@
 ﻿using AhoraCore.Core.CES.ICES;
-
+using AhoraCore.Core.Shaders;
 using OpenTK;
 
 namespace AhoraCore.Core.CES
@@ -22,7 +22,7 @@ namespace AhoraCore.Core.CES
 
     public abstract class AComponent<ParentType> : UniformBufferedObject,  IBehavoir/// where ParentType : IGameEntity
     {
-
+        public bool IsRenderable { get; set; }
 
         public string Component { get; protected set; }
 
@@ -37,6 +37,8 @@ namespace AhoraCore.Core.CES
         public abstract void Input();
 
         public abstract void Render();
+        
+        public abstract void Render(AShader shader);
 
         public abstract void Update();
 

@@ -65,7 +65,7 @@ namespace AhoraCore.Properties {
         ///{
         ///	mat4 viewMatrix;
         ///	mat4 projectionMatrix;
-        ///	mat4 tiltMatix;
+        ///	vec4 [6] frustumPlanes;
         ///	vec4 cameraPosition;
         ///	vec4 cameraLookAt;
         ///};
@@ -104,6 +104,421 @@ namespace AhoraCore.Properties {
             get {
                 object obj = ResourceManager.GetObject("Clouds1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330
+        ///
+        ///layout(location = 0) out vec4 outColor;
+        ///
+        ///#include TerrainSettings; //10
+        ///
+        ///#include CameraDefinition; ///10
+        ///
+        ///in vec2 mapCoord_FS;
+        ///
+        ///in vec3 position_FS;
+        ///
+        ///in vec3 normal_FS;
+        ///
+        ///in float distance_FS;
+        ///
+        ///const float intensity = 1.2;
+        ///
+        ///uniform sampler2D grassMap;
+        ///
+        ///float diffuse(vec3 dir, vec3 n, float i)
+        ///{
+        ///	return max(0.5, dot(n,dir) * i);
+        ///}
+        ///
+        ///void main()
+        ///{
+        /// 
+        ///	vec4 color = texture(grassMap,vec2(mapCoord_FS.x,1-mapCoord_FS.y)).rgba;
+        ///	
+        ///	if(color.a&lt;0.5)
+        ///	{
+        ///	discard;
+        ///	}
+        ///	
+        ///	fl [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedGrassFS {
+            get {
+                return ResourceManager.GetString("DefferedGrassFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include CameraDefinition; ///10
+        ///
+        ///#include TerrainMaterialData; //47
+        ///
+        ///#include TerrainSettings; //10
+        ///
+        ///layout(triangles) in;
+        ///
+        ///layout( triangle_strip, max_vertices = 12)out;
+        ///
+        ///out vec2 mapCoord_FS;
+        ///
+        ///out vec3 position_FS;
+        ///
+        ///out vec3 tangent_FS;
+        ///
+        ///out vec3 normal_FS;
+        ///
+        ///out float distance_FS;
+        ///
+        ///in vec2 mapCoord_GS[];
+        ///
+        ///uniform sampler2D heightMap;
+        ///
+        ///uniform sampler2D blendMap;
+        ///
+        ///uniform float gap;
+        ///
+        ///
+        /////uniform sampler2D TransformMapX;
+        /////uniform sampler2D TransformMapY;
+        /////uni [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedGrassGS {
+            get {
+                return ResourceManager.GetString("DefferedGrassGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///layout(vertices = 16) out;
+        ///
+        ///in vec2 mapCoord_TC[];
+        ///
+        ///out vec2 mapCoord_TE[];
+        ///
+        ///const int AB=2;
+        ///
+        ///const int BC=3;
+        ///
+        ///const int CD=0;
+        ///
+        ///const int DA=1;
+        ///
+        ///void main()
+        ///{
+        ///	if (gl_InvocationID == 0)
+        ///	{
+        ///		gl_TessLevelOuter[AB] = 4;
+        ///		gl_TessLevelOuter[BC] = 4;
+        ///		gl_TessLevelOuter[CD] = 4;
+        ///		gl_TessLevelOuter[DA] = 4; 
+        ///
+        ///		gl_TessLevelInner[0] = 5;
+        ///		gl_TessLevelInner[1] = 5;
+        ///	}	
+        ///	
+        ///	mapCoord_TE[gl_InvocationID] = mapCoord_TC[gl_InvocationID];
+        ///	
+        ///	gl_out[gl_InvocationID].gl_Positi [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedGrassTC {
+            get {
+                return ResourceManager.GetString("DefferedGrassTC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include TerrainSettings;
+        ///
+        ///layout(quads, fractional_odd_spacing, cw) in;
+        ///
+        ///in vec2 mapCoord_TE[];
+        ///
+        ///out vec2 mapCoord_GS;
+        ///
+        ///uniform sampler2D heightMap;
+        ///
+        ///void main()
+        ///{
+        ///	float u = gl_TessCoord.x;
+        ///	
+        ///	float v = gl_TessCoord.y;
+        ///	
+        ///	vec4 position =((1-u) * (1-v) * gl_in[12].gl_Position+
+        ///					   u  * (1-v) * gl_in[0].gl_Position+
+        ///					   u  *  v    * gl_in[3].gl_Position+
+        ///					(1-u) *  v    * gl_in[15].gl_Position);
+        ///	
+        ///	vec2 mapCoord=((1-u) * (1-v) * mapCoord_TE[12]+
+        ///					  u  * ( [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedGrassTE {
+            get {
+                return ResourceManager.GetString("DefferedGrassTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///
+        ///#include MaterialDefinition;
+        ///
+        ///out vec4 out_Color;
+        ///
+        ///in vec3 v_Colour;
+        ///in vec2 v_TexCoord;
+        ///in vec3 v_normal;
+        ///in vec3 skyColor;
+        ///
+        ///
+        ///void main()
+        ///{ 
+        ///	vec4 color          =  getDiffuse(v_TexCoord);
+        ///	
+        ///	out_Color.rgb       =  mix(1.75*color.rgb,skyColor,0.5);
+        ///					     
+        ///    out_Color.a         =  color.r;
+        ///}.
+        /// </summary>
+        internal static string DefferedSkyDomeFS {
+            get {
+                return ResourceManager.GetString("DefferedSkyDomeFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330
+        ///
+        ///layout (location = 0) in vec3 p_position;
+        ///layout (location = 1) in vec2 p_texcoord;
+        ///layout (location = 2) in vec3 p_normal;
+        ///
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///#include TransformDefinition;
+        ///
+        ///
+        ///out vec3 v_Colour;
+        ///out vec2 v_TexCoord;
+        ///out vec3 v_normal;
+        ///out vec3 skyColor;
+        ///
+        ///uniform vec4 DomeColor;
+        /// 
+        ///vec3 atmosphereDescend(vec3 position, vec4 atm_color)
+        ///{
+        ///return vec3(-0.00022*(position.y-2000)+ atm_color.x,
+        ///			-0.00025*(position.y-2000)+ atm_color.y,
+        ///			-0.00019*(position.y-2000)+  [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedSkyDomeVS {
+            get {
+                return ResourceManager.GetString("DefferedSkyDomeVS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include TerrainMaterialData;
+        ///
+        ///#include TerrainSettings;
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///layout(location = 0) out vec4 outColor;
+        ///
+        ///in vec2 mapCoord_FS;
+        ///
+        ///in vec3 position_FS;
+        ///
+        ///in vec3 tangent_FS;
+        ///
+        ///uniform sampler2D normalMap;
+        ///
+        ///uniform sampler2D heightMap;
+        ///
+        ///uniform sampler2D blendMap;
+        ///
+        ///const vec3 direction = vec3(0.0,1,0.0);
+        ///
+        ///const float intensity = 2.2;
+        ///
+        ///const float zFar = 10000;
+        ///
+        ///const float zNear = 0.1;
+        ///
+        ///const float sightRange = 0.6;
+        ///
+        ///float fogFactor(float dist)
+        ///{ [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedTerrainFS {
+            get {
+                return ResourceManager.GetString("DefferedTerrainFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include CameraDefinition; ///10
+        ///
+        ///#include TerrainMaterialData; //47
+        ///
+        ///#include TerrainSettings; //10
+        ///
+        ///layout(triangles) in;
+        ///
+        ///layout( triangle_strip, max_vertices = 3 )out;
+        /////layout( line_strip, max_vertices = 3 )out;
+        ///out vec2 mapCoord_FS;
+        ///
+        ///out vec3 position_FS;
+        ///
+        ///out vec3 tangent_FS;
+        ///
+        ///in vec2 mapCoord_GS[];
+        ///
+        ///uniform sampler2D normalMap;
+        /// 
+        ///uniform sampler2D blendMap;
+        ///  
+        ///vec3 calcTangent()
+        ///{
+        ///
+        ///vec3 e1 = gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz;
+        ///
+        ///vec3 e2 = gl [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedTerrainGS {
+            get {
+                return ResourceManager.GetString("DefferedTerrainGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include TerrainSettings;
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///layout(vertices =  16) out;
+        ///
+        ///in vec2 mapCoord_TC[];
+        ///
+        ///out vec2 mapCoord_TE[];
+        ///
+        ///const int AB=2;
+        ///
+        ///const int BC=3;
+        ///
+        ///const int CD=0;
+        ///
+        ///const int DA=1;
+        ///
+        ///const int Max_Tess_level=16;
+        ///
+        ///float LodFactor(float dist)
+        ///{
+        ///	return  max( 0.0, tessellationFactor/pow(dist,tessellationSlope) + tessellationShift);
+        ///}
+        ///
+        ///void main()
+        ///{
+        ///	if (gl_InvocationID==0)
+        ///	{
+        ///	vec3 abMid = vec3(gl_in[0].gl_Position  + gl_in[3].gl_Position)/2.0;
+        ///	v [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedTerrainTC {
+            get {
+                return ResourceManager.GetString("DefferedTerrainTC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include TerrainSettings;
+        ///
+        ///layout(quads, fractional_odd_spacing, cw) in;
+        ///
+        ///in vec2 mapCoord_TE[];
+        ///
+        ///out vec2 mapCoord_GS;
+        ///
+        ///uniform sampler2D heightMap;
+        ///
+        ///void main()
+        ///{
+        ///	float u = gl_TessCoord.x;
+        ///	
+        ///	float v = gl_TessCoord.y;
+        ///	
+        ///	vec4 position =((1-u) * (1-v) * gl_in[12].gl_Position+
+        ///					   u  * (1-v) * gl_in[0].gl_Position+
+        ///					   u  *  v    * gl_in[3].gl_Position+
+        ///					(1-u) *  v    * gl_in[15].gl_Position);
+        ///	
+        ///	vec2 mapCoord=((1-u) * (1-v) * mapCoord_TE[12]+
+        ///					  u  * ( [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedTerrainTE {
+            get {
+                return ResourceManager.GetString("DefferedTerrainTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include TransformDefinition;
+        ///
+        ///#include TerrainSettings;
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///layout(location = 0)in vec2 p_position;
+        ///
+        ///out vec2 mapCoord_TC;
+        ///
+        ///uniform mat4 LocTransMatrix;
+        ///
+        ///uniform int lod;
+        ///
+        ///uniform  float gap;
+        ///
+        ///uniform vec2 location;
+        ///
+        ///uniform vec2 index;
+        ///
+        ///uniform sampler2D heightMap;
+        ///
+        ///float morphLatitude(vec2 position) {
+        ///	
+        ///	vec2 frac = position - location;
+        ///	
+        ///	if (index == vec2(0,0)){
+        ///		float morph = frac.x - frac.y;
+        ///		if (morph &gt; 0)
+        ///			return morph;
+        ///	}
+        /// [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedTerrainVS {
+            get {
+                return ResourceManager.GetString("DefferedTerrainVS", resourceCulture);
             }
         }
         
@@ -147,36 +562,38 @@ namespace AhoraCore.Properties {
         ///
         ///layout(location = 0) out vec4 outColor;
         ///
+        ///#include TerrainSettings; //10
+        ///
         ///#include CameraDefinition; ///10
         ///
-        ///in vec2 uvCoord;
-        ///
-        ///in vec3 normal;
+        ///in vec2 mapCoord_FS;
         ///
         ///in vec3 position_FS;
         ///
-        ///const float zFar = 10000;
+        ///in vec3 normal_FS;
         ///
-        ///const float zNear = 0.1;
-        ///
-        ///const float sightRange = 0.6;
-        ///
-        ///float fogFactor(float dist)
-        ///{
-        ///	return -0.0002/sightRange*(dist-zFar/10*sightRange) + 1;
-        ///}
-        ///
-        /// 
-        ///const vec3 fogColor = vec3(0.65,0.85,0.9);
-        ///
-        ///
-        ///const vec3 direction = vec3(0.333,0.333,0.333);
+        ///in float distance_FS;
         ///
         ///const float intensity = 1.2;
         ///
         ///uniform sampler2D grassMap;
         ///
-        ///flo [остаток строки не уместился]&quot;;.
+        ///float diffuse(vec3 dir, vec3 n, float i)
+        ///{
+        ///	return max(0.5, dot(n,dir) * i);
+        ///}
+        ///
+        ///void main()
+        ///{
+        /// 
+        ///	vec4 color = texture(grassMap,vec2(mapCoord_FS.x,1-mapCoord_FS.y)).rgba;
+        ///	
+        ///	if(color.a&lt;0.5)
+        ///	{
+        ///	discard;
+        ///	}
+        ///	
+        ///	fl [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string GrassFS {
             get {
@@ -185,7 +602,40 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include CameraDefinition; ///10
+        ///
+        ///#include TerrainMaterialData; //47
+        ///
+        ///#include TerrainSettings; //10
+        ///
+        ///layout(triangles) in;
+        ///
+        ///layout( triangle_strip, max_vertices = 12)out;
+        ///
+        ///out vec2 mapCoord_FS;
+        ///
+        ///out vec3 position_FS;
+        ///
+        ///out vec3 tangent_FS;
+        ///
+        ///out vec3 normal_FS;
+        ///
+        ///out float distance_FS;
+        ///
+        ///in vec2 mapCoord_GS[];
+        ///
+        ///uniform sampler2D heightMap;
+        ///
+        ///uniform sampler2D blendMap;
+        ///
+        ///uniform float gap;
+        ///
+        ///
+        /////uniform sampler2D TransformMapX;
+        /////uniform sampler2D TransformMapY;
+        /////uni [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string GrassGS {
             get {
@@ -194,7 +644,38 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///layout(vertices = 16) out;
+        ///
+        ///in vec2 mapCoord_TC[];
+        ///
+        ///out vec2 mapCoord_TE[];
+        ///
+        ///const int AB=2;
+        ///
+        ///const int BC=3;
+        ///
+        ///const int CD=0;
+        ///
+        ///const int DA=1;
+        ///
+        ///void main()
+        ///{
+        ///	if (gl_InvocationID == 0)
+        ///	{
+        ///		gl_TessLevelOuter[AB] = 4;
+        ///		gl_TessLevelOuter[BC] = 4;
+        ///		gl_TessLevelOuter[CD] = 4;
+        ///		gl_TessLevelOuter[DA] = 4; 
+        ///
+        ///		gl_TessLevelInner[0] = 5;
+        ///		gl_TessLevelInner[1] = 5;
+        ///	}	
+        ///	
+        ///	mapCoord_TE[gl_InvocationID] = mapCoord_TC[gl_InvocationID];
+        ///	
+        ///	gl_out[gl_InvocationID].gl_Positi [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string GrassTC {
             get {
@@ -203,43 +684,35 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
-        /// </summary>
-        internal static string GrassTE {
-            get {
-                return ResourceManager.GetString("GrassTE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 430
-        ///
-        ///#include TransformDefinition;
         ///
         ///#include TerrainSettings;
         ///
-        ///#include CameraDefinition;
+        ///layout(quads, fractional_odd_spacing, cw) in;
         ///
-        ///layout(location = 0)in vec2 p_position;
+        ///in vec2 mapCoord_TE[];
         ///
-        ///out vec2 mapCoord_TC;
-        ///
-        ///uniform mat4 LocTransMatrix;
+        ///out vec2 mapCoord_GS;
         ///
         ///uniform sampler2D heightMap;
         ///
         ///void main()
         ///{
-        ///	vec2 localPos = (LocTransMatrix*vec4(p_position.x, 0 , p_position.y, 1)).xz;	
+        ///	float u = gl_TessCoord.x;
         ///	
-        ///	mapCoord_TC = localPos;
+        ///	float v = gl_TessCoord.y;
         ///	
-        ///	gl_Position =  worldTransform * vec4(localPos.x, texture(heightMap,localPos).r,  localPos.y, 1);
-        ///}.
+        ///	vec4 position =((1-u) * (1-v) * gl_in[12].gl_Position+
+        ///					   u  * (1-v) * gl_in[0].gl_Position+
+        ///					   u  *  v    * gl_in[3].gl_Position+
+        ///					(1-u) *  v    * gl_in[15].gl_Position);
+        ///	
+        ///	vec2 mapCoord=((1-u) * (1-v) * mapCoord_TE[12]+
+        ///					  u  * ( [остаток строки не уместился]&quot;;.
         /// </summary>
-        internal static string GrassVS {
+        internal static string GrassTE {
             get {
-                return ResourceManager.GetString("GrassVS", resourceCulture);
+                return ResourceManager.GetString("GrassTE", resourceCulture);
             }
         }
         
@@ -514,7 +987,7 @@ namespace AhoraCore.Properties {
         ///layout(triangles) in;
         ///
         ///layout( triangle_strip, max_vertices = 3 )out;
-        ///
+        /////layout( line_strip, max_vertices = 3 )out;
         ///out vec2 mapCoord_FS;
         ///
         ///out vec3 position_FS;
@@ -532,7 +1005,7 @@ namespace AhoraCore.Properties {
         ///
         ///vec3 e1 = gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz;
         ///
-        ///vec3 e2 = gl_in[2].gl_Position.xyz - gl_in[0].gl_Positio [остаток строки не уместился]&quot;;.
+        ///vec3 e2 = gl [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainGS {
             get {
@@ -585,7 +1058,7 @@ namespace AhoraCore.Properties {
         ///
         ///ScaleXZ 6000 
         ///
-        ///ScaleY 800 
+        ///ScaleY 500 
         ///
         ///HeigthMap false hm1 
         ///
@@ -595,13 +1068,15 @@ namespace AhoraCore.Properties {
         ///
         ///TessellationShift 0,3 
         ///
-        ///TBNRange 900 
+        ///TBNRange 600 
         ///
         ///LodRanges 1750 874 386 192 100 50 0 0
         ///
+        ///texture grassMap D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\grass.png
+        ///
         ///texture grassDiffuse D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_DIF.jpg
         ///texture grassNormal D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_NRM.jpg
-        ///texture grassDisplacement D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrai [остаток строки не уместился]&quot;;.
+        ///texture gra [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainSettings {
             get {
