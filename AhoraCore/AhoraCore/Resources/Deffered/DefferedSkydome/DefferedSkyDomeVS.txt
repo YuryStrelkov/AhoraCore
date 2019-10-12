@@ -4,17 +4,18 @@ layout (location = 0) in vec3 p_position;
 layout (location = 1) in vec2 p_texcoord;
 layout (location = 2) in vec3 p_normal;
 
-
 #include CameraDefinition;
 
 #include TransformDefinition;
-
-
-out vec3 v_Colour;
+ 
 out vec2 v_TexCoord;
-out vec3 v_normal;
-out vec3 skyColor;
 
+out vec3 v_normal;
+
+out vec4 v_position;
+
+out vec3 skyColor;
+ 
 uniform vec4 DomeColor;
  
 vec3 atmosphereDescend(vec3 position, vec4 atm_color)
@@ -25,18 +26,20 @@ return vec3(-0.00022*(position.y-2000)+ atm_color.x,
 } 
  
 void  main()
-{	
-	vec4 fragPosition;
-	
+{	 
 	mat4 transformationMatrix = worldTransform*localTransform;
+ 
+	vec4 pos = vec4(p_position,1);
+ 
+    pos        =   transformationMatrix *pos;
+	
+    v_TexCoord        =    p_texcoord;
+	
+ 	v_normal          =    normalize(mat3(viewMatrix*transformationMatrix)*p_normal);
 
-    fragPosition       =   transformationMatrix *vec4(p_position,1);
+	skyColor          =    atmosphereDescend(pos.xyz, DomeColor);
 	
-	v_TexCoord          =  p_texcoord;
+	v_position        =    viewMatrix*pos;
 	
- 	v_normal            =  normalize(mat3(viewMatrix*transformationMatrix)*p_normal);///normalMatrix*aNormals;
-
-	skyColor          =    atmosphereDescend(fragPosition.xyz,DomeColor);
-	
-	gl_Position       =    projectionMatrix*viewMatrix*fragPosition;
+	gl_Position       =    projectionMatrix*v_position;
 }

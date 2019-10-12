@@ -1,12 +1,15 @@
 #version 430
 
+layout (location = 0)out vec4 gPosition;//++
+layout (location = 1)out vec3 gNormal;//+
+layout (location = 2)out vec4 gColor;//+
+layout (location = 3)out vec3 gFresnel;//++
+
 #include TerrainMaterialData;
 
 #include TerrainSettings;
 
 #include CameraDefinition;
-
-layout(location = 0) out vec4 outColor;
 
 in vec2 mapCoord_FS;
 
@@ -20,33 +23,13 @@ uniform sampler2D heightMap;
 
 uniform sampler2D blendMap;
 
-const vec3 direction = vec3(0.0,1,0.0);
-
-const float intensity = 2.2;
-
-const float zFar = 10000;
-
-const float zNear = 0.1;
-
-const float sightRange = 0.6;
-
-float fogFactor(float dist)
-{
-	return -0.0002/sightRange*(dist-zFar/10*sightRange) + 1;
-}
-
-const vec3 fogColor = vec3(0.65,0.85,0.9);
-
-float diffuse(vec3 dir, vec3 n, float i)
-{
-	return max(0.1, dot(n,dir) * i);
-}
-
 void main()
 {
 	float dist = length(cameraPosition.xyz - position_FS);
 
 	float height = position_FS.y;
+
+	vec3 fresnel;
 
 	vec3 normal = normalize( texture(normalMap,mapCoord_FS).rbg);
 	
@@ -60,13 +43,14 @@ void main()
 	
 		vec3 biTangent = normalize(cross(tangent_FS,normal));
 	
-    	mat3 TBN =mat3(tangent_FS,normal,biTangent);
+    	mat3 TBN = mat3(tangent_FS,normal,biTangent);
 		
 		vec3 bumpNormal = vec3(0,0,0);
 		
 		for (int i=0;i < MAX_MATERIALS;i++)
 		{
 		bumpNormal += (2*(texture(materials[i].normalMap, mapCoord_FS * settings[i].scaling.x).rbg) - 1) * blendValsArray[i];
+		fresnel += (texture(materials[i].specularMap, mapCoord_FS * settings[i].scaling.x).rbg)* blendValsArray[i];
 		}		
 		bumpNormal=normalize(bumpNormal);
 		
@@ -82,14 +66,12 @@ void main()
 	fragmentColor+= texture(materials[i].diffuseMap,mapCoord_FS*settings[i].scaling.x).rgb* blendValsArray[i]; 
 	}
 	
-	float diffColor = diffuse(direction, normal, intensity);
-
-	fragmentColor *= diffColor;
+	///Outputs
+	gPosition = viewMatrix*vec4(position_FS,1);
 	
-	float fog =fogFactor(dist);
+	gNormal = mat3(viewMatrix)*normal;
 	
-	fragmentColor=mix(fragmentColor, fogColor,1-clamp(fog,0,1));
+	gColor = vec4(fragmentColor,1.0);
 	
-	outColor = vec4(fragmentColor,1.0);
-
+	gFresnel = fresnel;
 }

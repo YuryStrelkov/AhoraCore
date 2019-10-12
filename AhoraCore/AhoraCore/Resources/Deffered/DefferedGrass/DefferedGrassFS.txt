@@ -1,6 +1,9 @@
 #version 330
 
-layout(location = 0) out vec4 outColor;
+layout (location = 0)out vec4 gPosition;//++
+layout (location = 1)out vec3 gNormal;//+
+layout (location = 2)out vec4 gColor;//+
+layout (location = 3)out vec3 gFresnel;//++
 
 #include TerrainSettings; //10
 
@@ -18,11 +21,6 @@ const float intensity = 1.2;
 
 uniform sampler2D grassMap;
 
-float diffuse(vec3 dir, vec3 n, float i)
-{
-	return max(0.5, dot(n,dir) * i);
-}
-
 void main()
 {
  
@@ -32,9 +30,14 @@ void main()
 	{
 	discard;
 	}
-	
-	float diffuse = diffuse(color.xyz, normal_FS, intensity);
 
-	outColor = diffuse*vec4(color.xyz,color.a*(2 -(smoothstep(ScaleXZ/9, ScaleXZ/8, distance_FS))));
  
+ 	
+	gPosition = viewMatrix*vec4(position_FS,1);
+	
+	gNormal = mat3(viewMatrix)*normal_FS;
+	
+	gColor = vec4(color.xyz,color.a*(2 -(smoothstep(ScaleXZ/9, ScaleXZ/8, distance_FS))));
+	
+	gFresnel = vec3(0,0,0);
 }
