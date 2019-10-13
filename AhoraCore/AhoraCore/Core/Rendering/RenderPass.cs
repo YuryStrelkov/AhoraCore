@@ -1,14 +1,16 @@
-﻿using System;
-using AhoraCore.Core.Buffers.FrameBuffers;
-using AhoraCore.Core.Buffers.IBuffers;
+﻿using AhoraCore.Core.Buffers.FrameBuffers;
 using AhoraCore.Core.Buffers.IBuffers.BindableObject;
+using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.ICES;
+using AhoraCore.Core.Shaders;
 using OpenTK.Graphics.OpenGL;
 
 namespace AhoraCore.Core.Rendering
 {
-    public abstract class RenderPass: IBindable
+    public abstract class RenderPass : AComponent<RederPipeline>
     {
-        private RederPipeline parent;
+        //   private RederPipeline parent;
+        protected AShader RenderPassShder;
 
         private FrameBuffer PassBuffer;
         /// <summary>
@@ -28,7 +30,7 @@ namespace AhoraCore.Core.Rendering
         /// Render Pass based on framebuffer (w , h) with only depth component
         /// </summary>
         /// <param name="parent"></param>
-        public RenderPass(RederPipeline parent, int w, int h)
+        public RenderPass(RederPipeline parent, int w, int h):base()
         {
             this.parent = parent;
 
@@ -37,7 +39,17 @@ namespace AhoraCore.Core.Rendering
             Create();
         }
 
-        public void AddTextureAttacment(string texName)
+        public void UseColAttachAsTex(int targetChannel,string channelName, AShader shder)
+        {
+            PassBuffer.ActivateBufferLayerAsTexture(targetChannel, channelName, shder);
+        }
+
+        public void UseColAttachAsTex(int targetChannel, string channelName, string shaderChannelName, AShader shder)
+        {
+            PassBuffer.ActivateBufferLayerAsTexture(targetChannel, channelName, shaderChannelName, shder);
+        }
+
+        public void AddTextureAttachment(string texName)
         {
             PassBuffer.addColorAttachment(texName, PixelInternalFormat.Rgba16f, PixelFormat.Rgb, PixelType.UnsignedByte);
         }
@@ -46,33 +58,31 @@ namespace AhoraCore.Core.Rendering
 
         public abstract void DisableSettings();
 
-        public abstract void DrawPass();
-     /*   {
-            Bind();
-            EnableCap();
-            Drawinig smthng
-            DisableCap();
-        }*/
-
-        public void Bind()
+        public override void Enable()
         {
             PassBuffer.Bind();
         }
 
+        public void Enable(FramebufferTarget bindingTarget)
+        {
+            PassBuffer.Bind(bindingTarget);
+        }
+
+
         public abstract void Create();
 
 
-        public void Delete()
+        public override void Delete()
         {
             PassBuffer.Delete();
         }
 
-        public void Unbind()
+        public override void Disable()
         {
             PassBuffer.Unbind();
         }
 
-        public void Clear()
+        public override void Clear()
         {
             PassBuffer.Clear();
         }

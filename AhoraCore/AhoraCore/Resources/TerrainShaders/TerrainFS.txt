@@ -42,6 +42,9 @@ float diffuse(vec3 dir, vec3 n, float i)
 	return max(0.1, dot(n,dir) * i);
 }
 
+
+
+
 void main()
 {
 	float dist = length(cameraPosition.xyz - position_FS);
@@ -88,7 +91,7 @@ void main()
 	
 	float fog =fogFactor(dist);
 	
-	fragmentColor=mix(fragmentColor, fogColor,1-clamp(fog,0,1));
+	fragmentColor = mix(fragmentColor, fogColor,1-clamp(fog,0,1));
 	
 	outColor = vec4(fragmentColor,1.0);
 

@@ -185,7 +185,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             }
         }
 
-        protected void LoadData(float [] vdata,  int [] idata)
+        public void LoadData(float [] vdata,  int [] idata)
         {
 
             if (Fillnes != 0)
@@ -205,10 +205,6 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
                 Unbind();
 
-                //Console.WriteLine("VBO");
-                //DebugBuffers.displayBufferDataVBO(VBO);
-                //Console.WriteLine("IBO");
-                //DebugBuffers.displayBufferDataIBO(IBO);
 
             }
             else
@@ -218,11 +214,18 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 IBO.LoadBufferData(idata);
                 Unbind();
             }
+
+/*            Console.Clear();
+
+            Console.WriteLine("VBO");
+            DebugBuffers.displayBufferDataVBO(VBO);
+            Console.WriteLine("IBO");
+            DebugBuffers.displayBufferDataIBO(IBO);*/
         }
 
 
 
-        protected void LoadData(float[] vdata)
+        public void LoadData(float[] vdata)
         {
 
             if (vdata.Length > VBO.Capacity - VBO.Fillnes)
@@ -299,7 +302,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public ArrayBuffer() : base()
         {
             Attribytes = new Dictionary<int, AttrAndSize>();
-            Create(16000);
+            Create(20);
         }
 
     }

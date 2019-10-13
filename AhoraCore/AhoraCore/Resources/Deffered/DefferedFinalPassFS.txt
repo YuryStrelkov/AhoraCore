@@ -1,0 +1,80 @@
+#version 330 
+
+#include CameraDefinition;
+
+uniform sampler2D Positions;
+
+uniform sampler2D Normals;
+
+uniform sampler2D Colors;
+
+uniform sampler2D Fresnels;
+
+uniform sampler2D SSAO;
+
+in vec2 TexCoord;
+
+const vec3 direction = vec3(1,1,-1);
+
+const float intensity = 1.2;
+
+const float zFar = 400;
+
+const float zNear = 0.1;
+
+const float sightRange = 0.6;
+
+float fogFactor(float dist)
+{
+	return -0.0002/sightRange*(dist-zFar/10*sightRange) + 1;
+}
+
+const vec3 fogColor = vec3(0.65,0.85,0.9);
+
+float Diffuse(vec3 dir, vec3 n, float i)
+{
+	return max(0.4, dot(n,dir) * i);
+}
+
+float getBlurredSSAO()
+{
+	int blurSize = 4;
+	vec2 texelSize = 1.0 / vec2(textureSize(SSAO, 0));
+	float result = 0.0;
+	for (int x = -blurSize; x <= blurSize; ++x) 
+	{
+		for (int y = -blurSize; y <= blurSize; ++y) 
+		{
+			vec2 offset = vec2(float(x), float(y)) * texelSize;
+			result += texture(SSAO, TexCoord  + offset).r;
+		}
+	}
+	return result / ((blurSize*2+1)*(blurSize*2+1));
+}
+
+
+void main()
+{
+
+ 
+float dist = length(texture(Positions,TexCoord).rgb);
+
+vec3 color  =  texture(Colors,TexCoord).rgb;
+
+if (dist < 6000)
+	{
+		float fog = fogFactor(dist);
+			
+		float diffuse = Diffuse(direction,transpose(mat3(viewMatrix))*texture(Normals,TexCoord).rgb,intensity);
+
+		vec3 color  =  (1.5*getBlurredSSAO())*diffuse*color;
+		
+		gl_FragColor = vec4(mix(color, fogColor,1-clamp(fog,0,1)),1);
+
+		return;
+	}
+gl_FragColor = vec4(color,1); 
+
+
+//gl_FragColor = vec4(vec3(getBlurredSSAO()),1);
+}

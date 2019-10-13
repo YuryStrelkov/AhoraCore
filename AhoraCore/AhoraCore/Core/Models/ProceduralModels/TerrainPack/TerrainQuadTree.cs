@@ -105,7 +105,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public override void Render()
         {
            drawTerrain();
-           drawGrass();
+            drawGrass();
         }
 
         public override void Render(AShader shder)
@@ -191,9 +191,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             NodePachModel.EnableAttribytes();
 
-            GL.Enable(EnableCap.Blend);
+///             GL.Enable(EnableCap.Blend);
 
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+    ///         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
 
             for (int i = 0; i < terrainNodes.Count; i++)
@@ -201,7 +201,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 terrainNodes[i].Render(TerrainGrassShader);
             }
 
-            GL.Disable(EnableCap.Blend);
+           /// GL.Disable(EnableCap.Blend);
 
             NodePachModel.DisableAttribytes();
 

@@ -17,8 +17,6 @@ in vec3 normal_FS;
 
 in float distance_FS;
 
-const float intensity = 1.2;
-
 uniform sampler2D grassMap;
 
 void main()
@@ -28,16 +26,15 @@ void main()
 	
 	if(color.a<0.5)
 	{
-	discard;
+		discard;
 	}
 
- 
  	
 	gPosition = viewMatrix*vec4(position_FS,1);
 	
-	gNormal = mat3(viewMatrix)*normal_FS;
+	gNormal =  mat3(viewMatrix)*normal_FS;
 	
-	gColor = vec4(color.xyz,color.a*(2 -(smoothstep(ScaleXZ/9, ScaleXZ/8, distance_FS))));
+	gColor = vec4(color.xyz,1);
 	
 	gFresnel = vec3(0,0,0);
 }

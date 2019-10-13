@@ -1,26 +1,55 @@
-﻿using AhoraCore.Core.Context;
+﻿using AhoraCore.Core.Cameras;
+using AhoraCore.Core.Context;
+using AhoraCore.Core.DataManaging;
+using AhoraCore.Core.Rendering.RenderPasses;
+using AhoraCore.Core.Shaders;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using System.Collections.Generic;
 
 namespace AhoraCore.Core.Rendering
 {
     public class DefferedRenderer : RederPipeline
     {
-        Dictionary<string, RenderPass> Passes;
+        DefferedFinalStepShdr displayShader;
 
-        public DefferedRenderer()
+        public DefferedRenderer():base()
         {
-            Passes = new Dictionary<string, RenderPass>();
+            displayShader = new DefferedFinalStepShdr();
+
             Passes.Add("GeometryPass", new GeometryRenderPass(this,MainContext.ScreenWidth, MainContext.ScreenHeight));
+
+            Passes.Add("SSAOPass", new SSAOPass(this, MainContext.ScreenWidth, MainContext.ScreenHeight));
+
+       //     Passes.Add("SSAO", new GeometryRenderPass(this, MainContext.ScreenWidth, MainContext.ScreenHeight));
+       //     Passes.Add("SSLR", new GeometryRenderPass(this, MainContext.ScreenWidth, MainContext.ScreenHeight));
         }
 
-        public void AfterRender()
+        public override void AfterRender()
         {
- 
-        }
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 
-        public void BeforeRender()
+            displayShader.Bind();
+
+            displayShader.SetUniform("position", Vector3.One);
+            
+            displayShader.SetUniform("scale", Vector3.One);
+
+            CameraInstance.Get().Bind(displayShader);
+
+            //  getRenderPassBuffer("GeometryPass").UseColAttachAsTex(0, "PositionBuffer", "Positions", displayShader) ;
+            getRenderPassBuffer("GeometryPass").UseColAttachAsTex(0, "PositionBuffer", "Positions", displayShader);
+            getRenderPassBuffer("GeometryPass").UseColAttachAsTex(1, "NormalBuffer", "Normals", displayShader);
+            getRenderPassBuffer("GeometryPass").UseColAttachAsTex(2, "ColorBuffer", "Colors", displayShader);
+            getRenderPassBuffer("GeometryPass").UseColAttachAsTex(3, "FresnelBuffer", "Fresnels", displayShader);
+            getRenderPassBuffer("SSAOPass").UseColAttachAsTex(4, "SSAOBuffer", "SSAO", displayShader);
+
+            GeometryStorageManager.Data.RenderIteam("Canvas");
+      }
+
+        public override void BeforeRender()
         {
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.ClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -28,14 +57,15 @@ namespace AhoraCore.Core.Rendering
             GL.Enable(EnableCap.DepthTest);
         }
 
-        public void Render()
+        public override void Render()
         {
             BeforeRender();
-
-            foreach (string key in Passes.Keys)
+          
+              foreach (string key in Passes.Keys)
             {
-                Passes[key].DrawPass();
+                Passes[key].Render();
             }
+
             AfterRender();
         }
     }

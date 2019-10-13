@@ -1,7 +1,4 @@
-﻿using AhoraCore.Core.CES;
-using AhoraCore.Core.CES.ICES;
-using AhoraCore.Core.Materials;
-using OpenTK;
+﻿using AhoraCore.Core.CES.ICES;
 
 namespace AhoraCore.Core.Shaders
 {

@@ -277,8 +277,7 @@ namespace AhoraCore.Core.CES.Components
 
         public override void Render(AShader shader)
         {
-            throw new NotImplementedException();
-        }
+       }
 
         public CameraComponent() : base()
         {

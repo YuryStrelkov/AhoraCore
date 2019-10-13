@@ -59,10 +59,9 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             skydome.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("AtmosphereShader"));
 
-            skydome.GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).SetWorldScale(5000, 5000, 5000);
+            skydome.GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).SetWorldScale(10000, 10000, 10000);
 
             GameEntityStorrage.Entities.AddItem("SkyDome", skydome);
-
         }
 
         public static void Create(int recursionLevel, out FloatBuffer vertsData, out IntegerBuffer indecesData, out int AttributesMask)

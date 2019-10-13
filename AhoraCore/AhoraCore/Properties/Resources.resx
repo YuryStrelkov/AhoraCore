@@ -202,8 +202,6 @@
   <data name="GrassTE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Grass\GrassTE.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-
-
   <data name="DefferedGrassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedGrass\DefferedGrassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
@@ -216,9 +214,6 @@
   <data name="DefferedGrassGS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedGrass\DefferedGrassGS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-
-
-
   <data name="DefferedTerrainFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedTerrain\DefferedTerrainFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
@@ -234,13 +229,24 @@
   <data name="DefferedTerrainGS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedTerrain\DefferedTerrainGS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-
-
   <data name="DefferedSkyDomeFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedSkydome\DefferedSkyDomeFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
   <data name="DefferedSkyDomeVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedSkydome\DefferedSkyDomeVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-  
+  <data name="DefferedFinalPassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedFinalPassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedFinalPassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedFinalPassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+
+  <data name="SSAOPassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\SSAOPassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SSAOPassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\SSAOPassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+
 </root>

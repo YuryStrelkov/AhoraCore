@@ -108,6 +108,73 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///uniform sampler2D Positions;
+        ///
+        ///uniform sampler2D Normals;
+        ///
+        ///uniform sampler2D Colors;
+        ///
+        ///uniform sampler2D Fresnels;
+        ///
+        ///in vec2 TexCoord;
+        ///
+        ///const vec3 direction = vec3(1,1,-1);
+        ///
+        ///const float intensity = 1.2;
+        ///
+        ///const float zFar = 400;
+        ///
+        ///const float zNear = 0.1;
+        ///
+        ///const float sightRange = 0.6;
+        ///
+        ///float fogFactor(float dist)
+        ///{
+        ///	return -0.0002/sightRange*(dist-zFar/10*sightRange) + 1;
+        ///}
+        ///
+        ///const vec3 fogColor = vec3(0.65,0.85,0.9);
+        ///
+        ///float Diffuse(vec3 d [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedFinalPassFS {
+            get {
+                return ResourceManager.GetString("DefferedFinalPassFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///
+        ///layout (location =0)in vec3 aPosition;
+        ///layout (location =1)in vec2 aTexCoord;
+        ///
+        ///out vec2 TexCoord;
+        ///
+        ///uniform  vec3 position;
+        ///
+        ///uniform  vec3 scale;
+        ///
+        ///void  main()
+        ///{
+        ///
+        ///    gl_Position = vec4((aPosition), 1);
+        ///    TexCoord  = aTexCoord;
+        ///}
+        ///
+        ///.
+        /// </summary>
+        internal static string DefferedFinalPassVS {
+            get {
+                return ResourceManager.GetString("DefferedFinalPassVS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
         ///
         ///layout (location = 0)out vec4 gPosition;//++
@@ -127,14 +194,16 @@ namespace AhoraCore.Properties {
         ///
         ///in float distance_FS;
         ///
-        ///const float intensity = 1.2;
-        ///
         ///uniform sampler2D grassMap;
         ///
         ///void main()
         ///{
         /// 
-        ///	vec4 color = texture(grassMap,vec2(mapCoord_FS.x,1-mapCoord_FS.y)).rgb [остаток строки не уместился]&quot;;.
+        ///	vec4 color = texture(grassMap,vec2(mapCoord_FS.x,1-mapCoord_FS.y)).rgba;
+        ///	
+        ///	if(color.a&lt;0.5)
+        ///	{
+        ///		d [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedGrassFS {
             get {
@@ -908,6 +977,69 @@ namespace AhoraCore.Properties {
         internal static string SplatMapRenderer {
             get {
                 return ResourceManager.GetString("SplatMapRenderer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///
+        ///out float FragColor;
+        ///in vec2 TexCoord_;
+        ///
+        ///layout(std140) uniform Camera
+        ///{
+        ///	mat4 camView;
+        ///	mat4 camProjection;
+        ///	vec3 camPosition;
+        ///	vec3 camLookAt;
+        ///	float FOV;
+        ///	float aspect;
+        ///};
+        ///
+        ///
+        ///
+        ///uniform sampler2D gPosition;
+        ///uniform sampler2D gNormal;
+        ///uniform sampler2D noizeMap;
+        ///
+        ///uniform int screenWidth;
+        ///uniform int screenHeight;
+        ///
+        ///const int kernelSize = 32*3;
+        ///
+        ///
+        ///layout(std140) uniform SSAO_kernel_block
+        ///{
+        ///	float rad;
+        ///	float bi;
+        ///	float kernel[kernelSize];
+        ///};
+        ///
+        ///const float near [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string SSAOPassFS {
+            get {
+                return ResourceManager.GetString("SSAOPassFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///
+        ///layout (location =0)in vec3 aPosition_;
+        ///layout (location =1)in vec2 aTexCoord_;
+        ///
+        ///out vec2 TexCoord_;
+        ///
+        ///void  main()
+        ///{
+        ///    gl_Position = vec4(aPosition_, 1.0f);
+        ///    TexCoord_  = aTexCoord_;
+        ///}.
+        /// </summary>
+        internal static string SSAOPassVS {
+            get {
+                return ResourceManager.GetString("SSAOPassVS", resourceCulture);
             }
         }
         

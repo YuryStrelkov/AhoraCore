@@ -41,56 +41,76 @@ uniform float gap;
 				vec4(0,0,0,1));
 }
 */
-const float size = 25;
+const float size = 150;
 
-void EmitGrassLod(mat4 projView, vec4 pos)
+void EmitGrassLod(mat4 projView, vec4 pos, vec3 centr)
 {
   float size =	sqrt(gap)*ScaleXZ/80;
+  
+  vec4 offset = vec4( centr - pos.xyz,0);
+  
+  offset /=length(offset);
+  
+  offset = offset*0.1*size;
+  
+  vec4 actualPosition;
+  
+  vec4 position = pos + offset; 
+  
 ///quad 1
 //v1
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition = position + size*vec4(-0.5,1,0,0);
 	
-	gl_Position = projView*(pos + vec4(-size*0.5,1,0,0));
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
+	
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(0,1);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0,0,1);
 	
 	EmitVertex();
 //v2
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition = position +  size*vec4(-0.5,0,0,0);
+
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
 	
-	gl_Position = projView*(pos + size*vec4(-size*0.5,0,0,0));
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(0,0);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0,0,1);
 	
 	EmitVertex();
 //v3
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition = position + size*vec4(0.5,1,0,0);
+
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
 	
-	gl_Position = projView*(pos + size*vec4(size*0.5,1,0,0));
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(1,1);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0,0,1);
 	
 	EmitVertex();
 //v4
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
 	
-	gl_Position = projView*(pos + size*vec4(size*0.5,0,0,0));
+	actualPosition = position + size*vec4(0.5,0,0,0);
+
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
+	
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(1,0);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0,0,1);
 	
@@ -100,49 +120,58 @@ void EmitGrassLod(mat4 projView, vec4 pos)
 	
 ///quad 2	
 //v1
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition = position + size*vec4(-0.3535,1,0.3535,0);
 	
-	gl_Position = projView*(pos + size*vec4(-size*0.3535,1,size*0.3535,0));
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
+	
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(0,1);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0.3535,0,0.3535);
 	
 	EmitVertex();
 //v2
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition = position + size*vec4(-0.3535,0,0.3535,0);
+
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
 	
-	gl_Position = projView*(pos + size*vec4(-size*0.3535,0,size*0.3535,0));
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(0,0);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0.3535,0,0.3535);
 	
 	EmitVertex();
 //v3
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition = position + size*vec4(0.3535,1,-0.3535,0);
 	
-	gl_Position = projView*(pos + size*vec4(size*0.3535,1,-size*0.3535,0));
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
+	
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(1,1);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0.3535,0,0.3535);
 	
 	EmitVertex();
 //v4
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
 	
-	gl_Position = projView*(pos + size*vec4(size*0.3535,0,-size*0.3535,0));
+	actualPosition =position + size*vec4(0.3535,0,-0.3535,0);
+	
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
+	
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(1,0);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0.3535,0,0.3535);
 	
@@ -151,49 +180,57 @@ void EmitGrassLod(mat4 projView, vec4 pos)
 	EndPrimitive();
 ///quad 3	
 //v1
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition = position + size*vec4(0.3535,1,0.3535,0);
+
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
 	
-	gl_Position = projView*(pos + size*vec4(size*0.3535,1,size*0.3535,0));
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(0,1);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0.3535,0,-0.3535);
 	
 	EmitVertex();
 //v2
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition =position +  size*vec4(0.3535,0,0.3535,0);
 	
-	gl_Position = projView*(pos + size*vec4(size*0.3535,0,size*0.3535,0));
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
+	
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(0,0);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0.3535,0,-0.3535);
 	
 	EmitVertex();
 //v3
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition=position + size*vec4(-0.3535,1,-0.3535,0);
 	
-	gl_Position = projView*(pos + size*vec4(-size*0.3535,1,-size*0.3535,0));
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
+	
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(1,1);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0.3535,0,-0.3535);
 	
 	EmitVertex();
 //v4
-	distance_FS = distance(cameraPosition.xyz,pos.xyz);
+	actualPosition = position + size*vec4(-0.3535,0,-0.3535,0) ;
+
+	distance_FS = distance(cameraPosition.xyz,actualPosition.xyz);
 	
-	gl_Position = projView*(pos + size*vec4(-size*0.3535,0,-size*0.3535,0));
+	gl_Position = projView*actualPosition;
 		
 	mapCoord_FS = vec2(1,0);
 		
-	position_FS = pos.xyz;
+	position_FS = actualPosition.xyz;
 		
 	normal_FS   = vec3(0.3535,0,-0.3535);
 	
@@ -207,6 +244,14 @@ void main()
 	mat4  vpm = projectionMatrix*viewMatrix;
 	
 	float dist;
+	
+	vec3 trisCentr=vec3(0,0,0);
+	
+	  for (int i = 0; i < gl_in.length();++i)
+	 {
+		trisCentr+=gl_in[i].gl_Position.xyz;
+	 }
+	
 	
 	   for (int i = 0; i < gl_in.length();++i)
 	 {
@@ -223,7 +268,7 @@ void main()
 			continue;			
 		}
 		
-		EmitGrassLod(vpm, gl_in[i].gl_Position);
+		EmitGrassLod(vpm, gl_in[i].gl_Position,trisCentr);
 	 }
 	 EndPrimitive();
 	
