@@ -80,9 +80,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 return i + 1;
             }
 
-            int subMaterialsNumber = int.Parse(tokens[1]);
+            int subMaterialsNumber = int.Parse(tokens[1]); ////TerrainConFig : count 3 
+            ////Получется нолко материалов
 
-            InitMaterial(subMaterialsNumber);
+            InitMaterial(subMaterialsNumber); // <- 
 
             i+=1;
 

@@ -97,7 +97,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                     Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
                     if (reader.TokenType == JsonToken.PropertyName)
                     {
-                        switch (reader.Value)
+                        switch (reader.Value.ToString())
                         {
                             case "ScaleY":
                                 {
@@ -165,13 +165,15 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                     reader.Read();
                                     if (reader.TokenType == JsonToken.StartArray)
                                     {
+                                        int k = 0;
                                         while (reader.TokenType != JsonToken.EndArray)
                                         {
                                             /* NOTE TODO */
                                             /* https://www.newtonsoft.com/json/help/html/ReadingWritingJSON.htm */
-                                            /*TerrainMaterial TMaterial = new TerrainMaterial();
-                                            i = i + TMaterial.ReadMaterial(i, ref lines);
-                                            MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);*/
+                                            TerrainMaterial TMaterial = new TerrainMaterial();
+                                            //  i = i + TMaterial.ReadMaterial(i, ref lines);
+                                            /// MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial); 
+                                            k++;
                                         }
                                     }
                                     break;
