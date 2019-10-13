@@ -1,4 +1,9 @@
-﻿namespace AhoraCore.Core.Rendering
+﻿using AhoraCore.Core.Buffers.IBuffers;
+using AhoraCore.Core.Buffers.SpecificBuffers;
+using AhoraCore.Core.DataManaging;
+using System.Collections.Generic;
+
+namespace AhoraCore.Core.Rendering
 {
     public enum RenderMethods
     {
@@ -6,22 +11,27 @@
         Deffered=1
     }
 
-    public interface RederPipeline
+    public abstract class RederPipeline
     {
 
-        void BeforeRender();
+        protected Dictionary<string, RenderPass> Passes;
 
-        void Render();
+        public RederPipeline()
+        {
+            Passes = new Dictionary<string, RenderPass>();
+        }
 
-        void AfterRender();
+        public abstract void BeforeRender();
 
-        /* Dictionary<string, RenderPass> renderPasses;
+        public abstract void Render();
 
-         List<string> renderOrder;
+        public abstract void AfterRender();
 
-         public void Render()
-         {
+        public RenderPass getRenderPassBuffer(string passID)
+        {
+           return Passes[passID];
+        }
 
-         }*/
+
     }
 }

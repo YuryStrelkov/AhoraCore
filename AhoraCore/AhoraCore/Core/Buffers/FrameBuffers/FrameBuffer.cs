@@ -265,7 +265,7 @@ namespace AhoraCore.Core.Buffers.FrameBuffers
         }
 
 
-        public void activateBufferLayerAsTexture(int channelTarget, string layerName, string nameInShader, AShader shader)
+        public void ActivateBufferLayerAsTexture(int channelTarget, string layerName, string nameInShader, AShader shader)
         {
             GL.ActiveTexture(TextureUnit.Texture0 + channelTarget);
             ///такое обращение к словорю черевато, обязаельно надо быть уверенным, что запрашиваешь имя, которое точно там есть

@@ -12,7 +12,7 @@ namespace AhoraCore
         {
             MainContext.InitMainContext();
 
-           // MainContext.UseDefferedRenderer();
+            MainContext.UseDefferedRenderer();
 
             Icosphere.CreateSkyDome(2);
 

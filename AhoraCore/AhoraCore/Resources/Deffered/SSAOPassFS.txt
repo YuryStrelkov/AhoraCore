@@ -1,0 +1,102 @@
+#version 330 core
+
+out vec3 FragColor;
+
+in vec2 TexCoord_;
+
+#include CameraDefinition;
+
+uniform sampler2D gPosition;
+uniform sampler2D gNormal;
+uniform sampler2D noizeMap;
+
+uniform int screenWidth;
+uniform int screenHeight;
+
+const int kernelSize = 32;
+
+layout(std140) uniform SSAOBuffer
+{
+	float ssaoRaduis;
+	float ssaoBias;
+	vec4 randVectors[kernelSize];
+};
+
+const float near = 0.1; // camProjection matrix's near plane
+const float far = 10000.0; // camProjection matrix's far plane
+
+vec3 posFromDepth(vec2 Tex, float d)
+{ // get eye coordinate from depth
+    vec3 pos = vec3(Tex.x,Tex.y, d); 
+    // transform by the camProjection inverse 
+    vec4 clip = inverse(projectionMatrix)*vec4(pos*2-1,1);
+    // divide by w to get the position. 
+    return clip.xyz/clip.w;
+}
+
+
+float LinearizeDepth(float depth)
+{
+    float z = depth * 2.0 - 1.0; // back to NDC 
+    return (2.0 * near * far) / (far + near - z * (far - near));    
+}
+
+void main()
+{   
+	vec2 noiseScale = vec2(screenWidth/2.0, screenHeight/2.0); 
+
+	vec3 fragPos =  texture(gPosition, TexCoord_).rgb; 
+	
+	vec3 normal  = transpose(mat3(viewMatrix))*normalize(texture(gNormal, TexCoord_).rgb);
+ 
+	vec3 randomVec = normalize(texture(noizeMap, TexCoord_* noiseScale).xyz);
+	
+    vec3 tangent =  normalize(randomVec - normal * dot(randomVec, normal));
+    
+	vec3 ssaoBiastangent = cross(normal, tangent);
+	
+    mat3 TBN = mat3(tangent, ssaoBiastangent, normal); 
+    
+	float occlusion = 0.0;
+	
+	vec4 offset;
+	vec3 sample;
+	
+	float sampleDepth=0.0f;
+	
+	float rangeCheck=0.0f;
+	
+	vec3 randVectorsSample;
+	
+	float ssaoBiasas = 0.01;
+	
+	float ssaoRaduisius = 0.4;
+	
+	if (abs(fragPos.z) < far/2)
+	{
+		for(int i = 0; i < kernelSize; i++)
+			{
+				///randVectorsSample = vec3(randVectors[i].x, randVectors[i].y, randVectors[i].z);
+ 				
+				sample = fragPos + TBN*randVectors[i].xyz*ssaoRaduisius; 
+				
+				offset = projectionMatrix*vec4(sample, 1.0);
+				
+				offset.xy /= offset.w; 
+				
+				offset.xy = offset.xy*0.5+vec2(0.5,0.5); 
+				
+			    sampleDepth = 1/kernelSize*3 + texture(gPosition,offset.xy).z;///posFromDepth(offset.xy, texture(gPosition,offset.xy).z).z;//1/randVectorsSize*3 + texture(gPosition,offset.xy ).z; /// /// 
+				
+				rangeCheck = smoothstep(0.01, 1.0, ssaoRaduisius / abs(fragPos.z - sampleDepth));
+				
+				occlusion += (sampleDepth >= sample.z + ssaoBiasas ? 1.0 : 0.0) * rangeCheck;   
+			                   
+			}
+	}else
+	{
+		occlusion= 1f;
+	}
+
+	FragColor = vec3(smoothstep(0.5, 1,occlusion/kernelSize*3));
+}

@@ -1,4 +1,5 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
+using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Rendering;
@@ -16,11 +17,13 @@ namespace AhoraCore.Core.Context
         public static void UseForwardRenderer()
         {
             renderPipeline = RenderMethods.Forward;
+            FrameDisplay.UseForward();
         }
 
         public static void UseDefferedRenderer()
         {
             renderPipeline = RenderMethods.Deffered;
+            FrameDisplay.UseDeffered();
         }
 
         public static RenderMethods GetRenderMethod()
@@ -51,9 +54,10 @@ namespace AhoraCore.Core.Context
 
         public static void InitMainContext()
         {
-            UseForwardRenderer();
-
+         
             FrameDisplay = new DisplayDevice(1900, 1000);
+
+            UseForwardRenderer();
 
             TextureStorrage.Initilaze();
 
@@ -64,6 +68,15 @@ namespace AhoraCore.Core.Context
             GeometryStorageManager.Initialize();
 
             GameEntityStorrage.Initialize();
+
+            GeometryStorageManager.Data.AddGeometry(VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS , "Canvas",
+                                                                                new float[]{-1,  1, 0, 0, 1,
+                                                                                            -1, -1, 0, 0, 0,
+                                                                                             1,  1, 0, 1, 1,
+                                                                                             1, -1, 0, 1, 0},
+                                                                                  new int[] { 0, 1, 2, 2, 1, 3 });
+
+
         }
 
         public static void DisposeMainContext()

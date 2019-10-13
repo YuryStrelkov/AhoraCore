@@ -17,14 +17,16 @@ namespace AhoraProject.Ahora.Core.Display
 
          public DisplayDevice(int w, int h):base(w,h)
         {
-            if (MainContext.GetRenderMethod() == RenderMethods.Deffered)
-            {
-                renderer = new DefferedRenderer();
-            }
-            else
-            {
-                renderer = new ForwardRenderer();
-            }
+        }
+
+        public void UseForward()
+        {
+            renderer = new ForwardRenderer();
+        }
+
+        public void UseDeffered()
+        {
+            renderer = new DefferedRenderer();
         }
 
         protected override void OnLoad(EventArgs e)
