@@ -5,6 +5,7 @@ using AhoraCore.Core.Buffers.UniformsBuffer;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.CES.ICES;
 using AhoraCore.Core.Buffers.DataStorraging;
+using Newtonsoft.Json;
 
 namespace AhoraCore.Core.Materials.AbstractMaterial
 {
@@ -142,6 +143,8 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
         }
 
         public abstract int ReadMaterial(int startline, ref string[]  lines);
+
+        public abstract void ReadMaterial(JsonTextReader reader);
 
         public abstract void InitMaterial();
 

@@ -88,8 +88,10 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         private void LoadConfig(string json)
         {
-            int i = 0;
             JsonTextReader reader = new JsonTextReader(new StringReader(json));
+
+            TerrainMaterial TMaterial = null;
+ 
             while (reader.Read())
             {
                 if (reader.Value != null)
@@ -165,18 +167,19 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                     reader.Read();
                                     if (reader.TokenType == JsonToken.StartArray)
                                     {
-                                        int k = 0;
                                         while (reader.TokenType != JsonToken.EndArray)
                                         {
-                                            /* NOTE TODO */
                                             /* https://www.newtonsoft.com/json/help/html/ReadingWritingJSON.htm */
-                                            TerrainMaterial TMaterial = new TerrainMaterial();
-                                            //  i = i + TMaterial.ReadMaterial(i, ref lines);
-                                            /// MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial); 
-                                            k++;
+                                            if (TMaterial == null)
+                                            {
+                                                TMaterial = new TerrainMaterial();
+                                            }
+                                            TMaterial.ReadMaterial(reader);
                                         }
                                     }
                                     break;
+
+                                    /// 
                                 }
                             case "texture":
                                 {
@@ -192,6 +195,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                             TextureStorrage.Textures.AddItem(name, new Texture(path));
                                         }
                                     }
+                                    MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);
                                     break;
                                 }
                             case "HeigthMap":
@@ -211,7 +215,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                         }
                                         HeightMap.Bind();
                                         HeightMap.TrilinearFilter();
-                                        Strength = 60;
+                                        Strength = 20;
                                         N = HeightMap.Width;
                                         RenderNormalMap();
                                         RenderSplatMap();
@@ -228,19 +232,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                     Console.WriteLine("Token: {0}", reader.TokenType);
                 }
             }
-            
-            /*int i = 0;
-            for (i = 0; i< lines.Length; i++ )
-            {
-                string[] lineTokens = lines[i].Split(' ');
 
-                if (lineTokens.Length==0)
-                {
-                    continue;
-                }
 
-                
-            }*/
         }
         
 

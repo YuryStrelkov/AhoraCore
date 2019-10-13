@@ -1,12 +1,76 @@
 ﻿using AhoraCore.Core.Materials.AbstractMaterial;
 using System;
+using Newtonsoft.Json;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
   public   class TerrainMaterial:AMaterial
     {
         public static int MAX_TEXTURE_CHANNELS_NUMBER = (int)TextureChannels.TerrainChannelsCount;
-        
+
+
+
+        public int SubMaterialsCount { get; private set; }
+
+        public TerrainMaterial():base()
+        {
+            SubMaterialsCount = 0;
+        }
+
+        public override void ReadMaterial(JsonTextReader reader)
+        {
+            float hor_scale = 1;
+
+            float ver_scale = 1;
+
+            switch (reader.Value.ToString())
+            {
+                case "verticalScale":
+                    reader.Read();
+                    ver_scale = float.Parse(reader.Value.ToString());
+                    break;
+
+                case "horizontalScale":
+                    reader.Read();
+                    hor_scale = float.Parse(reader.Value.ToString());
+                    break;
+                case "diffuseMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "materials[" + SubMaterialsCount + "].diffuseMap");
+                    break;
+
+                case "normalMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "materials[" + SubMaterialsCount + "].normalMap");
+                    break;
+
+                case "specularMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "materials[" + SubMaterialsCount + "].specularMap");
+                    break;
+
+                case "heightMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "materials[" + SubMaterialsCount + "].heightMap");
+                    break;
+
+                case "reflectGlossMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "materials[" + SubMaterialsCount + "].reflectGlossMap");
+                    break;
+
+                case "transparencyMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "materials[" + SubMaterialsCount + "].transparencyMap");
+                    break;
+
+            }
+
+            materialUniformBuffer.UpdateBufferIteam("settings[" + SubMaterialsCount + "].scaling", new float[2] { hor_scale, ver_scale });
+
+            SubMaterialsCount += 1;
+        }
+
         private void readSubMat(int submatN, ref int startLine, ref string[] lines)
         {
             ///int i = startLine;
@@ -60,7 +124,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             startLine +=1;
         }
-
 
         public override int ReadMaterial(int startLine, ref string[] lines)
         {
@@ -178,6 +241,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             //    }
             //}
         }
- 
+
     }
 }

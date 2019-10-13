@@ -1,5 +1,6 @@
 ﻿using System;
 using AhoraCore.Core.Materials.AbstractMaterial;
+using Newtonsoft.Json;
 
 namespace AhoraCore.Core.Materials
 {
@@ -9,42 +10,95 @@ namespace AhoraCore.Core.Materials
 
         public static int MAX_TEXTURE_CHANNELS_NUMBER = 8;
 
-      /*  public void SetDiffuse(string TextID)
-        {
+        /*  public void SetDiffuse(string TextID)
+          {
 
-            textures.Add(TextureChannels.Diffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Diffuse, "diffuseMap");
+              textures.Add(TextureChannels.Diffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
+              texturesChannelNames.Add(TextureChannels.Diffuse, "diffuseMap");
+          }
+
+          public void SetNormals(string TextID)
+          {
+              textures.Add(TextureChannels.Normal, new TextureChannel(1, TextID, ref materialUniformBuffer));
+              texturesChannelNames.Add(TextureChannels.Normal, "normalMap");
+          }
+
+          public void SetSpecular(string TextID)
+          {
+              textures.Add(TextureChannels.Specular, new TextureChannel(2, TextID, ref materialUniformBuffer));
+              texturesChannelNames.Add(TextureChannels.Specular, "specularMap");
+          }
+
+          public void SetHeight(string TextID)
+          {
+              textures.Add(TextureChannels.Height, new TextureChannel(3, TextID, ref materialUniformBuffer));
+              texturesChannelNames.Add(TextureChannels.Height, "heightMap");
+          }
+
+          public void SetReflectGloss(string TextID)
+          {
+              textures.Add(TextureChannels.ReflectGloss, new TextureChannel(4, TextID, ref materialUniformBuffer));
+              texturesChannelNames.Add(TextureChannels.ReflectGloss, "reflectGlossMap");
+          }
+
+          public void SetTransparency(string TextID)
+          {
+              textures.Add(TextureChannels.Transparency, new TextureChannel(5, TextID, ref materialUniformBuffer));
+              texturesChannelNames.Add(TextureChannels.Transparency, "transparencyMap");
+          }*/
+
+        public override void ReadMaterial(JsonTextReader reader)
+        {
+            float hor_scale = 1;
+
+            float ver_scale = 1;
+
+            switch (reader.Value.ToString())
+            {
+                case "verticalScale":
+                    reader.Read();
+                    ver_scale = float.Parse(reader.Value.ToString());
+                    break;
+
+                case "horizontalScale":
+                    reader.Read();
+                    hor_scale = float.Parse(reader.Value.ToString());
+                    break;
+                case "diffuseMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "diffuseMap");
+                    break;
+
+                case "normalMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "normalMap");
+                    break;
+
+                case "specularMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "specularMap");
+                    break;
+
+                case "heightMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "heightMap");
+                    break;
+
+                case "reflectGlossMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "reflectGlossMap");
+                    break;
+
+                case "transparencyMap":
+                    reader.Read();
+                    Texture2ChannelAssign(reader.Value.ToString(), "transparencyMap");
+                    break;
+
+            }
+
+     ///       materialUniformBuffer.UpdateBufferIteam("scaling", new float[2] { hor_scale, ver_scale });
+
         }
-
-        public void SetNormals(string TextID)
-        {
-            textures.Add(TextureChannels.Normal, new TextureChannel(1, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Normal, "normalMap");
-        }
-
-        public void SetSpecular(string TextID)
-        {
-            textures.Add(TextureChannels.Specular, new TextureChannel(2, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Specular, "specularMap");
-        }
-
-        public void SetHeight(string TextID)
-        {
-            textures.Add(TextureChannels.Height, new TextureChannel(3, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Height, "heightMap");
-        }
-
-        public void SetReflectGloss(string TextID)
-        {
-            textures.Add(TextureChannels.ReflectGloss, new TextureChannel(4, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.ReflectGloss, "reflectGlossMap");
-        }
-
-        public void SetTransparency(string TextID)
-        {
-            textures.Add(TextureChannels.Transparency, new TextureChannel(5, TextID, ref materialUniformBuffer));
-            texturesChannelNames.Add(TextureChannels.Transparency, "transparencyMap");
-        }*/
 
         public override int ReadMaterial(int startline, ref string[] lines)
         {
@@ -89,6 +143,8 @@ namespace AhoraCore.Core.Materials
                 materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].multRGBA", DefMult);
             }
         }
+
+
 
         public Material() : base()
         {

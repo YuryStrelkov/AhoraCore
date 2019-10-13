@@ -58,7 +58,7 @@
       "path": "Resources\\textures\\terrain\\Ground_11_DISP.jpg"
     }
   ],
-  "material": [
+   "material": [
     {
       "verticalScale": "0.1",
       "horizontalScale": "300",
