@@ -71,7 +71,7 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
 
         public void AddItem(KeyType ID, ValueType Item)
         {
-            if (Iteams.Count==0)
+            if (Iteams.Count == 0)
             {
                 Iteams.Add(ID, new Cell( ID, ID, Item));
                 lastKey = ID;

@@ -178,87 +178,143 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FSdefault.txt" />
-    <None Include="Resources\TerrainSettings.json" />
-    <None Include="Resources\VSdefault.txt" />
+    <None Include="Resources\FSdefault.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\TerrainSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\VSdefault.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MaterialDefinition.txt" />
+    <None Include="Resources\MaterialDefinition.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CameraDefinition.txt" />
+    <None Include="Resources\CameraDefinition.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\checkerboard-rainbow.png" />
+    <None Include="Resources\checkerboard-rainbow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Atmosphere\SkyDomeVS.txt" />
+    <None Include="Resources\Atmosphere\SkyDomeVS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Atmosphere\SkyDomeFS.txt" />
+    <None Include="Resources\Atmosphere\SkyDomeFS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Clouds.jpg" />
+    <None Include="Resources\Clouds.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Clouds1.jpg" />
+    <None Include="Resources\Clouds1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TerrainShaders\TerrainVS.txt" />
+    <None Include="Resources\TerrainShaders\TerrainVS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TerrainShaders\TerrainFS.txt" />
+    <None Include="Resources\TerrainShaders\TerrainFS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TerrainShaders\TerrainTC.txt" />
+    <None Include="Resources\TerrainShaders\TerrainTC.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TerrainShaders\TerrainTE.txt" />
+    <None Include="Resources\TerrainShaders\TerrainTE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TerrainShaders\TerrainGS.txt" />
+    <None Include="Resources\TerrainShaders\TerrainGS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\_TerrainSettings.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hm2.bmp" />
+    <None Include="Resources\hm2.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hm1.bmp" />
+    <None Include="Resources\hm1.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hm0.bmp" />
+    <None Include="Resources\hm0.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\NormalMapRenderer.txt" />
+    <None Include="Resources\NormalMapRenderer.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\grass.png" />
+    <None Include="Resources\grass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Grass\GrassFS.txt" />
+    <None Include="Resources\Grass\GrassFS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TransformDefinition.txt" />
+    <None Include="Resources\TransformDefinition.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TerrainDefinition.txt" />
+    <None Include="Resources\TerrainDefinition.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TerrainMaterialDefinition.txt" />
+    <None Include="Resources\TerrainMaterialDefinition.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SplatMapRenderer.txt" />
+    <None Include="Resources\SplatMapRenderer.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Grass\GrassTC.txt" />
+    <None Include="Resources\Grass\GrassTC.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Grass\GrassTE.txt" />
+    <None Include="Resources\Grass\GrassTE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Grass\GrassGS.txt" />
+    <None Include="Resources\Grass\GrassGS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

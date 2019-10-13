@@ -62,9 +62,9 @@ void main()
 	vec4 offset;
 	vec3 sample;
 	
-	float sampleDepth=0.0f;
+	float sampleDepth=0.0;
 	
-	float rangeCheck=0.0f;
+	float rangeCheck=0.0;
 	
 	vec3 randVectorsSample;
 	
@@ -95,7 +95,7 @@ void main()
 			}
 	}else
 	{
-		occlusion= 1f;
+		occlusion= 1;
 	}
 
 	FragColor = vec3(smoothstep(0.5, 1,occlusion/kernelSize*3));
