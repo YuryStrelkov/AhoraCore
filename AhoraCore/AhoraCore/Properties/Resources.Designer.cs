@@ -19,7 +19,7 @@ namespace AhoraCore.Properties {
     // с помощью такого средства, как ResGen или Visual Studio.
     // Чтобы добавить или удалить член, измените файл .ResX и снова запустите ResGen
     // с параметром /str или перестройте свой проект VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -110,7 +110,10 @@ namespace AhoraCore.Properties {
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
         ///
-        ///layout(location = 0) out vec4 outColor;
+        ///layout (location = 0)out vec4 gPosition;//++
+        ///layout (location = 1)out vec3 gNormal;//+
+        ///layout (location = 2)out vec4 gColor;//+
+        ///layout (location = 3)out vec3 gFresnel;//++
         ///
         ///#include TerrainSettings; //10
         ///
@@ -128,22 +131,10 @@ namespace AhoraCore.Properties {
         ///
         ///uniform sampler2D grassMap;
         ///
-        ///float diffuse(vec3 dir, vec3 n, float i)
-        ///{
-        ///	return max(0.5, dot(n,dir) * i);
-        ///}
-        ///
         ///void main()
         ///{
         /// 
-        ///	vec4 color = texture(grassMap,vec2(mapCoord_FS.x,1-mapCoord_FS.y)).rgba;
-        ///	
-        ///	if(color.a&lt;0.5)
-        ///	{
-        ///	discard;
-        ///	}
-        ///	
-        ///	fl [остаток строки не уместился]&quot;;.
+        ///	vec4 color = texture(grassMap,vec2(mapCoord_FS.x,1-mapCoord_FS.y)).rgb [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedGrassFS {
             get {
@@ -269,24 +260,35 @@ namespace AhoraCore.Properties {
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330 core
         ///
+        ///layout (location = 0)out vec4 gPosition;
+        ///layout (location = 1)out vec3 gNormal;
+        ///layout (location = 2)out vec4 gColor;
+        ///layout (location = 3)out vec3 gFresnel; 
+        ///
         ///#include MaterialDefinition;
-        ///
-        ///out vec4 out_Color;
-        ///
-        ///in vec3 v_Colour;
+        /// 
         ///in vec2 v_TexCoord;
+        ///
         ///in vec3 v_normal;
+        ///
+        ///in vec4 v_position;
+        ///
         ///in vec3 skyColor;
+        /// 
+        ///
         ///
         ///
         ///void main()
         ///{ 
-        ///	vec4 color          =  getDiffuse(v_TexCoord);
+        ///	gPosition  =  v_position;
         ///	
-        ///	out_Color.rgb       =  mix(1.75*color.rgb,skyColor,0.5);
+        ///	gNormal    =   v_normal;
+        ///	
+        ///	vec4 color =  getDiffuse(v_TexCoord);
+        ///	
+        ///	gColor.rgb =  mix(1.75*color.rgb,skyColor,0.5);
         ///					     
-        ///    out_Color.a         =  color.r;
-        ///}.
+        ///    gColor.a    [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedSkyDomeFS {
             get {
@@ -301,24 +303,25 @@ namespace AhoraCore.Properties {
         ///layout (location = 1) in vec2 p_texcoord;
         ///layout (location = 2) in vec3 p_normal;
         ///
-        ///
         ///#include CameraDefinition;
         ///
         ///#include TransformDefinition;
-        ///
-        ///
-        ///out vec3 v_Colour;
+        /// 
         ///out vec2 v_TexCoord;
-        ///out vec3 v_normal;
-        ///out vec3 skyColor;
         ///
+        ///out vec3 v_normal;
+        ///
+        ///out vec4 v_position;
+        ///
+        ///out vec3 skyColor;
+        /// 
         ///uniform vec4 DomeColor;
         /// 
         ///vec3 atmosphereDescend(vec3 position, vec4 atm_color)
         ///{
         ///return vec3(-0.00022*(position.y-2000)+ atm_color.x,
         ///			-0.00025*(position.y-2000)+ atm_color.y,
-        ///			-0.00019*(position.y-2000)+  [остаток строки не уместился]&quot;;.
+        ///			-0.00019*(position.y-2 [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedSkyDomeVS {
             get {
@@ -329,13 +332,16 @@ namespace AhoraCore.Properties {
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 430
         ///
+        ///layout (location = 0)out vec4 gPosition;//++
+        ///layout (location = 1)out vec3 gNormal;//+
+        ///layout (location = 2)out vec4 gColor;//+
+        ///layout (location = 3)out vec3 gFresnel;//++
+        ///
         ///#include TerrainMaterialData;
         ///
         ///#include TerrainSettings;
         ///
         ///#include CameraDefinition;
-        ///
-        ///layout(location = 0) out vec4 outColor;
         ///
         ///in vec2 mapCoord_FS;
         ///
@@ -349,18 +355,9 @@ namespace AhoraCore.Properties {
         ///
         ///uniform sampler2D blendMap;
         ///
-        ///const vec3 direction = vec3(0.0,1,0.0);
-        ///
-        ///const float intensity = 2.2;
-        ///
-        ///const float zFar = 10000;
-        ///
-        ///const float zNear = 0.1;
-        ///
-        ///const float sightRange = 0.6;
-        ///
-        ///float fogFactor(float dist)
-        ///{ [остаток строки не уместился]&quot;;.
+        ///void main()
+        ///{
+        ///	float dist = length(cameraPosition.xyz - po [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedTerrainFS {
             get {
@@ -854,9 +851,9 @@ namespace AhoraCore.Properties {
         ///layout (location = 2) in vec3 p_normal;
         ///
         ///
-        ///#include CameraDefinition;
+        ///#include CameraDefinition;///10
         ///
-        ///#include TransformDefinition;
+        ///#include TransformDefinition;//5
         ///
         ///
         ///out vec3 v_Colour;
@@ -870,7 +867,7 @@ namespace AhoraCore.Properties {
         ///{
         ///return vec3(-0.00022*(position.y-2000)+ atm_color.x,
         ///			-0.00025*(position.y-2000)+ atm_color.y,
-        ///			-0.00019*(position.y-2000)+  [остаток строки не уместился]&quot;;.
+        ///			-0.00019*(position.y [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string SkyDomeVS {
             get {
@@ -1054,29 +1051,34 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на #terrain settings
-        ///
-        ///ScaleXZ 6000 
-        ///
-        ///ScaleY 500 
-        ///
-        ///HeigthMap false hm1 
-        ///
-        ///TessellationFactor 600 
-        ///
-        ///TessellationSlope 0,9 
-        ///
-        ///TessellationShift 0,3 
-        ///
-        ///TBNRange 600 
-        ///
-        ///LodRanges 1750 874 386 192 100 50 0 0
-        ///
-        ///texture grassMap D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\grass.png
-        ///
-        ///texture grassDiffuse D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_DIF.jpg
-        ///texture grassNormal D:\GitHub\AhoraCore\AhoraCore\AhoraCore\Resources\textures\terrain\grass0_NRM.jpg
-        ///texture gra [остаток строки не уместился]&quot;;.
+        ///   Ищет локализованную строку, похожую на {
+        ///  &quot;ScaleXZ&quot;: 6000,
+        ///  &quot;ScaleY&quot;: 500,
+        ///  &quot;HeigthMap&quot;: [ false, &quot;hm1&quot; ],
+        ///  &quot;TessellationFactor&quot;: 600,
+        ///  &quot;TessellationSlope&quot;: 0.9,
+        ///  &quot;TessellationShift&quot;: 0.3,
+        ///  &quot;TBNRange&quot;: 600,
+        ///  &quot;LodRanges&quot;: [
+        ///    1750,
+        ///    874,
+        ///    386,
+        ///    192,
+        ///    100,
+        ///    50,
+        ///    0,
+        ///    0
+        ///  ],
+        ///  &quot;grassMap&quot;: {
+        ///    &quot;type&quot;: &quot;texture&quot;,
+        ///    &quot;path&quot;: &quot;Resources\\grass.png&quot;
+        ///  },
+        ///  &quot;grassDiffuse&quot;: {
+        ///    &quot;type&quot;: &quot;texture&quot;,
+        ///    &quot;path&quot;: &quot;Resources\\textures\\terrain\\grass0_DIF.jpg&quot;
+        ///  },
+        ///  &quot;grassNormal&quot;: {
+        ///    &quot;type&quot;: &quot;tex [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainSettings {
             get {

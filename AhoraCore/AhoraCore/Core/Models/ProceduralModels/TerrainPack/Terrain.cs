@@ -43,14 +43,14 @@ namespace AhoraCore.Core.Models.ProceduralModels
         {
             configuration = new TerrainConfig();
 
-            if (fromfile)
-            {
+            //if (fromfile)
+            //{
                 configuration.LoadConfigFromFile(config);
-            }
-            else
-            {
-                configuration.LoadConfigFromString(config);
-            }
+            //}
+            //else
+            //{
+            //    configuration.LoadConfigFromString(config);
+            //}
 
             ShaderStorrage.Sahaders.AddItem("TerrainShader", new TerrainShader());
 

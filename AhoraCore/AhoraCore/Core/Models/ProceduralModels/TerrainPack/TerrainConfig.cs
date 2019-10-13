@@ -4,6 +4,7 @@ using System.IO;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.Materials.GpuGpu;
 using AhoraCore.Core.Buffers.DataStorraging;
+using Newtonsoft.Json;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
@@ -85,12 +86,148 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             NormalMap.BilinearFilter();
         }
 
-        private void LoadConfig(string[] lines)
+        private void LoadConfig(string json)
         {
-
-           
-
             int i = 0;
+            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+            while (reader.Read())
+            {
+                if (reader.Value != null)
+                {
+                    Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
+                    if (reader.TokenType == JsonToken.PropertyName)
+                    {
+                        switch (reader.Value)
+                        {
+                            case "ScaleY":
+                                {
+                                    reader.Read();
+                                    ScaleY = float.Parse(reader.Value.ToString());
+                                    break;
+                                }
+                            case "ScaleXZ":
+                                {
+                                    reader.Read();
+                                    ScaleXZ = float.Parse(reader.Value.ToString());
+                                    break;
+                                }
+                            case "TessellationFactor":
+                                {
+                                    reader.Read();
+                                    TessellationFactor = int.Parse(reader.Value.ToString());
+                                    break;
+                                }
+                            case "TessellationSlope":
+                                {
+                                    reader.Read();
+                                    TessellationSlope = float.Parse(reader.Value.ToString());
+                                    break;
+                                }
+                            case "TessellationShift":
+                                {
+                                    reader.Read();
+                                    TessellationShift = float.Parse(reader.Value.ToString());
+                                    break;
+                                }
+                            case "TBNRange":
+                                {
+                                    reader.Read();
+                                    TBNRange = float.Parse(reader.Value.ToString());
+                                    break;
+                                }
+                            case "LodRanges":
+                                {
+                                    reader.Read();
+                                    if (reader.TokenType == JsonToken.StartArray)
+                                    {
+                                        int k = 0;
+                                        reader.Read();
+                                        while (reader.TokenType != JsonToken.EndArray)
+                                        {
+                                            int val = (int)(float.Parse(reader.Value.ToString()));
+                                            if (val == 0)
+                                            {
+                                                LodRanges[k] = 0;
+                                                LodMorphingArea[k] = 0;
+                                            }
+                                            else
+                                            {
+                                                setLodRange(k, val);
+                                            }
+                                            k++;
+                                            reader.Read();
+                                        }
+                                    }
+                                    break;
+                                }
+                            case "material":
+                                {
+                                    reader.Read();
+                                    if (reader.TokenType == JsonToken.StartArray)
+                                    {
+                                        while (reader.TokenType != JsonToken.EndArray)
+                                        {
+                                            /* NOTE TODO */
+                                            /* https://www.newtonsoft.com/json/help/html/ReadingWritingJSON.htm */
+                                            /*TerrainMaterial TMaterial = new TerrainMaterial();
+                                            i = i + TMaterial.ReadMaterial(i, ref lines);
+                                            MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);*/
+                                        }
+                                    }
+                                    break;
+                                }
+                            case "texture":
+                                {
+                                    reader.Read();
+                                    if (reader.TokenType == JsonToken.StartArray)
+                                    {
+                                        while (reader.TokenType != JsonToken.EndArray)
+                                        {
+                                            reader.Read();
+                                            string name = reader.Value.ToString();
+                                            reader.Read();
+                                            string path = reader.Value.ToString();
+                                            TextureStorrage.Textures.AddItem(name, new Texture(path));
+                                        }
+                                    }
+                                    break;
+                                }
+                            case "HeigthMap":
+                                {
+                                    reader.Read();
+                                    if (reader.TokenType == JsonToken.StartArray)
+                                    {
+                                        reader.Read();
+                                        if (reader.Value.ToString().Equals("true"))
+                                        {
+                                            reader.Read();
+                                            HeightMap = new Texture(reader.Value.ToString());
+                                        }
+                                        else
+                                        {
+                                            HeightMap = new Texture(Properties.Resources.hm0);
+                                        }
+                                        HeightMap.Bind();
+                                        HeightMap.TrilinearFilter();
+                                        Strength = 60;
+                                        N = HeightMap.Width;
+                                        RenderNormalMap();
+                                        RenderSplatMap();
+                                    }
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Token: {0}", reader.TokenType);
+                }
+            }
+            
+            /*int i = 0;
             for (i = 0; i< lines.Length; i++ )
             {
                 string[] lineTokens = lines[i].Split(' ');
@@ -100,82 +237,23 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                     continue;
                 }
 
-                switch (lineTokens[0])
-                {
-                    case "ScaleY": ScaleY = float.Parse(lineTokens[1]); break;
-
-                    case "ScaleXZ": ScaleXZ = float.Parse(lineTokens[1]); break;
-
-                    case "TessellationFactor": TessellationFactor = int.Parse(lineTokens[1]); break;
-
-                    case "TessellationSlope": TessellationSlope = float.Parse(lineTokens[1]); break;
-
-                    case "TessellationShift": TessellationShift = float.Parse(lineTokens[1]); break;
-
-                    case "TBNRange": TBNRange = float.Parse(lineTokens[1]); break;
-
-                    case "material":
-                        TerrainMaterial TMaterial = new TerrainMaterial();
-                        i = i + TMaterial.ReadMaterial(i,ref lines);
-                        MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);
-                        break;
-
-                    case "texture":
-                        TextureStorrage.Textures.AddItem(lineTokens[1], new Texture(lineTokens[2]));//TessellationShift = float.Parse(lineTokens[1]);
-                          break;
-
-                    case "HeigthMap":
-                        if (lineTokens[1].Equals("true"))
-                        {
-                            HeightMap = new Texture(lineTokens[2]);
-                        }
-                        else
-                        {
-                            HeightMap = new Texture(Properties.Resources.hm0);
-                        }
-                        HeightMap.Bind();
-                        HeightMap.TrilinearFilter();
-                        Strength = 60;
-                        N = HeightMap.Width;
-                        RenderNormalMap();
-                        RenderSplatMap();
-                       ; break;
-
-                    case "LodRanges":
-                        for (int k = 0; k < 8; k++)
-                        {
-                            int val = (int)( float.Parse(lineTokens[k + 1]));
-                            if (val == 0)
-                            {
-                                LodRanges[k] = 0;
-                                LodMorphingArea[k] = 0;
-                            }
-                            else
-                            {
-                                setLodRange(k, val);
-                            }
-
-                        }
-                        ; break;
-                }
-            }
+                
+            }*/
         }
+        
 
-
-    
-
-        public void LoadConfigFromString (string strings)
+        /*public void LoadConfigFromString (string strings)
         {
             string[] lines = strings.Split('\n');
             LoadConfig(lines);
-        }
+        }*/
 
         public void LoadConfigFromFile(string filname)
         {
             try
             {
-                string[] lines = File.ReadAllLines(filname);
-                LoadConfig(lines);
+                //string[] lines = File.ReadAllLines(filname);
+                LoadConfig(filname);
 
             }
             catch (Exception e)

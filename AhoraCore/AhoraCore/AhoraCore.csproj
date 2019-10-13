@@ -39,6 +39,9 @@
       <HintPath>..\packages\AssimpNet.4.1.0\lib\net40\AssimpNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
       <Private>True</Private>
@@ -172,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FSdefault.txt" />
+    <None Include="Resources\TerrainSettings.json" />
     <None Include="Resources\VSdefault.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -211,7 +215,7 @@
     <None Include="Resources\TerrainShaders\TerrainGS.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TerrainSettings.txt" />
+    <None Include="Resources\_TerrainSettings.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\hm2.bmp" />
