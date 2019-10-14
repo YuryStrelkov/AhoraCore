@@ -169,7 +169,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                     {
                                         while (reader.TokenType != JsonToken.EndArray)
                                         {
-                                            /* https://www.newtonsoft.com/json/help/html/ReadingWritingJSON.htm */
                                             if (TMaterial == null)
                                             {
                                                 TMaterial = new TerrainMaterial();
@@ -178,8 +177,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                         }
                                     }
                                     break;
-
-                                    /// 
                                 }
                             case "texture":
                                 {
@@ -189,10 +186,14 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                         while (reader.TokenType != JsonToken.EndArray)
                                         {
                                             reader.Read();
-                                            string name = reader.Value.ToString();
-                                            reader.Read();
-                                            string path = reader.Value.ToString();
-                                            TextureStorrage.Textures.AddItem(name, new Texture(path));
+                                            if (reader.TokenType == JsonToken.StartObject)
+                                            {
+                                                reader.Read(); reader.Read();
+                                                string name = reader.Value.ToString();
+                                                reader.Read(); reader.Read();
+                                                string path = reader.Value.ToString();
+                                                TextureStorrage.Textures.AddItem(name, new Texture(path));
+                                            }
                                         }
                                     }
                                     MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);
@@ -233,7 +234,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 }
             }
 
-
+            Console.WriteLine("Stop");
         }
         
 
