@@ -67,7 +67,9 @@ if (dist < 6000)
 			
 		float diffuse = Diffuse(direction,transpose(mat3(viewMatrix))*texture(Normals,TexCoord).rgb,intensity);
 
-		vec3 color  =  (1.5*getBlurredSSAO())*diffuse*color;
+		//vec3 color  =  (1.5*getBlurredSSAO())*diffuse*color;
+		
+		vec3 color  =   diffuse*color;
 		
 		gl_FragColor = vec4(mix(color, fogColor,1-clamp(fog,0,1)),1);
 

@@ -29,7 +29,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
         private int N;
 
-        private float Strength;
+        ///private float Strength;
 
         public int TessellationFactor { get; private set; }
 
@@ -38,6 +38,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public float TessellationShift { get; private set; }
 
         public float ScaleY { get; private set; }
+
+        public float NormalStrength { get; private set; }
 
         public float ScaleXZ { get; private set; }
 
@@ -78,7 +80,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             NormalMap.BilinearFilter();
             GL.TexStorage2D(TextureTarget2d.Texture2D,(int)(Math.Log(N)/ Math.Log(2)),SizedInternalFormat.Rgba32f,N,N);
             normalMapRendererShader.Bind();
-            normalMapRendererShader.UpdateUniforms(HeightMap, N, Strength);
+            normalMapRendererShader.UpdateUniforms(HeightMap, N, NormalStrength);
             GL.BindImageTexture(0, NormalMap.ID,0,false,0,TextureAccess.WriteOnly, SizedInternalFormat.Rgba32f);
             GL.DispatchCompute(N/16,N/16,1);
             GL.Finish();
@@ -89,6 +91,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         private void LoadConfig(string json)
         {
             JsonTextReader reader = new JsonTextReader(new StringReader(json));
+
+            
 
             TerrainMaterial TMaterial = null;
  
@@ -105,6 +109,12 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                 {
                                     reader.Read();
                                     ScaleY = float.Parse(reader.Value.ToString());
+                                    break;
+                                }
+                            case "NormalStrength":
+                                {
+                                    reader.Read();
+                                    NormalStrength = float.Parse(reader.Value.ToString());
                                     break;
                                 }
                             case "ScaleXZ":
@@ -175,6 +185,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                             }
                                             TMaterial.ReadMaterial(reader);
                                         }
+                                       
                                     }
                                     break;
                                 }
@@ -196,9 +207,9 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                             }
                                         }
                                     }
-                                    MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);
                                     break;
                                 }
+
                             case "HeigthMap":
                                 {
                                     reader.Read();
@@ -216,7 +227,6 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                                         }
                                         HeightMap.Bind();
                                         HeightMap.TrilinearFilter();
-                                        Strength = 20;
                                         N = HeightMap.Width;
                                         RenderNormalMap();
                                         RenderSplatMap();
@@ -233,6 +243,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                     Console.WriteLine("Token: {0}", reader.TokenType);
                 }
             }
+
+            MaterialStorrage.Materials.AddItem("TerrainMaterial", TMaterial);
 
             Console.WriteLine("Stop");
         }

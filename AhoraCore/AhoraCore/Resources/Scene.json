@@ -1,0 +1,123 @@
+﻿{
+  "texture": [
+    {
+      "type": "texture2D",
+      "name": "diffuse_gray",
+      "path": "Resources\\Textures\\gGrey.jpg"
+    },
+    {
+      "type": "texture2D",
+      "name": "diffuse_green",
+      "path": "Resources\\Textures\\gGreen.jpg"
+    },
+    {
+      "type": "texture2D",
+      "name": "diffuse_yellow",
+      "path": "Resources\\Textures\\gYellow.jpg"
+    },
+    {
+      "type": "texture2D",
+      "name": "diffuse_red",
+      "path": "Resources\\Textures\\gRed.jpg"
+    },
+    {
+      "type": "texture2D",
+      "name": "diffuse_blue",
+      "path": "Resources\\Textures\\blue.jpg"
+    },
+    {
+      "type": "texture2D",
+      "name": "diffuse_black",
+      "path": "Resources\\Textures\\gBlack.jpg"
+    },
+    {
+      "type": "texture2D",
+      "name": "default_checker_patern",
+      "path": "Resources\\Textures\\checker.jpg"
+    },
+    {
+      "type": "texture2D",
+      "name": "default_normal_map",
+      "path": "Resources\\Textures\\normalMap.png"
+    },
+    {
+      "type": "texture2D",
+      "name": "normal_map_2",
+      "path": "Resources\\Textures\\normal_2.jpg"
+    }
+  ],
+  
+  "mateial": [
+    {
+      "name": "DefaultGrayMaterial",
+      "textureChannel": [
+        {
+          "cahnnel": "diffuseMap",
+          "texture": "diffuse_gray",
+          "uvScaling": [ 1, 1 ],
+          "uvShift": [ 0, 0 ]
+        },
+        {
+          "cahnnel": "normalMap",
+          "texture": "diffuse_gray",
+          "uvScaling": [ 1, 1 ],
+          "uvShift": [ 0, 0 ]
+        },
+        {
+          "cahnnel": "specularMap",
+          "texture": "diffuse_gray",
+          "uvScaling": [ 1, 1 ],
+          "uvShift": [ 0, 0 ]
+        }
+      ],
+      "diffuseColor": [ 1, 0, 0, 1 ],
+      "reflectionColor": [ 1, 0, 0, 1 ]
+    },
+    {
+      "diffuseColor": [ 1, 0, 0, 1 ],
+      "name": "DefaultRedMaterial",
+      "reflectionColor": [ 1, 0, 0, 1 ],
+      "textureChannel": [
+        {
+          "cahnnel": "diffuseMap",
+          "texture": "diffuse_red",
+          "uvScaling": [ 1, 1 ],
+          "uvShift": [ 0, 0 ]
+        },
+        {
+          "cahnnel": "normalMap",
+          "texture": "diffuse_gray",
+          "uvScaling": [ 1, 1 ],
+          "uvShift": [ 0, 0 ]
+        },
+        {
+          "cahnnel": "specularMap",
+          "texture": "diffuse_gray",
+          "uvScaling": [ 1, 1 ],
+          "uvShift": [ 0, 0 ]
+        }
+      ]
+    }
+  ],
+ 
+  "model": [
+    {
+      "name": "plane",
+      "path": "",
+      "worldPosition": [ 0, 0, 0 ],
+      "worldRotation": [ 0, 0, 0 ],
+      "worldScale": [ 1, 1, 1 ],
+      "material": "DefaultGrayMaterial",
+      "parent": "root"
+    },
+     {
+      "name": "box",
+      "path": "",
+      "worldPosition": [ 0, 0, 0 ],
+      "worldRotation": [ 0, 0, 0 ],
+      "worldScale": [ 1, 1, 1 ],
+      "material": "DefaultRedMaterial",
+      "parent": "root"
+    }
+  ]
+}

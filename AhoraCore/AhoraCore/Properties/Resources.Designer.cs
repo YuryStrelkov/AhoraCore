@@ -19,7 +19,7 @@ namespace AhoraCore.Properties {
     // с помощью такого средства, как ResGen или Visual Studio.
     // Чтобы добавить или удалить член, измените файл .ResX и снова запустите ResGen
     // с параметром /str или перестройте свой проект VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -120,6 +120,8 @@ namespace AhoraCore.Properties {
         ///
         ///uniform sampler2D Fresnels;
         ///
+        ///uniform sampler2D SSAO;
+        ///
         ///in vec2 TexCoord;
         ///
         ///const vec3 direction = vec3(1,1,-1);
@@ -137,9 +139,7 @@ namespace AhoraCore.Properties {
         ///	return -0.0002/sightRange*(dist-zFar/10*sightRange) + 1;
         ///}
         ///
-        ///const vec3 fogColor = vec3(0.65,0.85,0.9);
-        ///
-        ///float Diffuse(vec3 d [остаток строки не уместился]&quot;;.
+        ///const vec3 fogColor = vec3(0.65,0.85,0. [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedFinalPassFS {
             get {
@@ -274,18 +274,18 @@ namespace AhoraCore.Properties {
         ///{
         ///	if (gl_InvocationID == 0)
         ///	{
-        ///		gl_TessLevelOuter[AB] = 4;
-        ///		gl_TessLevelOuter[BC] = 4;
-        ///		gl_TessLevelOuter[CD] = 4;
-        ///		gl_TessLevelOuter[DA] = 4; 
+        ///		gl_TessLevelOuter[AB] = 6;
+        ///		gl_TessLevelOuter[BC] = 6;
+        ///		gl_TessLevelOuter[CD] = 6;
+        ///		gl_TessLevelOuter[DA] = 6; 
         ///
-        ///		gl_TessLevelInner[0] = 5;
-        ///		gl_TessLevelInner[1] = 5;
+        ///		gl_TessLevelInner[0] = 10;
+        ///		gl_TessLevelInner[1] = 10;
         ///	}	
         ///	
         ///	mapCoord_TE[gl_InvocationID] = mapCoord_TC[gl_InvocationID];
         ///	
-        ///	gl_out[gl_InvocationID].gl_Positi [остаток строки не уместился]&quot;;.
+        ///	gl_out[gl_InvocationID].gl_Posi [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedGrassTC {
             get {
@@ -323,6 +323,38 @@ namespace AhoraCore.Properties {
         internal static string DefferedGrassTE {
             get {
                 return ResourceManager.GetString("DefferedGrassTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///#include TransformDefinition;
+        ///
+        ///#include TerrainSettings;
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///layout(location = 0)in vec2 p_position;
+        ///
+        ///out vec2 mapCoord_TC;
+        ///
+        ///uniform mat4 LocTransMatrix;
+        ///
+        ///uniform sampler2D heightMap;
+        ///
+        ///void main()
+        ///{
+        ///	vec2 localPos = (LocTransMatrix*vec4(p_position.x, 0 , p_position.y, 1)).xz;	
+        ///	
+        ///	mapCoord_TC = localPos;
+        ///	
+        ///	gl_Position =  worldTransform * vec4(localPos.x, texture(heightMap,localPos).r,  localPos.y, 1);
+        ///}.
+        /// </summary>
+        internal static string DefferedGrassVS {
+            get {
+                return ResourceManager.GetString("DefferedGrassVS", resourceCulture);
             }
         }
         
@@ -885,6 +917,37 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на {
+        ///  &quot;texture&quot;: [
+        ///    {
+        ///      &quot;type&quot;: &quot;texture2D&quot;,
+        ///      &quot;name&quot;: &quot;diffuse_gray&quot;,
+        ///      &quot;path&quot;: &quot;Resources\\Textures\\gGrey.jpg&quot;
+        ///    },
+        ///    {
+        ///      &quot;type&quot;: &quot;texture2D&quot;,
+        ///      &quot;name&quot;: &quot;diffuse_green&quot;,
+        ///      &quot;path&quot;: &quot;Resources\\Textures\\gGreen.jpg&quot;
+        ///    },
+        ///    {
+        ///      &quot;type&quot;: &quot;texture2D&quot;,
+        ///      &quot;name&quot;: &quot;diffuse_yellow&quot;,
+        ///      &quot;path&quot;: &quot;Resources\\Textures\\gYellow.jpg&quot;
+        ///    },
+        ///    {
+        ///      &quot;type&quot;: &quot;texture2D&quot;,
+        ///      &quot;name&quot;: &quot;diffuse_red&quot;,
+        ///      &quot;path&quot;: &quot;Resources\\Textures\\gRed.jpg&quot;
+        ///    },
+        ///  [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string Scene {
+            get {
+                return ResourceManager.GetString("Scene", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330 core
         ///
         ///#include MaterialDefinition;
@@ -983,20 +1046,11 @@ namespace AhoraCore.Properties {
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330 core
         ///
-        ///out float FragColor;
+        ///out vec3 FragColor;
+        ///
         ///in vec2 TexCoord_;
         ///
-        ///layout(std140) uniform Camera
-        ///{
-        ///	mat4 camView;
-        ///	mat4 camProjection;
-        ///	vec3 camPosition;
-        ///	vec3 camLookAt;
-        ///	float FOV;
-        ///	float aspect;
-        ///};
-        ///
-        ///
+        ///#include CameraDefinition;
         ///
         ///uniform sampler2D gPosition;
         ///uniform sampler2D gNormal;
@@ -1005,17 +1059,19 @@ namespace AhoraCore.Properties {
         ///uniform int screenWidth;
         ///uniform int screenHeight;
         ///
-        ///const int kernelSize = 32*3;
+        ///const int kernelSize = 32;
         ///
-        ///
-        ///layout(std140) uniform SSAO_kernel_block
+        ///layout(std140) uniform SSAOBuffer
         ///{
-        ///	float rad;
-        ///	float bi;
-        ///	float kernel[kernelSize];
+        ///	float ssaoRaduis;
+        ///	float ssaoBias;
+        ///	vec4 randVectors[kernelSize];
         ///};
         ///
-        ///const float near [остаток строки не уместился]&quot;;.
+        ///const float near = 0.1; // camProjection matrix&apos;s near plane
+        ///const float far = 10000.0; // camProjection matrix&apos;s far plane
+        ///
+        /// [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string SSAOPassFS {
             get {
@@ -1033,7 +1089,7 @@ namespace AhoraCore.Properties {
         ///
         ///void  main()
         ///{
-        ///    gl_Position = vec4(aPosition_, 1.0f);
+        ///    gl_Position = vec4(aPosition_, 1.0);
         ///    TexCoord_  = aTexCoord_;
         ///}.
         /// </summary>
@@ -1186,6 +1242,7 @@ namespace AhoraCore.Properties {
         ///   Ищет локализованную строку, похожую на {
         ///  &quot;ScaleXZ&quot;: 6000,
         ///  &quot;ScaleY&quot;: 500,
+        ///  &quot;NormalStrength&quot;: 40,
         ///  &quot;HeigthMap&quot;: [ false, &quot;hm1&quot; ],
         ///  &quot;TessellationFactor&quot;: 600,
         ///  &quot;TessellationSlope&quot;: 0.9,
@@ -1201,16 +1258,16 @@ namespace AhoraCore.Properties {
         ///    0,
         ///    0
         ///  ],
-        ///  &quot;grassMap&quot;: {
-        ///    &quot;type&quot;: &quot;texture&quot;,
-        ///    &quot;path&quot;: &quot;Resources\\grass.png&quot;
-        ///  },
-        ///  &quot;grassDiffuse&quot;: {
-        ///    &quot;type&quot;: &quot;texture&quot;,
-        ///    &quot;path&quot;: &quot;Resources\\textures\\terrain\\grass0_DIF.jpg&quot;
-        ///  },
-        ///  &quot;grassNormal&quot;: {
-        ///    &quot;type&quot;: &quot;tex [остаток строки не уместился]&quot;;.
+        ///  &quot;texture&quot;: [
+        ///    {
+        ///      &quot;name&quot;: &quot;grassMap&quot;,
+        ///      &quot;path&quot;: &quot;Resources\\grass.png&quot;
+        ///    },
+        ///    {
+        ///      &quot;name&quot;: &quot;grassDiffuse&quot;,
+        ///      &quot;path&quot;: &quot;Resources\\textures\\terrain\\grass0_DIF.jpg&quot;
+        ///    },
+        ///  [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string TerrainSettings {
             get {

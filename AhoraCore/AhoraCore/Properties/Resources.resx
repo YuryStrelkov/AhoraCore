@@ -163,6 +163,9 @@
   <data name="TerrainSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TerrainSettings.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  <data name="Scene" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Scene.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
   <data name="hm0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\hm0.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -201,6 +204,9 @@
   </data>
   <data name="GrassTE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Grass\GrassTE.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+    <data name="DefferedGrassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedGrass\DefferedGrassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
   <data name="DefferedGrassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedGrass\DefferedGrassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>

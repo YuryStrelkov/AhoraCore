@@ -33,17 +33,18 @@ uniform float gap;
 //uniform sampler2D TransformMapY;
 //uniform sampler2D TransformMapZ;
 
-/*mat4 getGrassTransform(vec2 mapCoords)
+ /*mat4 getGrassTransform(vec2 mapCoords)
 {
-	return mat4(vec4(texture(TransformMapX,mapCoords).rgb,0),
-				vec4(texture(TransformMapY,mapCoords).rgb,0),
-				vec4(texture(TransformMapZ,mapCoords).rgb,0),
+	return mat4(vec4(texture(heightMap,mapCoords).rgb,length(vec4(texture(heightMap,mapCoords).rgb)),
+				vec4(texture(heightMap,mapCoords).rgb,length(vec4(texture(heightMap,mapCoords).rgb)),
+				vec4(texture(heightMap,mapCoords).rgb,length(vec4(texture(heightMap,mapCoords).rgb)),
 				vec4(0,0,0,1));
-}
-*/
+}*/
+ 
 const float size = 150;
 
-void EmitGrassLod(mat4 projView, vec4 pos, vec3 centr)
+
+void EmitGrassLod(mat4 projView, vec4 pos, vec3 centr, float signum)
 {
   float size =	sqrt(gap)*ScaleXZ/80;
   
@@ -51,11 +52,13 @@ void EmitGrassLod(mat4 projView, vec4 pos, vec3 centr)
   
   offset /=length(offset);
   
-  offset = offset*0.1*size;
-  
+  offset = offset*0*size;
+
   vec4 actualPosition;
   
-  vec4 position = pos + offset; 
+  vec4 position = pos + signum*offset; 
+
+ 
   
 ///quad 1
 //v1
@@ -251,7 +254,9 @@ void main()
 	 {
 		trisCentr+=gl_in[i].gl_Position.xyz;
 	 }
-	
+	 trisCentr/= gl_in.length();
+	 
+	float signum = -1;
 	
 	   for (int i = 0; i < gl_in.length();++i)
 	 {
@@ -268,7 +273,9 @@ void main()
 			continue;			
 		}
 		
-		EmitGrassLod(vpm, gl_in[i].gl_Position,trisCentr);
+		signum*=-1;
+		
+		EmitGrassLod(vpm, gl_in[i].gl_Position,trisCentr,signum);
 	 }
 	 EndPrimitive();
 	

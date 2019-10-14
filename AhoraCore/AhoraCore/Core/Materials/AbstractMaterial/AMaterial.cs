@@ -43,7 +43,8 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
     /// </summary>
     public abstract  class AMaterial: ABindableObject<AShader>
     {
-////        public static Dictionary<TextureChannels, string> ChannelsShaderNames = new Dictionary<TextureChannels, string>();
+        ////        public static Dictionary<TextureChannels, string> ChannelsShaderNames = new Dictionary<TextureChannels, string>();
+       public string MaterialName { get; set; }
 
         private int channelOffset = 0;
 
@@ -142,8 +143,6 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
             return textures.ContainsKey(ChannelID);
         }
 
-        public abstract int ReadMaterial(int startline, ref string[]  lines);
-
         public abstract void ReadMaterial(JsonTextReader reader);
 
         public abstract void InitMaterial();
@@ -152,6 +151,7 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
         {
             Create();
             InitMaterial();
+            MaterialName = "";
          }
     }
 }

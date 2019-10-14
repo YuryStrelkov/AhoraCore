@@ -20,7 +20,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             if (MainContext.GetRenderMethod() == Rendering.RenderMethods.Deffered)
             {
-                LoadShaderFromstring(Properties.Resources.DefferedTerrainVS, ShaderType.VertexShader);
+                LoadShaderFromstring(Properties.Resources.DefferedGrassVS, ShaderType.VertexShader);
                 LoadShaderFromstring(Properties.Resources.DefferedGrassFS, ShaderType.FragmentShader);
                 LoadShaderFromstring(Properties.Resources.DefferedGrassTC, ShaderType.TessControlShader);
                 LoadShaderFromstring(Properties.Resources.DefferedGrassGS, ShaderType.GeometryShader);

@@ -1,112 +1,176 @@
-﻿using System;
-using AhoraCore.Core.Materials.AbstractMaterial;
+﻿using AhoraCore.Core.Materials.AbstractMaterial;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace AhoraCore.Core.Materials
 {
-   
+
     public class Material:AMaterial
     {
-
         public static int MAX_TEXTURE_CHANNELS_NUMBER = 8;
 
-        /*  public void SetDiffuse(string TextID)
-          {
-
-              textures.Add(TextureChannels.Diffuse, new TextureChannel(0, TextID, ref materialUniformBuffer));
-              texturesChannelNames.Add(TextureChannels.Diffuse, "diffuseMap");
-          }
-
-          public void SetNormals(string TextID)
-          {
-              textures.Add(TextureChannels.Normal, new TextureChannel(1, TextID, ref materialUniformBuffer));
-              texturesChannelNames.Add(TextureChannels.Normal, "normalMap");
-          }
-
-          public void SetSpecular(string TextID)
-          {
-              textures.Add(TextureChannels.Specular, new TextureChannel(2, TextID, ref materialUniformBuffer));
-              texturesChannelNames.Add(TextureChannels.Specular, "specularMap");
-          }
-
-          public void SetHeight(string TextID)
-          {
-              textures.Add(TextureChannels.Height, new TextureChannel(3, TextID, ref materialUniformBuffer));
-              texturesChannelNames.Add(TextureChannels.Height, "heightMap");
-          }
-
-          public void SetReflectGloss(string TextID)
-          {
-              textures.Add(TextureChannels.ReflectGloss, new TextureChannel(4, TextID, ref materialUniformBuffer));
-              texturesChannelNames.Add(TextureChannels.ReflectGloss, "reflectGlossMap");
-          }
-
-          public void SetTransparency(string TextID)
-          {
-              textures.Add(TextureChannels.Transparency, new TextureChannel(5, TextID, ref materialUniformBuffer));
-              texturesChannelNames.Add(TextureChannels.Transparency, "transparencyMap");
-          }*/
+        private Dictionary<string, int> ChannelPerID;
 
         public override void ReadMaterial(JsonTextReader reader)
         {
-            float hor_scale = 1;
-
-            float ver_scale = 1;
-
-            switch (reader.Value.ToString())
+            float[] tmp = new float[] { 0, 0, 0, 0 };
+            float[] tmp2 = new float[] { 0, 0 };
+            int i = 0;
+            string tmpstr = "diffuseMap";
+            while (reader.TokenType != JsonToken.EndObject)
             {
-                case "verticalScale":
+                if (reader.Value == null)
+                {
                     reader.Read();
-                    ver_scale = float.Parse(reader.Value.ToString());
-                    break;
+                    continue;
+                }
+                switch (reader.Value.ToString())
+                {
+                    case "name":
+                        reader.Read();
+                        MaterialName = reader.Value.ToString();
+                        reader.Read();
+                        break;
 
-                case "horizontalScale":
-                    reader.Read();
-                    hor_scale = float.Parse(reader.Value.ToString());
-                    break;
-                case "diffuseMap":
-                    reader.Read();
-                    Texture2ChannelAssign(reader.Value.ToString(), "diffuseMap");
-                    break;
+                    case "diffuseColor":
+                        while (reader.TokenType != JsonToken.StartArray)
+                        {
+                            reader.Read();
+                        }
+                        reader.Read();
+                        while (reader.TokenType != JsonToken.EndArray)
+                        {
+                            tmp[i] = float.Parse(reader.Value.ToString());
+                            reader.Read();
+                            i++;
+                        }
+                        i = 0;
+                        materialUniformBuffer.Bind();
+                        materialUniformBuffer.UpdateBufferIteam("albedoColor", tmp);
+                        reader.Read();
+                        break;
 
-                case "normalMap":
-                    reader.Read();
-                    Texture2ChannelAssign(reader.Value.ToString(), "normalMap");
-                    break;
+                    case "reflectionColor":
 
-                case "specularMap":
-                    reader.Read();
-                    Texture2ChannelAssign(reader.Value.ToString(), "specularMap");
-                    break;
+                        while (reader.TokenType != JsonToken.StartArray)
+                        {
+                            reader.Read();
+                        }
+                        reader.Read();
+                        while (reader.TokenType != JsonToken.EndArray)
+                        {
+                            reader.Read();
+                            tmp[i] = float.Parse(reader.Value.ToString());
+                            reader.Read();
+                            i++;
+                        }
+                        i = 0;
+                        materialUniformBuffer.Bind();
+                        materialUniformBuffer.UpdateBufferIteam("reflectionColor", tmp);
+                        reader.Read();
+                        break;
 
-                case "heightMap":
-                    reader.Read();
-                    Texture2ChannelAssign(reader.Value.ToString(), "heightMap");
-                    break;
+                    case "textureChannel":
 
-                case "reflectGlossMap":
-                    reader.Read();
-                    Texture2ChannelAssign(reader.Value.ToString(), "reflectGlossMap");
-                    break;
+                        while (reader.TokenType != JsonToken.StartArray)
+                        {
+                            reader.Read();
+                        }
+                        reader.Read();
 
-                case "transparencyMap":
-                    reader.Read();
-                    Texture2ChannelAssign(reader.Value.ToString(), "transparencyMap");
-                    break;
+                        while (reader.TokenType != JsonToken.EndArray)
+                        {
+                           
+                            if (reader.TokenType != JsonToken.StartObject)
+                            {
+                                reader.Read();
+                                continue;
+                            }
+
+                            while (reader.TokenType != JsonToken.EndObject)
+                            {
+                                if (reader.Value==null)
+                                {
+                                    reader.Read();
+                                    continue;
+                                }
+                             
+                                switch (reader.Value.ToString())
+                                {
+                                    case "cahnnel":
+                                        reader.Read();
+                                        tmpstr = reader.Value.ToString();
+                                        reader.Read();
+                                        break;
+                                        
+                                    case "texture":
+                                        reader.Read();
+                                        Texture2ChannelAssign(reader.Value.ToString(), tmpstr);
+                                        reader.Read();
+                                        break;
+                                    case "uvScaling":
+                                        reader.Read(); reader.Read();
+                                        tmp2[0] = float.Parse(reader.Value.ToString());
+                                        reader.Read(); 
+                                        tmp2[1] = float.Parse(reader.Value.ToString());
+                                        reader.Read();
+                                        materialUniformBuffer.Bind();
+                                        materialUniformBuffer.UpdateBufferIteam("channel[" + ChannelPerID[tmpstr] + "].tileUV", DefUV);
+                                        break;
+
+                                    case "uvShift":
+                                        reader.Read(); reader.Read();
+                                        tmp2[0] = float.Parse(reader.Value.ToString());
+                                        reader.Read(); 
+                                        tmp2[1] = float.Parse(reader.Value.ToString());
+                                        reader.Read();
+                                        materialUniformBuffer.Bind();
+                                        materialUniformBuffer.UpdateBufferIteam("channel[" + ChannelPerID[tmpstr] + "].offsetUV", DefUV);
+                                        break;
+                                }
+                            }
+
+                        }
+
+
+
+
+                        if (reader.TokenType != JsonToken.StartObject)
+                        {
+                            continue;
+                        }
+                        reader.Read();
+                        while (reader.TokenType != JsonToken.EndObject)
+                        {
+                            tmp[i] = float.Parse(reader.Value.ToString());
+                            reader.Read();
+                            i++;
+                        }
+                        break;
+                }
 
             }
+            reader.Read();
 
-     ///       materialUniformBuffer.UpdateBufferIteam("scaling", new float[2] { hor_scale, ver_scale });
+            materialUniformBuffer.Bind();
+
+            Unbind();   
 
         }
 
-        public override int ReadMaterial(int startline, ref string[] lines)
-        {
-            return - 1;
-        }
 
         public override void InitMaterial()
         {
+
+            ///КОСТЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЛЬ!!!
+            ChannelPerID = new Dictionary<string, int>();
+
+            ChannelPerID.Add("diffuseMap",0);
+            ChannelPerID.Add("normalMap", 1);
+            ChannelPerID.Add("specularMap", 2);
+            ChannelPerID.Add("heightMap", 3);
+            ///
+
             materialUniformBuffer.addBufferItem("albedoColor", 4);
             materialUniformBuffer.addBufferItem("ambientColor", 4);
             materialUniformBuffer.addBufferItem("reflectionColor", 4);

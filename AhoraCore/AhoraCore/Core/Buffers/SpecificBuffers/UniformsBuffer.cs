@@ -1,6 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.IBuffres;
 using AhoraCore.Core.Shaders;
 using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
 
 namespace AhoraCore.Core.Buffers.UniformsBuffer
@@ -24,8 +25,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
     public class UniformsBuffer<KeyType> : EditableBuffer<float, UniformsBuffer<KeyType>>
     {
         private Dictionary<KeyType, BufferIteam> bufferItemsMap;
-
-
+        
         private int mapSize = 0;
 
         public int Buff_binding_Point = 1;
@@ -34,11 +34,14 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
 
         public void addBufferItem(KeyType name, int dataLength)
         {
-            BufferIteam item = new BufferIteam(dataLength, mapSize);
+            if (!bufferItemsMap.ContainsKey(name))
+            {
+                BufferIteam item = new BufferIteam(dataLength, mapSize);
 
-            mapSize += dataLength;
+                mapSize += dataLength;
 
-            bufferItemsMap.Add(name, item);
+                bufferItemsMap.Add(name, item);
+            }
        }
 
         public void UpdateBufferIteam(KeyType bufferItemName, int itemID, float[] data)
@@ -79,9 +82,45 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
            //CreateBuffer(100);
         }
 
+        private void EnhanceBufferCapsity(int mapsets)
+        {
+            UniformsBuffer<KeyType> enhanced = new UniformsBuffer<KeyType>();
+            
+            enhanced.Create();
+
+            enhanced.Bind();
+
+            enhanced.Capacity = mapsets;
+
+            GL.BufferData(BindingTarget, enhanced.Capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
+            
+            enhanced.Unbind();
+
+            CopyBufferData(enhanced, 0, Capacity, 0);
+
+            Delete();
+
+            ID = enhanced.ID;
+
+            Fillnes = enhanced.Fillnes;
+
+            Capacity = enhanced.Capacity;
+     //       Console.WriteLine("_________________");
+     //     DebugBuffers.displayBufferData(enhanced);
+        }
+
+
+
         public override void Create(int numberOfMapSets)
         {
-            base.Create(numberOfMapSets * mapSize);
+            if (Capacity == 0)
+            {
+                base.Create(numberOfMapSets * mapSize);
+            }
+            else
+            {
+                EnhanceBufferCapsity(mapSize);
+            }
         }
 
     }

@@ -1,6 +1,7 @@
 {
   "ScaleXZ": 6000,
   "ScaleY": 500,
+  "NormalStrength": 40,
   "HeigthMap": [ false, "hm1" ],
   "TessellationFactor": 600,
   "TessellationSlope": 0.9,
@@ -60,22 +61,22 @@
   ],
    "material": [
     {
-      "verticalScale": "0.1",
-      "horizontalScale": "300",
+      "verticalScale": 0.1,
+      "horizontalScale": 300,
       "diffuseMap": "grassDiffuse",
       "normalMap": "grassNormal",
       "heightMap": "grassDisplacement"
     },
     {
-      "verticalScale": "1.5",
-      "horizontalScale": "200",
+      "verticalScale": 1.5,
+      "horizontalScale": 200,
       "diffuseMap": "groundDiffuse",
       "normalMap": "groundNormal",
       "heightMap": "groundDisplacement"
     },
     {
-      "verticalScale": "10",
-      "horizontalScale": "80",
+      "verticalScale": 10,
+      "horizontalScale": 80,
       "diffuseMap": "rockDiffuse",
       "normalMap": "rockNormal",
       "heightMap": "rockDisplacement"

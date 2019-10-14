@@ -212,9 +212,10 @@ namespace AhoraCore.Core.Materials
                 h = textureBitmap.Height;
                 string[] path_split = filename.Split('\\');
                 textureName = path_split[path_split.Length - 1];
-                return TextureLoader.loadTextureFromImage(textureBitmap);
+                ID = TextureLoader.loadTextureFromImage(textureBitmap);
                 Bind();
                 BilinearFilter();
+                return ID;
             }
             catch (FileNotFoundException e)
             {
