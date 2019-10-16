@@ -81,16 +81,14 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             }
             reader.Read();
 
-            materialUniformBuffer.Bind();
-
             InitSubMat();
+
+            materialUniformBuffer.Bind();
 
             materialUniformBuffer.UpdateBufferIteam("settings[" + SubMaterialsCount + "].scaling", new float[2] { hor_scale, ver_scale });
 
             SubMaterialsCount += 1;
-
-            Unbind();
-        }
+      }
 
         private void InitSubMat()
         {

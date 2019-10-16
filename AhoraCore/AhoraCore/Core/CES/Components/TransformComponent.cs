@@ -45,7 +45,8 @@ namespace AhoraCore.Core.CES.Components
 
         public override void Update()
         {
-             
+         //   Enable();
+       //     UniformBuffer.UpdateBufferIteam("parentTransform", MathUtils.ToArray(GetParent().GetParentTransform()));
         }
 
         private void updateLocal()
@@ -196,7 +197,7 @@ namespace AhoraCore.Core.CES.Components
 
             EnableBuffering("TransformData");
          
-            MarkBuffer(new string[2] { "localTransform", "worldTransform" }, new int[2] { 16, 16 });
+            MarkBuffer(new string[3] { "parentTransform", "localTransform", "worldTransform" }, new int[3] { 16, 16, 16 });
 
             ConfirmBuffer();
 
@@ -207,6 +208,7 @@ namespace AhoraCore.Core.CES.Components
             LocalTransform = new Transform(0, 0, 0);
 
             Enable();
+            UniformBuffer.UpdateBufferIteam("parentTransform", MathUtils.ToArray(Matrix4.Identity));
             UniformBuffer.UpdateBufferIteam("localTransform", MathUtils.ToArray(LocalTransform.GetTransformMat()));
             UniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(WorldTransform.GetTransformMat()));
             Disable();

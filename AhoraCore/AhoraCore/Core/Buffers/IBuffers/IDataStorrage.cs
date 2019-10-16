@@ -2,6 +2,8 @@
 {
     public interface IDataStorrage<T>
     {
+        T LastKey { get; }
+
         void RemoveItem(T geometryID);
 
         void ClearStorrage();

@@ -105,8 +105,6 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
             Fillnes = enhanced.Fillnes;
 
             Capacity = enhanced.Capacity;
-     //       Console.WriteLine("_________________");
-     //     DebugBuffers.displayBufferData(enhanced);
         }
 
 

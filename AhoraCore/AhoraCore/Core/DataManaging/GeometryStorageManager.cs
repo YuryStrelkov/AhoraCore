@@ -1,6 +1,6 @@
 ﻿using AhoraCore.Core.Buffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
-using AhoraCore.Core.Models.ProceduralModels;
+using AhoraCore.Core.Models;
 using AhoraProject.Ahora.Core.IRender;
 using System;
 
@@ -15,14 +15,7 @@ namespace AhoraCore.Core.DataManaging
         public static void Initialize()
         {
             geometryData = new GeometryStorageManager();
-
-            FloatBuffer vIco; IntegerBuffer iIco;
-
-            int AttributesMask;
-
-            Icosphere.Create(3, 1, out vIco, out iIco, out AttributesMask);
-
-            Data.AddGeometry(AttributesMask, "DefaultModel", vIco, iIco);
+            ModelLoader.LoadSceneModels("Resources\\defaultModel.obj");
         }
 
         private GeometryStorageManager() : base()
@@ -46,14 +39,14 @@ namespace AhoraCore.Core.DataManaging
         public void AddGeometry(int attibutesFormat, string geoID, FloatBuffer vData)
         {
             AppendData(geoID, attibutesFormat);
-            managingData[attibutesFormat].AddItem(geoID, vData.BufferData);
+            managingData[attibutesFormat].AddItem(geoID, vData.ToArray());
         }
 
 
         public void AddGeometry(int attibutesFormat, string geoID, FloatBuffer vData, IntegerBuffer iData)
         {
             AppendData(geoID, attibutesFormat);
-            managingData[attibutesFormat].AddItem(geoID, vData.BufferData, iData.BufferData);
+            managingData[attibutesFormat].AddItem(geoID, vData.ToArray(), iData.ToArray());
         }
 
         public void AddGeometrySet(int attibutesFormat, string[] geoIDs, FloatBuffer[] vDatas, IntegerBuffer[] iDatas)
@@ -96,7 +89,7 @@ namespace AhoraCore.Core.DataManaging
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace.ToString());
+                Console.WriteLine("Model "+ id +" case error while drawing");
             }
         }
 

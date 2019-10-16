@@ -27,7 +27,7 @@ namespace AhoraCore.Core.Cameras
         {
             if (camera == null)
             {
-                camera = new Camera();
+                camera = new Camera("DefaultCamera");
             }
             return camera;
         }

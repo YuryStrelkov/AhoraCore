@@ -360,6 +360,80 @@ namespace AhoraCore.Properties {
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330 core
+        ///layout (location = 0)out vec4 framePosition;
+        ///layout (location = 1)out vec3 frameNormal;
+        ///layout (location = 2)out vec4 frameColor;
+        ///layout (location = 3)out vec3 frameFresnel; 
+        ///
+        ///#include MaterialDefinition;
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///in struct VS_OUT
+        ///{
+        ///	vec2 texcoord;
+        ///	vec3 tangent;
+        ///	vec3 normal;
+        ///	mat3 TBN;
+        ///	vec4 position;
+        ///}vs_out;
+        ///
+        ///
+        ///void main()
+        ///{ 
+        ///	discard;
+        ///	vec3 zeros = vec3(0);
+        ///
+        ///	framePosition =  vs_out.position;
+        ///	
+        ///	vec3 reflectDirScreen;
+        ///	
+        ///	vec3 n = getNorm [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedMaterialFS {
+            get {
+                return ResourceManager.GetString("DefferedMaterialFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///layout (location = 0) in vec4 Position;
+        ///layout (location = 1) in vec2 TexCoord;
+        ///layout (location = 2) in vec3 Normal;
+        ///layout (location = 3) in vec3 Tangent;
+        ///
+        ///#include TransformDefinition;
+        ///
+        ///#include MaterialDefinition;
+        ///
+        ///#include CameraDefinition;
+        ///
+        ///out struct VS_OUT
+        ///{
+        ///	vec2 texcoord;
+        ///	vec3 tangent;
+        ///	vec3 normal;
+        ///	mat3 TBN;
+        ///	vec4 position;
+        ///}vs_out;
+        ///
+        ///void  main()
+        ///{	
+        /// 	mat4 ViewTransform  =  viewMatrix*worldTransform;
+        ///		
+        ///	vs_out.texcoord   =  TexCoord;
+        ///	
+        ///	vs_out.tange [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string DefferedMaterialVS {
+            get {
+                return ResourceManager.GetString("DefferedMaterialVS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
         ///
         ///layout (location = 0)out vec4 gPosition;
         ///layout (location = 1)out vec3 gNormal;
@@ -845,8 +919,7 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на ////Textures
-        ///const int   DiffuseID = 0,
+        ///   Ищет локализованную строку, похожую на const int   DiffuseID = 0,
         ///	    	NormalID = 1,
         ///     		SpecularID = 2,
         ///			HeightID = 3,
@@ -875,11 +948,77 @@ namespace AhoraCore.Properties {
         ///
         ///uniform sampler2D   diffuseMap;
         ///uniform sampler2D   normalMap;
-        ///uniform sampler2D   s [остаток строки не уместился]&quot;;.
+        ///uniform sampler2D   specularMap;
+        ///u [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string MaterialDefinition {
             get {
                 return ResourceManager.GetString("MaterialDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///layout (location = 0)out vec4 gPosition;
+        ///layout (location = 1)out vec3 gNormal;
+        ///layout (location = 2)out vec4 gColor;
+        ///layout (location = 3)out vec3 gFresnel; 
+        ///
+        /// const int diffuse = 0,
+        ///           normal = 1,
+        ///           specular = 2,
+        ///           height = 3,
+        ///           glosness = 4,
+        ///           reflection = 5,
+        ///           transperansy = 6,
+        ///           ambientOcclusion = 7;
+        ///
+        ///struct  Channel
+        ///{
+        ///vec2 tileUV;
+        ///vec2 offsetUV;
+        ///vec4 multRGBA;
+        ///};
+        ///
+        ///layout(std140) uniform MaterialData
+        /// [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string MaterialFS {
+            get {
+                return ResourceManager.GetString("MaterialFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///layout (location = 0) in vec4 aPosition;
+        ///layout (location = 1) in vec2 aTexCoord;
+        ///layout (location = 2) in vec3 aNormals;
+        ///layout (location = 3) in vec3 aTangents;
+        ///layout (location = 4) in vec3 aBiTangents;
+        ///
+        ///out vec2 TexCoord;
+        ///out vec3 Normal;
+        ///out vec3 Tangent;
+        ///out vec4 fragPosition;
+        ///out mat3 TBN;
+        ///out mat3 view_;
+        ///
+        ///layout(std140) uniform Camera
+        ///{
+        ///	mat4 camView;
+        ///	mat4 camProjection;
+        ///	vec3 camPosition;
+        ///	vec3 camLookAt;
+        ///	float FOV;
+        ///	float aspect;
+        ///};
+        ///uniform mat4 model;
+        ///        /// [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string MaterialVS {
+            get {
+                return ResourceManager.GetString("MaterialVS", resourceCulture);
             }
         }
         

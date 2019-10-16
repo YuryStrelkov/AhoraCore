@@ -54,12 +54,33 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
 
         public  Dictionary<KeyType, Cell> Iteams { get; protected set; }
 
+        public KeyType LastKey
+        {
+            get
+            {
+                return lastKey;
+            }
+        }
+
         public ValueType GetItem(KeyType ID)
        {
               return Iteams[ID].Data;
        }
 
-       
+        public ValueType GetParent(KeyType ID)
+        {
+            return Iteams[Iteams[ID].Parent].Data;
+        }
+
+        /// <summary>
+        /// Переназначает родителя для элемента ID на parentID
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="parentID"></param>
+        public void SetNewParent(KeyType ID, KeyType parentID)
+        {
+           Iteams[ID].SetParent(parentID);
+        }
 
         public void AddItems(Dictionary<KeyType, ValueType> Iteams)
         {

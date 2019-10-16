@@ -8,12 +8,14 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
         {
             if (Fillnes >= Capacity)
             {
-                EnhanceBuffer(Capacity + 1);
+                EnhanceBuffer((int)(Capacity*1.5));
             }
 
-            BufferData[Fillnes] = data;
-
-            Fillnes++;
+            if (!BufferData[Fillnes].IsFilled())
+            {
+                Fillnes++;
+            }
+            BufferData[Fillnes].setVal(data);
         }
         
         public void Put(T[] data)
@@ -30,12 +32,18 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
             {
                 EnhanceBuffer(i + 1);
             }
-            BufferData[i] = data;
+
+            if (!BufferData[i].IsFilled())
+            {
+                Fillnes++;
+            }
+
+            BufferData[i].setVal(data);
         }
 
         public T Pop(int n)
         {
-            return BufferData[n];
+            return BufferData[n].getValue();
         }
 
         /// <summary>
@@ -43,6 +51,8 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
         /// </summary>
         public void ClearBuffer()
         {
+
+            Fillnes = 0;
             Array.Clear(BufferData, 0, Capacity);
         }
 
@@ -59,10 +69,10 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
 
             EditableStandartBuffer<T, D> tmp = new EditableStandartBuffer<T, D>(enhancedCapacity);
 
-            CopyBufferData(tmp, 0, Capacity, 0);
+            CopyBufferData(tmp, 0, Fillnes, 0);
 
             BufferData = tmp.BufferData;
-
+            
             Capacity = enhancedCapacity;
         }
 
@@ -110,6 +120,11 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
             Fillnes = Capacity;
         }
 
+        public void TrimBuffer()
+        {
+            Execept(0, Fillnes);
+        }
+
         /// <summary>
         /// Копирует данные буфера в буфер target
         /// </summary>
@@ -123,10 +138,12 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
             {
                 return;
             }
+
             if ((target.Capacity - target.Fillnes) < Fillnes)
             {
                 target.EnhanceBuffer(target.Fillnes + Fillnes);
             }
+
             Array.Copy(BufferData, source_offset, target.BufferData, target_offset, source_length);
         }
 
@@ -163,7 +180,7 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
 
         public override void CreateBuffer()
         {
-            BufferData = new T[10000];
+            BufferData = new DataCell[10000];
             Capacity = 10000;
         }
 
@@ -174,7 +191,7 @@ namespace AhoraCore.Core.Buffers.StandartBuffers.IStandartBuffers
         public override void CreateBuffer(int capacity)
         {
             Capacity = capacity;
-            BufferData = new T[capacity];
+            BufferData = new DataCell[capacity];
         }
 
         public override void DeleteBuffer()

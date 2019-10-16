@@ -240,9 +240,9 @@ namespace AhoraCore.Core.Shaders
 
             code = includes.Replace(code, Properties.Resources.TerrainMaterialDefinition);
 
-           // Console.Clear();
+            //Console.Clear();
 
-         ///   Console.Write(code);
+             //Console.Write(code);
 
             shaderPrograms.Add(type, LoadShader(code, type));
       }

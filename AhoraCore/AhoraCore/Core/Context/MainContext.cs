@@ -1,10 +1,11 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
 using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.DataManaging;
+using AhoraCore.Core.Models;
 using AhoraCore.Core.Rendering;
 using AhoraProject.Ahora.Core.Display;
-
 
 namespace AhoraCore.Core.Context
 {
@@ -18,12 +19,14 @@ namespace AhoraCore.Core.Context
         {
             renderPipeline = RenderMethods.Forward;
             FrameDisplay.UseForward();
+            ShaderStorrage.Initilaze();
         }
 
         public static void UseDefferedRenderer()
         {
             renderPipeline = RenderMethods.Deffered;
             FrameDisplay.UseDeffered();
+            ShaderStorrage.Initilaze();
         }
 
         public static RenderMethods GetRenderMethod()
@@ -75,6 +78,35 @@ namespace AhoraCore.Core.Context
                                                                                              1,  1, 0, 1, 1,
                                                                                              1, -1, 0, 1, 0},
                                                                                   new int[] { 0, 1, 2, 2, 1, 3 });
+
+ 
+
+            ModelLoader.LoadSceneModels("Resources\\skySphere.obj");
+
+            MaterialStorrage.Materials.AddItem("AtmosphereMaterial", new Materials.Material());
+
+            TextureStorrage.Textures.AddItem("Clouds", new Materials.Texture(Properties.Resources.Clouds1));
+
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").Texture2ChannelAssign("Clouds", "diffuseMap");//AssignTexture2Channel("Clouds", TextureChannels.Diffuse);
+
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").Texture2ChannelAssign("Clouds", "normalMap");
+
+            MaterialStorrage.Materials.GetItem("AtmosphereMaterial").Texture2ChannelAssign("Clouds", "specularMap");
+
+            GameEntity skydome = new GameEntity("SkyDome");
+
+            skydome.AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("skySphere"));
+
+            skydome.AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("AtmosphereMaterial"));
+
+            skydome.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("AtmosphereShader"));
+
+            skydome.SetWorldScale(25000, 25000, 25000);
+
+            skydome.SetWorldRotation(3.1415f, 0,0);
+
+            GameEntityStorrage.Entities.AddItem(skydome.EntityID, skydome);
+
 
 
         }

@@ -1,0 +1,136 @@
+#version 330 core
+layout (location = 0)out vec4 gPosition;
+layout (location = 1)out vec3 gNormal;
+layout (location = 2)out vec4 gColor;
+layout (location = 3)out vec3 gFresnel; 
+
+ const int diffuse = 0,
+           normal = 1,
+           specular = 2,
+           height = 3,
+           glosness = 4,
+           reflection = 5,
+           transperansy = 6,
+           ambientOcclusion = 7;
+
+struct  Channel
+{
+vec2 tileUV;
+vec2 offsetUV;
+vec4 multRGBA;
+};
+
+layout(std140) uniform MaterialData
+{
+vec4 diffColor;
+
+vec4 embientColor;
+
+vec4 reflectionColor;
+
+float reflectivity, metallness, roughness, transparency;
+
+Channel[8] matChannels;
+};
+
+in vec4 fragPosition;
+in vec2 TexCoord;
+in vec3 Normal; 
+in vec3 Tangent;
+in mat3 TBN;
+in mat3 view_;
+
+////Tetures
+
+uniform sampler2D   diffuseMap;
+uniform sampler2D   normalMap;
+uniform sampler2D   specularMap;
+uniform sampler2D   reflectionMap;
+uniform sampler2D   heightMap;
+uniform samplerCube cubeMapReflection;
+uniform sampler2D   transparencyMap;
+
+
+vec3 getFromMap(sampler2D map, int t_channel)
+{
+return	texture(map, (TexCoord + matChannels[t_channel].offsetUV)*
+                                 matChannels[t_channel].tileUV).xyz;
+}
+
+
+vec3 getNormalFromMap()
+{
+	return	normalize(getFromMap(normalMap, normal).xyz*2.0-1.0);//normalize(texture(normalMap,TexCoord).xyz*2.0-1.0);
+}
+vec3 getDiffuseFromMap()
+{
+	return	getFromMap(diffuseMap, diffuse);
+}
+vec3 getReflectionFromMap()
+{
+	return	getFromMap(reflectionMap, reflection);
+}
+vec3 getSpecularFromMap()
+{
+	return	getFromMap(specularMap, specular);
+}
+
+in vec3 skyColor; 
+
+in float visability;
+
+void main()
+{ 
+	vec3 zeros=vec3(0);
+	
+	
+	if(texture(transparencyMap,TexCoord).a<0.5)
+	{
+		discard;
+	}
+	
+	
+	gPosition =  fragPosition;
+	
+	vec3 reflectDirWord;
+	
+	vec3 reflectDirScreen, n;
+
+	n = getNormalFromMap();
+	
+	if(texture(normalMap,TexCoord).rgb!=zeros)
+	{
+		gNormal          =  normalize(TBN*n);
+		reflectDirScreen =  normalize(reflect(fragPosition.xyz,gNormal));
+		reflectDirWord   =  normalize(mat3(view_)*reflectDirScreen);
+	}
+	else
+	{
+		gNormal          =  Normal;
+		reflectDirScreen =  normalize(reflect(fragPosition.xyz,gNormal));
+		reflectDirWord   =  normalize(mat3(view_)*reflectDirScreen);
+	}
+ 
+    float r = getSpecularFromMap().r;
+
+    float fresnel;   
+	
+	 if(texture(cubeMapReflection,reflectDirWord).rgb!=zeros)
+	{ 
+		fresnel = clamp((pow(dot(reflectDirScreen,gNormal), 2.2)),0,1);
+				  
+		fresnel = r>0.05 ? clamp(r,0.05,1) * fresnel:0;  
+				  
+		gColor.rgb = getDiffuseFromMap();
+				  
+		gColor.rgb =  mix(gColor.rgb,texture(cubeMapReflection,reflectDirWord).rgb,fresnel); 
+	}
+	
+	else
+	{
+		gColor.rgb = getDiffuseFromMap();
+	}
+	
+	gColor.a         =  r;
+	 
+}

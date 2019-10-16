@@ -46,7 +46,6 @@ namespace AhoraProject.Ahora.Core.Display
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            
             base.OnRenderFrame(e);
             renderer.Render();  
             SwapBuffers();

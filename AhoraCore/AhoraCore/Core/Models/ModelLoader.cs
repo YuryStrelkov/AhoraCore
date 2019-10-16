@@ -1,6 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.CES;
+using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Transformations;
 using Assimp;
 using Assimp.Configs;
@@ -17,7 +18,256 @@ namespace AhoraCore.Core.Models
 
         private delegate void VertDataSetter(Assimp.Mesh a_mesh, ref FloatBuffer buffer,int vIdx);
 
-        private delegate void VertDataIndexSetter(Assimp.Mesh a_mesh, ref IntegerBuffer buffer);
+        private static int[]  ReadMeshIndeces(Assimp.Mesh m)
+        {
+            int[] indeces = new int[m.FaceCount * 3];
+            int ind = 0;
+            for (int i = 0; i < m.FaceCount; i++)
+            {
+                indeces[ind] = m.Faces[i].Indices[1];
+                ind++;
+                indeces[ind] = m.Faces[i].Indices[0];
+                ind++;
+                indeces[ind] = m.Faces[i].Indices[2];
+                ind++;
+            }
+            return indeces;
+       }
+
+        private static float[] ReadMeshVertices(out int attrMask, Assimp.Mesh m)
+        {
+            int attrCount, attrByteCount;
+
+            GetAttributesMask(m, out attrMask, out attrCount, out attrByteCount);
+
+            float[] vertices = new float[m.VertexCount * attrByteCount];
+            
+            int ind = 0;
+
+            for (int i = 0; i < m.VertexCount; i++)
+            {
+                if (m.HasVertices)
+                {
+                    vertices[ind] = m.Vertices[i].X;
+                    ind++;
+                    vertices[ind] = m.Vertices[i].Y;
+                    ind++;
+                    vertices[ind] = m.Vertices[i].Z;
+                    ind++;
+                }
+
+                if (m.HasTextureCoords(0))
+                {
+                    vertices[ind] = m.TextureCoordinateChannels[0][i].X;
+                    ind++;
+                    vertices[ind] = m.TextureCoordinateChannels[0][i].Y;
+                    ind++;
+                }
+
+
+                if (m.HasNormals)
+                {
+                    vertices[ind] = m.Normals[i].X;
+                    ind++;
+                    vertices[ind] = m.Normals[i].Y;
+                    ind++;
+                    vertices[ind] = m.Normals[i].Z;
+                    ind++;
+                }
+
+                if (m.HasTangentBasis)
+                {
+                    vertices[ind] = m.Tangents[i].X;
+                    ind++;
+                    vertices[ind] = m.Tangents[i].Y;
+                    ind++;
+                    vertices[ind] = m.Tangents[i].Z;
+                    ind++;
+
+                    vertices[ind] = m.BiTangents[i].X;
+                    ind++;
+                    vertices[ind] = m.BiTangents[i].Y;
+                    ind++;
+                    vertices[ind] = m.BiTangents[i].Z;
+                    ind++;
+                }
+
+                if (m.HasVertexColors(0))
+                {
+                    vertices[ind] = m.VertexColorChannels[0][i].R;
+                    ind++;
+                    vertices[ind] = m.VertexColorChannels[0][i].G;
+                    ind++;
+                    vertices[ind] = m.VertexColorChannels[0][i].B;
+                    ind++;
+                }
+                if (m.HasBones)
+                {
+                    vertices[ind] = 0;
+                    ind++;
+                    vertices[ind] = 0;
+                    ind++;
+                    vertices[ind] = 0;
+                    ind++;
+                    vertices[ind] = 0;
+                    ind++;
+                }
+                
+            }
+
+            ///TODO
+           /* if (m.HasBones)
+            {
+               List<float>[] wiegths = new List<float>[m.VertexCount];
+
+                for (int i = 0; i < m.Bones.Count; i++)
+                {
+                    for (int k=0;k < m.Bones[i].VertexWeights.Count; k++)
+                    {
+                        wiegths[m.Bones[i].VertexWeights[k].VertexID].Add(m.Bones[i].VertexWeights[k].Weight);
+                    }
+                }
+
+            }
+*/
+                return vertices;
+        }
+
+        private static void GetAttributesMask(Assimp.Mesh a_mesh, out int attrMask, out int attrCount, out int attrByteCount)
+        {
+            attrMask = 256;
+            attrCount = 0;
+            attrByteCount = 0;
+            /// int offset = 0;
+
+            if (a_mesh.HasVertices)
+            {
+                attrMask |= (byte)VericesAttribytes.V_POSITION;
+                attrCount += 1;
+                attrByteCount += 3;
+            }
+
+            if (a_mesh.HasTextureCoords(0))
+            {
+                attrMask |= (byte)VericesAttribytes.V_UVS;
+                attrCount += 1;
+                attrByteCount += 2;
+            }
+
+
+            if (a_mesh.HasNormals)
+            {
+                attrMask |= (byte)VericesAttribytes.V_NORMAL;
+                attrCount += 1;
+                attrByteCount += 3;
+            }
+
+            if (a_mesh.HasTangentBasis)
+            {
+                attrMask |= (byte)VericesAttribytes.V_TANGENT;
+                attrMask |= (byte)VericesAttribytes.V_BITANGENT;
+                attrCount += 2;
+                attrByteCount += 6;
+            }
+            if (a_mesh.HasVertexColors(0))
+            {
+                attrMask |= (byte)VericesAttribytes.V_COLOR_RGB;
+                attrCount += 1;
+                attrByteCount += 3;
+            }
+            if (a_mesh.HasBones)
+            {
+                attrMask |= (byte)VericesAttribytes.V_BONES;
+                attrMask |= (byte)VericesAttribytes.V_BONES_WEIGHTS;
+                attrCount += 2;
+                attrByteCount += 8;
+            }
+        }
+
+        static void LoadAllMeshes(Scene scn, out Dictionary<int, List<string>> names, out Dictionary<int, List<float[]>> vertices, out Dictionary<int, List<int[]>> indeces)
+        {
+
+            names = new Dictionary<int, List<string>>();
+
+            indeces = new Dictionary<int, List<int[]>>();
+
+            vertices = new Dictionary<int, List<float[]>>();
+
+            int[] tmp_i;
+
+            float[] tmp_v;
+
+            int mask = -1;
+
+            foreach (Mesh m in scn.Meshes)
+            {
+                tmp_v = ReadMeshVertices(out mask, m);
+
+                tmp_i = ReadMeshIndeces(m);
+
+                if (names.ContainsKey(mask))
+                {
+                    indeces[mask].Add(tmp_i);
+                    vertices[mask].Add(tmp_v);
+                    names[mask].Add(m.Name);
+
+                    continue;
+                }
+
+                indeces.Add(mask, new List<int[]>());
+                vertices.Add(mask, new List<float[]>());
+                names.Add(mask, new List<string>());
+
+                names[mask].Add(m.Name);
+                indeces[mask].Add(tmp_i);
+                vertices[mask].Add(tmp_v);
+            }
+        }
+
+        public static void LoadSceneModels(string fileName)
+        {
+            AssimpContext importer = new AssimpContext();
+
+            importer.SetConfig(new NormalSmoothingAngleConfig(66.666f));
+            Scene scn = null;
+            try
+            { 
+                  scn = importer.ImportFile(fileName, PostProcessSteps.Triangulate |
+                                                          PostProcessSteps.CalculateTangentSpace |
+                                                          PostProcessSteps.FlipUVs |
+                                                          PostProcessSteps.LimitBoneWeights);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine("Unnable to open or found file : " + fileName);
+            }
+
+            Dictionary<int, List<string>>  MasksPerModelIDS = null;
+            Dictionary<int, List<float[]>> Vertices;
+            Dictionary<int, List<int[]>> Indeces;
+
+            if (scn!=null)
+            {
+                LoadAllMeshes(scn, out MasksPerModelIDS, out Vertices, out Indeces);
+
+                foreach (int attrMask in MasksPerModelIDS.Keys)
+                {
+                    for(int i = 0; i < MasksPerModelIDS[attrMask].Count; i++)
+                    {
+                        GeometryStorageManager.Data.AddGeometry(attrMask, MasksPerModelIDS[attrMask][i], Vertices[attrMask][i], Indeces[attrMask][i]);
+                    }
+                }
+
+            }
+           
+        }
+
+
+        //////////obsolete or not in use
+        //////////
+        //////////
+        //////////
 
         public static void LoadModel(string filename, out int[] AttribsMasks, out FloatBuffer[] Models, out IntegerBuffer[] ModelsIndeces)
         {
@@ -34,44 +284,47 @@ namespace AhoraCore.Core.Models
                                                           PostProcessSteps.CalculateTangentSpace |
                                                           PostProcessSteps.FlipUVs |
                                                           PostProcessSteps.LimitBoneWeights);
-                string[] splittedPath = filename.Split('/');
+             //   string[] splittedPath = filename.Split('/');
 
-                splittedPath = splittedPath[splittedPath.Length - 1].Split('.');
+               /// splittedPath = splittedPath[splittedPath.Length - 1].Split('.');
 
+
+
+          
                 ///***///
-                Dictionary<int, List<string>> MasksPerModelIDS;
-                Dictionary<int, List<FloatBuffer>> Vertices;
-                Dictionary<int, List<IntegerBuffer>> Indeces;
-                Dictionary<int, List<int>> MaterialIDs;
-                ///***///
-                int modelsNumber = 0;
-                ///***///
-                LoadSceneGeometry(ref scn, out MasksPerModelIDS,
-                                           out Vertices,
-                                           out Indeces,
-                                           out MaterialIDs);
+                //Dictionary<int, List<string>> MasksPerModelIDS;
+                //Dictionary<int, List<FloatBuffer>> Vertices;
+                //Dictionary<int, List<IntegerBuffer>> Indeces;
+                //Dictionary<int, List<int>> MaterialIDs;
+                /////***///
+                //int modelsNumber = 0;
+                /////***///
+                //LoadSceneGeometry(ref scn, out MasksPerModelIDS,
+                //                           out Vertices,
+                //                           out Indeces,
+                //                           out MaterialIDs);
 
 
-                foreach (int key in MasksPerModelIDS.Keys)
-                {
-                    modelsNumber += MasksPerModelIDS[key].Count;
-                }
+                //foreach (int key in MasksPerModelIDS.Keys)
+                //{
+                //    modelsNumber += MasksPerModelIDS[key].Count;
+                //}
 
-                AttribsMasks = new int[modelsNumber];
-                Models = new FloatBuffer[modelsNumber];
-                ModelsIndeces = new IntegerBuffer[modelsNumber];
+                //AttribsMasks = new int[modelsNumber];
+                //Models = new FloatBuffer[modelsNumber];
+                //ModelsIndeces = new IntegerBuffer[modelsNumber];
 
-                int idx = 0;
-                foreach (int key in MasksPerModelIDS.Keys)
-                {
-                    for(int i=0; i< Vertices[key].Count; i++ )
-                    {
-                        AttribsMasks[idx] = key;
-                        Models[idx] = Vertices[key][i];
-                        ModelsIndeces[idx] = Indeces[key][i];
-                        idx += 1;
-                    }
-                }
+                //int idx = 0;
+                //foreach (int key in MasksPerModelIDS.Keys)
+                //{
+                //    for(int i=0; i< Vertices[key].Count; i++ )
+                //    {
+                //        AttribsMasks[idx] = key;
+                //        Models[idx] = Vertices[key][i];
+                //        ModelsIndeces[idx] = Indeces[key][i];
+                //        idx += 1;
+                //    }
+                //}
 
             }
             catch (FileNotFoundException e)
@@ -81,6 +334,7 @@ namespace AhoraCore.Core.Models
 
         
         }
+        
 
         public static Scene LoadScene(string filename)
         {
@@ -158,49 +412,49 @@ namespace AhoraCore.Core.Models
 
         public static void LoadHeirarhy( Assimp.Node rootNode,  GameEntityStorrage storrage)
         {
-            ProcessNodes(ref storrage, rootNode, Assimp.Matrix4x4.Identity, new Transform(0, 0, 0), "");
+            //ProcessNodes(ref storrage, rootNode, Assimp.Matrix4x4.Identity, new Transform(0, 0, 0), "");
         }
 
 
-        private static void ProcessNodes(ref GameEntityStorrage storrage, Assimp.Node node, Assimp.Matrix4x4 parentTransform, Transform parent, string parent_name)
-        {
-            GameEntity go = new GameEntity();
+        //private static void ProcessNodes(ref GameEntityStorrage storrage, Assimp.Node node, Assimp.Matrix4x4 parentTransform, Transform parent, string parent_name)
+        //{
+        //    GameEntity go = new GameEntity();
             
 
-            Vector3D scale, translation;
-            Assimp.Quaternion rotation;
-            Vector3 angles;
+        //    Vector3D scale, translation;
+        //    Assimp.Quaternion rotation;
+        //    Vector3 angles;
 
-            Matrix4x4 matrix = node.Transform * parentTransform;
-            // Matrix4x4 unityMatrix = Matrix4x4. matrix.();
-            matrix.Decompose(out scale, out rotation, out translation);
+        //    Matrix4x4 matrix = node.Transform * parentTransform;
+        //    // Matrix4x4 unityMatrix = Matrix4x4. matrix.();
+        //    matrix.Decompose(out scale, out rotation, out translation);
 
-            ToEulerAngles(rotation, out angles);
+        //    ToEulerAngles(rotation, out angles);
 
-            go.SetLocalRotation(angles);
-            go.SetLocalTranslation(translation[0], translation[1], translation[2]);
-            go.SetLocalScale(scale[0], scale[1], scale[2]);
+        //    go.SetLocalRotation(angles);
+        //    go.SetLocalTranslation(translation[0], translation[1], translation[2]);
+        //    go.SetLocalScale(scale[0], scale[1], scale[2]);
 
-            //go.transform.localScale = new Vector3(scale[0], scale[1], scale[2]);
-            //go.transform.rotation = new Assimp.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W);
-            //go.transform.position = new Vector3(translation[0], translation[1], translation[2]);
+        //    //go.transform.localScale = new Vector3(scale[0], scale[1], scale[2]);
+        //    //go.transform.rotation = new Assimp.Quaternion(rotation.X, rotation.Y, rotation.Z, rotation.W);
+        //    //go.transform.position = new Vector3(translation[0], translation[1], translation[2]);
 
-            go.SetWorldRotation(parent.Rotation);
-            go.SetWorldTranslation(parent.Position);
-            go.SetWorldScale(parent.Scale);
+        //    go.SetWorldRotation(parent.Rotation);
+        //    go.SetWorldTranslation(parent.Position);
+        //    go.SetWorldScale(parent.Scale);
 
-            //go.transform.parent = parent;
+        //    //go.transform.parent = parent;
 
-            storrage.AddItem(parent_name, node.Name, go);
+        //    storrage.AddItem(parent_name, node.Name, go);
 
-            if (node.HasChildren)
-            {
-                foreach (Assimp.Node child in node.Children)
-                {
-                   // ProcessNodes(ref storrage, child, matrix, go.GetLocalTransform(), node.Name);
-                }
-            }
-        }
+        //    if (node.HasChildren)
+        //    {
+        //        foreach (Assimp.Node child in node.Children)
+        //        {
+        //           // ProcessNodes(ref storrage, child, matrix, go.GetLocalTransform(), node.Name);
+        //        }
+        //    }
+        //}
 
         public static void LoadSceneGeometryTransforms(Scene a_scene, out Dictionary<string, Transform>Transforms)
         {
@@ -356,6 +610,9 @@ namespace AhoraCore.Core.Models
         {
             
         }
+
+
+       
 
         private static void GetAttributesMask(Assimp.Mesh a_mesh, out List<VertDataSetter> VDataSetters, out int attrMask, out int attrCount, out int attrByteCount)
         {

@@ -141,6 +141,7 @@
     <Compile Include="Core\Shaders\AtmosphereShader.cs" />
     <Compile Include="Core\Shaders\DefaultShader.cs" />
     <Compile Include="Core\Shaders\DefferedFinalStepShdr.cs" />
+    <Compile Include="Core\Shaders\MaterialShader.cs" />
     <Compile Include="Core\Shaders\SSAOShader.cs" />
     <Compile Include="Core\Shaders\StaticShader.cs" />
     <Compile Include="Core\Transformations\BBox.cs" />

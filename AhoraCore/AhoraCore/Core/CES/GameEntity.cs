@@ -2,7 +2,6 @@
 using OpenTK;
 using System.Collections.Generic;
 using AhoraCore.Core.CES.Components;
-using AhoraCore.Core.Transformations;
 
 namespace AhoraCore.Core.CES
 {
@@ -10,8 +9,12 @@ namespace AhoraCore.Core.CES
     {
         private Dictionary<ComponentsTypes, AComponent<IGameEntity>> components;
 
-        public GameEntity() : base()
+        public string EntityID {get; set;}
+
+        public GameEntity(string ID) : base()
         {
+            EntityID = ID;
+
             components = new Dictionary<ComponentsTypes, AComponent<IGameEntity>>();
 
             AddComponent(ComponentsTypes.ShaderComponent,new ShaderComponent("DefaultShader"));
@@ -21,6 +24,11 @@ namespace AhoraCore.Core.CES
             AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("DefaultMaterial"));
 
             AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("DefaultModel"));
+        }
+
+        public Matrix4 GetParentTransform()
+        {
+            return GameEntityStorrage.Entities.GetParent(EntityID).GetWorldTransMat();
         }
 
         public void AddComponent(ComponentsTypes Key, AComponent<IGameEntity> component)
@@ -38,8 +46,7 @@ namespace AhoraCore.Core.CES
 
             }
         }
-
-
+        
         public void RemoveComponent(ComponentsTypes Key)
         {
             components.Remove(Key);

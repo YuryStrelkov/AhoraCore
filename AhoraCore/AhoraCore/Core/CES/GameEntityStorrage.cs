@@ -1,4 +1,5 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate;
+using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.CES.ICES;
 
 using System.Collections.Generic;
@@ -31,6 +32,16 @@ namespace AhoraCore.Core.CES
             RenderQueIDs = new Stack<string>();
 
             entities = new GameEntityStorrage();
+
+            GameEntity root = new GameEntity("root");
+
+            root.AddComponent(ComponentsTypes.TransformComponent, new TransformComponent());
+
+            root.SetLocalScale(1, 0.1f, 1);
+
+            root.SetWorldScale(1, 0.1f, 1);
+
+            Entities.AddItem(root.EntityID, root);
         }
 
         public static GameEntityStorrage Entities

@@ -19,6 +19,10 @@ namespace AhoraCore.Core.Buffers
     {
         private delegate void renderMethod(string ID);
 
+        private string lastKey;
+
+        public string LastKey { get { return lastKey; } }
+
         private IndexedList<string> VerticesIndeces;
 
         private IndexedList<string> FacesIndeces;
@@ -31,12 +35,13 @@ namespace AhoraCore.Core.Buffers
         {
             for (int i=0; i< geometryIDs.Count;i++)
             {
-                AddItem(geometryIDs[i], verticesData[i].BufferData, indecesDtata[i].BufferData);
+                AddItem(geometryIDs[i], verticesData[i].ToArray(), indecesDtata[i].ToArray());
             }
         }
 
         public void AddItem(string key, float[] vData)
         {
+            lastKey = key;
             VerticesIndeces.Add(key, vData.Length);
             RenderMethods.Add(key, (ID) =>
             {
@@ -49,6 +54,7 @@ namespace AhoraCore.Core.Buffers
 
         public void AddItem(string key, float[] vData, int[] iData)
         {
+            lastKey = key;
             VerticesIndeces.Add(key, vData.Length);
             FacesIndeces.Add(key, iData.Length);
             RenderMethods.Add(key, (ID) => 
@@ -86,6 +92,11 @@ namespace AhoraCore.Core.Buffers
 
         public void RemoveItem(string geometryID)
         {
+
+            if (lastKey == geometryID)
+            {
+                lastKey = FacesIndeces.Iteams[lastKey].Parent;
+            }
             if (FacesIndeces.Iteams.ContainsKey(geometryID))
             {
                 if (FacesIndeces.Iteams.ContainsKey(geometryID))

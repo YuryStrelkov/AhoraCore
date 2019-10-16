@@ -77,5 +77,9 @@ namespace AhoraCore.Core.Models
             modelMaterial = MaterialStorrage.Materials.GetItem(ModelMaterialID);
             modelShader = ShaderStorrage.Sahaders.GetItem(ModelSaderID);
         }
+
+        public Model()
+        {
+        }
     }
 }

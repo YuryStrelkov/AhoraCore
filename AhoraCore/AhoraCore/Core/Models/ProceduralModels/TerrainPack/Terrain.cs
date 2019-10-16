@@ -20,12 +20,12 @@ namespace AhoraCore.Core.Models.ProceduralModels
                 return;
             }
 
-            Terrain t = new Terrain();
+            Terrain t = new Terrain("terrain");
 
-            GameEntityStorrage.Entities.AddItem("terrain", t);
+            GameEntityStorrage.Entities.AddItem(t.EntityID, t);
         }
 
-        private Terrain():base()
+        private Terrain(string ID):base(ID)
         {
             Init(Properties.Resources.TerrainSettings, false);
         }

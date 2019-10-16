@@ -1,0 +1,48 @@
+#version 330 core
+layout (location = 0) in vec4 aPosition;
+layout (location = 1) in vec2 aTexCoord;
+layout (location = 2) in vec3 aNormals;
+layout (location = 3) in vec3 aTangents;
+layout (location = 4) in vec3 aBiTangents;
+
+out vec2 TexCoord;
+out vec3 Normal;
+out vec3 Tangent;
+out vec4 fragPosition;
+out mat3 TBN;
+out mat3 view_;
+
+layout(std140) uniform Camera
+{
+	mat4 camView;
+	mat4 camProjection;
+	vec3 camPosition;
+	vec3 camLookAt;
+	float FOV;
+	float aspect;
+};
+uniform mat4 model;
+
+void  main()
+{	
+    view_  =  mat3(inverse(camView));
+	
+	mat4  camView_model;
+	
+    camView_model  =  camView*model;
+		
+	TexCoord          =  aTexCoord;
+	
+	Tangent           =  normalize(mat3(camView_model)*aTangents);
+	
+ 	Normal            =  normalize(mat3(camView_model)*aNormals);///normalMatrix*aNormals;
+
+	Tangent           =  normalize(Tangent-dot(Tangent,Normal)*Normal);
+
+	TBN               =  mat3(Tangent,cross(Tangent,Normal),Normal);
+	
+	fragPosition      =  camView_model*aPosition;//vec4(aPosition,1);
+
+	gl_Position       =  camProjection*fragPosition;
+
+}

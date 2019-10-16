@@ -1,0 +1,58 @@
+#version 330
+
+layout (location = 0)out vec4 framePosition;
+layout (location = 1)out vec3 frameNormal;
+layout (location = 2)out vec4 frameColor;
+layout (location = 3)out vec3 frameFresnel; 
+
+#include MaterialDefinition;
+
+#include CameraDefinition;
+
+in struct VS_OUT
+{
+	vec2 texcoord;
+	vec3 tangent;
+	vec3 normal;
+	mat3 TBN;
+	vec4 position;
+}vs_out;
+
+
+void main()
+{ 
+
+	vec3 zeros = vec3(0);
+
+	framePosition =  vs_out.position;
+	
+	vec3 reflectDirScreen;
+	
+	vec3 n = getNormal(vs_out.texcoord).rgb;
+	
+	if(n.rgb!=zeros)
+	{
+		frameNormal      =  normalize(vs_out.TBN*n);
+		reflectDirScreen =  normalize(reflect(vs_out.position.xyz,frameNormal));
+	//	reflectDirWord   =  normalize(mat3(viewMatrix)*reflectDirScreen);
+	}
+	else
+	{
+		frameNormal      =  vs_out.normal;
+		reflectDirScreen =  normalize(reflect(vs_out.position.xyz,frameNormal));
+	//	reflectDirWord   =  normalize(mat3(viewMatrix)*reflectDirScreen);
+	}
+ 
+    float r = getSpecular(vs_out.texcoord).r;
+
+    float fresnel;   
+	
+	fresnel = clamp((pow(dot(reflectDirScreen,frameNormal),1.2)),0,1);
+				  
+	fresnel = r >0.1 ? clamp(r,0.1,1) * fresnel:0.1;  
+				  
+	frameColor.rgb =   albedoColor.rgb*fresnel*getDiffuse(vs_out.texcoord).rgb;
+		
+	frameColor.a         =  r;
+	 
+}

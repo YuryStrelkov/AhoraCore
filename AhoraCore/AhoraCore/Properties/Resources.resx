@@ -247,6 +247,20 @@
   <data name="DefferedFinalPassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedFinalPassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
+  
+  <data name="DefferedMaterialFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedMaterial\MaterialFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DefferedMaterialVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Deffered\DefferedMaterial\MaterialVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+
+  <data name="MaterialFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Material\MaterialFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MaterialVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Material\MaterialVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
 
   <data name="SSAOPassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\SSAOPassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>

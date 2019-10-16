@@ -1,0 +1,40 @@
+#version 330 core
+layout (location = 0) in vec4 Position;
+layout (location = 1) in vec2 TexCoord;
+layout (location = 2) in vec3 Normal;
+layout (location = 3) in vec3 Tangent;
+///layout (location = 4) in vec3 biTangent;
+#include TransformDefinition;
+
+#include MaterialDefinition;
+
+#include CameraDefinition;
+
+out struct VS_OUT
+{
+	vec2 texcoord;
+	vec3 tangent;
+	vec3 normal;
+	mat3 TBN;
+	vec4 position;
+}vs_out;
+
+void  main()
+{	
+ 	mat4 ViewTransform  =  viewMatrix*worldTransform*parentTransform;
+		
+	vs_out.texcoord   =  TexCoord;
+	
+	vs_out.tangent    =  normalize(mat3(ViewTransform)*Tangent);
+	
+ 	vs_out.normal     =  normalize(mat3(ViewTransform)*Normal);///normalMatrix*aNormals;
+
+	vs_out.tangent    =  normalize(vs_out.tangent - dot(vs_out.tangent,vs_out.normal)*vs_out.normal);
+
+	vs_out.TBN        =  mat3(vs_out.tangent,cross(vs_out.tangent,vs_out.normal),vs_out.normal);
+	
+	vs_out.position   =  ViewTransform*Position;
+
+	gl_Position       =  projectionMatrix*vs_out.position;
+
+}

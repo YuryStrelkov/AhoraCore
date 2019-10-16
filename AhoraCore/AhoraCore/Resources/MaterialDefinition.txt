@@ -1,4 +1,3 @@
-////Textures
 const int   DiffuseID = 0,
 	    	NormalID = 1,
      		SpecularID = 2,

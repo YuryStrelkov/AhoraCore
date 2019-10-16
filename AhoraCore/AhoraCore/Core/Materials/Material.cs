@@ -1,4 +1,5 @@
-﻿using AhoraCore.Core.Materials.AbstractMaterial;
+﻿using AhoraCore.Core.Buffers;
+using AhoraCore.Core.Materials.AbstractMaterial;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -17,6 +18,7 @@ namespace AhoraCore.Core.Materials
             float[] tmp2 = new float[] { 0, 0 };
             int i = 0;
             string tmpstr = "diffuseMap";
+            materialUniformBuffer.Bind();
             while (reader.TokenType != JsonToken.EndObject)
             {
                 if (reader.Value == null)
@@ -45,7 +47,6 @@ namespace AhoraCore.Core.Materials
                             i++;
                         }
                         i = 0;
-                        materialUniformBuffer.Bind();
                         materialUniformBuffer.UpdateBufferIteam("albedoColor", tmp);
                         reader.Read();
                         break;
@@ -65,7 +66,6 @@ namespace AhoraCore.Core.Materials
                             i++;
                         }
                         i = 0;
-                        materialUniformBuffer.Bind();
                         materialUniformBuffer.UpdateBufferIteam("reflectionColor", tmp);
                         reader.Read();
                         break;
@@ -114,8 +114,7 @@ namespace AhoraCore.Core.Materials
                                         reader.Read(); 
                                         tmp2[1] = float.Parse(reader.Value.ToString());
                                         reader.Read();
-                                        materialUniformBuffer.Bind();
-                                        materialUniformBuffer.UpdateBufferIteam("channel[" + ChannelPerID[tmpstr] + "].tileUV", DefUV);
+                                        materialUniformBuffer.UpdateBufferIteam("channel[" + ChannelPerID[tmpstr] + "].tileUV", tmp2);
                                         break;
 
                                     case "uvShift":
@@ -124,18 +123,14 @@ namespace AhoraCore.Core.Materials
                                         reader.Read(); 
                                         tmp2[1] = float.Parse(reader.Value.ToString());
                                         reader.Read();
-                                        materialUniformBuffer.Bind();
-                                        materialUniformBuffer.UpdateBufferIteam("channel[" + ChannelPerID[tmpstr] + "].offsetUV", DefUV);
+                                        materialUniformBuffer.UpdateBufferIteam("channel[" + ChannelPerID[tmpstr] + "].offsetUV", tmp2);
                                         break;
                                 }
                             }
 
                         }
-
-
-
-
-                        if (reader.TokenType != JsonToken.StartObject)
+                     
+                       if (reader.TokenType != JsonToken.StartObject)
                         {
                             continue;
                         }
@@ -150,12 +145,8 @@ namespace AhoraCore.Core.Materials
                 }
 
             }
+            materialUniformBuffer.Unbind();
             reader.Read();
-
-            materialUniformBuffer.Bind();
-
-            Unbind();   
-
         }
 
 
@@ -169,7 +160,9 @@ namespace AhoraCore.Core.Materials
             ChannelPerID.Add("normalMap", 1);
             ChannelPerID.Add("specularMap", 2);
             ChannelPerID.Add("heightMap", 3);
-            ///
+            ChannelPerID.Add("reflectGlossMap", 4);
+            ChannelPerID.Add("transparencyMap", 5);
+
 
             materialUniformBuffer.addBufferItem("albedoColor", 4);
             materialUniformBuffer.addBufferItem("ambientColor", 4);
@@ -206,6 +199,7 @@ namespace AhoraCore.Core.Materials
                 materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].offsetUV", DefOffs);
                 materialUniformBuffer.UpdateBufferIteam("channel[" + j + "].multRGBA", DefMult);
             }
+            materialUniformBuffer.Unbind();
         }
 
 

@@ -37,7 +37,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             ShaderStorrage.Sahaders.AddItem("AtmosphereShader", new AtmosphereShader());
 
-            Create(3, 1, out vIco, out iIco, out AttributesMask);
+            Create(0, 0, out vIco, out iIco, out AttributesMask);
 
             GeometryStorageManager.Data.AddGeometry(AttributesMask, "SkyDomeModel", vIco, iIco);
             
@@ -51,15 +51,15 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             MaterialStorrage.Materials.GetItem("AtmosphereMaterial").Texture2ChannelAssign("Clouds", "specularMap");
 
-            GameEntity skydome = new GameEntity();
+            GameEntity skydome = new GameEntity("SkyDome");
 
             skydome.AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("SkyDomeModel"));
 
             skydome.AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("AtmosphereMaterial"));
 
             skydome.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("AtmosphereShader"));
-
-            skydome.GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).SetWorldScale(10000, 10000, 10000);
+            
+            skydome.SetWorldScale(10000, 10000, 10000);
 
             GameEntityStorrage.Entities.AddItem("SkyDome", skydome);
         }
@@ -97,7 +97,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
                 AttributesMask = VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS;
             }
 
-            vBufferChache = new FloatBuffer(0);
+            vBufferChache = new FloatBuffer(100);
 
             _middlePointIndexCache = new Dictionary<long, int>();
 
@@ -164,7 +164,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
             {
                 var indecesData2 = new IntegerBuffer();
 
-                for (int k = 0; k < indecesData.Capacity ; k += 3)
+                for (int k = 0; k < indecesData.Fillnes ; k += 3)
                 {
                    /// Console.WriteLine(indecesData2.Capacity);
                     // replace triangle by 4 triangles

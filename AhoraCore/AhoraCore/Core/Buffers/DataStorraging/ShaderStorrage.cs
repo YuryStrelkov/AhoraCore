@@ -16,8 +16,14 @@ namespace AhoraCore.Core.Buffers.DataStorraging
 
         public static void Initilaze()
         {
+            if (shaders!=null)
+            {
+                shaders.DeleteStorrage();
+            }
             shaders = new ShaderStorrage();
             shaders.AddItem("DefaultShader", new DefaultShader());
+            shaders.AddItem("MateralShader", new MaterialShader());
+            shaders.AddItem("AtmosphereShader", new AtmosphereShader());
         }
 
         private ShaderStorrage():base()

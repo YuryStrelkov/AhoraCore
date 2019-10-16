@@ -52,7 +52,7 @@ void EmitGrassLod(mat4 projView, vec4 pos, vec3 centr, float signum)
   
   offset /=length(offset);
   
-  offset = offset*0*size;
+  offset = offset*0.5*size;
 
   vec4 actualPosition;
   
@@ -273,9 +273,9 @@ void main()
 			continue;			
 		}
 		
-		signum*=-1;
+		///signum*=-1;
 		
-		EmitGrassLod(vpm, gl_in[i].gl_Position,trisCentr,signum);
+		EmitGrassLod(vpm, gl_in[i].gl_Position,trisCentr,1);
 	 }
 	 EndPrimitive();
 	

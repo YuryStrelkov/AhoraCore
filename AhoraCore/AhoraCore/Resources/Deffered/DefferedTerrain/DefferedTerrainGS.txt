@@ -45,7 +45,7 @@ void main()
 {
 	vec4 pos;
 	
-	vec3 tangent;
+	vec3 tangent = calcTangent();
 	
 	mat4   vpm = projectionMatrix*viewMatrix;
 		
@@ -57,7 +57,7 @@ void main()
 	
 	if(dist < TBNrange)
 	{
-	    tangent = calcTangent();
+	//    tangent = calcTangent();
 			
 		for(int k = 0 ; k < gl_in.length() ; k++)
 		{

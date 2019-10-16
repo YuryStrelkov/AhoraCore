@@ -44,7 +44,7 @@ namespace AhoraCore.Core.Utils
 
         public void Clear()
         {
-            base.ClearStorrage();
+            ClearStorrage();
             initialOffset = 0;
         }
 

@@ -188,11 +188,11 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public void LoadData(float [] vdata,  int [] idata)
         {
 
-            if (Fillnes != 0)
+            if (IBO.Fillnes != 0)
             {
-                for (int i = 1; i < idata.Length; i++)
+                for (int i = 0; i < idata.Length; i++)
                 {
-                    idata[i] += Fillnes;
+                    idata[i] += IBO.Fillnes;
                 }
             }
             if (vdata.Length > VBO.Capacity - VBO.Fillnes)
@@ -202,9 +202,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
                 Bind();
                 VBO.LoadBufferData(vdata);
                 IBO.LoadBufferData(idata);
-
                 Unbind();
-
 
             }
             else
@@ -245,6 +243,8 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
         private void EnhanceBufferCapsity(int v_cap, int i_cap)
         {
+
+            Console.WriteLine("EnhanceBufferCapsity");
             ArrayBuffer enhanced = new ArrayBuffer();
             enhanced.Create();
             GL.BindVertexArray(enhanced.ID);
@@ -302,7 +302,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public ArrayBuffer() : base()
         {
             Attribytes = new Dictionary<int, AttrAndSize>();
-            Create(20);
+            Create(100000);
         }
 
     }

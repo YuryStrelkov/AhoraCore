@@ -27,7 +27,7 @@ namespace AhoraCore.Core.Cameras
 
         public bool IsUpdated { get; set; }
 
-        public Camera() : base()
+        public Camera(string ID) : base(ID)
         {
             AddComponent(ComponentsTypes.CameraComponent, new CameraComponent());
 
