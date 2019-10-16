@@ -1,0 +1,39 @@
+#version 430 core
+
+layout (local_size_x = 16, local_size_y = 16) in;
+
+layout (binding = 0, rgba16f) uniform writeonly image2D splatMap;
+
+uniform sampler2D normalMap;
+
+uniform int N;
+
+void main(void)
+{
+	
+	ivec2 x = ivec2(gl_GlobalInvocationID.xy);
+	
+	vec2 x_inv = gl_GlobalInvocationID.xy/float(N);
+	
+	vec3 normal = normalize(texture(normalMap, x_inv).rgb);
+	
+	float slopeFactor = normal.z;
+	
+	vec4 blendVals = vec4(0,0,0,0);
+	
+	if(slopeFactor > 0.5 )
+	{
+		blendVals.x = 1.0;
+	}	
+	else if(slopeFactor > 0.35 )
+	{
+	blendVals.y = 1.0;
+	}
+	else
+	{
+	blendVals.z = 1.0;
+	}
+
+	imageStore(splatMap, x, blendVals);
+
+}

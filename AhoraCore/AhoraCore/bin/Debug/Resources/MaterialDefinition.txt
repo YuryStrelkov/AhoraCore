@@ -1,0 +1,72 @@
+const int   DiffuseID = 0,
+	    	NormalID = 1,
+     		SpecularID = 2,
+			HeightID = 3,
+			ReflectGlossID = 4,
+			TransparencyID =5;
+
+struct  channel
+{
+vec2 tileUV;
+vec2 offsetUV;
+vec4 multRGBA;
+};
+
+layout(std140)  uniform MaterialData
+{
+vec4 albedoColor;
+
+vec4 ambientColor;
+
+vec4 reflectionColor;
+
+float reflectivity, metallness, roughness, transparency;
+
+channel[8] matChannels;
+};
+
+uniform sampler2D   diffuseMap;
+uniform sampler2D   normalMap;
+uniform sampler2D   specularMap;
+uniform sampler2D   heightMap;
+uniform sampler2D   reflectGlossMap;
+uniform sampler2D   transparencyMap;
+
+vec4 getFromMap(sampler2D map, vec2 v_TexCoord,int t_channel)
+{
+return	texture(map, (v_TexCoord + matChannels[t_channel].offsetUV)*
+                                   matChannels[t_channel].tileUV);
+}
+
+
+vec3 getNormal( vec2 v_TexCoord)
+{
+	return	normalize(getFromMap(normalMap, v_TexCoord,NormalID).xyz*2.0-1.0).xyz;
+}
+
+vec4 getDiffuse( vec2 v_TexCoord)
+{
+	return (getFromMap(diffuseMap, v_TexCoord, DiffuseID));
+}
+
+vec4 getSpecular( vec2 v_TexCoord)
+{
+	return	(getFromMap(specularMap, v_TexCoord, SpecularID));
+}
+
+
+vec4 getHeight( vec2 v_TexCoord)
+{
+	return	(getFromMap(heightMap, v_TexCoord, HeightID));
+}
+
+
+vec4 getReflectGloss( vec2 v_TexCoord)
+{
+	return	(getFromMap(reflectGlossMap, v_TexCoord, ReflectGlossID));
+}
+
+vec4 getTransparency( vec2 v_TexCoord)
+{
+	return	(getFromMap(transparencyMap, v_TexCoord, TransparencyID));
+}

@@ -1,0 +1,9 @@
+layout(std140, row_major) uniform CameraData
+{
+	mat4 viewMatrix;
+	mat4 projectionMatrix;
+	vec4 [6] frustumPlanes;
+	vec4 cameraPosition;
+	vec4 cameraLookAt;
+};
+ 

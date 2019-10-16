@@ -1,0 +1,40 @@
+const int MAX_TEXTURE_CHANNELS = 6;
+const int MAX_MATERIALS = 3;
+
+const int   DiffuseID = 0,
+	    	NormalID = 1,
+     		SpecularID = 2,
+			HeightID = 3,
+			ReflectGlossID = 4,
+			TransparencyID =5;
+
+struct MaterialSettings
+{
+vec4 scaling;
+
+vec4 albedoColor;
+
+vec4 ambientColor;
+
+vec4 reflectionColor;
+};
+
+
+layout(std140) uniform MaterialData
+{
+MaterialSettings settings[MAX_MATERIALS];
+};
+
+struct Material
+{
+	sampler2D   diffuseMap;
+	sampler2D   normalMap;
+	sampler2D   specularMap;
+	sampler2D   heightMap;
+	sampler2D   reflectGlossMap;
+	sampler2D   transparencyMap;
+} ;
+
+uniform Material materials[MAX_MATERIALS];
+
+

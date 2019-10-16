@@ -1,0 +1,11 @@
+layout(std140) uniform TerrainSettings
+{
+	float ScaleY;
+	float ScaleXZ;
+	float tessellationFactor;
+	float tessellationSlope;
+	float tessellationShift;
+	float TBNrange;
+	vec4 morphAreas0;
+	vec4 morphAreas1;
+};
