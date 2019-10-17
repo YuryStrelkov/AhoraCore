@@ -9,6 +9,15 @@ namespace AhoraCore.Core.Buffers.IBuffres
 
         int bufferFillness=0; //насколько буфер заполнен
 
+        bool binded = false;
+
+        public bool IsBinded
+        {
+            get { return binded; }
+
+            protected set { binded = value; }
+        }
+
         public int Capacity
         {
             get

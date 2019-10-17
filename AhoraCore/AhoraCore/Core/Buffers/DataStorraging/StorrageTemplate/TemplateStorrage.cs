@@ -69,7 +69,7 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
 
         public ValueType GetParent(KeyType ID)
         {
-            return Iteams[Iteams[ID].Parent].Data;
+                return Iteams[Iteams[ID].Parent].Data;
         }
 
         /// <summary>
@@ -79,7 +79,15 @@ namespace AhoraCore.Core.Buffers.DataStorraging.StorrageTemplate
         /// <param name="parentID"></param>
         public void SetNewParent(KeyType ID, KeyType parentID)
         {
-           Iteams[ID].SetParent(parentID);
+            Iteams[Iteams[ID].Parent].RemoveChild(ID);
+
+            Iteams[parentID].AddChild(ID);
+
+            Cell t = Iteams[ID];
+
+            t.SetParent(parentID);
+
+            Iteams[ID] = t;
         }
 
         public void AddItems(Dictionary<KeyType, ValueType> Iteams)

@@ -98,7 +98,12 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// </summary>
         public override void Bind()
         {
+            //if (IsBinded)
+            //{
+            //    return;
+            //}
             GL.BindBuffer(BindingTarget, ID);
+            IsBinded = true;
         }
         /// <summary>
         /// Создаёт буфер
@@ -153,6 +158,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// </summary>
         public override void Unbind()
         {
+            IsBinded = false;
             GL.BindBuffer(BindingTarget, 0);  
         }
         /// <summary>
@@ -161,7 +167,14 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// <param name="bindTarget"></param>
         public override void Bind(BufferTarget bindTarget)
         {
+            //if (IsBinded)
+            //{
+            //    return;
+            //}
+
             GL.BindBuffer(bindTarget, ID);
+
+            IsBinded = true;
         }
     }
 }

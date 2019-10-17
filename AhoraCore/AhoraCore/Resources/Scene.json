@@ -132,9 +132,9 @@
 	{
       "name": "WHEEL",
       "path": "Resources\\WHEEL.obj",
-      "worldPosition": [ -100, 0, 0 ],
+      "worldPosition": [ -120, 0, 0 ],
       "worldRotation": [ 1.5707, 0, 0 ],
-      "worldScale": [ 10, 10, 10],
+      "worldScale": [ 1, 1, 1],
       "material": "DefaultRedMaterial",
       "parent": "root"
     }
