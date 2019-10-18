@@ -45,8 +45,8 @@ namespace AhoraCore.Core.CES.Components
 
         public override void Update()
         {
-         //   Enable();
-       //     UniformBuffer.UpdateBufferIteam("parentTransform", MathUtils.ToArray(GetParent().GetParentTransform()));
+          Enable();
+          UniformBuffer.UpdateBufferIteam("parentTransform", GetParent().GetParentTransform());
         }
 
         private void updateLocal()

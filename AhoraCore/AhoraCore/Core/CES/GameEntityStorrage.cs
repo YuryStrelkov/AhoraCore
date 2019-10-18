@@ -37,9 +37,9 @@ namespace AhoraCore.Core.CES
 
             root.AddComponent(ComponentsTypes.TransformComponent, new TransformComponent());
 
-            root.SetLocalScale(1, 0.1f, 1);
+            root.SetLocalScale(1, 1f, 1);
 
-            root.SetWorldScale(1, 0.1f, 1);
+            root.SetWorldScale(1, 1f, 1);
 
             Entities.AddItem(root.EntityID, root);
         }

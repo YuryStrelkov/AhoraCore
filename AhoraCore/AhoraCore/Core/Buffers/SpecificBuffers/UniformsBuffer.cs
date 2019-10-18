@@ -1,5 +1,7 @@
 ﻿using AhoraCore.Core.Buffers.IBuffres;
 using AhoraCore.Core.Shaders;
+using AhoraCore.Core.Utils;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
@@ -60,6 +62,10 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
             LoadBufferSubdata(data,  bufferItemsMap[bufferItemName].Offset);
         }
 
+        public void UpdateBufferIteam(KeyType bufferItemName, Matrix4 data)
+        {
+            LoadBufferSubdata(MathUtils.ToArray(data), bufferItemsMap[bufferItemName].Offset);
+        }
 
 
         public void UpdateBufferIteam(KeyType bufferItemName, int itemID, float data)

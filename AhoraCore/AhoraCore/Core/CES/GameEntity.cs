@@ -23,7 +23,7 @@ namespace AhoraCore.Core.CES
 
             AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("DefaultMaterial"));
 
-            AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("DefaultModel"));
+            //AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("DefaultModel"));
         }
 
         public Matrix4 GetParentTransform()
