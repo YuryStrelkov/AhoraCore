@@ -7,6 +7,7 @@ using AhoraCore.Core.Materials;
 using AhoraCore.Core.Materials.AbstractMaterial;
 using AhoraCore.Core.Models;
 using Newtonsoft.Json;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -109,7 +110,7 @@ namespace AhoraCore.Core.Scene3D
                         reader.Read();
                         while (reader.TokenType != JsonToken.EndArray)
                         {
-                            tempVec[idx] = float.Parse(reader.Value.ToString());
+                            tempVec[idx] = float.Parse(reader.Value.ToString())/360.0f*MathHelper.TwoPi;
                             reader.Read();
                             idx++;
                         }

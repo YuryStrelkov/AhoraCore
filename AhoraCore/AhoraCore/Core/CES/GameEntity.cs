@@ -2,6 +2,7 @@
 using OpenTK;
 using System.Collections.Generic;
 using AhoraCore.Core.CES.Components;
+using System;
 
 namespace AhoraCore.Core.CES
 {
@@ -24,11 +25,6 @@ namespace AhoraCore.Core.CES
             AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("DefaultMaterial"));
 
             //AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("DefaultModel"));
-        }
-
-        public Matrix4 GetParentTransform()
-        {
-            return GameEntityStorrage.Entities.GetParent(EntityID).GetWorldTransMat();
         }
 
         public void AddComponent(ComponentsTypes Key, AComponent<IGameEntity> component)
@@ -206,6 +202,12 @@ namespace AhoraCore.Core.CES
         {
             return GetWorldTransform().GetWorldTransMat();
 
+        }
+
+
+        public Matrix4 GetParentTransMat()
+        {
+            return GameEntityStorrage.Entities.GetParent(EntityID).GetComponent<TransformComponent>(ComponentsTypes.TransformComponent).ParentTransform;
         }
 
         public Vector3 GetLocalPos()

@@ -13,6 +13,8 @@ namespace AhoraCore.Core.CES.Components
 
         public Transform LocalTransform { get; protected set; }
 
+        public Matrix4  ParentTransform { get; protected set; }
+
         public override void Clear()
         {
             UniformBuffer.Clear();
@@ -46,7 +48,7 @@ namespace AhoraCore.Core.CES.Components
         public override void Update()
         {
           Enable();
-          UniformBuffer.UpdateBufferIteam("parentTransform", GetParent().GetParentTransform());
+          UniformBuffer.UpdateBufferIteam("parentTransform",GetParent().GetParentTransMat());
         }
 
         private void updateLocal()
@@ -58,7 +60,10 @@ namespace AhoraCore.Core.CES.Components
         private void updateWorld()
         {
             Enable();
-            UniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(WorldTransform.GetTransformMat()));
+            UniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(GetWorldTransMat()));
+    ///        Console.WriteLine(" Parent etntity : " + GameEntityStorrage.Entities.GetParent(parent.EntityID).EntityID + "  This entity : " + parent.EntityID);
+            ParentTransform = GetParent().GetParentTransMat() * GetWorldTransMat();
+       //     Console.WriteLine(ParentTransform.ToString());
         }
 
 
@@ -201,6 +206,8 @@ namespace AhoraCore.Core.CES.Components
 
             ConfirmBuffer();
 
+            ParentTransform = Matrix4.Identity;
+
             SetBindigLocation(UniformBindingsLocations.TransformData);
 
             WorldTransform = new Transform(0, 0, 0);
@@ -208,7 +215,7 @@ namespace AhoraCore.Core.CES.Components
             LocalTransform = new Transform(0, 0, 0);
 
             Enable();
-            UniformBuffer.UpdateBufferIteam("parentTransform", MathUtils.ToArray(Matrix4.Identity));
+            UniformBuffer.UpdateBufferIteam("parentTransform",MathUtils.ToArray(Matrix4.Identity));
             UniformBuffer.UpdateBufferIteam("localTransform", MathUtils.ToArray(LocalTransform.GetTransformMat()));
             UniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(WorldTransform.GetTransformMat()));
             Disable();

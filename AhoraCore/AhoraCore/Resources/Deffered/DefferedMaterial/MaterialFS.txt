@@ -47,11 +47,11 @@ void main()
 
     float fresnel;   
 	
-	fresnel = clamp((pow(dot(reflectDirScreen,frameNormal),1.2)),0,1);
+	fresnel = clamp((pow(dot(reflectDirScreen,frameNormal),4.2)),0,1);
 				  
 	fresnel = r >0.1 ? clamp(r,0.1,1) * fresnel:0.1;  
 				  
-	frameColor.rgb =   albedoColor.rgb*fresnel*getDiffuse(vs_out.texcoord).rgb;
+	frameColor.rgb =   albedoColor.rgb*getDiffuse(vs_out.texcoord).rgb;
 		
 	frameColor.a         =  r;
 	 

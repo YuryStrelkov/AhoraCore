@@ -78,7 +78,7 @@
       "textureChannel": [
         {
           "cahnnel": "diffuseMap",
-          "texture": "diffuse_red",
+          "texture": "diffuse_gray",
           "uvScaling": [ 10, 10 ],
           "uvShift": [ 0, 0 ]
         },
@@ -95,7 +95,7 @@
           "uvShift": [ 0, 0 ]
         }
 	  ],
-	  "diffuseColor": [ 0, 0, 1, 1 ],
+	    "diffuseColor": [ 1, 1, 1, 1 ],
       "reflectionColor": [ 1, 1, 0, 1 ],
       
     }
@@ -104,39 +104,39 @@
   "model": [
     {
       "name": "sky_box",
+      "parent": "root",
       "path": "Resources\\sky_box.obj",
-      "worldPosition": [ 0, 0, 0 ],
-      "worldRotation": [ 0, 1.5707, 0 ],
-      "worldScale": [ 1, 1, 1 ],
-      "material": "DefaultRedMaterial",
-      "parent": "root"
+      "worldPosition": [ 0, -10, 0 ],
+      "worldRotation": [ 0, 90, 0 ],
+      "worldScale": [ 4, 4, 4 ],
+      "material": "DefaultRedMaterial"
     },
      {
       "name": "testScene",
+      "parent": "root",
       "path": "Resources\\testScene.obj",
       "worldPosition": [ 100, 0, 0 ],
-      "worldRotation": [ 1.5707, 0, 0 ],
+      "worldRotation": [ 90, 0, 0 ],
       "worldScale": [ 1, 1, 1 ],
-      "material": "DefaultGrayMaterial",
-      "parent": "root"
+      "material": "DefaultGrayMaterial"
     },
 	{
       "name": "sphere",
+      "parent": "testScene",
       "path": "Resources\\sphere.obj",
-      "worldPosition": [ -100, 0, 0 ],
-      "worldRotation": [ 1.5707, 0, 0 ],
+      "worldPosition": [ -1, 0, 0 ],
+      "worldRotation": [ 45, 45, 45 ],
       "worldScale": [ 10, 10, 10],
-      "material": "DefaultRedMaterial",
-      "parent": "root"
+      "material": "DefaultRedMaterial"
     },
 	{
       "name": "WHEEL",
+      "parent": "sphere",
       "path": "Resources\\WHEEL.obj",
-      "worldPosition": [ -120, 0, 0 ],
-      "worldRotation": [ 1.5707, 0, 0 ],
+      "worldPosition": [ -20, 0, 0 ],
+      "worldRotation": [ 90, 0, 0 ],
       "worldScale": [ 1, 1, 1],
-      "material": "DefaultRedMaterial",
-      "parent": "root"
+      "material": "DefaultRedMaterial"
     }
 	
   ]

@@ -1,4 +1,6 @@
 ﻿
+using AhoraCore.Core.CES;
+
 namespace AhoraCore.Core.Cameras
 {
     public class CameraInstance
@@ -28,6 +30,7 @@ namespace AhoraCore.Core.Cameras
             if (camera == null)
             {
                 camera = new Camera("DefaultCamera");
+                GameEntityStorrage.Entities.AddItem("DefaultCamera",camera);
             }
             return camera;
         }

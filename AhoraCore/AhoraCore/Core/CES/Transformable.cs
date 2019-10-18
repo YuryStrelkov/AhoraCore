@@ -6,18 +6,20 @@ using OpenTK;
 
 namespace AhoraCore.Core.CES
 {
-    public class Transformable: ITransformable
+   abstract  class Transformable: ITransformable
     {
         protected Transform WorldTransform;
 
         protected Transform LocalTransform;
+
+        protected Matrix4 ParentTransform;
 
         protected UniformBufferedObject transformUniformBuffer;
 
         public string WorldTransformKey { get; protected set; }
 
         public string LocalTransformKey { get; protected set; }
-
+        /*
         public Transformable( Vector3 worldPos, Vector3 localPos)
         {
             transformUniformBuffer = new UniformBufferedObject();
@@ -36,8 +38,8 @@ namespace AhoraCore.Core.CES
 
             transformUniformBuffer.UpdateBufferIteam(LocalTransformKey, MathUtils.ToArray(LocalTransform.GetTransformMat()));
             transformUniformBuffer.UpdateBufferIteam(WorldTransformKey, MathUtils.ToArray(WorldTransform.GetTransformMat()));
-        }
-
+        }*/
+        /*
         public Transformable(string prefix, Vector3 worldPos, Vector3 localPos)
         {
             transformUniformBuffer = new UniformBufferedObject();
@@ -64,7 +66,9 @@ namespace AhoraCore.Core.CES
             transformUniformBuffer.UpdateBufferIteam(LocalTransformKey, MathUtils.ToArray(LocalTransform.GetTransformMat()));
             transformUniformBuffer.UpdateBufferIteam(WorldTransformKey, MathUtils.ToArray(WorldTransform.GetTransformMat()));
         }
+        */
 
+            /*
         public Transformable(string prefix)
         {
             transformUniformBuffer = new UniformBufferedObject();
@@ -91,7 +95,7 @@ namespace AhoraCore.Core.CES
             transformUniformBuffer.UpdateBufferIteam(LocalTransformKey, MathUtils.ToArray(LocalTransform.GetTransformMat()));
             transformUniformBuffer.UpdateBufferIteam(WorldTransformKey, MathUtils.ToArray(WorldTransform.GetTransformMat()));
         }
-
+        */
         public Transformable()
         {
             transformUniformBuffer = new UniformBufferedObject();
@@ -240,5 +244,7 @@ namespace AhoraCore.Core.CES
         {
             return LocalTransform.Rotation;
         }
+
+        public abstract Matrix4 GetParentTransMat();
     }
 }

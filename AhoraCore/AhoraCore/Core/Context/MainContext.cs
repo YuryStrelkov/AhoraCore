@@ -95,6 +95,8 @@ namespace AhoraCore.Core.Context
 
             GameEntity skydome = new GameEntity("SkyDome");
 
+            GameEntityStorrage.Entities.AddItem(skydome.EntityID, skydome);
+
             skydome.AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("skySphere"));
 
             skydome.AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("AtmosphereMaterial"));
@@ -104,8 +106,7 @@ namespace AhoraCore.Core.Context
             skydome.SetWorldScale(25000, 25000, 25000);
 
             skydome.SetWorldRotation(3.1415f, 0,0);
-
-            GameEntityStorrage.Entities.AddItem(skydome.EntityID, skydome);
+            
 
 
 

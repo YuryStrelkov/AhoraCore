@@ -35,13 +35,14 @@ namespace AhoraCore.Core.CES
 
             GameEntity root = new GameEntity("root");
 
+            Entities.AddItem(root.EntityID, root);
+
             root.AddComponent(ComponentsTypes.TransformComponent, new TransformComponent());
 
             root.SetLocalScale(1, 1f, 1);
 
             root.SetWorldScale(1, 1f, 1);
 
-            Entities.AddItem(root.EntityID, root);
         }
 
         public static GameEntityStorrage Entities

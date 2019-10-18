@@ -26,7 +26,10 @@ namespace AhoraCore.Core.CES.ICES
         void SetWorldRotation(Vector3 rotation);
 
         Matrix4 GetLocalTransMat();
+
         Matrix4 GetWorldTransMat();
+
+        Matrix4 GetParentTransMat();
 
         Vector3 GetLocalPos();
         Vector3 GetWorldPos();
