@@ -206,7 +206,7 @@ namespace AhoraCore.Core.Materials
             h = 0;
             try
             {
-                ///    Console.WriteLine(filename);
+                ///    Console.WriteLine(filename); 
                 Bitmap textureBitmap = new Bitmap(filename);
                 w = textureBitmap.Width;
                 h = textureBitmap.Height;
@@ -219,7 +219,7 @@ namespace AhoraCore.Core.Materials
             }
             catch (FileNotFoundException e)
             {
-                Console.WriteLine(e.StackTrace);
+                Console.WriteLine("Something goes wrong with texture " + filename);
                 return -1;
             }
         }

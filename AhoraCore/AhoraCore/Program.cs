@@ -43,7 +43,7 @@ namespace AhoraCore
 
            ///  Icosphere.CreateSkyDome(2);
 
-             Terrain.CreateTerrain();
+             ///Terrain.CreateTerrain();
 
              MainContext.RunContext();
 
