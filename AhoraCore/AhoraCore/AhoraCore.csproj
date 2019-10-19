@@ -406,7 +406,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\aWhite.jpg" />
+    <None Include="Resources\textures\aWhite.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GUI\Fonts\Arial.png">
@@ -444,178 +446,294 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\blue.jpg" />
+    <None Include="Resources\textures\blue.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\checker.jpg" />
+    <None Include="Resources\textures\checker.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\checkerboard.jpg" />
+    <None Include="Resources\textures\checkerboard.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\cty1.jpg" />
+    <None Include="Resources\textures\cty1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\cty2x.jpg" />
+    <None Include="Resources\textures\cty2x.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\diffuseMap.png" />
+    <None Include="Resources\textures\diffuseMap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\drone_diffuse.png" />
+    <None Include="Resources\textures\drone_diffuse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\drone_normal.png" />
+    <None Include="Resources\textures\drone_normal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\drone_specular.png" />
+    <None Include="Resources\textures\drone_specular.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\gBlack.jpg" />
+    <None Include="Resources\textures\gBlack.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\gBlue.jpg" />
+    <None Include="Resources\textures\gBlue.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\gGreen.jpg" />
+    <None Include="Resources\textures\gGreen.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\gGrey.jpg" />
+    <None Include="Resources\textures\gGrey.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\grass.png" />
+    <None Include="Resources\textures\grass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\gRed.jpg" />
+    <None Include="Resources\textures\gRed.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\green.jpg" />
+    <None Include="Resources\textures\green.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\gWhite.jpg" />
+    <None Include="Resources\textures\gWhite.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\gYellow.jpg" />
+    <None Include="Resources\textures\gYellow.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\H_M_01.jpg" />
+    <None Include="Resources\textures\H_M_01.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\height.jpg" />
+    <None Include="Resources\textures\height.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\heightMap.png" />
+    <None Include="Resources\textures\heightMap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\normal.jpg" />
+    <None Include="Resources\textures\normal.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\normal_1.jpg" />
+    <None Include="Resources\textures\normal_1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\normal_2.jpg" />
+    <None Include="Resources\textures\normal_2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\normalMap.png" />
+    <None Include="Resources\textures\normalMap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\planeTexture.jpg" />
+    <None Include="Resources\textures\planeTexture.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\planeTextureSpec.jpg" />
+    <None Include="Resources\textures\planeTextureSpec.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\propeller.jpg" />
+    <None Include="Resources\textures\propeller.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\red.jpg" />
+    <None Include="Resources\textures\red.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\scratchmap-normalmap.jpg" />
+    <None Include="Resources\textures\scratchmap-normalmap.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\scratchmap-reflect.jpg" />
+    <None Include="Resources\textures\scratchmap-reflect.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\Sky.jpg" />
+    <None Include="Resources\textures\Sky.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\view.jpg" />
+    <None Include="Resources\textures\view.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\zdanie.jpg" />
+    <None Include="Resources\textures\zdanie.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\grass0_DIF.jpg" />
+    <None Include="Resources\textures\terrain\grass0_DIF.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\grass0_DISP.jpg" />
+    <None Include="Resources\textures\terrain\grass0_DISP.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\grass0_NRM.jpg" />
+    <None Include="Resources\textures\terrain\grass0_NRM.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_11_DIF.jpg" />
+    <None Include="Resources\textures\terrain\Ground_11_DIF.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_11_DISP.jpg" />
+    <None Include="Resources\textures\terrain\Ground_11_DISP.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_11_NRM.jpg" />
+    <None Include="Resources\textures\terrain\Ground_11_NRM.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_17_DIF.jpg" />
+    <None Include="Resources\textures\terrain\Ground_17_DIF.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_17_DISP.jpg" />
+    <None Include="Resources\textures\terrain\Ground_17_DISP.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_17_NRM.jpg" />
+    <None Include="Resources\textures\terrain\Ground_17_NRM.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_21_DIF.jpg" />
+    <None Include="Resources\textures\terrain\Ground_21_DIF.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_21_DISP.jpg" />
+    <None Include="Resources\textures\terrain\Ground_21_DISP.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\terrain\Ground_21_NRM.jpg" />
+    <None Include="Resources\textures\terrain\Ground_21_NRM.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\sun\sun.png" />
+    <None Include="Resources\textures\sun\sun.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\sun\sun_small.png" />
+    <None Include="Resources\textures\sun\sun_small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex01.png" />
+    <None Include="Resources\textures\lens_flare\tex01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex1.png" />
+    <None Include="Resources\textures\lens_flare\tex1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex2.png" />
+    <None Include="Resources\textures\lens_flare\tex2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex3.png" />
+    <None Include="Resources\textures\lens_flare\tex3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex4.png" />
+    <None Include="Resources\textures\lens_flare\tex4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex5.png" />
+    <None Include="Resources\textures\lens_flare\tex5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex6.png" />
+    <None Include="Resources\textures\lens_flare\tex6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex7.png" />
+    <None Include="Resources\textures\lens_flare\tex7.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex8.png" />
+    <None Include="Resources\textures\lens_flare\tex8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\textures\lens_flare\tex9.png" />
+    <None Include="Resources\textures\lens_flare\tex9.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

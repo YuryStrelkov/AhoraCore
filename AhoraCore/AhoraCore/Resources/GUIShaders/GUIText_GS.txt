@@ -4,7 +4,7 @@ uniform float Aspect;
 
 layout(points)in;
 
-layout(triangle_strip, max_vertices = 512 )out;
+layout(triangle_strip, max_vertices = 64 )out;
 
 in	vec4 position[];
 
