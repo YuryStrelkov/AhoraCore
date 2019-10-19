@@ -302,8 +302,14 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         public ArrayBuffer() : base()
         {
             Attribytes = new Dictionary<int, AttrAndSize>();
-            Create(100000);
+            Create(10);
         }
 
+
+        public ArrayBuffer(int cap) : base()
+        {
+            Attribytes = new Dictionary<int, AttrAndSize>();
+            Create(cap);
+        }
     }
 }

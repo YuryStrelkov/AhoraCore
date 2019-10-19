@@ -1,15 +1,12 @@
 ﻿using AhoraCore.Core.Buffers.DataStorraging;
-using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.Components;
-using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Materials;
 using AhoraCore.Core.Materials.AbstractMaterial;
 using AhoraCore.Core.Models;
 using Newtonsoft.Json;
 using OpenTK;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace AhoraCore.Core.Scene3D
@@ -39,7 +36,53 @@ namespace AhoraCore.Core.Scene3D
             }
         }
 
-        private static void ReadModel(JsonTextReader reader)
+        private static void ReadGeometry(JsonTextReader reader)
+        {
+            reader.Read();
+
+            string name = "";
+
+            if (reader.TokenType == JsonToken.StartArray)
+            {
+                while (reader.TokenType != JsonToken.EndArray)
+                {
+           
+
+                    while (reader.TokenType != JsonToken.EndObject)
+                    {
+                        if (reader.Value == null)
+                        {
+                            reader.Read();
+                            continue;
+                        }
+                        switch (reader.Value.ToString())
+                        {
+                            case "name":
+                                reader.Read();
+                                name = reader.Value.ToString();
+                                reader.Read();
+                                break;
+                            case "path":
+                                reader.Read();
+                                if (name!="")
+                                {
+                                    ModelLoader.LoadMesh(name, reader.Value.ToString());
+                                    reader.Read();
+                                    break;
+                                }
+
+                                ModelLoader.LoadAllMeshes(reader.Value.ToString());
+                                reader.Read();
+                                break;
+                        }
+                    }
+                    reader.Read();
+                    name = "";
+                }
+            }
+        }
+
+        private static void ReadGameEntity(JsonTextReader reader)
         {
 
             GameEntity model ;
@@ -49,12 +92,6 @@ namespace AhoraCore.Core.Scene3D
             int idx = 0;
             
             float[] tempVec = new float[3] { 0, 0, 0 };
-
-            Dictionary<int,List<string>> AttribsMasks;
-
-            ///F/oatBuffer[] Models;
-
-            ///IntegerBuffer[] ModelsIndeces;
 
             while (reader.TokenType != JsonToken.EndObject)
             {
@@ -75,12 +112,12 @@ namespace AhoraCore.Core.Scene3D
                         reader.Read();
                     break;
 
-                    case "path":
+                    case "geometry":
                         reader.Read();
 
-                        ModelLoader.LoadSceneModels(reader.Value.ToString());
+                      ///  ModelLoader.LoadAllMeshes(reader.Value.ToString());
 
-                        GameEntityStorrage.Entities.GetItem(entityID).AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent(entityID));
+                        GameEntityStorrage.Entities.GetItem(entityID).AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent(reader.Value.ToString()));
 
                         reader.Read();
                         break;
@@ -147,6 +184,7 @@ namespace AhoraCore.Core.Scene3D
                         GameEntityStorrage.Entities.SetNewParent(entityID, reader.Value.ToString());
                         reader.Read();
                         break;
+                    default: reader.Read();break;
                 }
               ///  reader.Read();
             }
@@ -193,18 +231,21 @@ namespace AhoraCore.Core.Scene3D
                             }
                         }
                         break;
-                       case "model":
-                        {
+                    case "geometry":
+                        ReadGeometry(reader); ///reader.Read();
+                        break;
+                    case "gameEntity":
+                 
                          reader.Read();
                             if (reader.TokenType == JsonToken.StartArray)
                             {
                                 while (reader.TokenType != JsonToken.EndArray)
                                 {
-                                    ReadModel(reader);
+                                    ReadGameEntity(reader);
                                 }
 
                             } 
-                        }
+                       
                         break; 
                 }
 

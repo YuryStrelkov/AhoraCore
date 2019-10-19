@@ -1,0 +1,22 @@
+#version 330 
+
+out vec4 color;
+
+uniform sampler2D texture1;
+
+uniform sampler2D texture2;
+
+uniform sampler2D TextSamplerTex;
+
+#include CharactersData;
+
+in vec2 UV;
+
+void main()
+{
+if(texture(TextSamplerTex, UV).a<0.5)
+{
+discard;
+}
+	color = vec4(0,0,0,texture(TextSamplerTex, UV).a);
+}

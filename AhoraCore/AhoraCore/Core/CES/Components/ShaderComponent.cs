@@ -51,7 +51,6 @@ namespace AhoraCore.Core.CES.Components
         public override void Render()
         {
             Shader.Bind();
-            Shader.UpdateUniforms();
             Cameras.CameraInstance.Get().Bind(Shader);
         }
 

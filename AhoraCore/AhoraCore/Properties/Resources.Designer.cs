@@ -61,6 +61,26 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] Arial {
+            get {
+                object obj = ResourceManager.GetObject("Arial", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Arial1 {
+            get {
+                object obj = ResourceManager.GetObject("Arial1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на layout(std140, row_major) uniform CameraData
         ///{
         ///	mat4 viewMatrix;
@@ -74,6 +94,36 @@ namespace AhoraCore.Properties {
         internal static string CameraDefinition {
             get {
                 return ResourceManager.GetString("CameraDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на const int CharacterSetCap = 50;
+        ///
+        ///const int ViewingCharacterCap = 256;
+        ///
+        ///layout(std140) uniform CharactersData
+        ///{
+        ///vec2[CharacterSetCap] Advance;
+        ///vec2[CharacterSetCap] Offset;
+        ///vec2[CharacterSetCap] UVSize;
+        ///vec2[CharacterSetCap] UVPosition;
+        ///};
+        ///
+        ///layout(std140) uniform Characters
+        ///{
+        ///	int rows;
+        ///	int coloms;
+        ///	int fillnes;
+        ///	int[ViewingCharacterCap] symbols;
+        ///};
+        ///
+        ///uniform sampler2D TextSamplerTex;
+        ///.
+        /// </summary>
+        internal static string CharactersData {
+            get {
+                return ResourceManager.GetString("CharactersData", resourceCulture);
             }
         }
         
@@ -176,7 +226,6 @@ namespace AhoraCore.Properties {
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330
-        ///
         ///layout (location = 0)out vec4 gPosition;//++
         ///layout (location = 1)out vec3 gNormal;//+
         ///layout (location = 2)out vec4 gColor;//+
@@ -203,7 +252,7 @@ namespace AhoraCore.Properties {
         ///	
         ///	if(color.a&lt;0.5)
         ///	{
-        ///		d [остаток строки не уместился]&quot;;.
+        ///		dis [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedGrassFS {
             get {
@@ -359,7 +408,8 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///   Ищет локализованную строку, похожую на #version 330
+        ///
         ///layout (location = 0)out vec4 framePosition;
         ///layout (location = 1)out vec3 frameNormal;
         ///layout (location = 2)out vec4 frameColor;
@@ -381,14 +431,14 @@ namespace AhoraCore.Properties {
         ///
         ///void main()
         ///{ 
-        ///	discard;
+        ///
         ///	vec3 zeros = vec3(0);
         ///
         ///	framePosition =  vs_out.position;
         ///	
         ///	vec3 reflectDirScreen;
         ///	
-        ///	vec3 n = getNorm [остаток строки не уместился]&quot;;.
+        ///	vec3 n = getNormal(vs_out.te [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedMaterialFS {
             get {
@@ -402,7 +452,7 @@ namespace AhoraCore.Properties {
         ///layout (location = 1) in vec2 TexCoord;
         ///layout (location = 2) in vec3 Normal;
         ///layout (location = 3) in vec3 Tangent;
-        ///
+        //////layout (location = 4) in vec3 biTangent;
         ///#include TransformDefinition;
         ///
         ///#include MaterialDefinition;
@@ -420,11 +470,7 @@ namespace AhoraCore.Properties {
         ///
         ///void  main()
         ///{	
-        /// 	mat4 ViewTransform  =  viewMatrix*worldTransform;
-        ///		
-        ///	vs_out.texcoord   =  TexCoord;
-        ///	
-        ///	vs_out.tange [остаток строки не уместился]&quot;;.
+        /// 	mat4 ViewTransform  =  viewMatrix*worldTransform*parentTransf [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedMaterialVS {
             get {
@@ -709,13 +755,33 @@ namespace AhoraCore.Properties {
         ///
         ///void main(void){
         ///
-        ///	out_Color = vec4(v_Colour*texture(diffuseMap,v_TexCoord).xyz+albedoColor.xyz*getNormal(v_TexCoord),1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
+        ///	out_Color = vec4(0,0,0,1);///vec4(v_Colour*texture(defTexture,v_TexCoord).xyz,1);///texture(modelTexture,pass_textureCoordinates);
         ///
         ///}.
         /// </summary>
         internal static string FSdefault {
             get {
                 return ResourceManager.GetString("FSdefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] GOST {
+            get {
+                object obj = ResourceManager.GetObject("GOST", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GOST1 {
+            get {
+                object obj = ResourceManager.GetObject("GOST1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -889,6 +955,167 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 
+        ///out vec4 color;
+        ///
+        ///uniform sampler2D texture1;
+        ///
+        ///uniform sampler2D texture2;
+        ///
+        ///in vec2 UV;
+        ///
+        ///void main()
+        ///{
+        ///	color = vec4(texture(texture1, UV).rgb,1);
+        ///}.
+        /// </summary>
+        internal static string GUI_FS {
+            get {
+                return ResourceManager.GetString("GUI_FS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///uniform float Aspect;
+        ///
+        ///layout(points)in;
+        ///
+        ///layout(triangle_strip, max_vertices = 4 )out;
+        ///
+        ///in	vec4 position[];
+        ///
+        ///out vec2 UV;
+        ///
+        ///#include TransformDefinition;
+        ///
+        ///void emitQuad(mat4 transform,vec4 pos,vec2 UV_LU, vec2 UV_RB,vec2 UV_shift, float width, float height)
+        ///{
+        ///	vec2 LU = UV_LU + UV_shift;
+        ///	
+        ///	vec2 RD = UV_RB + UV_shift;
+        ///	
+        ///	float w = width/Aspect/2;
+        ///	
+        ///	float h = height/2;
+        ///	
+        ///	UV = vec2(LU.x,LU.y);
+        ///	
+        ///	gl_Position = transform*(vec4(-w,h,0,0) + pos);
+        ///	
+        ///	EmitVertex();	
+        ///	// [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string GUI_GS {
+            get {
+                return ResourceManager.GetString("GUI_GS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///
+        ///layout (location = 0) in vec3 Position;
+        ///
+        ///out	vec4 position;
+        ///
+        ///void main()
+        ///{
+        ///   position = vec4(Position,1);	
+        ///   
+        ///   gl_Position =  position;
+        ///}
+        ///.
+        /// </summary>
+        internal static string GUI_VS {
+            get {
+                return ResourceManager.GetString("GUI_VS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 
+        ///out vec4 color;
+        ///
+        ///uniform sampler2D texture1;
+        ///
+        ///uniform sampler2D texture2;
+        ///
+        ///#include CharactersData;
+        ///
+        ///in vec2 UV;
+        ///
+        ///void main()
+        ///{
+        ///	color = vec4(texture(TextSamplerTex, UV).rgb,1);
+        ///}.
+        /// </summary>
+        internal static string GUIText_FS {
+            get {
+                return ResourceManager.GetString("GUIText_FS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 430
+        ///
+        ///uniform float Aspect;
+        ///
+        ///layout(points)in;
+        ///
+        ///layout(triangle_strip, max_vertices = 4 )out;
+        ///
+        ///in	vec4 position[];
+        ///
+        ///out vec2 UV;
+        ///
+        ///#include TransformDefinition;
+        ///
+        ///#include CharactersData;
+        ///
+        ///void emitQuad(mat4 transform,vec4 pos,vec2 UV_LU, vec2 UV_RB,vec2 UV_shift, float width, float height)
+        ///{
+        ///	vec2 LU = UV_LU + UV_shift;
+        ///	
+        ///	vec2 RD = UV_RB + UV_shift;
+        ///	
+        ///	float w = width/Aspect/2;
+        ///	
+        ///	float h = height/2;
+        ///	
+        ///	UV = vec2(LU.x,LU.y);
+        ///	
+        ///	gl_Position = transform*(vec4(-w,h,0,0) + po [остаток строки не уместился]&quot;;.
+        /// </summary>
+        internal static string GUIText_GS {
+            get {
+                return ResourceManager.GetString("GUIText_GS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на #version 330 core
+        ///
+        ///layout (location = 0) in vec3 Position;
+        ///
+        ///out	vec4 position;
+        ///
+        ///void main()
+        ///{
+        ///   position = vec4(Position,1);	
+        ///   
+        ///   gl_Position =  position;
+        ///}
+        ///.
+        /// </summary>
+        internal static string GUIText_VS {
+            get {
+                return ResourceManager.GetString("GUIText_VS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap hm0 {
@@ -914,6 +1141,56 @@ namespace AhoraCore.Properties {
         internal static System.Drawing.Bitmap hm2 {
             get {
                 object obj = ResourceManager.GetObject("hm2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ISO {
+            get {
+                object obj = ResourceManager.GetObject("ISO", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] ISOCTEUR {
+            get {
+                object obj = ResourceManager.GetObject("ISOCTEUR", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ISOCTEUR1 {
+            get {
+                object obj = ResourceManager.GetObject("ISOCTEUR1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] Magneto {
+            get {
+                object obj = ResourceManager.GetObject("Magneto", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Magneto1 {
+            get {
+                object obj = ResourceManager.GetObject("Magneto1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1023,6 +1300,26 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] Mesquite_Std {
+            get {
+                object obj = ResourceManager.GetObject("Mesquite_Std", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Mesquite_Std1 {
+            get {
+                object obj = ResourceManager.GetObject("Mesquite_Std1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 430 core
         ///
         ///layout (local_size_x = 16, local_size_y = 16) in;
@@ -1056,8 +1353,28 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] OCR_A_BT {
+            get {
+                object obj = ResourceManager.GetObject("OCR_A_BT", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OCR_A_BT1 {
+            get {
+                object obj = ResourceManager.GetObject("OCR_A_BT1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на {
-        ///  &quot;texture&quot;: [
+        /// &quot;texture&quot;: [
         ///    {
         ///      &quot;type&quot;: &quot;texture2D&quot;,
         ///      &quot;name&quot;: &quot;diffuse_gray&quot;,
@@ -1078,7 +1395,7 @@ namespace AhoraCore.Properties {
         ///      &quot;name&quot;: &quot;diffuse_red&quot;,
         ///      &quot;path&quot;: &quot;Resources\\Textures\\gRed.jpg&quot;
         ///    },
-        ///  [остаток строки не уместился]&quot;;.
+        ///   [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string Scene {
             get {
@@ -1533,6 +1850,7 @@ namespace AhoraCore.Properties {
         /// <summary>
         ///   Ищет локализованную строку, похожую на layout(std140) uniform TransformData
         ///{
+        ///mat4 parentTransform;
         ///mat4 localTransform;
         ///mat4 worldTransform;
         ///};.

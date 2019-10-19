@@ -1,5 +1,6 @@
 ﻿using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.Context;
+using AhoraCore.Core.GUI;
 using AhoraCore.Core.Models.ProceduralModels;
 using AhoraCore.Core.Scene3D;
 using System;
@@ -39,11 +40,13 @@ namespace AhoraCore
 
              MainContext.UseDefferedRenderer();
 
+            ///GUICreator.CreateUIpannel("root","UI_ID", "root", "root");
+
+            //GUICreator.CreateUItext("root","UI_ID",2,2,"ABCD");
+
              SceneLoader.LoadScene(Properties.Resources.Scene);
 
-           ///  Icosphere.CreateSkyDome(2);
-
-             ///Terrain.CreateTerrain();
+             Terrain.CreateTerrain();
 
              MainContext.RunContext();
 

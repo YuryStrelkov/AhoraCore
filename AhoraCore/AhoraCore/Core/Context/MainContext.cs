@@ -57,7 +57,7 @@ namespace AhoraCore.Core.Context
 
         public static void InitMainContext()
         {
-         
+
             FrameDisplay = new DisplayDevice(1900, 1000);
 
             UseForwardRenderer();
@@ -72,16 +72,17 @@ namespace AhoraCore.Core.Context
 
             GameEntityStorrage.Initialize();
 
-            GeometryStorageManager.Data.AddGeometry(VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS , "Canvas",
+            GeometryStorageManager.Data.AddGeometry(VericesAttribytes.V_POSITION | VericesAttribytes.V_UVS, "Canvas",
                                                                                 new float[]{-1,  1, 0, 0, 1,
                                                                                             -1, -1, 0, 0, 0,
                                                                                              1,  1, 0, 1, 1,
                                                                                              1, -1, 0, 1, 0},
                                                                                   new int[] { 0, 1, 2, 2, 1, 3 });
 
- 
 
-            ModelLoader.LoadSceneModels("Resources\\skySphere.obj");
+            GeometryStorageManager.Data.AddGeometry(VericesAttribytes.V_POSITION, 1, "Point3D", new float[] { 0, 0, 0 });
+            
+            ModelLoader.LoadMesh("skySphere", "Resources\\skySphere.obj");
 
             MaterialStorrage.Materials.AddItem("AtmosphereMaterial", new Materials.Material());
 

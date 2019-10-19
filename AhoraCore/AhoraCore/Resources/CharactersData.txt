@@ -1,0 +1,21 @@
+const int CharacterSetCap = 50;
+
+const int ViewingCharacterCap = 256;
+
+layout(std140) uniform CharactersData
+{
+vec2[CharacterSetCap] Advance;
+vec2[CharacterSetCap] Offset;
+vec2[CharacterSetCap] UVSize;
+vec2[CharacterSetCap] UVPosition;
+};
+
+layout(std140) uniform Characters
+{
+	float rows;
+	float coloms;
+	float fillnes;
+	float capacity;
+	float[ViewingCharacterCap] symbols;
+};
+

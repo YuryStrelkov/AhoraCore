@@ -205,7 +205,7 @@
   <data name="GrassTE" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Grass\GrassTE.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-    <data name="DefferedGrassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="DefferedGrassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedGrass\DefferedGrassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
   <data name="DefferedGrassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -247,26 +247,82 @@
   <data name="DefferedFinalPassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedFinalPassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-  
   <data name="DefferedMaterialFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedMaterial\MaterialFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
   <data name="DefferedMaterialVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\DefferedMaterial\MaterialVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-
   <data name="MaterialFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Material\MaterialFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
   <data name="MaterialVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Material\MaterialVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-
   <data name="SSAOPassFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\SSAOPassFS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
   <data name="SSAOPassVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Deffered\SSAOPassVS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-
+  <data name="GUI_FS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUIShaders\GUI_FS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GUI_GS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUIShaders\GUI_GS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GUI_VS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUIShaders\GUI_VS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CharactersData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CharactersData.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GUIText_FS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUIShaders\GUIText_FS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GUIText_GS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUIShaders\GUIText_GS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GUIText_VS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUIShaders\GUIText_VS.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="Arial" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\Arial.fnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Arial1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\Arial.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GOST" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\GOST.fnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="GOST1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\GOST.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ISO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\ISO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ISOCTEUR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\ISOCTEUR.fnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ISOCTEUR1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\ISOCTEUR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Magneto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\Magneto.fnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Magneto1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\Magneto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Mesquite_Std" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\Mesquite_Std.fnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Mesquite_Std1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\Mesquite_Std.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OCR_A_BT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\OCR_A_BT.fnt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="OCR_A_BT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GUI\Fonts\OCR_A_BT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

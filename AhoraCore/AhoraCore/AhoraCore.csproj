@@ -118,6 +118,13 @@
     <Compile Include="Core\Buffers\IBuffers\IAttribyteable.cs" />
     <Compile Include="Core\Buffers\IBuffers\IDataStorrage.cs" />
     <Compile Include="Core\DataManaging\AManager.cs" />
+    <Compile Include="Core\GUI\CharSets\Character.cs" />
+    <Compile Include="Core\GUI\CharSets\CharactesSet.cs" />
+    <Compile Include="Core\GUI\GUIComponent.cs" />
+    <Compile Include="Core\GUI\GUICreator.cs" />
+    <Compile Include="Core\GUI\IGUIComponent.cs" />
+    <Compile Include="Core\GUI\UIElemets\GUIText.cs" />
+    <Compile Include="Core\GUI\UIElemets\UIPannel.cs" />
     <Compile Include="Core\Input\KeysInput.cs" />
     <Compile Include="Core\Input\MouseInput.cs" />
     <Compile Include="Core\Materials\AbstractMaterial\AMaterial.cs" />
@@ -156,6 +163,8 @@
     <Compile Include="Core\Shaders\AtmosphereShader.cs" />
     <Compile Include="Core\Shaders\DefaultShader.cs" />
     <Compile Include="Core\Shaders\DefferedFinalStepShdr.cs" />
+    <Compile Include="Core\Shaders\GUIShader.cs" />
+    <Compile Include="Core\Shaders\GUITextShader.cs" />
     <Compile Include="Core\Shaders\MaterialShader.cs" />
     <Compile Include="Core\Shaders\SSAOShader.cs" />
     <Compile Include="Core\Shaders\StaticShader.cs" />
@@ -196,6 +205,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FSdefault.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\GUI\Fonts\Arial.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\GUI\Fonts\GOST.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\GUI\Fonts\ISOCTEUR.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\GUI\Fonts\Magneto.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\GUI\Fonts\Mesquite_Std.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\GUI\Fonts\OCR_A_BT.fnt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Scene.json">
@@ -344,6 +371,75 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CharactersData.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUIShaders\GUI_FS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUIShaders\GUI_GS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUIShaders\GUI_VS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUIShaders\GUIText_FS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUIShaders\GUIText_GS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUIShaders\GUIText_VS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\GUI\Fonts\Arial.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUI\Fonts\GOST.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUI\Fonts\ISO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUI\Fonts\ISOCTEUR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUI\Fonts\Magneto.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUI\Fonts\Mesquite_Std.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GUI\Fonts\OCR_A_BT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

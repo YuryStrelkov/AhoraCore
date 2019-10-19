@@ -16,5 +16,5 @@ void main()
 	
 	out_Color.rgb       =  mix(1.75*color.rgb,skyColor,0.5);
 					     
-    out_Color.a         =  color.r;
+    out_Color.a         =  0;
 }

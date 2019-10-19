@@ -10,6 +10,24 @@ using System.Text.RegularExpressions;
 
 namespace AhoraCore.Core.Shaders
 {
+    public static class  ShaderUniforms
+    {
+        public static string Camera = "CameraData";
+        public static string Transform = "TransformData";
+        public static string Material = "MaterialData";
+        /*
+                     AddUniformBlock("CameraData");
+            AddUniformBlock("MaterialData");
+            AddUniformBlock("TransformData");
+
+            AddUniform("diffuseMap");
+            AddUniform("normalMap");
+            AddUniform("specularMap");
+            AddUniform("heightMap");
+            AddUniform("reflectGlossMap");
+            AddUniform("transparencyMap");
+         */
+    }
 
     public abstract class AShader: ABindableObject<ShaderType>
     {
@@ -236,13 +254,21 @@ namespace AhoraCore.Core.Shaders
 
             code = includes.Replace(code, Properties.Resources.TerrainDefinition);
 
+
+            ///CharactersData;
             includes = new Regex(@"\w*#include TerrainMaterialData;\w*");
 
             code = includes.Replace(code, Properties.Resources.TerrainMaterialDefinition);
 
+
+            includes = new Regex(@"\w*#include CharactersData;\w*");
+
+            code = includes.Replace(code, Properties.Resources.CharactersData);
+
+
             //Console.Clear();
 
-             //Console.Write(code);
+            //Console.Write(code);
 
             shaderPrograms.Add(type, LoadShader(code, type));
       }
@@ -272,13 +298,13 @@ namespace AhoraCore.Core.Shaders
 
             return programID;
         }
-
+            
         public void SetUniformBlock(string uniformBlockName, UniformsBuffer<string> block)
         {
-            /*if (!uniforms.ContainsKey(uniformBlockName))
+            if (!uniforms.ContainsKey(uniformBlockName))
             {
                 return;
-            }*/
+            } 
             block.Bind();
             GL.Uniform1(uniforms[uniformBlockName], block.Buff_binding_Point);
             GL.UniformBlockBinding(ShaderID, uniforms[uniformBlockName], block.Buff_binding_Point);

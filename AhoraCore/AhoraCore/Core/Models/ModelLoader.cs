@@ -184,7 +184,7 @@ namespace AhoraCore.Core.Models
             }
         }
 
-        static void LoadAllMeshes(Scene scn, out Dictionary<int, List<string>> names, out Dictionary<int, List<float[]>> vertices, out Dictionary<int, List<int[]>> indeces)
+       private static void LoadAllMeshes(Scene scn, out Dictionary<int, List<string>> names, out Dictionary<int, List<float[]>> vertices, out Dictionary<int, List<int[]>> indeces)
         {
 
             names = new Dictionary<int, List<string>>();
@@ -199,17 +199,18 @@ namespace AhoraCore.Core.Models
 
             int mask = -1;
 
+            string name;
+
             foreach (Mesh m in scn.Meshes)
             {
-                tmp_v = ReadMeshVertices(out mask, m);
 
-                tmp_i = ReadMeshIndeces(m);
+                LoadMesh(m, out name, out mask, out tmp_v, out tmp_i);
 
                 if (names.ContainsKey(mask))
                 {
                     indeces[mask].Add(tmp_i);
                     vertices[mask].Add(tmp_v);
-                    names[mask].Add(m.Name);
+                    names[mask].Add(name);
 
                     continue;
                 }
@@ -218,13 +219,65 @@ namespace AhoraCore.Core.Models
                 vertices.Add(mask, new List<float[]>());
                 names.Add(mask, new List<string>());
 
-                names[mask].Add(m.Name);
+                names[mask].Add(name);
                 indeces[mask].Add(tmp_i);
                 vertices[mask].Add(tmp_v);
             }
         }
 
-        public static void LoadSceneModels(string fileName)
+
+        private static void LoadMesh(Mesh m, out string name, out int attrMask, out float[] vertices, out int[] indeces)
+        {
+            vertices = ReadMeshVertices(out attrMask, m);
+
+            indeces = ReadMeshIndeces(m);
+
+            name = m.Name;
+       }
+        /// <summary>
+        /// Используется, когда в конфиге явно указано имя модели. Не обращает внимание на имя модели внутри файла. Загружает первый меш из этого файла
+        /// </summary>
+        /// <param name="meshName"></param>
+        /// <param name="fileName"></param>
+        public static void LoadMesh(string meshName, string fileName)
+        {
+            AssimpContext importer = new AssimpContext();
+
+            importer.SetConfig(new NormalSmoothingAngleConfig(66.666f));
+            Scene scn = null;
+            try
+            {
+                scn = importer.ImportFile(fileName, PostProcessSteps.Triangulate |
+                                                        PostProcessSteps.CalculateTangentSpace |
+                                                        PostProcessSteps.FlipUVs |
+                                                        PostProcessSteps.LimitBoneWeights);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine("Unnable to open or found file : " + fileName);
+            }
+
+
+            int[] indeces;
+
+            float[] vertices;
+
+            int attrMask = -1;
+
+            string name;
+
+            if (scn != null)
+            {
+                LoadMesh(scn.Meshes[0], out name, out attrMask, out vertices, out indeces);
+                GeometryStorageManager.Data.AddGeometry(attrMask, meshName, vertices, indeces);
+            }
+        }
+        /// <summary>
+        /// Загружает все меши внутри сцены. Использует их имена внутри файла
+        /// </summary>
+        /// <param name="fileName"></param>
+       public static void LoadAllMeshes(string fileName)
         {
             AssimpContext importer = new AssimpContext();
 
@@ -260,7 +313,6 @@ namespace AhoraCore.Core.Models
                 }
 
             }
-           
         }
 
 

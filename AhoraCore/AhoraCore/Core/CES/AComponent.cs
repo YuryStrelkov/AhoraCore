@@ -17,7 +17,8 @@ namespace AhoraCore.Core.CES
         TerrainComponent = 7,
         TerrainSettings = 8,
         TerrainFloraShader = 9,
-        TerrainShader=10
+        TerrainShader=10,
+        GUIComponent = 11
     }
 
     public abstract class AComponent<ParentType> : UniformBufferedObject,  IBehavoir/// where ParentType : IGameEntity

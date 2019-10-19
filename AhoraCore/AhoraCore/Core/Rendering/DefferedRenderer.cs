@@ -20,7 +20,6 @@ namespace AhoraCore.Core.Rendering
 
             Passes.Add("SSAOPass", new SSAOPass(this, MainContext.ScreenWidth, MainContext.ScreenHeight));
 
-       //     Passes.Add("SSAO", new GeometryRenderPass(this, MainContext.ScreenWidth, MainContext.ScreenHeight));
        //     Passes.Add("SSLR", new GeometryRenderPass(this, MainContext.ScreenWidth, MainContext.ScreenHeight));
         }
 
@@ -36,7 +35,6 @@ namespace AhoraCore.Core.Rendering
 
             CameraInstance.Get().Bind(displayShader);
 
-            //  getRenderPassBuffer("GeometryPass").UseColAttachAsTex(0, "PositionBuffer", "Positions", displayShader) ;
             getRenderPassBuffer("GeometryPass").UseColAttachAsTex(0, "PositionBuffer", "Positions", displayShader);
             getRenderPassBuffer("GeometryPass").UseColAttachAsTex(1, "NormalBuffer", "Normals", displayShader);
             getRenderPassBuffer("GeometryPass").UseColAttachAsTex(2, "ColorBuffer", "Colors", displayShader);
@@ -59,14 +57,14 @@ namespace AhoraCore.Core.Rendering
 
         public override void Render()
         {
-            BeforeRender();
-          
-              foreach (string key in Passes.Keys)
-            {
-                Passes[key].Render();
-            }
+              BeforeRender();
 
-            AfterRender();
+                 foreach (string key in Passes.Keys)
+               {
+                   Passes[key].Render();
+               }
+
+               AfterRender(); 
         }
     }
 }

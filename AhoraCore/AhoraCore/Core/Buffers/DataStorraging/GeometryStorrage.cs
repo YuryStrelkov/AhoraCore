@@ -17,7 +17,7 @@ namespace AhoraCore.Core.Buffers
     /// </summary>
     public class GeometryStorrage : ArrayBuffer, IDataStorrage<string>, IGeometryDataStorrage<string>, IRedreable<string>
     {
-        private delegate void renderMethod(string ID);
+        public delegate void RenderMethod(string ID);
 
         private string lastKey;
 
@@ -27,7 +27,7 @@ namespace AhoraCore.Core.Buffers
 
         private IndexedList<string> FacesIndeces;
 
-        private Dictionary<string, renderMethod> RenderMethods;
+        private Dictionary<string, RenderMethod> RenderMethods;
 
         private Dictionary<string, InstanceBuffer> GeometryItemsInstansesList;
 
@@ -39,15 +39,23 @@ namespace AhoraCore.Core.Buffers
             }
         }
 
-        public void AddItem(string key, float[] vData)
+        public void AddItem(string key, int vertiesNumber, float[] vData)
         {
             lastKey = key;
             VerticesIndeces.Add(key, vData.Length);
             RenderMethods.Add(key, (ID) =>
             {
-                GL.DrawArrays(PrimitiveType.Patches, 0 , 32);
+                GL.DrawArrays(PrimitiveType.Triangles, 0 , vertiesNumber);
             }
            );
+            LoadData(vData);
+        }
+
+        public void AddItem(string key, float[] vData, RenderMethod renderer)
+        {
+            lastKey = key;
+            VerticesIndeces.Add(key, vData.Length);
+            RenderMethods.Add(key, renderer);
             LoadData(vData);
         }
 
@@ -214,7 +222,7 @@ namespace AhoraCore.Core.Buffers
             FacesIndeces = new IndexedList<string>();
             VerticesIndeces = new IndexedList<string>();
             GeometryItemsInstansesList = new Dictionary<string, InstanceBuffer>();
-            RenderMethods = new Dictionary<string, renderMethod>();
+            RenderMethods = new Dictionary<string, RenderMethod>();
         }
 
     }

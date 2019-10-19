@@ -1,7 +1,9 @@
 ﻿using AhoraCore.Core.Buffers;
+using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.StandartBuffers;
 using AhoraCore.Core.Models;
 using AhoraProject.Ahora.Core.IRender;
+using OpenTK.Graphics.OpenGL;
 using System;
 
 namespace AhoraCore.Core.DataManaging
@@ -15,7 +17,7 @@ namespace AhoraCore.Core.DataManaging
         public static void Initialize()
         {
             geometryData = new GeometryStorageManager();
-            ModelLoader.LoadSceneModels("Resources\\defaultModel.obj");
+            ModelLoader.LoadMesh("defaultModel", "Resources\\defaultModel.obj");
         }
 
         private GeometryStorageManager() : base()
@@ -29,17 +31,25 @@ namespace AhoraCore.Core.DataManaging
         }
 
 
-        public void AddGeometry(int attibutesFormat, string geoID, float[] vData)
+        public void AddGeometry(int attibutesFormat, int vertiscesNumber, string geoID, float[] vData)
         {
             AppendData(geoID, attibutesFormat);
-            managingData[attibutesFormat].AddItem(geoID, vData);
+
+            if (VericesAttribytes.V_POSITION == attibutesFormat)
+            {
+                managingData[attibutesFormat].AddItem(geoID, vData, (ID) => {
+                    GL.DrawArrays(PrimitiveType.Points, 0, vertiscesNumber);
+                });
+                return;
+            }
+            managingData[attibutesFormat].AddItem(geoID, vertiscesNumber, vData);
         }
 
 
-        public void AddGeometry(int attibutesFormat, string geoID, FloatBuffer vData)
+        public void AddGeometry(int attibutesFormat, string geoID, int vertiscesNumber, FloatBuffer vData)
         {
             AppendData(geoID, attibutesFormat);
-            managingData[attibutesFormat].AddItem(geoID, vData.ToArray());
+            managingData[attibutesFormat].AddItem(geoID, vertiscesNumber, vData.ToArray());
         }
 
 

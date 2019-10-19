@@ -1,5 +1,5 @@
 ﻿{
-  "texture": [
+ "texture": [
     {
       "type": "texture2D",
       "name": "diffuse_gray",
@@ -46,9 +46,8 @@
       "path": "Resources\\Textures\\normal_2.jpg"
     }
   ],
-  
-  "mateial": [
-    {
+ "mateial": [
+   {
       "name": "DefaultGrayMaterial",
       "textureChannel": [
         {
@@ -73,12 +72,12 @@
       "diffuseColor": [ 1, 1, 1, 1 ],
       "reflectionColor": [ 1, 0, 0, 1 ]
     },
-    {
+   {
       "name": "DefaultRedMaterial",
       "textureChannel": [
         {
           "cahnnel": "diffuseMap",
-          "texture": "diffuse_gray",
+          "texture": "diffuse_green",
           "uvScaling": [ 10, 10 ],
           "uvShift": [ 0, 0 ]
         },
@@ -100,42 +99,73 @@
       
     }
   ],
- 
-  "model": [
+ "geometry": [
+ {
+ "name":"camera",
+ "path":"Resources\\camera.obj"
+ },
+ {
+ "name":"box",
+ "path":"Resources\\sky_box.obj"
+ },
+ {
+ "name":"testScene",
+ "path":"Resources\\testScene.obj"
+ },
+ {
+ "name":"sphere",
+ "path":"Resources\\sphere.obj"
+ },
+ {
+ "name":"Wheel",
+ "path":"Resources\\WHEEL.obj"
+ }
+ ],
+ "gameEntity": [
     {
       "name": "sky_box",
       "parent": "root",
-      "path": "Resources\\sky_box.obj",
       "worldPosition": [ 0, -10, 0 ],
       "worldRotation": [ 0, 90, 0 ],
       "worldScale": [ 4, 4, 4 ],
+      "geometry": "box",
       "material": "DefaultRedMaterial"
     },
-     {
+    {
       "name": "testScene",
       "parent": "root",
-      "path": "Resources\\testScene.obj",
       "worldPosition": [ 100, 0, 0 ],
       "worldRotation": [ 90, 0, 0 ],
       "worldScale": [ 1, 1, 1 ],
+	  "geometry": "testScene",
       "material": "DefaultGrayMaterial"
     },
 	{
       "name": "sphere",
       "parent": "testScene",
-      "path": "Resources\\sphere.obj",
       "worldPosition": [ -1, 0, 0 ],
       "worldRotation": [ 45, 45, 45 ],
       "worldScale": [ 10, 10, 10],
+      "geometry": "sphere",
       "material": "DefaultRedMaterial"
     },
 	{
       "name": "WHEEL",
       "parent": "sphere",
-      "path": "Resources\\WHEEL.obj",
       "worldPosition": [ -20, 0, 0 ],
       "worldRotation": [ 90, 0, 0 ],
       "worldScale": [ 1, 1, 1],
+	  "geometry": "Wheel",
+      "material": "DefaultRedMaterial"
+    },
+	{
+      "name": "camera",
+      "parent": "root",
+      "worldPosition": [ -20, 20, 20 ],
+      "worldRotation": [ 0, 0, 0 ],
+      "worldScale": [ 1, 1, 1],
+	  "geometry": "camera",
+	  "cameraComponent": true,
       "material": "DefaultRedMaterial"
     }
 	

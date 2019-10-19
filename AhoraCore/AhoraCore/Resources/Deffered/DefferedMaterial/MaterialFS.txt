@@ -53,6 +53,6 @@ void main()
 				  
 	frameColor.rgb =   albedoColor.rgb*getDiffuse(vs_out.texcoord).rgb;
 		
-	frameColor.a         =  r;
+	frameColor.a         =  1;
 	 
 }

@@ -23,6 +23,9 @@ namespace AhoraCore.Core.Models.ProceduralModels
             Terrain t = new Terrain("terrain");
 
             GameEntityStorrage.Entities.AddItem(t.EntityID, t);
+
+            t.AddComponent(ComponentsTypes.NodeComponent, new TerrainQuadTree(t, t.configuration));
+
         }
 
         private Terrain(string ID):base(ID)
@@ -43,14 +46,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
         {
             configuration = new TerrainConfig();
 
-            //if (fromfile)
-            //{
-                configuration.LoadConfigFromFile(config);
-            //}
-            //else
-            //{
-            //    configuration.LoadConfigFromString(config);
-            //}
+            configuration.LoadConfigFromFile(config);
 
             ShaderStorrage.Sahaders.AddItem("TerrainShader", new TerrainShader());
 
@@ -61,7 +57,6 @@ namespace AhoraCore.Core.Models.ProceduralModels
             AddComponent(ComponentsTypes.TerrainShader, new ShaderComponent("TerrainShader"));
             AddComponent(ComponentsTypes.TerrainFloraShader, new ShaderComponent("TerrainGrassShader"));
             AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("TerrainMaterial"));
-            AddComponent(ComponentsTypes.NodeComponent, new TerrainQuadTree(this, configuration));
             RemoveComponent(ComponentsTypes.GeometryComponent);
          }
 

@@ -24,6 +24,9 @@ namespace AhoraCore.Core.Buffers.DataStorraging
             shaders.AddItem("DefaultShader", new DefaultShader());
             shaders.AddItem("MateralShader", new MaterialShader());
             shaders.AddItem("AtmosphereShader", new AtmosphereShader());
+            shaders.AddItem("GUIShader",new GUIShader());//GUITextShader()
+            shaders.AddItem("GUITextShader", new GUITextShader());
+
         }
 
         private ShaderStorrage():base()

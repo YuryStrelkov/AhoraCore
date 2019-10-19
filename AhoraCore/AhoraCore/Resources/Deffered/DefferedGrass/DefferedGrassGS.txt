@@ -254,21 +254,27 @@ void main()
 	 {
 		trisCentr+=gl_in[i].gl_Position.xyz;
 	 }
-	 trisCentr/= gl_in.length();
+	  trisCentr/= gl_in.length();
 	 
-	float signum = -1;
+  	  float signum = -1;
 	
 	   for (int i = 0; i < gl_in.length();++i)
 	 {
+		
+		dist = distance(cameraPosition.xyz,gl_in[i].gl_Position.xyz);
+
+		if(!clipInCameraSpace(gl_in[i].gl_Position)&&dist>10)
+		 {
+			 continue;
+		 }
+		 
 		 if(texture(blendMap,mapCoord_GS[i]).r < 0.5)
 		{
 			continue;
 		} 
 		
-		dist = distance(cameraPosition.xyz,gl_in[i].gl_Position.xyz);
 		
-
-		if(dist > ScaleXZ/8)
+		if(dist > ScaleXZ/4)
 		{
 			continue;			
 		}

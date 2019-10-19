@@ -9,7 +9,7 @@ namespace AhoraCore.Core.DataManaging
         protected Dictionary<uniqKeyType, ManagingBy> uniqueKeysList;
 
         public abstract void AppendData(uniqKeyType dataKey, ManagingBy managingBy);
-
+        
         public abstract void RemoveData(uniqKeyType dataKey);
 
         public abstract void ClearManager();
