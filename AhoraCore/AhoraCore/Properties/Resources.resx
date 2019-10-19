@@ -325,4 +325,181 @@
   <data name="OCR_A_BT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GUI\Fonts\OCR_A_BT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="aWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\aWhite.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\blue.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="checker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\checker.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="checkerboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\checkerboard.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cty1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\cty1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cty2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\cty2x.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="diffuseMap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\diffuseMap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="drone_diffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\drone_diffuse.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="drone_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\drone_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="drone_specular" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\drone_specular.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\gBlack.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\gBlue.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\gGreen.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gGrey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\gGrey.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="grass0_DIF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\grass0_DIF.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="grass0_DISP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\grass0_DISP.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="grass0_NRM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\grass0_NRM.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="grass1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\grass.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\gRed.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\green.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_11_DIF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_11_DIF.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_11_DISP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_11_DISP.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_11_NRM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_11_NRM.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_17_DIF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_17_DIF.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_17_DISP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_17_DISP.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_17_NRM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_17_NRM.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_21_DIF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_21_DIF.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_21_DISP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_21_DISP.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ground_21_NRM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\terrain\Ground_21_NRM.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\gWhite.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gYellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\gYellow.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="height" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\height.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heightMap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\heightMap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="H_M_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\H_M_01.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\normal.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="normalMap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\normalMap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="normal_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\normal_1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="normal_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\normal_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="planeTexture" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\planeTexture.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="planeTextureSpec" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\planeTextureSpec.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="propeller" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\propeller.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\red.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="scratchmap_normalmap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\scratchmap-normalmap.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="scratchmap_reflect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\scratchmap-reflect.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Sky" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\Sky.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sun" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\sun\sun.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sun_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\sun\sun_small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tex9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\lens_flare\tex9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="view" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\view.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zdanie" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\textures\zdanie.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

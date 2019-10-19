@@ -81,6 +81,26 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap aWhite {
+            get {
+                object obj = ResourceManager.GetObject("aWhite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap blue {
+            get {
+                object obj = ResourceManager.GetObject("blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на layout(std140, row_major) uniform CameraData
         ///{
         ///	mat4 viewMatrix;
@@ -89,7 +109,17 @@ namespace AhoraCore.Properties {
         ///	vec4 cameraPosition;
         ///	vec4 cameraLookAt;
         ///};
-        /// .
+        ///
+        ///bool clipInCameraSpace( vec4 point)
+        ///{
+        ///        for (   int i = 0; i &lt; 6; i++)
+        ///            {
+        ///                if (frustumPlanes[i].x * point.x + frustumPlanes[i].y * point.y + frustumPlanes[i].z * point.z + frustumPlanes[i].w &lt;= 0)
+        ///                {
+        ///                    return false;
+        ///                }
+        ///            }
+        ///            return tr [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string CameraDefinition {
             get {
@@ -112,18 +142,38 @@ namespace AhoraCore.Properties {
         ///
         ///layout(std140) uniform Characters
         ///{
-        ///	int rows;
-        ///	int coloms;
-        ///	int fillnes;
-        ///	int[ViewingCharacterCap] symbols;
+        ///	float rows;
+        ///	float coloms;
+        ///	float fillnes;
+        ///	float capacity;
+        ///	float[ViewingCharacterCap] symbols;
         ///};
         ///
-        ///uniform sampler2D TextSamplerTex;
         ///.
         /// </summary>
         internal static string CharactersData {
             get {
                 return ResourceManager.GetString("CharactersData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap checker {
+            get {
+                object obj = ResourceManager.GetObject("checker", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap checkerboard {
+            get {
+                object obj = ResourceManager.GetObject("checkerboard", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -153,6 +203,26 @@ namespace AhoraCore.Properties {
         internal static System.Drawing.Bitmap Clouds1 {
             get {
                 object obj = ResourceManager.GetObject("Clouds1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cty1 {
+            get {
+                object obj = ResourceManager.GetObject("cty1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cty2x {
+            get {
+                object obj = ResourceManager.GetObject("cty2x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -319,22 +389,25 @@ namespace AhoraCore.Properties {
         ///
         ///const int DA=1;
         ///
+        ///uniform int lod;
+        ///
+        ///
+        ///
         ///void main()
         ///{
         ///	if (gl_InvocationID == 0)
         ///	{
-        ///		gl_TessLevelOuter[AB] = 6;
-        ///		gl_TessLevelOuter[BC] = 6;
-        ///		gl_TessLevelOuter[CD] = 6;
-        ///		gl_TessLevelOuter[DA] = 6; 
+        ///		gl_TessLevelOuter[AB] = 12 - sqrt(lod*1.0)*2;
+        ///		gl_TessLevelOuter[BC] = 12 - sqrt(lod*1.0)*2;
         ///
-        ///		gl_TessLevelInner[0] = 10;
-        ///		gl_TessLevelInner[1] = 10;
-        ///	}	
-        ///	
-        ///	mapCoord_TE[gl_InvocationID] = mapCoord_TC[gl_InvocationID];
-        ///	
-        ///	gl_out[gl_InvocationID].gl_Posi [остаток строки не уместился]&quot;;.
+        ///		gl_TessLevelOuter[CD] = 12 - sqrt(lod*1.0)*2;
+        ///
+        ///		gl_TessLevelOuter[DA] =12 - sqrt(lod*1.0)*2;
+        ///
+        ///
+        ///		gl_TessLevelInner[0] = 16 - sqrt(lod*1.0)*2;
+        ///
+        ///		gl_TessLev [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string DefferedGrassTC {
             get {
@@ -741,6 +814,46 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap diffuseMap {
+            get {
+                object obj = ResourceManager.GetObject("diffuseMap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap drone_diffuse {
+            get {
+                object obj = ResourceManager.GetObject("drone_diffuse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap drone_normal {
+            get {
+                object obj = ResourceManager.GetObject("drone_normal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap drone_specular {
+            get {
+                object obj = ResourceManager.GetObject("drone_specular", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 430
         ///
         ///out vec4 out_Color;
@@ -762,6 +875,46 @@ namespace AhoraCore.Properties {
         internal static string FSdefault {
             get {
                 return ResourceManager.GetString("FSdefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gBlack {
+            get {
+                object obj = ResourceManager.GetObject("gBlack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gBlue {
+            get {
+                object obj = ResourceManager.GetObject("gBlue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gGreen {
+            get {
+                object obj = ResourceManager.GetObject("gGreen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gGrey {
+            get {
+                object obj = ResourceManager.GetObject("gGrey", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -791,6 +944,46 @@ namespace AhoraCore.Properties {
         internal static System.Drawing.Bitmap grass {
             get {
                 object obj = ResourceManager.GetObject("grass", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap grass0_DIF {
+            get {
+                object obj = ResourceManager.GetObject("grass0_DIF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap grass0_DISP {
+            get {
+                object obj = ResourceManager.GetObject("grass0_DISP", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap grass0_NRM {
+            get {
+                object obj = ResourceManager.GetObject("grass0_NRM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap grass1 {
+            get {
+                object obj = ResourceManager.GetObject("grass1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -955,6 +1148,116 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gRed {
+            get {
+                object obj = ResourceManager.GetObject("gRed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap green {
+            get {
+                object obj = ResourceManager.GetObject("green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_11_DIF {
+            get {
+                object obj = ResourceManager.GetObject("Ground_11_DIF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_11_DISP {
+            get {
+                object obj = ResourceManager.GetObject("Ground_11_DISP", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_11_NRM {
+            get {
+                object obj = ResourceManager.GetObject("Ground_11_NRM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_17_DIF {
+            get {
+                object obj = ResourceManager.GetObject("Ground_17_DIF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_17_DISP {
+            get {
+                object obj = ResourceManager.GetObject("Ground_17_DISP", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_17_NRM {
+            get {
+                object obj = ResourceManager.GetObject("Ground_17_NRM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_21_DIF {
+            get {
+                object obj = ResourceManager.GetObject("Ground_21_DIF", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_21_DISP {
+            get {
+                object obj = ResourceManager.GetObject("Ground_21_DISP", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ground_21_NRM {
+            get {
+                object obj = ResourceManager.GetObject("Ground_21_NRM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330 
         ///out vec4 color;
         ///
@@ -1036,11 +1339,14 @@ namespace AhoraCore.Properties {
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330 
+        ///
         ///out vec4 color;
         ///
         ///uniform sampler2D texture1;
         ///
         ///uniform sampler2D texture2;
+        ///
+        ///uniform sampler2D TextSamplerTex;
         ///
         ///#include CharactersData;
         ///
@@ -1048,7 +1354,11 @@ namespace AhoraCore.Properties {
         ///
         ///void main()
         ///{
-        ///	color = vec4(texture(TextSamplerTex, UV).rgb,1);
+        ///if(texture(TextSamplerTex, UV).a&lt;0.5)
+        ///{
+        ///discard;
+        ///}
+        ///	color = vec4(0,0,0,texture(TextSamplerTex, UV).a);
         ///}.
         /// </summary>
         internal static string GUIText_FS {
@@ -1064,7 +1374,7 @@ namespace AhoraCore.Properties {
         ///
         ///layout(points)in;
         ///
-        ///layout(triangle_strip, max_vertices = 4 )out;
+        ///layout(triangle_strip, max_vertices = 512 )out;
         ///
         ///in	vec4 position[];
         ///
@@ -1086,7 +1396,7 @@ namespace AhoraCore.Properties {
         ///	
         ///	UV = vec2(LU.x,LU.y);
         ///	
-        ///	gl_Position = transform*(vec4(-w,h,0,0) + po [остаток строки не уместился]&quot;;.
+        ///	gl_Position = transform*(vec4(-w,h,0,0) +  [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string GUIText_GS {
             get {
@@ -1112,6 +1422,56 @@ namespace AhoraCore.Properties {
         internal static string GUIText_VS {
             get {
                 return ResourceManager.GetString("GUIText_VS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gWhite {
+            get {
+                object obj = ResourceManager.GetObject("gWhite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gYellow {
+            get {
+                object obj = ResourceManager.GetObject("gYellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap H_M_01 {
+            get {
+                object obj = ResourceManager.GetObject("H_M_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap height {
+            get {
+                object obj = ResourceManager.GetObject("height", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap heightMap {
+            get {
+                object obj = ResourceManager.GetObject("heightMap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1320,6 +1680,46 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap normal {
+            get {
+                object obj = ResourceManager.GetObject("normal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap normal_1 {
+            get {
+                object obj = ResourceManager.GetObject("normal_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap normal_2 {
+            get {
+                object obj = ResourceManager.GetObject("normal_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap normalMap {
+            get {
+                object obj = ResourceManager.GetObject("normalMap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 430 core
         ///
         ///layout (local_size_x = 16, local_size_y = 16) in;
@@ -1373,6 +1773,46 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap planeTexture {
+            get {
+                object obj = ResourceManager.GetObject("planeTexture", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap planeTextureSpec {
+            get {
+                object obj = ResourceManager.GetObject("planeTextureSpec", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap propeller {
+            get {
+                object obj = ResourceManager.GetObject("propeller", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap red {
+            get {
+                object obj = ResourceManager.GetObject("red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на {
         /// &quot;texture&quot;: [
         ///    {
@@ -1404,6 +1844,36 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap scratchmap_normalmap {
+            get {
+                object obj = ResourceManager.GetObject("scratchmap_normalmap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap scratchmap_reflect {
+            get {
+                object obj = ResourceManager.GetObject("scratchmap_reflect", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sky {
+            get {
+                object obj = ResourceManager.GetObject("Sky", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на #version 330 core
         ///
         ///#include MaterialDefinition;
@@ -1422,7 +1892,7 @@ namespace AhoraCore.Properties {
         ///	
         ///	out_Color.rgb       =  mix(1.75*color.rgb,skyColor,0.5);
         ///					     
-        ///    out_Color.a         =  color.r;
+        ///    out_Color.a         =  0;
         ///}.
         /// </summary>
         internal static string SkyDomeFS {
@@ -1552,6 +2022,26 @@ namespace AhoraCore.Properties {
         internal static string SSAOPassVS {
             get {
                 return ResourceManager.GetString("SSAOPassVS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sun {
+            get {
+                object obj = ResourceManager.GetObject("sun", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sun_small {
+            get {
+                object obj = ResourceManager.GetObject("sun_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1848,6 +2338,106 @@ namespace AhoraCore.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex01 {
+            get {
+                object obj = ResourceManager.GetObject("tex01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex1 {
+            get {
+                object obj = ResourceManager.GetObject("tex1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex2 {
+            get {
+                object obj = ResourceManager.GetObject("tex2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex3 {
+            get {
+                object obj = ResourceManager.GetObject("tex3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex4 {
+            get {
+                object obj = ResourceManager.GetObject("tex4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex5 {
+            get {
+                object obj = ResourceManager.GetObject("tex5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex6 {
+            get {
+                object obj = ResourceManager.GetObject("tex6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex7 {
+            get {
+                object obj = ResourceManager.GetObject("tex7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex8 {
+            get {
+                object obj = ResourceManager.GetObject("tex8", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tex9 {
+            get {
+                object obj = ResourceManager.GetObject("tex9", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на layout(std140) uniform TransformData
         ///{
         ///mat4 parentTransform;
@@ -1858,6 +2448,16 @@ namespace AhoraCore.Properties {
         internal static string TransformDefinition {
             get {
                 return ResourceManager.GetString("TransformDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap view {
+            get {
+                object obj = ResourceManager.GetObject("view", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1891,6 +2491,16 @@ namespace AhoraCore.Properties {
         internal static string VSdefault {
             get {
                 return ResourceManager.GetString("VSdefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap zdanie {
+            get {
+                object obj = ResourceManager.GetObject("zdanie", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
