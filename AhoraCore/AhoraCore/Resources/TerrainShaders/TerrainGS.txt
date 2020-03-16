@@ -8,8 +8,8 @@
 
 layout(triangles) in;
 
-layout( triangle_strip, max_vertices = 3 )out;
-//layout( line_strip, max_vertices = 3 )out;
+///layout( triangle_strip, max_vertices = 3 )out;
+layout( line_strip, max_vertices = 3 )out;
 out vec2 mapCoord_FS;
 
 out vec3 position_FS;

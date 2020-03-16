@@ -19,4 +19,16 @@ bool clipInCameraSpace( vec4 point)
             return true;
  }
 
+ bool clipInCameraSpace( vec4 point, float r)
+{
+        for (   int i = 0; i < 6; i++)
+            {
+                if (frustumPlanes[i].x * point.x + frustumPlanes[i].y * point.y + frustumPlanes[i].z * point.z + frustumPlanes[i].w <= r)
+                {
+                    return false;
+                }
+            }
+            return true;
+ }
+
  
