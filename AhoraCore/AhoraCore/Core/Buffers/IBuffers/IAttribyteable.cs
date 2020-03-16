@@ -15,8 +15,9 @@
 
         public interface IAttribyteable
         {
-             void EnableAttribytes();
+            void EnableAttribytes();
             void DisableAttribytes();
-
-        }
+            void MarkBufferAttributePointer( int attrType, int attribID, int sampleSize, int from);
+            void MarkBufferAttributePointers(int VericesAttribytesMap);
+    }
 }

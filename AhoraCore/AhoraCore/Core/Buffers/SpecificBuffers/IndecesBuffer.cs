@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AhoraCore.Core.Buffers.SpecificBuffers
 {
-    public class IndecesBuffer: EditableBuffer<int, IndecesBuffer>
+    public class IndecesBuffer: EditableBuffer<int>
     {
         public IndecesBuffer() : base()
         {

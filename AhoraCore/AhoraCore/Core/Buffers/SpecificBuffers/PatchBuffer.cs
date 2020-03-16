@@ -1,4 +1,5 @@
-﻿using AhoraCore.Core.Buffers.IBuffers;
+﻿using System;
+using AhoraCore.Core.Buffers.IBuffers;
 using AhoraCore.Core.Buffers.IBuffres;
 using AhoraCore.Core.Buffers.SpecificBuffers;
 using OpenTK.Graphics.OpenGL;
@@ -70,8 +71,7 @@ namespace AhoraCore.Core.Buffers
             GL.BindVertexArray(ID);
             VBO = new VerticesBuffer();
             VBO.Create(data);
-            GL.VertexAttribPointer(0, VarsPerVertex, VertexAttribPointerType.Float, false, VarsPerVertex * sizeof(float), 0);
-            GL.PatchParameter(PatchParameterInt.PatchVertices, VerticesNumber);
+            MarkBufferAttributePointers(0);
             GL.BindVertexArray(0);
             VBO.Unbind();
         }
@@ -111,6 +111,17 @@ namespace AhoraCore.Core.Buffers
             GL.DrawArrays(PrimitiveType.Patches, 0, VerticesNumber);
             DisableAttribytes();
             GL.BindVertexArray(0);
+        }
+
+        public void MarkBufferAttributePointer(int attrType, int attribID, int sampleSize, int from)
+        {
+            GL.VertexAttribPointer(attribID, VarsPerVertex, VertexAttribPointerType.Float, false, sampleSize * sizeof(float), from);
+            GL.PatchParameter(PatchParameterInt.PatchVertices, VerticesNumber);
+        }
+
+        public void MarkBufferAttributePointers(int VericesAttribytesMap)
+        {
+            MarkBufferAttributePointer(0, 0, VarsPerVertex, 0);
         }
     }
 }

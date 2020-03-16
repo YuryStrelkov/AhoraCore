@@ -3,7 +3,7 @@ using AhoraCore.Core.Context;
 using AhoraCore.Core.DataManaging;
 using AhoraCore.Core.Input;
 using AhoraCore.Core.Rendering;
-using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using System;
 
 
@@ -12,6 +12,8 @@ namespace AhoraProject.Ahora.Core.Display
 {
     public class DisplayDevice: GameWindow
     {
+
+        GLControl gcontrol;
 
         private RederPipeline renderer;
 

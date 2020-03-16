@@ -5,24 +5,26 @@ using System.Runtime.InteropServices;
 namespace AhoraCore.Core.Buffers.IBuffres
 {
    
-   public class EditableBuffer<T,D> : ABuffer where D: EditableBuffer<T, D> where T : struct
+   public class EditableBuffer<T> : ABuffer  where T : struct
     {
         public int IteamByteSize = Marshal.SizeOf(typeof(T));
 
+        private BufferUsageHint drawMode = BufferUsageHint.StaticDraw;
+        
         /// <summary>
         /// Очищает буфер
         /// </summary>
         public override void Clear()
         {
             Bind();
-            GL.BufferData(BindingTarget, Capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
+            GL.BufferData(BindingTarget, Capacity * IteamByteSize, (IntPtr)0, drawMode);
             Console.WriteLine(GL.GetError().ToString());
         }
-        /// <summary>
+         /// <summary>
         /// Дополняет значения буфера новыми значениями слева, принадлежащими buffer
         /// </summary>
         /// <param name="buffer">буфер для слияния</param>
-        public void MergeBuffers(EditableBuffer<T, D> buffer)
+        public void MergeBuffers(EditableBuffer<T> buffer)
         {
             if (buffer.Fillnes > Capacity - Fillnes)
             {
@@ -41,7 +43,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// <param name="source_offset">начальный индекс элемента </param>
         /// <param name="source_length">количество элементов</param>
         /// <param name="target_offset">смещение в  целевом массиве</param>
-        public void CopyBufferData(EditableBuffer<T, D> target, int source_offset, int source_length, int target_offset)
+        public void CopyBufferData(EditableBuffer<T> target, int source_offset, int source_length, int target_offset)
         {
             if (source_length == 0)
             {
@@ -86,10 +88,6 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// <param name="start">позиция смещения </param>
         public void LoadBufferSubdata(T[] data, int startIdx)
         {
-            /*if (data.Length > Capacity - Fillnes)
-            {
-                throw new Exception("Unnable to load data to buffer:not enought of space");
-            }*/
                 GL.BufferSubData(BindingTarget, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
                 Fillnes = startIdx + data.Length > Fillnes? startIdx + data.Length : Fillnes;
         }
@@ -98,10 +96,6 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// </summary>
         public override void Bind()
         {
-            //if (IsBinded)
-            //{
-            //    return;
-            //}
             GL.BindBuffer(BindingTarget, ID);
             IsBinded = true;
         }
@@ -118,22 +112,37 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// <param name="capacity">ёмкость</param>
         public override void Create(int capacity)
         {
-            Create();
-            Bind();
-            Capacity = capacity;
-            GL.BufferData(BindingTarget, capacity * IteamByteSize, (IntPtr)0, BufferUsageHint.DynamicDraw);
+            Create(capacity, BufferUsageHint.StaticDraw);
         //    Console.WriteLine(" Buffer ID = " + ID + " as "+ BufferType.ToString() + " creation status " + GL.GetError().ToString());
         }
 
 
+        public void Create(int capacity, BufferUsageHint drawMode)
+        {
+            Create();
+            Bind();
+            Capacity = capacity;
+            this.drawMode = drawMode;
+            GL.BufferData(BindingTarget, capacity * IteamByteSize, (IntPtr)0, drawMode);
+            //    Console.WriteLine(" Buffer ID = " + ID + " as "+ BufferType.ToString() + " creation status " + GL.GetError().ToString());
+        }
+
 
         public void Create(T[] data)
+        {
+            Create(data, BufferUsageHint.StaticDraw);
+        }
+
+        public void Create(T[] data, BufferUsageHint drawMode)
         {
             Create();
             Bind();
             Capacity = data.Length;
-            GL.BufferData(BindingTarget, data.Length* IteamByteSize, data, BufferUsageHint.StaticDraw);
+            this.drawMode = drawMode;
+            GL.BufferData(BindingTarget, data.Length * IteamByteSize, data, drawMode);
         }
+
+
         /// <summary>
         /// Удаляет буфер
         /// </summary>
@@ -146,7 +155,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
 
         public void Delete(int start, int length)
         {
-            EditableBuffer<T, D> target = new EditableBuffer<T, D>();
+            EditableBuffer<T> target = new EditableBuffer<T>();
             CopyBufferData(target, start + length, Fillnes - 1, 0);
             CopyBufferData(this, 0, target.Fillnes - 1, start);
             target.Delete();
@@ -167,11 +176,6 @@ namespace AhoraCore.Core.Buffers.IBuffres
         /// <param name="bindTarget"></param>
         public override void Bind(BufferTarget bindTarget)
         {
-            //if (IsBinded)
-            //{
-            //    return;
-            //}
-
             GL.BindBuffer(bindTarget, ID);
 
             IsBinded = true;
