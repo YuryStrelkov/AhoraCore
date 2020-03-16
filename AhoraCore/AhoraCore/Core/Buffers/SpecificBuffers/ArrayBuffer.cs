@@ -7,9 +7,8 @@ using System.Collections.Generic;
 
 namespace AhoraCore.Core.Buffers.SpecificBuffers
 {
-     public class ArrayBuffer: ABuffer, IAttribyteable, IEditMarkedAttribyte
+     public class ArrayBuffer: ABuffer, IAttribyteable
     {
-
         public struct AttrAndSize
         {
             public int attrType;
@@ -220,8 +219,6 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             Console.WriteLine("IBO");
             DebugBuffers.displayBufferDataIBO(IBO);*/
         }
-
-
 
         public void LoadData(float[] vdata)
         {

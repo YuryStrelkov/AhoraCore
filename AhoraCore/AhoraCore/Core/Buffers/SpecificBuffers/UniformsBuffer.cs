@@ -24,7 +24,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
     }
 
 
-    public class UniformsBuffer<KeyType> : EditableBuffer<float, UniformsBuffer<KeyType>>
+    public class UniformsBuffer<KeyType> : EditableBuffer<float>
     {
         private Dictionary<KeyType, BufferIteam> bufferItemsMap;
         

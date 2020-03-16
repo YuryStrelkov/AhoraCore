@@ -13,6 +13,8 @@ namespace AhoraProject.Ahora.Core.Display
     public class DisplayDevice: GameWindow
     {
 
+        ///GLControl gcontrol;
+
         private RederPipeline renderer;
 
          public DisplayDevice(int w, int h):base(w,h)

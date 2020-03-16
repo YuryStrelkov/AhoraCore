@@ -5,7 +5,7 @@ namespace AhoraCore.Core.Buffers.IBuffers
     public abstract class ABindableObject<T>: IBindable
     {
         T bindTarget;
-
+        
         public T BindingTarget
         {
             get
@@ -17,6 +17,8 @@ namespace AhoraCore.Core.Buffers.IBuffers
                 bindTarget = value;
             }
         }
+
+        
 
         int objID = -1;
         

@@ -2,6 +2,6 @@
 {
    public interface ITemplateDataStorrage<KeyType,ValueType>
     {
-        void AddItem(KeyType ID, ValueType shader);
+        void AddItem(KeyType ID, ValueType data);
     }
 }
