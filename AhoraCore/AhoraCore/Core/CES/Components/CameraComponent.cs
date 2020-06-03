@@ -327,6 +327,8 @@ namespace AhoraCore.Core.CES.Components
             UniformBuffer.Unbind();
             
             IsUpdated = true;
+
+            ComponentType = ComponentsTypes.CameraComponent;
         }
 
     }

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-  public   class TerrainMaterial:AMaterial
+    sealed public class TerrainMaterial:AMaterial
     {
         public static int MAX_TEXTURE_CHANNELS_NUMBER = (int)TextureChannels.TerrainChannelsCount;
 

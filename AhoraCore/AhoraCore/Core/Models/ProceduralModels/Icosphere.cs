@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace AhoraCore.Core.Models.ProceduralModels
 {
-   public static class Icosphere
+   public  static class Icosphere
     {
         private static int _index;
         
@@ -53,11 +53,11 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             GameEntity skydome = new GameEntity("SkyDome");
 
-            skydome.AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("SkyDomeModel"));
+            skydome.AddComponent( new GeometryComponent("SkyDomeModel"));
 
-            skydome.AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("AtmosphereMaterial"));
+            skydome.AddComponent(new MaterialComponent("AtmosphereMaterial"));
 
-            skydome.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("AtmosphereShader"));
+            skydome.AddComponent( new ShaderComponent("AtmosphereShader"));
             
             skydome.SetWorldScale(10000, 10000, 10000);
 

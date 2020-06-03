@@ -67,6 +67,7 @@ namespace AhoraCore.Core.CES.Components
         {
             Component = "ShaderData";
             this.ShaderID = ShaderID;
+            ComponentType = ComponentsTypes.ShaderComponent;
         }
     }
 }

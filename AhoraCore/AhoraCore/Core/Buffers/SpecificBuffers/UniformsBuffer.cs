@@ -24,7 +24,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
     }
 
 
-    public class UniformsBuffer<KeyType> : EditableBuffer<float>
+    public sealed class UniformsBuffer<KeyType> : EditableBuffer<float>
     {
         private Dictionary<KeyType, BufferIteam> bufferItemsMap;
         
@@ -50,6 +50,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
         {
             LoadBufferSubdata(data, itemID * mapSize + bufferItemsMap[bufferItemName].Offset);
         }
+
         public void Bind(AShader shader)
         {
             GL.BindBuffer(BindingTarget, ID);
@@ -66,19 +67,16 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
         {
             LoadBufferSubdata(MathUtils.ToArray(data), bufferItemsMap[bufferItemName].Offset);
         }
-
-
+                
         public void UpdateBufferIteam(KeyType bufferItemName, int itemID, float data)
         {
             LoadBufferSubdata(new float[] { data }, itemID * mapSize + bufferItemsMap[bufferItemName].Offset);
         }
 
-
         public void UpdateBufferIteam(KeyType bufferItemName, float data)
         {
             LoadBufferSubdata(new float[] { data }, bufferItemsMap[bufferItemName].Offset);
         }
-
 
         public UniformsBuffer() : base()
         {
@@ -102,7 +100,7 @@ namespace AhoraCore.Core.Buffers.UniformsBuffer
             
             enhanced.Unbind();
 
-            CopyBufferData(enhanced, 0, Capacity, 0);
+            CopyBufferData(enhanced, 0, 0, Capacity);
 
             Delete();
 

@@ -29,7 +29,7 @@ namespace AhoraCore.Core.Cameras
 
         public Camera(string ID) : base(ID)
         {
-            AddComponent(ComponentsTypes.CameraComponent, new CameraComponent());
+            AddComponent(new CameraComponent());
 
             cam = GetComponent<CameraComponent>(ComponentsTypes.CameraComponent);
         }
@@ -68,6 +68,7 @@ namespace AhoraCore.Core.Cameras
         {
             cam.RotateCam(x, y);
             IsUpdated = true;
+           
         }
      }
 }

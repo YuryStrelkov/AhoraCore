@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace AhoraCore.Core.Buffers.SpecificBuffers
 {
-    public class InstanceBuffer : EditableBuffer<float>,IAttribyteable
+    public sealed class InstanceBuffer : EditableBuffer<float>,IAttribyteable
     {
 
         public int AttribStartIdx { get;protected set; }

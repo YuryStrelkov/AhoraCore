@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-    public abstract class ATerrainNode : AComponent<TerrainQuadTree>, IFrustumCulled
+     public abstract class ATerrainNode : AComponent<TerrainQuadTree>, IFrustumCulled
     {
         protected List<TerrainNode> childsNodes;
 
@@ -225,6 +225,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
             frustumR =(float)Math.Sqrt(gap * gap / 4 * config.ScaleXZ * config.ScaleXZ + config.ScaleY*config.ScaleY);// gap / 2 * config.ScaleXZ * (float)Math.Sqrt(2);
             
             ComputeWorldPosition();
+
+            ComponentType = ComponentsTypes.NodeComponent;
         }
     }
 }

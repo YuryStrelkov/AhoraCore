@@ -28,6 +28,7 @@ namespace AhoraCore.Core.CES
 
         public Node(float x, float y, float z)//:base(new Vector3(x,y,z), Vector3.Zero)
         {
+           
         }
 
         public bool FrustumCulled(Camera frustumcam)

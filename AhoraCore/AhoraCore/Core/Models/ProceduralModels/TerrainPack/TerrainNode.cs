@@ -9,7 +9,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
     /// TODO Трансформациии увязать нормальным образом 
     /// </summary>
 
-    public  class TerrainNode: ATerrainNode
+    sealed public  class TerrainNode: ATerrainNode
     {
         
 

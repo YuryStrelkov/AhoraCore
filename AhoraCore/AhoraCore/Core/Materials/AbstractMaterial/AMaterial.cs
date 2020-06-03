@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace AhoraCore.Core.Materials.AbstractMaterial
 {
-   public enum TextureChannels
+    public enum TextureChannels
     {
         Diffuse = 0,
         Normal = 1,
@@ -36,8 +36,6 @@ namespace AhoraCore.Core.Materials.AbstractMaterial
 
         TerrainChannelsCount = 12
     } 
-
-
     /// <summary>
     /// TODO придумать общий интерфейс, который использоваь в качестве способа хранения материала 
     /// </summary>

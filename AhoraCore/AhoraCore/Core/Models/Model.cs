@@ -8,7 +8,9 @@ using System;
 using AhoraCore.Core.Materials.AbstractMaterial;
 
 namespace AhoraCore.Core.Models
-{
+{/// <summary>
+/// не используется
+/// </summary>
     public class Model: AComponent<IGameEntity>
     {
         public string ModelID { get; set; }

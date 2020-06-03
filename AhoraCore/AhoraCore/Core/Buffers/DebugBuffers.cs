@@ -2,6 +2,7 @@
 using System;
 using OpenTK.Graphics.OpenGL;
 using AhoraCore.Core.Buffers.IBuffres;
+using System.Runtime.InteropServices;
 
 namespace AhoraCore.Core.Buffers
 {
@@ -76,9 +77,18 @@ namespace AhoraCore.Core.Buffers
 
 
 
-        public static float[] getBufferData(ArrayBuffer buffer)
+        public static float[] getBufferData(ArrayBuffer buffer,bool onlyAssignedValues = true)
         {
-            float[] b_data = new float[buffer.VBO.Fillnes];
+            float[] b_data;
+
+            if (onlyAssignedValues)
+            {
+                b_data = new float[buffer.VBO.Fillnes];
+            }
+            else
+            {
+                b_data = new float[buffer.VBO.Capacity];
+            }
             buffer.Bind();
             ///buffer.VBO.BindBuffer();
             GL.GetBufferSubData(buffer.BindingTarget, (IntPtr)0, buffer.VBO.Fillnes * sizeof(float), b_data);
@@ -87,13 +97,40 @@ namespace AhoraCore.Core.Buffers
         }
 
 
-        public static void displayBufferData(ABuffer Buffer)
+        public static void displayBufferData(ABuffer buffer, bool onlyAssignedValues=true)
         {
-            float[] b_data = new float[Buffer.Fillnes];
-            Buffer.Bind();
-            GL.GetBufferSubData(Buffer.BindingTarget, (IntPtr)0, Buffer.Fillnes * sizeof(float), b_data);
+            float[] b_data;
+
+            if (onlyAssignedValues)
+            {
+                b_data = new float[buffer.Fillnes];
+            }
+            else
+            {
+                b_data = new float[buffer.Capacity];
+            }
+            buffer.Bind();
+            GL.GetBufferSubData(buffer.BindingTarget, (IntPtr)0, buffer.Fillnes * sizeof(float), b_data);
             foreach (float e in b_data) Console.WriteLine(e + " ");
         }
+
+        public static void displayBufferData<T>(ABuffer Buffer,bool onlyAssignedValues=true) where T:struct
+        {
+            T[] b_data;
+            
+            if (onlyAssignedValues)
+            {
+                b_data = new T[Buffer.Fillnes];
+            }
+            else
+            {
+                b_data = new T[Buffer.Capacity];
+            }
+            Buffer.Bind();
+            GL.GetBufferSubData(Buffer.BindingTarget, (IntPtr)0, Buffer.Fillnes * Marshal.SizeOf(typeof(T)), b_data);
+            foreach (T e in b_data) Console.WriteLine(e + " ");
+        }
+
 
 
         public static void displayBufferData(ArrayBuffer buffer)

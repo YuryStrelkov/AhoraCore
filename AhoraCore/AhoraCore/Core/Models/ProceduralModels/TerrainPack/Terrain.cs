@@ -8,7 +8,23 @@ using System;
 
 namespace AhoraCore.Core.Models.ProceduralModels
 {
-    public class Terrain:GameEntity
+    sealed class TerrainShaderComponent : ShaderComponent
+    {
+        public TerrainShaderComponent(string ShaderID) : base(ShaderID)
+        {
+            ComponentType = ComponentsTypes.TerrainShader;
+        }
+    }
+
+    sealed class TerrainGrassShaderComponent : ShaderComponent
+    {
+        public TerrainGrassShaderComponent(string ShaderID) : base(ShaderID)
+        {
+            ComponentType = ComponentsTypes.TerrainFloraShader;
+        }
+    }
+
+    sealed public class Terrain:GameEntity
     {
         private TerrainConfig configuration;
 
@@ -24,7 +40,7 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             GameEntityStorrage.Entities.AddItem(t.EntityID, t);
 
-            t.AddComponent(ComponentsTypes.NodeComponent, new TerrainQuadTree(t, t.configuration));
+            t.AddComponent(new TerrainQuadTree(t, t.configuration));
 
         }
 
@@ -54,9 +70,9 @@ namespace AhoraCore.Core.Models.ProceduralModels
 
             TextureStorrage.Textures.AddItem("GrassTexture", new Texture(Properties.Resources.grass));
  
-            AddComponent(ComponentsTypes.TerrainShader, new ShaderComponent("TerrainShader"));
-            AddComponent(ComponentsTypes.TerrainFloraShader, new ShaderComponent("TerrainGrassShader"));
-            AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("TerrainMaterial"));
+            AddComponent(new TerrainShaderComponent("TerrainShader"));
+            AddComponent(new TerrainGrassShaderComponent("TerrainGrassShader"));
+            AddComponent(new MaterialComponent("TerrainMaterial"));
             RemoveComponent(ComponentsTypes.GeometryComponent);
          }
 

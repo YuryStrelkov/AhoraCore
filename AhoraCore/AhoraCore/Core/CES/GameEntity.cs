@@ -18,27 +18,27 @@ namespace AhoraCore.Core.CES
 
             components = new Dictionary<ComponentsTypes, AComponent<IGameEntity>>();
 
-            AddComponent(ComponentsTypes.ShaderComponent,new ShaderComponent("DefaultShader"));
+            AddComponent(new ShaderComponent("DefaultShader"));
 
-            AddComponent(ComponentsTypes.TransformComponent, new TransformComponent());
+            AddComponent(new TransformComponent());
 
-            AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("DefaultMaterial"));
+            AddComponent(new MaterialComponent("DefaultMaterial")); 
 
-            //AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("DefaultModel"));
+            AddComponent(new GeometryComponent("DefaultModel"));
         }
 
-        public void AddComponent(ComponentsTypes Key, AComponent<IGameEntity> component)
+        public void AddComponent(AComponent<IGameEntity> component)
         {
-            if (!components.ContainsKey(Key))
+            if (!components.ContainsKey(component.ComponentType))
             {
-                components.Add(Key, component);
-                components[Key].SetParent(this);
+                components.Add(component.ComponentType, component);
+                components[component.ComponentType].SetParent(this);
             }
             else
             {
-                components[Key].Delete();
-                components[Key] = component;
-                components[Key].SetParent(this);
+                components[component.ComponentType].Delete();
+                components[component.ComponentType] = component;
+                components[component.ComponentType].SetParent(this);
 
             }
         }

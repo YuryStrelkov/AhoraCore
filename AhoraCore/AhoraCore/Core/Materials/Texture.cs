@@ -12,6 +12,8 @@ namespace AhoraCore.Core.Materials
     {
         public static Texture defaultDiffuse = new Texture(0.5f, 0.5f, 0.5f);
 
+        public static Texture ErrorTexture = new Texture(1f, 0.0f, 0.0f);
+
         public static Texture defaultNormal = new Texture(0.0f, 0.0f, 0.0f);
 
         string textureName = "";
@@ -28,10 +30,20 @@ namespace AhoraCore.Core.Materials
 
         public Texture(string pathToTexture)
         {
-            int width,  height;
-            ID = TextureFromImage(pathToTexture, out width, out height);
-            Width = width;  Height = height;
-            BindingTarget = TextureTarget.Texture2D;
+            try
+            {
+                int width, height;
+                ID = TextureFromImage(pathToTexture, out width, out height);
+                Width = width; Height = height;
+                BindingTarget = TextureTarget.Texture2D;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Texture : " + pathToTexture + " was not found");
+                LoadColor(1, 0, 0);
+                BindingTarget = TextureTarget.Texture2D;
+            }
+
         }
 
         public Texture()

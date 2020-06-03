@@ -5,7 +5,7 @@ using AhoraCore.Core.Context;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-    public class TerrainGrassShader : AShader
+    sealed public class TerrainGrassShader : AShader
     {
         public TerrainGrassShader() : base()
         {

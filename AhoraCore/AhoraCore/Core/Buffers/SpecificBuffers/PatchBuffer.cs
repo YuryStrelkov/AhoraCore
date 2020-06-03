@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace AhoraCore.Core.Buffers
 {
-    public class PatchBuffer : ABuffer, IAttribyteable
+    public sealed class PatchBuffer : ABuffer, IAttribyteable
     {
         private bool isBinded;
 
