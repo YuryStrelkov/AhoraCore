@@ -26,7 +26,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 LoadShaderFromstring(Properties.Resources.DefferedGrassGS, ShaderType.GeometryShader);
                 LoadShaderFromstring(Properties.Resources.DefferedGrassTE, ShaderType.TessEvaluationShader);
             }
-           
+          
             Link();
             Validate();
             BindAttributes();

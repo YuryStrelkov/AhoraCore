@@ -5,10 +5,16 @@ using System.Runtime.CompilerServices;
 
 namespace AhoraCore.Core.Buffers.IBuffres
 {
-
-   
-   public class EditableBuffer<T> : ABuffer  where T : struct
+   public unsafe class EditableBuffer<T> : ABuffer  where T : struct
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private unsafe IntPtr AdressOf(T[] data)
+        {
+            TypedReference reference = __makeref(data[0]);
+
+            return  *((IntPtr*)&reference);
+        }
+        
         private BufferUsageHint drawMode;
 
         /// <summary>
@@ -110,18 +116,15 @@ namespace AhoraCore.Core.Buffers.IBuffres
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void LoadBufferData(T[] data)  
         {
-            lock (mutex)
-            {
-                if (data.Length > Capacity - Fillnes)
-                {
-                    EnhanceBufferCapcity(Capacity + data.Length);
-                }
-                GL.BufferSubData(BindingTarget, (IntPtr)(Fillnes * IteamByteSize), data.Length * IteamByteSize, data);
-
-                Fillnes += data.Length;
-            }
+            LoadBufferSubdata(data, Fillnes);
         }
-  
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void LoadBufferDataPtr(T[] data)
+        {
+            LoadBufferSubdataPtr(data, Fillnes);
+        }
+
         /// <summary>
         /// Загружает данные в буфер начиная с определённой позиции
         /// </summary>
@@ -132,22 +135,75 @@ namespace AhoraCore.Core.Buffers.IBuffres
         {
             lock (mutex)
             {
-                GL.BufferSubData(BindingTarget, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
+                Bind();
+
+                if (data.Length > Capacity - startIdx)
+                {
+                    EnhanceBufferCapcity(startIdx + data.Length);
+                }
+
                 Fillnes = startIdx + data.Length > Fillnes ? startIdx + data.Length : Fillnes;
+
+                GL.BufferSubData(BindingTarget, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, data);
             }
         }
-   
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void LoadBufferSubdataPtr(T[] data, int startIdx)
+        {
+            lock (mutex)
+            {
+                Bind();
+
+                if (data.Length > Capacity - startIdx)
+                {
+                    EnhanceBufferCapcity(startIdx + data.Length);
+                }
+
+                Fillnes = startIdx + data.Length > Fillnes ? startIdx + data.Length : Fillnes;
+
+                IntPtr  ptr = GL.MapBufferRange(BindingTarget, (IntPtr)(startIdx * IteamByteSize), data.Length * IteamByteSize, BufferAccessMask.MapWriteBit);
+
+                var typeT = typeof(T);
+
+                if (typeT.Equals(typeof(float)))
+                {
+                    Marshal.Copy((float[])(object)data,0, ptr, data.Length);
+                    GL.UnmapBuffer(BindingTarget);
+                    return;
+                }
+
+                if (typeT.Equals(typeof(double)))
+                {
+                    Marshal.Copy((double[])(object)data, 0, ptr, data.Length);
+                    GL.UnmapBuffer(BindingTarget);
+                    return;
+                }
+
+                if (typeT.Equals(typeof(int)))
+                {
+                    Marshal.Copy((int[])(object)data, 0, ptr, data.Length);
+                    GL.UnmapBuffer(BindingTarget);
+                    return;
+                }
+
+                if (typeT.Equals(typeof(char)))
+                {
+                    Marshal.Copy((char[])(object)data, 0, ptr, data.Length);
+                    GL.UnmapBuffer(BindingTarget);
+                    return;
+                }
+
+            }
+        }
+
         /// <summary>
         /// включает буфер
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Bind()
         {
-            lock (mutex)
-            {
-                GL.BindBuffer(BindingTarget, ID);
-               // IsBinded = true;
-            }
+           GL.BindBuffer(BindingTarget, ID);
         }
     
         /// <summary>
@@ -156,11 +212,8 @@ namespace AhoraCore.Core.Buffers.IBuffres
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Create()
         {
-            lock (mutex)
-            {
                 IteamByteSize = Marshal.SizeOf(typeof(T));
                 ID = ID == -1 ? GL.GenBuffer() : ID;
-            }
         }
 
         /// <summary>
@@ -187,7 +240,7 @@ namespace AhoraCore.Core.Buffers.IBuffres
                 this.drawMode = drawMode;
 
                 GL.BufferData(BindingTarget, capacity * IteamByteSize, (IntPtr)0, drawMode);
-            }
+              }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -199,21 +252,8 @@ namespace AhoraCore.Core.Buffers.IBuffres
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Create(T[] data, BufferUsageHint drawMode)
         {
-            lock (mutex)
-            {
-                Create();
-
-                Bind();
-
-                Capacity = data.Length;
-
-                Fillnes = data.Length;
-
-                this.drawMode = drawMode;
-
-                GL.BufferSubData(BindingTarget, (IntPtr)(0), data.Length * IteamByteSize, data);
-            }
-
+            Create(data.Length, drawMode);
+            LoadBufferData(data);
         }
 
         /// <summary>
@@ -233,7 +273,6 @@ namespace AhoraCore.Core.Buffers.IBuffres
             {
                 return;
             }
-
             EditableBuffer<T> enhanced = new EditableBuffer<T>();
 
             enhanced.BindingTarget = BindingTarget;
@@ -249,7 +288,6 @@ namespace AhoraCore.Core.Buffers.IBuffres
             ID = enhanced.ID;
 
             Fillnes = enhanced.Fillnes;
-
         }
 
         /// <summary>

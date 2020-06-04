@@ -4,8 +4,6 @@ using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.CES.ICES;
-using AhoraCore.Core.DataManaging;
-using AhoraCore.Core.Materials;
 using AhoraCore.Core.Materials.AbstractMaterial;
 using AhoraCore.Core.Shaders;
 using OpenTK;
