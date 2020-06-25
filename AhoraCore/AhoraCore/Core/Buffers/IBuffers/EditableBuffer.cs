@@ -5,16 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace AhoraCore.Core.Buffers.IBuffres
 {
-   public unsafe class EditableBuffer<T> : ABuffer  where T : struct
+   public class EditableBuffer<T> : ABuffer  where T : struct
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private unsafe IntPtr AdressOf(T[] data)
-        {
-            TypedReference reference = __makeref(data[0]);
-
-            return  *((IntPtr*)&reference);
-        }
-        
+               
         private BufferUsageHint drawMode;
 
         /// <summary>
