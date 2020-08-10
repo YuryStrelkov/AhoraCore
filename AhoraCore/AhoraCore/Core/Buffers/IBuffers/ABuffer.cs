@@ -1,23 +1,20 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers;
 using OpenTK.Graphics.OpenGL;
+ 
 
 namespace AhoraCore.Core.Buffers.IBuffres
 {
-    public abstract class ABuffer : ABindableObject<BufferTarget>
+ 
+    public abstract class ABuffer : ABindableObject<BufferTarget> 
     {
-        int bufferCapasity=0;//сколько можно добавить
+        protected object mutex;
 
-        int bufferFillness=0; //насколько буфер заполнен
+        int bufferCapasity; //сколько можно добавить
 
-        bool binded = false;
-
-        public bool IsBinded
-        {
-            get { return binded; }
-
-            protected set { binded = value; }
-        }
-
+        int bufferFillness; //насколько буфер заполнен
+        
+        public int IteamByteSize { get; protected set; }
+  
         public int Capacity
         {
             get
@@ -43,6 +40,15 @@ namespace AhoraCore.Core.Buffers.IBuffres
         }
   
         public abstract void Create(int cap);
-      
+
+        public ABuffer() : base()
+        {
+            mutex = new object();
+            bufferCapasity = 0;
+            bufferFillness = 0;
+            IteamByteSize = 0;
+        }
+
+
     }
 }

@@ -7,7 +7,7 @@ namespace AhoraCore.Core.CES.ICES
     {
         string EntityID { get; set; }
 
-        void AddComponent(ComponentsTypes Key, AComponent<IGameEntity> component);
+        void AddComponent(AComponent<IGameEntity> component);
         
         AComponent<IGameEntity> GetComponent(ComponentsTypes Key);
 

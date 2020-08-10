@@ -148,6 +148,9 @@ namespace AhoraCore.Core.GUI
             GUIShader = shdr;
 
             Textures = new Dictionary<string, Texture>();
+
+            ComponentType = ComponentsTypes.GUIComponent;
+
         }
 
         public GUIComponent() : base()
@@ -155,6 +158,8 @@ namespace AhoraCore.Core.GUI
             Component = "GUIComponentData";
 
             Textures = new Dictionary<string, Texture>();
+
+            ComponentType = ComponentsTypes.GUIComponent;
         }
     }
 }

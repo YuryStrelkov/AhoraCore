@@ -109,13 +109,13 @@ namespace AhoraCore.Core.Buffers
             {
                 if (FacesIndeces.Iteams.ContainsKey(geometryID))
                 {
-                    IBO.Delete(FacesIndeces.GetOffset(geometryID), FacesIndeces.GetLength(geometryID));
+                  //  IBO.Delete(FacesIndeces.GetOffset(geometryID), FacesIndeces.GetLength(geometryID));
                 }
                 if (GeometryItemsInstansesList.ContainsKey(geometryID))
                 {
                     GeometryItemsInstansesList.Remove(geometryID);
                 }
-                VBO.Delete(VerticesIndeces.GetOffset(geometryID), VerticesIndeces.GetLength(geometryID));
+              //  VBO.Delete(VerticesIndeces.GetOffset(geometryID), VerticesIndeces.GetLength(geometryID));
                 FacesIndeces.Remove(geometryID);
                 VerticesIndeces.Remove(geometryID);
             }

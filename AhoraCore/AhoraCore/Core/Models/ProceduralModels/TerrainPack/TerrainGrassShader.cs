@@ -5,7 +5,7 @@ using AhoraCore.Core.Context;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-    public class TerrainGrassShader : AShader
+    sealed public class TerrainGrassShader : AShader
     {
         public TerrainGrassShader() : base()
         {
@@ -26,7 +26,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
                 LoadShaderFromstring(Properties.Resources.DefferedGrassGS, ShaderType.GeometryShader);
                 LoadShaderFromstring(Properties.Resources.DefferedGrassTE, ShaderType.TessEvaluationShader);
             }
-           
+          
             Link();
             Validate();
             BindAttributes();

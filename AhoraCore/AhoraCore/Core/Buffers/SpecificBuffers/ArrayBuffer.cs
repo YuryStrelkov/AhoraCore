@@ -35,16 +35,19 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
         public override void Bind()
         {
-            if (isBinded)
+            lock (mutex)
             {
-                return;
+                if (isBinded)
+                {
+                    return;
+                }
+
+                GL.BindVertexArray(ID);
+                VBO.Bind();
+                IBO.Bind();
+                EnableAttribytes();
+                isBinded = true;
             }
-            
-            GL.BindVertexArray(ID);
-            VBO.Bind();
-            IBO.Bind();
-            EnableAttribytes();
-            isBinded = true;
         }
 
         public override void Unbind()
@@ -62,20 +65,25 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
         public override void Create()
         {
-            AtribbytesMask = 0x00;
-            ID = ID == -1 ? GL.GenVertexArray():ID ;
+            
+                AtribbytesMask = 0x00;
+                ID = ID == -1 ? GL.GenVertexArray() : ID;
+           
         }
 
         public override void Create(int capacity)
         {
-            Create();
-            GL.BindVertexArray(ID);
-            VBO = new VerticesBuffer();
-            VBO.Create(capacity);
-            IBO = new IndecesBuffer();
-            IBO.Create(capacity);
-            Unbind();
-      }
+            lock (mutex)
+            {
+                Create();
+                GL.BindVertexArray(ID);
+                VBO = new VerticesBuffer();
+                VBO.Create(capacity);
+                IBO = new IndecesBuffer();
+                IBO.Create(capacity);
+                Unbind();
+            }
+        }
 
         public override void Delete()
         {
@@ -169,10 +177,10 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         }
 
         public void EnableAttribytes()
-        {
+        { 
             foreach (int key in Attribytes.Keys)
             {
-                GL.EnableVertexAttribArray(key);
+                GL.EnableVertexArrayAttrib(ID,key);
             }
         }
 
@@ -180,7 +188,7 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
         {
             foreach (int key in Attribytes.Keys)
             {
-                GL.DisableVertexAttribArray(key);
+                GL.DisableVertexArrayAttrib(ID, key);
             }
         }
 
@@ -254,11 +262,11 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
 
             if (VBO.Fillnes!=0)
             {
-                VBO.CopyBufferData(enhanced.VBO, 0, VBO.Fillnes, 0);
+                VBO.CopyBufferData(enhanced.VBO, 0, 0, VBO.Fillnes);
             }
             if (IBO.Fillnes!=0)
             {
-                IBO.CopyBufferData(enhanced.IBO, 0, IBO.Fillnes, 0);
+                IBO.CopyBufferData(enhanced.IBO, 0, 0, IBO.Fillnes);
             }
 
           ///Удаляем старое
@@ -301,7 +309,6 @@ namespace AhoraCore.Core.Buffers.SpecificBuffers
             Attribytes = new Dictionary<int, AttrAndSize>();
             Create(10);
         }
-
 
         public ArrayBuffer(int cap) : base()
         {

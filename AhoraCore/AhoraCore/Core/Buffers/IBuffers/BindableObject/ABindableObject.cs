@@ -1,11 +1,14 @@
 ﻿using AhoraCore.Core.Buffers.IBuffers.BindableObject;
+using System;
 
 namespace AhoraCore.Core.Buffers.IBuffers
 {
-    public abstract class ABindableObject<T>: IBindable
+    public abstract class ABindableObject<T>:IBindable,IEquatable<ABindableObject<T>>
     {
         T bindTarget;
-        
+
+        int objID;
+
         public T BindingTarget
         {
             get
@@ -17,11 +20,7 @@ namespace AhoraCore.Core.Buffers.IBuffers
                 bindTarget = value;
             }
         }
-
-        
-
-        int objID = -1;
-        
+                
         public int ID
         {
             get
@@ -34,7 +33,18 @@ namespace AhoraCore.Core.Buffers.IBuffers
             }
         }
 
-        
+        public bool Equals(ABindableObject<T> binable)
+        {
+            return binable.ID == ID;
+        }
+
+        public ABindableObject()
+        {
+            objID = -1;
+
+            BindingTarget = default(T);
+        }
+
         public abstract void Bind(T bindTarget);
 
         public abstract void Bind();

@@ -4,8 +4,6 @@ using AhoraCore.Core.Cameras;
 using AhoraCore.Core.CES;
 using AhoraCore.Core.CES.Components;
 using AhoraCore.Core.CES.ICES;
-using AhoraCore.Core.DataManaging;
-using AhoraCore.Core.Materials;
 using AhoraCore.Core.Materials.AbstractMaterial;
 using AhoraCore.Core.Shaders;
 using OpenTK;
@@ -16,7 +14,7 @@ using System.Collections.Generic;
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
     // Сделать компонентом
-    public class TerrainQuadTree : AComponent<IGameEntity>
+    sealed public class TerrainQuadTree : AComponent<IGameEntity>
     {
         public AMaterial Terrain_Material { get; private set; }
 
@@ -302,7 +300,8 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 
             GetParent().SetWorldTranslation(-config.ScaleXZ / 2f, 0, -config.ScaleXZ / 2f);
 
-       
+            ComponentType = ComponentsTypes.TerrainComponent;
+
         }
     }
 }

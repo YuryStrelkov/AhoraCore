@@ -219,6 +219,7 @@ namespace AhoraCore.Core.CES.Components
             UniformBuffer.UpdateBufferIteam("localTransform", MathUtils.ToArray(LocalTransform.GetTransformMat()));
             UniformBuffer.UpdateBufferIteam("worldTransform", MathUtils.ToArray(WorldTransform.GetTransformMat()));
             Disable();
+            ComponentType = ComponentsTypes.TransformComponent;
         }
     }
 }

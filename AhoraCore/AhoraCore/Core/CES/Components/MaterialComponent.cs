@@ -62,6 +62,7 @@ namespace AhoraCore.Core.CES.Components
         {
             Component = "MaterialData";
             this.MaterialID = MaterialID;
+            ComponentType = ComponentsTypes.MaterialComponent;
         }
     }
 }

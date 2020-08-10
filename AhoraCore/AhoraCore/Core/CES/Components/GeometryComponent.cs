@@ -52,6 +52,8 @@ namespace AhoraCore.Core.CES.Components
             Component = "GeometryData";
 
             this.ModelID = ModelID;
+
+            ComponentType = ComponentsTypes.GeometryComponent;
         }
     }
 }

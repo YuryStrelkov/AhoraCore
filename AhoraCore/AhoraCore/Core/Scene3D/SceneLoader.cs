@@ -117,7 +117,7 @@ namespace AhoraCore.Core.Scene3D
 
                       ///  ModelLoader.LoadAllMeshes(reader.Value.ToString());
 
-                        GameEntityStorrage.Entities.GetItem(entityID).AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent(reader.Value.ToString()));
+                        GameEntityStorrage.Entities.GetItem(entityID).AddComponent(new GeometryComponent(reader.Value.ToString()));
 
                         reader.Read();
                         break;
@@ -175,7 +175,7 @@ namespace AhoraCore.Core.Scene3D
 
                     case "material":
                         reader.Read();
-                        GameEntityStorrage.Entities.GetItem(entityID).AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent(reader.Value.ToString()));
+                        GameEntityStorrage.Entities.GetItem(entityID).AddComponent(new MaterialComponent(reader.Value.ToString()));
                         reader.Read();
                         break;
 
@@ -190,7 +190,7 @@ namespace AhoraCore.Core.Scene3D
             }
             reader.Read();
 
-            GameEntityStorrage.Entities.GetItem(entityID).AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("MateralShader"));
+            GameEntityStorrage.Entities.GetItem(entityID).AddComponent( new ShaderComponent("MateralShader"));
 
         }
 

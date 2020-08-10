@@ -13,9 +13,9 @@ namespace AhoraCore.Core.GUI
 
             ui.RemoveComponent(ComponentsTypes.MaterialComponent);
 
-            ui.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("GUIShader"));
+            ui.AddComponent(new ShaderComponent("GUIShader"));
 
-            ui.AddComponent(ComponentsTypes.GUIComponent, new UIPannel(ui.GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader));
+            ui.AddComponent(new UIPannel(ui.GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader));
 
             GameEntityStorrage.Entities.AddItem("root", UI_ID, ui);
         }
@@ -26,9 +26,9 @@ namespace AhoraCore.Core.GUI
 
             ui.RemoveComponent(ComponentsTypes.MaterialComponent);
 
-            ui.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("GUIShader"));
+            ui.AddComponent(new ShaderComponent("GUIShader"));
 
-            ui.AddComponent(ComponentsTypes.GUIComponent, new UIPannel(ui.GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader));
+            ui.AddComponent(new UIPannel(ui.GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader));
 
             GameEntityStorrage.Entities.AddItem(ROOT_ID, UI_ID, ui);
         }
@@ -39,9 +39,9 @@ namespace AhoraCore.Core.GUI
 
             ui.RemoveComponent(ComponentsTypes.MaterialComponent);
 
-            ui.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("GUIShader"));
+            ui.AddComponent(new ShaderComponent("GUIShader"));
 
-            ui.AddComponent(ComponentsTypes.GUIComponent, new UIPannel(ui.GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader));
+            ui.AddComponent(new UIPannel(ui.GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader));
 
             ui.GetComponent<UIPannel>(ComponentsTypes.GUIComponent).AddTexture2GUI("texture1", texture1);
        
@@ -57,9 +57,9 @@ namespace AhoraCore.Core.GUI
 
             ui.RemoveComponent(ComponentsTypes.MaterialComponent);
 
-            ui.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("GUITextShader"));
+            ui.AddComponent(new ShaderComponent("GUITextShader"));
 
-            ui.AddComponent(ComponentsTypes.GUIComponent, new GUIText(ui.GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader, CharSets.FontTypes.Arial, rows, cols));
+            ui.AddComponent(new GUIText(ui.GetComponent<ShaderComponent>(ComponentsTypes.ShaderComponent).Shader, CharSets.FontTypes.Arial, rows, cols));
 
             ui.GetComponent<GUIText>(ComponentsTypes.GUIComponent).setText(text);
 

@@ -98,17 +98,16 @@ namespace AhoraCore.Core.Context
 
             GameEntityStorrage.Entities.AddItem(skydome.EntityID, skydome);
 
-            skydome.AddComponent(ComponentsTypes.GeometryComponent, new GeometryComponent("skySphere"));
+            skydome.AddComponent(new GeometryComponent("skySphere"));
 
-            skydome.AddComponent(ComponentsTypes.MaterialComponent, new MaterialComponent("AtmosphereMaterial"));
+            skydome.AddComponent(new MaterialComponent("AtmosphereMaterial"));
 
-            skydome.AddComponent(ComponentsTypes.ShaderComponent, new ShaderComponent("AtmosphereShader"));
+            skydome.AddComponent(new ShaderComponent("AtmosphereShader"));
 
             skydome.SetWorldScale(25000, 25000, 25000);
 
             skydome.SetWorldRotation(3.1415f, 0,0);
-            
-
+ 
 
 
         }

@@ -24,6 +24,9 @@ namespace AhoraCore.Core.Rendering
             PassBuffer = new FrameBuffer();
 
             Create();
+
+            ComponentType = ComponentsTypes.RenderComponent;
+
         }
 
         /// <summary>
@@ -37,6 +40,9 @@ namespace AhoraCore.Core.Rendering
             PassBuffer = new FrameBuffer(w,h);
 
             Create();
+
+            ComponentType = ComponentsTypes.RenderComponent;
+
         }
 
         public void UseColAttachAsTex(int targetChannel,string channelName, AShader shder)

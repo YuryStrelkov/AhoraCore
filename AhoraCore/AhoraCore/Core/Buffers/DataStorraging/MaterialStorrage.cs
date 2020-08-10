@@ -8,8 +8,6 @@ namespace AhoraCore.Core.Buffers.DataStorraging
     {
         private static MaterialStorrage materials_;
 
-
-
         public static MaterialStorrage Materials
         {
             get { return materials_; }

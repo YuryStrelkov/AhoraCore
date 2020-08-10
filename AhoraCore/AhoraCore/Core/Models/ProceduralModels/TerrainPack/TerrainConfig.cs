@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
 {
-    public class TerrainConfig
+    sealed public class TerrainConfig
     {
 
         public Texture HeightMap { get; private set; }

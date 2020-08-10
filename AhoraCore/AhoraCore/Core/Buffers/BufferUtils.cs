@@ -47,6 +47,7 @@ namespace AhoraCore.Core.Buffers
                                     Matrix.M43,
                                     Matrix.M44 };
         }
+
         public static float[] CreateFlippedBuffer(Matrix4 value)
         {
             float[] buffer = new float[16];
