@@ -103,7 +103,7 @@ namespace AhoraCore.Core.Models.ProceduralModels.TerrainPack
         public override void Render()
         {
            drawTerrain();
-        ///    drawGrass();
+            drawGrass();
         }
 
         public override void Render(AShader shder)
